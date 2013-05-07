@@ -3,7 +3,7 @@ Libraries that lets application connect to cloud services and discover informati
 The core concepts used in this project are:
 
 1. **Cloud Connector**: An interface that a cloud provider can implement to allow the rest of the library work with a Platform As a Service (PaaS) offering.
-2. **Service Connector**: An object, such as `java.sql.DataSource`, that represent a connection to a service.
+2. **Service Connector**: An object, such as `javax.sql.DataSource`, that represent a connection to a service.
 3. **Service information**: Information about the underlying service such as host, port, and credentials.
 4. **Applicaiton information**: Information about application and instance in which these libraries are embedded.
 

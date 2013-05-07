@@ -137,7 +137,7 @@ public class Cloud {
 	 * 
 	 * <p>Application properties always include <code>cloud.application.app-id</code>
 	 * and <code>cloud.application.instance-id</code> with values bound to application id and
-	 * instance id. The rest of the prperties are cloud-provider specific, but take the 
+	 * instance id. The rest of the properties are cloud-provider specific, but take the 
 	 * <code>cloud.application.&lt;property-name&gt;</code> form.
 	 * <code><pre>
 	 * cloud.application.app-id = helloworld
