@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cloud="http://www.springframework.org/schema/cloud"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd">
+	
+		 
+	<cloud:data-source id="db-pool20-wait200" service-name="my-service">
+	    <cloud:connection properties="sessionVariables=sql_mode='ANSI';characterEncoding=UTF-8"/>
+	    <cloud:pool pool-size="20" max-wait-time="200"/>
+	</cloud:data-source>
+
+	<cloud:data-source id="db-pool5-30-wait3000" service-name="my-service">
+	    <cloud:pool pool-size="5-30" max-wait-time="3000"/>
+	</cloud:data-source>
+	
+</beans>

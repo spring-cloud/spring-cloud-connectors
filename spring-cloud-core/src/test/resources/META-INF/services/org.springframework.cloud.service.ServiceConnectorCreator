@@ -1,0 +1,4 @@
+org.springframework.cloud.StubServiceConnectorCreatorThatDoesntExist1 # bad creator (to ensure that we ignore such connectors)
+org.springframework.cloud.StubServiceConnectorCreator # for testing purpose
+org.springframework.cloud.NonParameterizedStubServiceConnectorCreator # for testing purpose
+org.springframework.cloud.StubServiceConnectorCreatorThatDoesntExist2 # bad creator (to ensure that we ignore such connectors)

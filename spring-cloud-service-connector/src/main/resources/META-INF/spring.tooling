@@ -1,0 +1,4 @@
+# Tooling related information for the cloud namespace
+http\://www.springframework.org/schema/cloud@name=cloud namespace
+http\://www.springframework.org/schema/cloud@prefix=cloud
+http\://www.springframework.org/schema/cloud@icon=org/springframework/cloud/config/xml/spring-cloud.gif

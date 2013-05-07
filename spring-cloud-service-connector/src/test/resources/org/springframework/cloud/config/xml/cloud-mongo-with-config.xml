@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cloud="http://www.springframework.org/schema/cloud"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd">
+	
+		 
+	<cloud:mongo-db-factory id="service-connectionPerHost50-maxWait200-WriteConcernNone" service-name="my-service" write-concern="NONE">
+	    <cloud:mongo-options max-wait-time="200" connections-per-host="50"/>
+	</cloud:mongo-db-factory>
+
+	<cloud:mongo-db-factory id="service-maxWait200-connectionPerHost50-WriteConcernSafe" service-name="my-service" write-concern="SAFE">
+	    <cloud:mongo-options max-wait-time="200" connections-per-host="50"/>
+	</cloud:mongo-db-factory>
+	
+	<cloud:mongo-db-factory id="service-maxWait200-connectionPerHost50-WriteConcernUnspecified" service-name="my-service">
+	    <cloud:mongo-options max-wait-time="200" connections-per-host="50"/>
+	</cloud:mongo-db-factory>
+
+	<cloud:mongo-db-factory id="service-maxWaitUnspecified-connectionPerHost50-WriteConcernUnspecified" service-name="my-service">
+	    <cloud:mongo-options max-wait-time="200" connections-per-host="50"/>
+	</cloud:mongo-db-factory>
+
+	<cloud:mongo-db-factory id="service-maxWait200-connectionPerHostUnspecified-WriteConcernUnspecified" service-name="my-service">
+	    <cloud:mongo-options max-wait-time="200" connections-per-host="50"/>
+	</cloud:mongo-db-factory>
+				
+</beans>

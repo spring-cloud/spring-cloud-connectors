@@ -1,0 +1,13 @@
+{
+	"name":"$serviceName",
+	"label":"rabbitmq-$version",
+	"plan":"free",
+	"tags":["rabbitmq"],
+	"credentials":{
+			"hostname":"$hostname",
+			"port":$port,
+			"user":"$user",
+			"pass":"$pass",
+			"vhost":"$vhost"
+		}
+}

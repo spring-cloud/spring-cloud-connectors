@@ -1,0 +1,2 @@
+http\://www.springframework.org/schema/cloud/spring-cloud-0.1.xsd=org/springframework/cloud/config/xml/spring-cloud.xsd
+http\://www.springframework.org/schema/cloud/spring-cloud.xsd=org/springframework/cloud/config/xml/spring-cloud.xsd

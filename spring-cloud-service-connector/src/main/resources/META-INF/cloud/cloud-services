@@ -1,0 +1,2 @@
+org.springframework.cloud.service.AbstractCloudServiceConnectorFactory
+org.springframework.cloud.service.CloudServicesScanner

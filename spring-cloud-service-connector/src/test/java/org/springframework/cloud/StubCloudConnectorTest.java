@@ -1,0 +1,58 @@
+package org.springframework.cloud;
+
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.document.MongoServiceInfo;
+import org.springframework.cloud.service.keyval.RedisServiceInfo;
+import org.springframework.cloud.service.messaging.RabbitServiceInfo;
+import org.springframework.cloud.service.relational.MysqlServiceInfo;
+import org.springframework.cloud.service.relational.PostgresqlServiceInfo;
+import org.springframework.cloud.test.CloudTestUtil;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * Base class for close-to-integration tests that use a stub {@link CloudConnector} to avoid the need for a real cloud environment.
+ *
+ * @author Ramnivas Laddad
+ *
+ */
+abstract public class StubCloudConnectorTest {
+
+	private static final String MOCK_CLOUD_BEAN_NAME = "mockCloud";
+
+	protected ClassPathXmlApplicationContext getTestApplicationContext(String fileName, ServiceInfo... serviceInfos) {
+		final CloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(serviceInfos);
+		
+		return new ClassPathXmlApplicationContext(getClass().getPackage().getName().replaceAll("\\.", "/") + "/" + fileName) {
+			@Override
+			protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+				CloudFactory cloudFactory = new CloudFactory();
+				cloudFactory.registerCloudConnector(stubCloudConnector);
+				getBeanFactory().registerSingleton(MOCK_CLOUD_BEAN_NAME, cloudFactory);
+				super.prepareBeanFactory(beanFactory);
+			}
+		};
+	}
+	
+	// Helper for subclasses to use
+	protected PostgresqlServiceInfo createPostgresqlService(String id) {
+		return new PostgresqlServiceInfo(id, "host", 1234, "database", "userName", "password");
+	}
+	
+	protected MysqlServiceInfo createMysqlService(String id) {
+		return new MysqlServiceInfo(id, "host", 1234, "database", "userName", "password");
+	}
+	
+	protected MongoServiceInfo createMongoService(String id) {
+		return new MongoServiceInfo(id, "10.20.30.40", 1234, "username", "password", "db");
+	}
+	
+	protected RabbitServiceInfo createRabbitService(String id) {
+		return new RabbitServiceInfo(id, "10.20.30.40", 1234, "username", "password", "vh");
+	}
+
+	
+	protected RedisServiceInfo createRedisService(String id) {
+		return new RedisServiceInfo(id, "host", 1234, "password");
+	}
+}
