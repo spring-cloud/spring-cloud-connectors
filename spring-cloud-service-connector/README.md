@@ -29,7 +29,7 @@ Each namespace element that creates a bean corresponding to a service follows th
         <cloud:pool pool-size="20" max-wait-time="200"/>
     </cloud>
 
-This creates a `javax.sql.DataSource` bean with the `inventory-db` id, binding it to `inventory-db-service. The created `DataSource` bean is configured with connection and pool propeties as specified in the nested elements.
+This creates a `javax.sql.DataSource` bean with the `inventory-db` id, binding it to `inventory-db-service`. The created `DataSource` bean is configured with connection and pool propeties as specified in the nested elements.
 When the `id` attribute is not specified, the service name is used as the `id`. When the `service-name` is not specified, the bean is bound to the only service in the correspding category (relational database, in this case). If no unique service is found, a runtime exception is thrown.
 
 Other namespace elements that create service connector include:
