@@ -3,27 +3,44 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-cloud-core</artifactId>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>cloudfoundry-connector</artifactId>
 	<version>1.0.0.CI-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Spring Cloud Core</name>
+	<name>Spring-Cloud CloudFoundry Connector</name>
 	<url>http://www.springframework.org</url>
 	<description>
 		<![CDATA[
-      Core components of Spring Cloud.
+      Spring Cloud connector for CloudFoundry
     ]]>
 	</description>
 	<properties>
+		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<junit.version>4.11</junit.version>
-	</properties>	
-	
+		<mockito.version>1.8.5</mockito.version>
+	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-service-connector</artifactId>
+			<version>1.0.0.CI-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
 		</dependency>
 	</dependencies>
 
@@ -37,7 +54,7 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
- 
+
 		</plugins>
-	</build> 
+	</build>
 </project>

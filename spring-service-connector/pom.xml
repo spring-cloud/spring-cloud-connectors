@@ -3,15 +3,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-cloud-service-connector</artifactId>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-service-connector</artifactId>
 	<version>1.0.0.CI-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Spring Cloud</name>
+	<name>Service Connectors</name>
 	<url>http://www.springframework.org</url>
 	<description>
 		<![CDATA[
-      This project is a minimal jar utility with Spring configuration.
+	Service Connectors for DataSource and spring-data connector factories
     ]]>
 	</description>
 	<properties>
@@ -36,8 +36,8 @@
 	
 	<dependencies>
 	    <dependency>
-	        	<groupId>org.springframework</groupId>
-			<artifactId>spring-cloud-core</artifactId>
+	        	<groupId>org.springframework.cloud</groupId>
+			<artifactId>core</artifactId>
 			<version>1.0.0.CI-SNAPSHOT</version>
 	    </dependency>
 		<dependency>

@@ -9,6 +9,6 @@ The core concepts used in this project are:
 
 The project comprises of three subprojects:
 
-1. **spring-cloud-core**: Core library that is cloud agnostic and Spring-agnostic. Provides entry point for application developers that choose to programmatically access cloud services and application information. It also provides an extension mechanism to contribute cloud connectors and service connector creators.
-2. **spring-cloud-service-connector**: Library that provides service connectors creators for java.sql.DataSource and various connection factories spring-data projects.
-3. **spring-cloudfoundry-connector**: Cloud connector for [Cloud Foundry](http://www.cloudfoundry.com).
+1. **core**: Core library that is cloud agnostic and Spring-agnostic. Provides entry point for application developers that choose to programmatically access cloud services and application information. It also provides an extension mechanism to contribute cloud connectors and service connector creators.
+2. **spring-service-connector**: Library that provides service connectors creators for javax.sql.DataSource and various connection factories spring-data projects.
+3. **cloudfoundry-connector**: Cloud connector for [Cloud Foundry](http://www.cloudfoundry.com).
