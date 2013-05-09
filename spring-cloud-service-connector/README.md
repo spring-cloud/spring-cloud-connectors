@@ -30,7 +30,7 @@ Each namespace element that creates a bean corresponding to a service follows th
     </cloud>
 
 This creates a `javax.sql.DataSource` bean with the `inventory-db` id, binding it to `inventory-db-service`. The created `DataSource` bean is configured with connection and pool propeties as specified in the nested elements.
-When the `id` attribute is not specified, the service name is used as the `id`. When the `service-name` is not specified, the bean is bound to the only service in the correspding category (relational database, in this case). If no unique service is found, a runtime exception is thrown.
+When the `id` attribute is not specified, the service name is used as the `id`. When the `service-name` is not specified, the bean is bound to the only service in the corresponding category (relational database, in this case). If no unique service is found, a runtime exception is thrown.
 
 Other namespace elements that create service connector include:
 	
@@ -38,7 +38,7 @@ Other namespace elements that create service connector include:
     <cloud:redis-connection-factory/>
     <cloud:rabbit-connection-factory/>
 
-Generic `<cloud:service` element
+Generic `<cloud:service>` element
 --------------------------------
 
 We also supports a generic `<cloud:service>` namespace to allow connecting to a service that doesn't have directly mapped element (typical for a newly introduced service or connecting to a private service in private PaaS). You must specify either the `connector-type` attribute (so that it can find a unique service matching that type) or the `service-name` attribute.
