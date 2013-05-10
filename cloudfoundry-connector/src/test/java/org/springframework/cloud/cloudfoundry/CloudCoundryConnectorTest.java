@@ -1,17 +1,17 @@
-package org.springframework.cloudfoundry;
+package org.springframework.cloud.cloudfoundry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
-import static org.springframework.cloudfoundry.CloudFoundryConnectorTestHelper.getApplicationInstanceInfo;
-import static org.springframework.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayload;
-import static org.springframework.cloudfoundry.CloudFoundryConnectorTestHelper.getPostgresqlServicePayload;
-import static org.springframework.cloudfoundry.CloudFoundryConnectorTestHelper.getRedisServicePayload;
-import static org.springframework.cloudfoundry.CloudFoundryConnectorTestHelper.getMongoServicePayload;
-import static org.springframework.cloudfoundry.CloudFoundryConnectorTestHelper.getRabbitServicePayload;
-import static org.springframework.cloudfoundry.CloudFoundryConnectorTestHelper.getServicesPayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getApplicationInstanceInfo;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMongoServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getPostgresqlServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRabbitServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRedisServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getServicesPayload;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,8 +20,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.cloud.cloudfoundry.CloudFoundryConnector;
+import org.springframework.cloud.cloudfoundry.CloudFoundryConnector.EnvironmentAccessor;
 import org.springframework.cloud.service.ServiceInfo;
-import org.springframework.cloudfoundry.CloudFoundryConnector.EnvironmentAccessor;
 
 /**
  * 

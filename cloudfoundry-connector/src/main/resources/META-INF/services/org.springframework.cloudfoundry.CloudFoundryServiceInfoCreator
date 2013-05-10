@@ -1,5 +1,0 @@
-org.springframework.cloudfoundry.MysqlServiceInfoCreator
-org.springframework.cloudfoundry.PostgresqlServiceInfoCreator
-org.springframework.cloudfoundry.RedisServiceInfoCreator
-org.springframework.cloudfoundry.MongoServiceInfoCreator
-org.springframework.cloudfoundry.RabbitServiceInfoCreator

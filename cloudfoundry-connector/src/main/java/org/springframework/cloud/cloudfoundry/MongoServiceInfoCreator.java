@@ -1,22 +1,22 @@
-package org.springframework.cloudfoundry;
+package org.springframework.cloud.cloudfoundry;
 
 import java.util.Map;
 
-import org.springframework.cloud.service.messaging.RabbitServiceInfo;
+import org.springframework.cloud.service.document.MongoServiceInfo;
 
 /**
  * 
  * @author Ramnivas Laddad
  *
  */
-public class RabbitServiceInfoCreator extends CloudFoundryServiceInfoCreator<RabbitServiceInfo> {
+public class MongoServiceInfoCreator extends CloudFoundryServiceInfoCreator<MongoServiceInfo> {
 
-	public RabbitServiceInfoCreator() {
-		super("rabbitmq");
+	public MongoServiceInfoCreator() {
+		super("mongodb");
 
 	}
 
-	public RabbitServiceInfo createServiceInfo(Object serviceData) {
+	public MongoServiceInfo createServiceInfo(Object serviceData) {
 		@SuppressWarnings("unchecked")
 		Map<String,Object> serviceDataMap = (Map<String,Object>) serviceData;
 
@@ -29,9 +29,9 @@ public class RabbitServiceInfoCreator extends CloudFoundryServiceInfoCreator<Rab
 		Integer port = (Integer) credentials.get("port");
 		String userName = (String) credentials.get("username");
 		String password = (String) credentials.get("password");
-		String virtualHost = (String) credentials.get("vhost");
+		String database = (String) credentials.get("db");
 
-		return new RabbitServiceInfo(id, host, port, userName, password, virtualHost);
+		return new MongoServiceInfo(id, host, port, database, userName, password);
 	}
 
 }

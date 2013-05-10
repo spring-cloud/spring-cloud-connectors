@@ -1,22 +1,22 @@
-package org.springframework.cloudfoundry;
+package org.springframework.cloud.cloudfoundry;
 
 import java.util.Map;
 
-import org.springframework.cloud.service.document.MongoServiceInfo;
+import org.springframework.cloud.service.keyval.RedisServiceInfo;
 
 /**
  * 
  * @author Ramnivas Laddad
  *
  */
-public class MongoServiceInfoCreator extends CloudFoundryServiceInfoCreator<MongoServiceInfo> {
+public class RedisServiceInfoCreator extends CloudFoundryServiceInfoCreator<RedisServiceInfo> {
 
-	public MongoServiceInfoCreator() {
-		super("mongodb");
+	public RedisServiceInfoCreator() {
+		super("redis");
 
 	}
 
-	public MongoServiceInfo createServiceInfo(Object serviceData) {
+	public RedisServiceInfo createServiceInfo(Object serviceData) {
 		@SuppressWarnings("unchecked")
 		Map<String,Object> serviceDataMap = (Map<String,Object>) serviceData;
 
@@ -27,11 +27,9 @@ public class MongoServiceInfoCreator extends CloudFoundryServiceInfoCreator<Mong
 		
 		String host = (String) credentials.get("hostname");
 		Integer port = (Integer) credentials.get("port");
-		String userName = (String) credentials.get("username");
 		String password = (String) credentials.get("password");
-		String database = (String) credentials.get("db");
 
-		return new MongoServiceInfo(id, host, port, database, userName, password);
+		return new RedisServiceInfo(id, host, port, password);
 	}
 
 }

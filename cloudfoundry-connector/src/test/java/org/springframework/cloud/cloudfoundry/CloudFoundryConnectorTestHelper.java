@@ -1,4 +1,4 @@
-package org.springframework.cloudfoundry;
+package org.springframework.cloud.cloudfoundry;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
