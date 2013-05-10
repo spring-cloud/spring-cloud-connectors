@@ -2,6 +2,7 @@ package org.springframework.cloud.cloudfoundry;
 
 import java.util.Map;
 
+import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.service.ServiceInfo;
 
 /**

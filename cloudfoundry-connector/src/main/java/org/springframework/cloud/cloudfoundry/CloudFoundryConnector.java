@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ServiceLoader;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.cloud.CloudConnector;
+import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.CloudException;
+import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.ServiceInfo;
 
@@ -17,24 +17,16 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public class CloudFoundryConnector implements CloudConnector {
+public class CloudFoundryConnector extends AbstractCloudConnector {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 	private EnvironmentAccessor environment = new EnvironmentAccessor();
 	
 	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator = new ApplicationInstanceInfoCreator();
-	private List<ServiceInfoCreator<?>> serviceInfoCreators = new ArrayList<ServiceInfoCreator<?>>();
-
+	
+	@SuppressWarnings("unchecked")
 	public CloudFoundryConnector() {
-		scanServiceInfoCreators();
-	}
-
-	private void scanServiceInfoCreators() {
-		@SuppressWarnings("rawtypes")
-		ServiceLoader<CloudFoundryServiceInfoCreator> serviceInfoCreators = ServiceLoader.load(CloudFoundryServiceInfoCreator.class);
-		for (CloudFoundryServiceInfoCreator<?> serviceInfoCreator : serviceInfoCreators) {
-			registerServiceInfoCreator(serviceInfoCreator);
-		}
+		super((Class<? extends ServiceInfoCreator<?>>) CloudFoundryServiceInfoCreator.class);
 	}
 
 	@Override
@@ -63,10 +55,6 @@ public class CloudFoundryConnector implements CloudConnector {
 		return serviceInfos;
 	}
 
-	public void registerServiceInfoCreator(ServiceInfoCreator<?> serviceInfoCreator) {
-		serviceInfoCreators.add(serviceInfoCreator);
-	}
-	
 	private ServiceInfo getServiceInfo(Map<String,Object> serviceData) {
 		for (ServiceInfoCreator<?> serviceInfoCreator : serviceInfoCreators) {
 			if (serviceInfoCreator.accept(serviceData)) {
@@ -115,7 +103,7 @@ public class CloudFoundryConnector implements CloudConnector {
 	/**
 	 * Environment available to the deployed app.
 	 * 
-	 * The main purpose of this class is to allow unit-testing of {@link CloudEnvironment}
+	 * The main purpose of this class is to allow unit-testing of {@link CloudFoundryConnector}
 	 *
 	 */
 	public static class EnvironmentAccessor {
