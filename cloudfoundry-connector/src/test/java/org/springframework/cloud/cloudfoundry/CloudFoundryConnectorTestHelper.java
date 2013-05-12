@@ -1,16 +1,14 @@
 package org.springframework.cloud.cloudfoundry;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.util.FileCopyUtils;
 
 /**
  * 
@@ -171,14 +169,8 @@ public class CloudFoundryConnectorTestHelper {
 	}
 	
 	private static String readTestDataFile(String fileName) {
-		try {
-			Reader fileReader = new InputStreamReader(CloudFoundryConnectorTestHelper.class.getResourceAsStream(fileName));
-			StringWriter writer = new StringWriter();
-			FileCopyUtils.copy(fileReader, writer);
-			return writer.toString();
-		} catch (IOException e) {
-			throw new IllegalArgumentException("Couldn't read " + fileName);
-		}
+		Reader fileReader = new InputStreamReader(CloudFoundryConnectorTestHelper.class.getResourceAsStream(fileName));
+		return new Scanner(fileReader).useDelimiter("\\Z").next();
 	}
 	
 	@SuppressWarnings("unchecked")

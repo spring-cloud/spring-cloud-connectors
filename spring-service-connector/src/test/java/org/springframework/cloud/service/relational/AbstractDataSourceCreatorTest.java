@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import org.junit.Test;
 import org.springframework.cloud.service.PooledServiceConnectorConfig.PoolConfig;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.cloud.service.relational.DataSourceConfig.ConnectionConfig;
 import org.springframework.test.util.ReflectionTestUtils;
 

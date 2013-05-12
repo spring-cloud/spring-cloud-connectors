@@ -24,7 +24,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-service-connector</artifactId>
+			<artifactId>core</artifactId>
 			<version>1.0.0.CI-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -37,7 +37,7 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
-				
+						
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -49,11 +49,6 @@
 			<artifactId>mockito-all</artifactId>
 			<version>${mockito.version}</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
 		</dependency>
 	</dependencies>
 
@@ -67,7 +62,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
 </project>

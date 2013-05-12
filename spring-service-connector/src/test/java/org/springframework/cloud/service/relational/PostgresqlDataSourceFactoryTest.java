@@ -1,5 +1,7 @@
 package org.springframework.cloud.service.relational;
 
+import org.springframework.cloud.service.common.PostgresqlServiceInfo;
+
 /**
  * 
  * @author Ramnivas Laddad

@@ -9,6 +9,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreationException;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import static org.springframework.cloud.service.Util.*;

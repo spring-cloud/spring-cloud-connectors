@@ -16,12 +16,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.ServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceInfo;
-import org.springframework.cloud.service.document.MongoServiceInfo;
-import org.springframework.cloud.service.keyval.RedisServiceInfo;
-import org.springframework.cloud.service.messaging.RabbitServiceInfo;
+import org.springframework.cloud.service.common.MongoServiceInfo;
+import org.springframework.cloud.service.common.MysqlServiceInfo;
+import org.springframework.cloud.service.common.RabbitServiceInfo;
+import org.springframework.cloud.service.common.RedisServiceInfo;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.cloud.service.relational.MysqlDataSourceCreator;
-import org.springframework.cloud.service.relational.MysqlServiceInfo;
-import org.springframework.cloud.service.relational.RelationalServiceInfo;
 import static org.springframework.cloud.test.CloudTestUtil.getTestCloudConnector;
 
 /**

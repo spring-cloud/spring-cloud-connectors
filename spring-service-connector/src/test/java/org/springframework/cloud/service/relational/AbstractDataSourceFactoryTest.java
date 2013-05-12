@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.mockito.Mock;
 import org.springframework.cloud.service.AbstractCloudServiceConnectorFactoryTest;
 import org.springframework.cloud.service.ServiceConnectorConfig;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
 
 /**
  * 

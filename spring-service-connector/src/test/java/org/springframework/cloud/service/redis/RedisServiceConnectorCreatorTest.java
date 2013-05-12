@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.cloud.service.common.RedisServiceInfo;
 import org.springframework.cloud.service.keyval.RedisConnectionFactoryCreator;
-import org.springframework.cloud.service.keyval.RedisServiceInfo;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.test.util.ReflectionTestUtils;
 

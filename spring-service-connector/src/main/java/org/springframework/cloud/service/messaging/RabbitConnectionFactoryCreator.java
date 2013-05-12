@@ -4,6 +4,7 @@ import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
+import org.springframework.cloud.service.common.RabbitServiceInfo;
 
 /**
  * Simplified access to creating RabbitMQ service objects.

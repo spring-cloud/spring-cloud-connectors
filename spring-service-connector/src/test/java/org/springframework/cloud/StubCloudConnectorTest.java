@@ -2,11 +2,11 @@ package org.springframework.cloud;
 
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.cloud.service.ServiceInfo;
-import org.springframework.cloud.service.document.MongoServiceInfo;
-import org.springframework.cloud.service.keyval.RedisServiceInfo;
-import org.springframework.cloud.service.messaging.RabbitServiceInfo;
-import org.springframework.cloud.service.relational.MysqlServiceInfo;
-import org.springframework.cloud.service.relational.PostgresqlServiceInfo;
+import org.springframework.cloud.service.common.MongoServiceInfo;
+import org.springframework.cloud.service.common.MysqlServiceInfo;
+import org.springframework.cloud.service.common.PostgresqlServiceInfo;
+import org.springframework.cloud.service.common.RabbitServiceInfo;
+import org.springframework.cloud.service.common.RedisServiceInfo;
 import org.springframework.cloud.test.CloudTestUtil;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

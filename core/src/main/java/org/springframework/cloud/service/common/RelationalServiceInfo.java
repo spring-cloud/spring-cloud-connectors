@@ -1,4 +1,4 @@
-package org.springframework.cloud.service.relational;
+package org.springframework.cloud.service.common;
 
 import org.springframework.cloud.service.BaseServiceInfo;
 

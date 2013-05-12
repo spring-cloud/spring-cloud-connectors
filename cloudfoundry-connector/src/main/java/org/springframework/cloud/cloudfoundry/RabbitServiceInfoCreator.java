@@ -2,7 +2,7 @@ package org.springframework.cloud.cloudfoundry;
 
 import java.util.Map;
 
-import org.springframework.cloud.service.messaging.RabbitServiceInfo;
+import org.springframework.cloud.service.common.RabbitServiceInfo;
 
 /**
  * 

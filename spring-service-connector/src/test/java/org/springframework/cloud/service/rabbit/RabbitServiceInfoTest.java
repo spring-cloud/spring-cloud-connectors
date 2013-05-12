@@ -3,7 +3,7 @@ package org.springframework.cloud.service.rabbit;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.springframework.cloud.service.messaging.RabbitServiceInfo;
+import org.springframework.cloud.service.common.RabbitServiceInfo;
 
 /**
  * 

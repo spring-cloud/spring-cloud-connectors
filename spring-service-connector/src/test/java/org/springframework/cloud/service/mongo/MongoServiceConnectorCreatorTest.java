@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.cloud.service.document.MongoDbFactoryCreator;
-import org.springframework.cloud.service.document.MongoServiceInfo;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.test.util.ReflectionTestUtils;
 

@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 
 /**
  * 

@@ -24,9 +24,9 @@ public class CloudFoundryConnector extends AbstractCloudConnector {
 	
 	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator = new ApplicationInstanceInfoCreator();
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public CloudFoundryConnector() {
-		super((Class<? extends ServiceInfoCreator<?>>) CloudFoundryServiceInfoCreator.class);
+		super((Class) CloudFoundryServiceInfoCreator.class);
 	}
 
 	@Override

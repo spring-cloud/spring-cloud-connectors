@@ -2,7 +2,7 @@ package org.springframework.cloud.cloudfoundry;
 
 import java.util.Map;
 
-import org.springframework.cloud.service.relational.RelationalServiceInfo;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
 
 /**
  * 

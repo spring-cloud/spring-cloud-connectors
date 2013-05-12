@@ -5,8 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.cloud.service.common.RabbitServiceInfo;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryCreator;
-import org.springframework.cloud.service.messaging.RabbitServiceInfo;
 import org.springframework.test.util.ReflectionTestUtils;
 
 /**

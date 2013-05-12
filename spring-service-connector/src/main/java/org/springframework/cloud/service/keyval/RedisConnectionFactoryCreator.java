@@ -6,6 +6,7 @@ import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.PooledServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreationException;
+import org.springframework.cloud.service.common.RedisServiceInfo;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 

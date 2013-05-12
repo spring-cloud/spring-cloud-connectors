@@ -3,8 +3,8 @@ package org.springframework.cloud.service.mongo;
 import org.mockito.Mock;
 import org.springframework.cloud.service.AbstractCloudServiceConnectorFactoryTest;
 import org.springframework.cloud.service.ServiceConnectorConfig;
+import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.cloud.service.document.MongoDbFactoryFactory;
-import org.springframework.cloud.service.document.MongoServiceInfo;
 import org.springframework.data.mongodb.MongoDbFactory;
 
 /**

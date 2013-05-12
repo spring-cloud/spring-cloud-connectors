@@ -3,8 +3,8 @@ package org.springframework.cloud.service.redis;
 import org.mockito.Mock;
 import org.springframework.cloud.service.AbstractCloudServiceConnectorFactoryTest;
 import org.springframework.cloud.service.ServiceConnectorConfig;
+import org.springframework.cloud.service.common.RedisServiceInfo;
 import org.springframework.cloud.service.keyval.RedisConnectionFactoryFactory;
-import org.springframework.cloud.service.keyval.RedisServiceInfo;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 /**

@@ -2,7 +2,7 @@ package org.springframework.cloud.cloudfoundry;
 
 import java.util.Map;
 
-import org.springframework.cloud.service.keyval.RedisServiceInfo;
+import org.springframework.cloud.service.common.RedisServiceInfo;
 
 /**
  * 

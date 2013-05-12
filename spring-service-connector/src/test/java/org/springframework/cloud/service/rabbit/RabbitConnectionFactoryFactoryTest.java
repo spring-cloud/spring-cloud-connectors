@@ -4,8 +4,8 @@ import org.mockito.Mock;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.cloud.service.AbstractCloudServiceConnectorFactoryTest;
 import org.springframework.cloud.service.ServiceConnectorConfig;
+import org.springframework.cloud.service.common.RabbitServiceInfo;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryFactory;
-import org.springframework.cloud.service.messaging.RabbitServiceInfo;
 
 /**
  * 

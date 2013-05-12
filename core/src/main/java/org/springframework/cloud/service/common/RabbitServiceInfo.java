@@ -1,4 +1,4 @@
-package org.springframework.cloud.service.messaging;
+package org.springframework.cloud.service.common;
 
 import java.net.URI;
 import java.net.URISyntaxException;

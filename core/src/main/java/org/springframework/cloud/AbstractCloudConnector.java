@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 
+import org.springframework.cloud.service.ServiceInfo;
+
 
 /**
  * Helper abstract class to simplify {@link CloudConnector} implementations.
@@ -21,7 +23,7 @@ public abstract class AbstractCloudConnector implements CloudConnector {
 
 	protected List<ServiceInfoCreator<?>> serviceInfoCreators = new ArrayList<ServiceInfoCreator<?>>();
 
-	public AbstractCloudConnector(Class<? extends ServiceInfoCreator<?>> serviceInfoCreatorClass) {
+	public AbstractCloudConnector(Class<? extends ServiceInfoCreator<? extends ServiceInfo>> serviceInfoCreatorClass) {
 		scanServiceInfoCreators(serviceInfoCreatorClass);
 	}
 

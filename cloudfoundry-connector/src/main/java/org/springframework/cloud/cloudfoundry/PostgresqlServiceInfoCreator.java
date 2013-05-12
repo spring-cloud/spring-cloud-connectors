@@ -1,6 +1,6 @@
 package org.springframework.cloud.cloudfoundry;
 
-import org.springframework.cloud.service.relational.PostgresqlServiceInfo;
+import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 
 /**
  * 
