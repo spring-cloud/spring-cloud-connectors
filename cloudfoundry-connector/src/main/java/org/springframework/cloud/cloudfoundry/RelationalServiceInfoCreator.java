@@ -35,7 +35,6 @@ public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceI
 		String userName = (String) credentials.get("user");
 
 		return createServiceInfo(id, host, port, database, userName, password);
-		//return new MysqlServiceInfo(id, host, port, database, userName, password);
 	}
 
 }

@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.CloudException;
 import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.ServiceInfo;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 

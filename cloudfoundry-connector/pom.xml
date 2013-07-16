@@ -15,7 +15,7 @@
     ]]>
 	</description>
 	<properties>
-		<jackson.version>1.4.1</jackson.version>
+		<jackson.version>2.2.2</jackson.version>
 			    
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<junit.version>4.11</junit.version>
@@ -28,13 +28,13 @@
 			<version>1.0.0.CI-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-core-asl</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
 						

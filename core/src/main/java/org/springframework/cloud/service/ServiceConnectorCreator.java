@@ -16,7 +16,7 @@ public interface ServiceConnectorCreator<SC, SI extends ServiceInfo> {
 	 * @param serviceConnectorConfiguration
 	 * @return
 	 */
-	SC create(SI serviceInfo, ServiceConnectorConfig serviceConnectorConfiguration);
+	SC create(SI serviceInfo, ServiceConnectorConfig serviceConnectorConfig);
 	
 	Class<SC> getServiceConnectorType();
 
