@@ -169,8 +169,14 @@ public class CloudFoundryConnectorTestHelper {
 	}
 	
 	private static String readTestDataFile(String fileName) {
-		Reader fileReader = new InputStreamReader(CloudFoundryConnectorTestHelper.class.getResourceAsStream(fileName));
-		return new Scanner(fileReader).useDelimiter("\\Z").next();
+		Scanner scanner = null;
+		try {
+			Reader fileReader = new InputStreamReader(CloudFoundryConnectorTestHelper.class.getResourceAsStream(fileName));
+			scanner = new Scanner(fileReader);
+			return scanner.useDelimiter("\\Z").next();
+		} finally {
+			scanner.close();
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
