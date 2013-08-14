@@ -22,9 +22,7 @@ public class MysqlServiceCreatorTest extends AbstractDataSourceCreatorTest<Mysql
 
 	@Override
 	public MysqlServiceInfo createServiceInfo() {
-		when(mockMysqlServiceInfo.getUrl()).thenReturn("jdbc:mysql://10.20.30.40:3306/database-123");
-		when(mockMysqlServiceInfo.getUserName()).thenReturn("myuser");
-		when(mockMysqlServiceInfo.getPassword()).thenReturn("mypass");
+		when(mockMysqlServiceInfo.getJdbcUrl()).thenReturn("jdbc:mysql://myuser:mypassword@10.20.30.40:3306/database-123");
 		
 		return mockMysqlServiceInfo;
 	}

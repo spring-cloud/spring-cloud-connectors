@@ -8,19 +8,15 @@ import org.springframework.cloud.service.BaseServiceInfo;
  *
  */
 public abstract class RelationalServiceInfo extends BaseServiceInfo {
-	protected String database;
+	private String jdbcUrl;
 	
-	public RelationalServiceInfo(String id, String host, int port, String database, String userName, String password) {
-		super(id, host, port, userName, password);
-		this.database = database;
+	public RelationalServiceInfo(String id, String uriString) {
+		super(id, uriString);
+		this.jdbcUrl = "jdbc:" + uriString;
 	}
 	
 	@ServiceProperty(category="connection")
-	public abstract String getUrl();
-	
-	@ServiceProperty(category="connection")
-	public String getDatabase() {
-		return database;
+	public String getJdbcUrl() {
+		return jdbcUrl;
 	}
-
 }

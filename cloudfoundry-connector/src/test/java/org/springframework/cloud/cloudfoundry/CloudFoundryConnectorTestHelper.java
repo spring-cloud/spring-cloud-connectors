@@ -91,17 +91,8 @@ public class CloudFoundryConnectorTestHelper {
 		payload = payload.replace("$user", user);
 		payload = payload.replace("$pass", password);
 		payload = payload.replace("$name", name);
-		payload = payload.replace("$vhost", vHost);
+		payload = payload.replace("$virtualHost", vHost);
 		
-		return payload;
-	}
-
-	public static String getRabbitSRSServicePayload(String version, String serviceName, String url) {
-		String payload = readTestDataFile("test-rabbit-srs-info.json");
-		payload = payload.replace("$version", version);
-		payload = payload.replace("$serviceName", serviceName);
-		payload = payload.replace("$url", url);
-
 		return payload;
 	}
 

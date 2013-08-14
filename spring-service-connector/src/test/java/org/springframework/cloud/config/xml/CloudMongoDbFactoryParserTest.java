@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -19,7 +19,7 @@ import com.mongodb.WriteConcern;
  */
 public class CloudMongoDbFactoryParserTest extends AbstractCloudServiceConnectorFactoryParserTest<MongoDbFactory> {
 
-	protected BaseServiceInfo createService(String id) {
+	protected ServiceInfo createService(String id) {
 		return createMongoService(id);
 	}
 	

@@ -36,11 +36,11 @@ abstract public class StubCloudConnectorTest {
 	
 	// Helper for subclasses to use
 	protected PostgresqlServiceInfo createPostgresqlService(String id) {
-		return new PostgresqlServiceInfo(id, "host", 1234, "database", "userName", "password");
+		return new PostgresqlServiceInfo(id, "postgres://username:pass@host:port/db");
 	}
 	
 	protected MysqlServiceInfo createMysqlService(String id) {
-		return new MysqlServiceInfo(id, "host", 1234, "database", "userName", "password");
+		return new MysqlServiceInfo(id, "mysql://username:pass@host:port/db");
 	}
 	
 	protected MongoServiceInfo createMongoService(String id) {

@@ -44,10 +44,8 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 				return ds;
 			} else {
 				// Only for testing outside Tomcat/CloudFoundry
-				return new SimpleDriverDataSource(DriverManager.getDriver(serviceInfo.getUrl()),
-						serviceInfo.getUrl(), 
-						serviceInfo.getUserName(), 
-						serviceInfo.getPassword());
+				return new SimpleDriverDataSource(DriverManager.getDriver(serviceInfo.getJdbcUrl()),
+						serviceInfo.getJdbcUrl());
 			}
 		} catch (Exception e) {
 			throw new ServiceConnectorCreationException(
@@ -60,9 +58,7 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 											  ServiceConnectorConfig serviceConnectorConfig) {
 		BeanWrapper target = new BeanWrapperImpl(basicDataSource);
 		target.setPropertyValue("driverClassName", getDriverClassName());
-		target.setPropertyValue("url", serviceInfo.getUrl());
-		target.setPropertyValue("username", serviceInfo.getUserName());
-		target.setPropertyValue("password", serviceInfo.getPassword());
+		target.setPropertyValue("url", serviceInfo.getJdbcUrl());
 		if (getValidationQuery() != null) {
 			target.setPropertyValue("validationQuery", getValidationQuery());
 			target.setPropertyValue("testOnBorrow", true);

@@ -1,12 +1,11 @@
 {
         "name": "$serviceName",
-        "label": "redis-$version",
+        "label": "rediscloud-$version",
         "plan": "free",
+        "tags":["redis","key-value"],
         "credentials": {
-            "node_id": "redis_node_8",
             "hostname": "$hostname",
-            "port": $port,
-            "password": "$password",
-            "name": "$name"
+            "port": "$port",
+            "password": "$password"
         }
 }

@@ -1,18 +1,22 @@
 {
     "instance_id": "5b2332ca1b6ff9c2d481b5353cd117e8",
     "instance_index": 0,
+    	"host":"0.0.0.0",
+    "port": 11338,
+	"started_at":"2013-08-15 22:44:57 +0000",
+	"started_at_timestamp":1376606697,
+	"start":"2013-08-15 22:44:57 +0000",
+	"state_timestamp":1376606697,
+	"limits":{
+		"mem":512,
+		"disk":1024,
+		"fds":16384
+	},
+	"application_version":"37d434da-a50d-40e9-ac99-ac724b0658d9",
+	"application_name":"$name",
+	"application_uris":[$uris],
+	"version":"37d434da-a50d-40e9-ac99-ac724b0658d9",
     "name": "$name",
     "uris": [$uris],
-    "users": ["user@company.com"],
-    "version": "ab8f60342a583185452096875bca9bdc43213f88",
-    "start": "2011-04-03 05:44:40 +0000",
-    "runtime": "ruby18",
-    "state_timestamp": 1301809480,
-    "port": 11338,
-    "limits": {
-        "fds": 256,
-        "mem": 134217728,
-        "disk": 2147483648
-    },
-    "host": "172.30.49.53"
+    "users": null
 }

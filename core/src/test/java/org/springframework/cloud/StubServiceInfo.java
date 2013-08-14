@@ -11,7 +11,7 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 @ServiceLabel("stub")
 public class StubServiceInfo extends BaseServiceInfo {
 	public StubServiceInfo(String id, String host, int port, String username, String password) {
-		super(id, host, port, username, password);
+		super(id, "stub", host, port, username, password, null);
 	}
 	
 	// To test the scenario, where the name attribute of a property is explicitly specified 

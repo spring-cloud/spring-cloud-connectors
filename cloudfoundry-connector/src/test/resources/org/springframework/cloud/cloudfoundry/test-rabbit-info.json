@@ -1,13 +1,9 @@
 {
 	"name":"$serviceName",
-	"label":"rabbitmq-$version",
+	"label":"cloudamqp-$version",
 	"plan":"free",
-	"tags":["rabbitmq"],
+	"tags":["amqp","rabbitmq"],
 	"credentials":{
-			"hostname":"$hostname",
-			"port":$port,
-			"user":"$user",
-			"pass":"$pass",
-			"vhost":"$vhost"
-		}
+		"uri": "amqp://$username:$password@$hostname/$virtualHost"
+	}
 }

@@ -14,8 +14,7 @@ public class PostgresqlServiceInfoCreator extends RelationalServiceInfoCreator<P
 	}
 
 	@Override
-	public PostgresqlServiceInfo createServiceInfo(String id, String host, int port,
-			String database, String userName, String password) {
-		return new PostgresqlServiceInfo(id, host, port, database, userName, password);
+	public PostgresqlServiceInfo createServiceInfo(String id, String url) {
+		return new PostgresqlServiceInfo(id, url);
 	}
 }

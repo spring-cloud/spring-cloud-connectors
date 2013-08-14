@@ -1,5 +1,6 @@
 package org.springframework.cloud.cloudfoundry;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.cloud.ServiceInfoCreator;
@@ -12,26 +13,16 @@ import org.springframework.cloud.service.ServiceInfo;
  */
 public abstract class CloudFoundryServiceInfoCreator<T extends ServiceInfo> implements ServiceInfoCreator<T> {
 
-	private String label;
+	private String tag;
 
-	public CloudFoundryServiceInfoCreator(String label) {
-		this.label = label;
+	public CloudFoundryServiceInfoCreator(String tag) {
+		this.tag = tag;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public boolean accept(Object serviceData) {
-		@SuppressWarnings("unchecked")
 		Map<String,Object> serviceDataMap = (Map<String,Object>)serviceData;
 		
-		return labelWithoutVersion(serviceDataMap.get("label").toString()).equals(label);
+		return ((List<String>)serviceDataMap.get("tags")).contains(tag);
 	}
-	
-	protected static String labelWithoutVersion(String labelWithVersion) {
-		int hyphenIndex = labelWithVersion.lastIndexOf('-');
-		if (hyphenIndex == -1) {
-			return labelWithVersion;
-		} else {
-			return labelWithVersion.substring(0, hyphenIndex);
-		}
-	}
-
 }

@@ -8,7 +8,7 @@ import javax.sql.DataSource;
 
 import org.junit.Test;
 import org.springframework.cloud.CloudException;
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -19,7 +19,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  */
 public abstract class CloudDataSourceFactoryParserTest extends AbstractCloudServiceConnectorFactoryParserTest<DataSource> {
 
-	protected abstract BaseServiceInfo createService(String id);
+	protected abstract ServiceInfo createService(String id);
 	
 	protected String getWithServiceIdContextFileName() {
 		return "cloud-datasource-with-service-id.xml";

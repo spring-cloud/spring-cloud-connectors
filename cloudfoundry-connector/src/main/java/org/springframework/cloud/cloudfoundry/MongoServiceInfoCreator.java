@@ -25,13 +25,9 @@ public class MongoServiceInfoCreator extends CloudFoundryServiceInfoCreator<Mong
 		
 		String id = (String) serviceDataMap.get("name");
 		
-		String host = (String) credentials.get("hostname");
-		Integer port = (Integer) credentials.get("port");
-		String userName = (String) credentials.get("username");
-		String password = (String) credentials.get("password");
-		String database = (String) credentials.get("db");
+		String uri = (String) credentials.get("uri");
 
-		return new MongoServiceInfo(id, host, port, database, userName, password);
+		return new MongoServiceInfo(id, uri);
 	}
 
 }

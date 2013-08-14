@@ -11,6 +11,6 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 @ServiceLabel("redis")
 public class RedisServiceInfo extends BaseServiceInfo {
 	public RedisServiceInfo(String id, String host, int port, String password) {
-		super(id, host, port, null, password);
+		super(id, "redis", host, port, null, password, null);
 	}
 }

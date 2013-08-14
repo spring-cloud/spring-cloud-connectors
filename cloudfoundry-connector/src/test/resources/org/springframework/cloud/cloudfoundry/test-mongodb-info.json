@@ -1,14 +1,9 @@
 {
         "name": "$serviceName",
-        "label": "mongodb-$version",
+        "label": "mongolab-$version",
         "plan": "free",
+        "tags":["mongodb"],
         "credentials": {
-            "node_id": "mongodb_node_5",
-            "hostname": "$hostname",
-            "port": $port,
-            "username": "$username",
-            "password": "$password",
-            "name": "$name",
-            "db": "$db"
+            "uri" : "mongodb://$username:$password@$hostname:$port/$db"
         }
 }

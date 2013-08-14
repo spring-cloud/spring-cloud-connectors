@@ -23,6 +23,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.cloudfoundry.CloudFoundryConnector;
 import org.springframework.cloud.cloudfoundry.CloudFoundryConnector.EnvironmentAccessor;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.common.MysqlServiceInfo;
+import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 
 /**
  * 
@@ -57,30 +59,43 @@ public class CloudCoundryConnectorTest {
 	@Test
 	public void mysqlServiceCreation() {
 		String[] versions = {"5.1", "5.5"};
+		String name1 = "database-1";
+		String name2 = "database-2";
 		for (String version : versions) {
 			when(mockEnvironment.getValue("VCAP_SERVICES"))
 				.thenReturn(getServicesPayload(
-								getMysqlServicePayload(version, "mysql-1", hostname, port, username, password, "database-123"),
-								getMysqlServicePayload(version, "mysql-2", hostname, port, username, password, "database-123")));
+								getMysqlServicePayload(version, "mysql-1", hostname, port, username, password, name1),
+								getMysqlServicePayload(version, "mysql-2", hostname, port, username, password, name2)));
 		}
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		assertNotNull(getServiceInfo(serviceInfos, "mysql-1"));
-		assertNotNull(getServiceInfo(serviceInfos, "mysql-2"));
+		
+		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
+		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
+		assertNotNull(info1);
+		assertNotNull(info2);
+		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
+		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
 	}
 
 	@Test
 	public void postgresqlServiceCreation() {
 		String[] versions = {"9.1", "9.2"};
+		String name1 = "database-1";
+		String name2 = "database-2";
 		for (String version : versions) {
 			when(mockEnvironment.getValue("VCAP_SERVICES"))
 				.thenReturn(getServicesPayload(
-								getPostgresqlServicePayload(version, "postgresql-1", hostname, port, username, password, "database-123"),
-								getPostgresqlServicePayload(version, "postgresql-2", hostname, port, username, password, "database-123")));
+								getPostgresqlServicePayload(version, "postgresql-1", hostname, port, username, password, name1),
+								getPostgresqlServicePayload(version, "postgresql-2", hostname, port, username, password, name2)));
 		}
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		assertNotNull(getServiceInfo(serviceInfos, "postgresql-1"));
-		assertNotNull(getServiceInfo(serviceInfos, "postgresql-2"));
+		PostgresqlServiceInfo info1 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-1");
+		PostgresqlServiceInfo info2 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-2");
+		assertNotNull(info1);
+		assertNotNull(info2);
+		assertEquals(getJdbcUrl("postgres", name1), info1.getJdbcUrl());
+		assertEquals(getJdbcUrl("postgres", name2), info2.getJdbcUrl());
 	}
 
 	@Test
@@ -146,5 +161,7 @@ public class CloudCoundryConnectorTest {
 		return null;
 	}
 	
-
+	private static String getJdbcUrl(String databaseType, String name) {
+		return "jdbc:" + databaseType + "://" + username + ":" + password + "@" + hostname + ":" + port + "/" + name;
+	}
 }

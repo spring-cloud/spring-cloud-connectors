@@ -11,12 +11,11 @@ import org.springframework.cloud.service.common.RelationalServiceInfo;
  */
 public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceInfo> extends CloudFoundryServiceInfoCreator<SI> {
 
-	public RelationalServiceInfoCreator(String label) {
-		super(label);
+	public RelationalServiceInfoCreator(String tag) {
+		super(tag);
 	}
 
-	public abstract SI createServiceInfo(String id, String host, int port, String database,
-			String userName, String password);
+	public abstract SI createServiceInfo(String id, String uri);
 	
 	public SI createServiceInfo(Object serviceData) {
 		@SuppressWarnings("unchecked")
@@ -27,14 +26,9 @@ public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceI
 		
 		String id = (String) serviceDataMap.get("name");
 		
-		String host = (String) credentials.get("hostname");
-		Integer port = (Integer) credentials.get("port");
-		String password = (String) credentials.get("password");
-	
-		String database = (String) credentials.get("name");
-		String userName = (String) credentials.get("user");
+		String uri = (String) credentials.get("uri");
 
-		return createServiceInfo(id, host, port, database, userName, password);
+		return createServiceInfo(id, uri);
 	}
 
 }

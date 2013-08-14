@@ -1,6 +1,6 @@
 package org.springframework.cloud.config.xml;
 
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.ServiceInfo;
 
 /**
  * 
@@ -10,7 +10,7 @@ import org.springframework.cloud.service.BaseServiceInfo;
 public class CloudDataSourceFactoryParserPostgresqlTest extends CloudDataSourceFactoryParserTest {
 
 	@Override
-	protected BaseServiceInfo createService(String id) {
+	protected ServiceInfo createService(String id) {
 		return createPostgresqlService(id);
 	}
 

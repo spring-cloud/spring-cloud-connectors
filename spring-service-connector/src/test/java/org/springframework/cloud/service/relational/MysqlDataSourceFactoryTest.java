@@ -9,6 +9,6 @@ import org.springframework.cloud.service.common.MysqlServiceInfo;
  */
 public class MysqlDataSourceFactoryTest extends AbstractDataSourceFactoryTest<MysqlServiceInfo> {
 	public MysqlServiceInfo getTestServiceInfo(String id) {
-		return new MysqlServiceInfo(id, "host", 0, "database", "userName", "password");
+		return new MysqlServiceInfo(id, "jdbc:mysql://username:pass@host:port/db");
 	}
 }

@@ -26,7 +26,7 @@ public class RedisServiceInfoCreator extends CloudFoundryServiceInfoCreator<Redi
 		String id = (String) serviceDataMap.get("name");
 		
 		String host = (String) credentials.get("hostname");
-		Integer port = (Integer) credentials.get("port");
+		Integer port = Integer.parseInt(credentials.get("port").toString());
 		String password = (String) credentials.get("password");
 
 		return new RedisServiceInfo(id, host, port, password);

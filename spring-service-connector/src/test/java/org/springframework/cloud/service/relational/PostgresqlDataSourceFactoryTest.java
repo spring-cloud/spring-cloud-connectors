@@ -9,6 +9,6 @@ import org.springframework.cloud.service.common.PostgresqlServiceInfo;
  */
 public class PostgresqlDataSourceFactoryTest extends AbstractDataSourceFactoryTest<PostgresqlServiceInfo> {
 	public PostgresqlServiceInfo getTestServiceInfo(String id) {
-		return new PostgresqlServiceInfo(id, "host", 0, "database", "userName", "password");
+		return new PostgresqlServiceInfo(id, "jdbc:postgres://username:pass@host:port/db");
 	}
 }

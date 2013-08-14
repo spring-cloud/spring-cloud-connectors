@@ -57,9 +57,7 @@ public abstract class AbstractDataSourceCreatorTest<C extends DataSourceCreator<
 		assertNotNull(dataSource);
 
 		assertEquals(getDriverName(), ReflectionTestUtils.getField(dataSource, "driverClassName"));
-		assertEquals(relationalServiceInfo.getUrl(), ReflectionTestUtils.getField(dataSource, "url"));
-		assertEquals(relationalServiceInfo.getUserName(), ReflectionTestUtils.invokeGetterMethod(dataSource, "username"));
-		assertEquals(relationalServiceInfo.getPassword(), ReflectionTestUtils.invokeGetterMethod(dataSource, "password"));
+		assertEquals(relationalServiceInfo.getJdbcUrl(), ReflectionTestUtils.getField(dataSource, "url"));
 		assertTrue((Boolean) ReflectionTestUtils.invokeGetterMethod(dataSource, "testOnBorrow"));
 		assertNotNull(ReflectionTestUtils.invokeGetterMethod(dataSource, "validationQuery"));
 		assertTrue(((String) ReflectionTestUtils.invokeGetterMethod(dataSource, "validationQuery")).startsWith(getValidationQueryStart()));

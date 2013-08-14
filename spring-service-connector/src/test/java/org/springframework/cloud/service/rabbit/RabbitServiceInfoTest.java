@@ -43,11 +43,9 @@ public class RabbitServiceInfoTest {
 		new RabbitServiceInfo("id",  "amqp://myuser@myhost/myvhost");
 	}
 
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void missingUserInfo() {
-		RabbitServiceInfo serviceInfo = new RabbitServiceInfo("id",  "amqp://myhost:12345/myvhost");
-		assertEquals("guest", serviceInfo.getUserName());
-		assertEquals("guest", serviceInfo.getPassword());
+		new RabbitServiceInfo("id",  "amqp://myhost:12345/myvhost");
 	}
 
 	@Test

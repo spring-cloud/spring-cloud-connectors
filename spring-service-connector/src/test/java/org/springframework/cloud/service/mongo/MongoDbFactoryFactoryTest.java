@@ -5,6 +5,7 @@ import org.springframework.cloud.service.AbstractCloudServiceConnectorFactoryTes
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.cloud.service.document.MongoDbFactoryFactory;
+import org.springframework.cloud.util.UriInfo;
 import org.springframework.data.mongodb.MongoDbFactory;
 
 /**
@@ -28,6 +29,6 @@ public class MongoDbFactoryFactoryTest extends AbstractCloudServiceConnectorFact
 	}
 	
 	public MongoServiceInfo getTestServiceInfo(String id) {
-		return new MongoServiceInfo(id, "host", 0, "username", "password", "db");
+		return new MongoServiceInfo(id, new UriInfo("mongodb", "host", 0, "username", "password", "db").getUri().toString());
 	}
 }

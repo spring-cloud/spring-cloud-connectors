@@ -22,9 +22,7 @@ public class PostgresqlServiceCreatorTest extends AbstractDataSourceCreatorTest<
 
 	@Override
 	public PostgresqlServiceInfo createServiceInfo() {
-		when(mockPostgresqlServiceInfo.getUrl()).thenReturn("jdbc:postgresql://10.20.30.40:5432/database-123");
-		when(mockPostgresqlServiceInfo.getUserName()).thenReturn("myuser");
-		when(mockPostgresqlServiceInfo.getPassword()).thenReturn("mypass");
+		when(mockPostgresqlServiceInfo.getJdbcUrl()).thenReturn("jdbc:postgresql://myuser:mypassword@10.20.30.40:5432/database-123");
 		
 		return mockPostgresqlServiceInfo;
 	}

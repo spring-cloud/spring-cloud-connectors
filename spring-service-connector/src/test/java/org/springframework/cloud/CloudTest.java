@@ -3,6 +3,7 @@ package org.springframework.cloud;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.springframework.cloud.test.CloudTestUtil.getTestCloudConnector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,6 @@ import org.springframework.cloud.service.common.RabbitServiceInfo;
 import org.springframework.cloud.service.common.RedisServiceInfo;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.cloud.service.relational.MysqlDataSourceCreator;
-import static org.springframework.cloud.test.CloudTestUtil.getTestCloudConnector;
 
 /**
  * 
@@ -114,9 +114,11 @@ public class CloudTest extends StubCloudConnectorTest {
 		assertRabbitProps("cloud.services.rabbitmq", rabbitServiceInfo, cloudProperties);
 	}
 	
-
 	private void assertBasicProps(String leadKey, BaseServiceInfo serviceInfo, Properties cloudProperties) {
 		assertEquals(serviceInfo.getId(), cloudProperties.get(leadKey + ".id"));
+
+		assertEquals(serviceInfo.getUri(), cloudProperties.get(leadKey + ".connection.uri"));
+
 		assertEquals(serviceInfo.getHost(), cloudProperties.get(leadKey + ".connection.host"));
 		assertEquals(serviceInfo.getPort(), cloudProperties.get(leadKey + ".connection.port"));
 		assertEquals(serviceInfo.getUserName(), cloudProperties.get(leadKey + ".connection.username"));
@@ -124,17 +126,15 @@ public class CloudTest extends StubCloudConnectorTest {
 	}
 	
 	private void assertRelationalProps(String leadKey, RelationalServiceInfo serviceInfo, Properties cloudProperties) {
-		assertBasicProps(leadKey, serviceInfo, cloudProperties);
-		assertEquals(serviceInfo.getDatabase(), cloudProperties.get(leadKey + ".connection.database"));		
+		assertBasicProps(leadKey, serviceInfo, cloudProperties);		
+		assertEquals(serviceInfo.getJdbcUrl(), cloudProperties.get(leadKey + ".connection.jdbcurl"));		
 	}
 
 	private void assertMongoProps(String leadKey, MongoServiceInfo serviceInfo, Properties cloudProperties) {
 		assertBasicProps(leadKey, serviceInfo, cloudProperties);
-		assertEquals(serviceInfo.getDatabase(), cloudProperties.get(leadKey + ".connection.database"));
 	}
 
 	private void assertRabbitProps(String leadKey, RabbitServiceInfo serviceInfo, Properties cloudProperties) {
 		assertBasicProps(leadKey, serviceInfo, cloudProperties);
-		assertEquals(serviceInfo.getVirtualHost(), cloudProperties.get(leadKey + ".connection.virtualhost"));
 	}
 }

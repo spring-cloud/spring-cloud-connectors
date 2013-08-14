@@ -106,7 +106,5 @@ public class CloudTestUtil {
 		assertEquals(serviceInfo.getUserName(), cloudProperties.get(leadKey + ".connection.username"));
 		assertEquals(serviceInfo.getPassword(), cloudProperties.get(leadKey + ".connection.password"));
 	}
-	
-
 }
 

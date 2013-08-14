@@ -25,13 +25,9 @@ public class RabbitServiceInfoCreator extends CloudFoundryServiceInfoCreator<Rab
 		
 		String id = (String) serviceDataMap.get("name");
 		
-		String host = (String) credentials.get("hostname");
-		Integer port = (Integer) credentials.get("port");
-		String userName = (String) credentials.get("username");
-		String password = (String) credentials.get("password");
-		String virtualHost = (String) credentials.get("vhost");
+		String uri = (String) credentials.get("uri");
 
-		return new RabbitServiceInfo(id, host, port, userName, password, virtualHost);
+		return new RabbitServiceInfo(id, uri);
 	}
 
 }
