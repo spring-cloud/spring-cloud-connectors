@@ -22,7 +22,7 @@ Usage pattern: Application Developers
 * Obtain a suitable `Cloud` for the environment in which the application is running.
   
     ```java
-    Cloud cloud = cloudFoundry.getCloud();
+    Cloud cloud = cloudFactory.getCloud();
     ```
 
 * Use the `Cloud` instance to get access to application info, service infos, and create service connectors.

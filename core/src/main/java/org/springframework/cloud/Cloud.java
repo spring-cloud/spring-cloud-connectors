@@ -29,8 +29,9 @@ import org.springframework.cloud.service.ServiceInfo.ServiceProperty;
  * It also passes along information obtained through {@link CloudConnector} to let application take control on how
  * to use bound services.
  * 
- * <p>NOTE: Users or cloud providers shouldn't need to instantiate an instance of this class (constructor is package-accessed). 
- * Instead, they can obtain an appropriate instance through {@link CloudFactory}</p>
+ * <p>NOTE: Users or cloud providers shouldn't need to instantiate an instance of this class 
+ * (constructor has package-access only for unit-testing purpose). Instead, they can obtain an appropriate 
+ * instance through {@link CloudFactory}</p>
  * 
  * @author Ramnivas Laddad
  *
@@ -63,14 +64,6 @@ public class Cloud {
 	}
 	
 	/**
-	 * @see CloudConnector#getServiceInfos()
-	 * @return
-	 */
-	public List<ServiceInfo> getServiceInfos() {
-		return cloudConnector.getServiceInfos();
-	}
-	
-	/**
 	 * Get {@link ServiceInfo} for the given service id
 	 * 
 	 * @param serviceId service id
@@ -83,6 +76,14 @@ public class Cloud {
 			}
 		}
 		throw new CloudException("No service with id " + serviceId + " found");
+	}
+	
+	/**
+	 * @see CloudConnector#getServiceInfos()
+	 * @return
+	 */
+	public List<ServiceInfo> getServiceInfos() {
+		return cloudConnector.getServiceInfos();
 	}
 	
 	/**
@@ -113,12 +114,35 @@ public class Cloud {
 	/**
 	 * Get a service connector for the given service id, the connector type, configured with the given config
 	 * 
-	 * Any of the arguments may be null, in which case the corresponding filtering or configuration isn't applied. 
+	 * @param serviceId the service id 
+	 * @param serviceConnectorType The expected class of service connector such as, DataSource.class.
+	 * @param serviceConnectorConfig service connector configuration (such as pooling parameters).
+	 * 
 	 */
 	public <SC> SC getServiceConnector(String serviceId, Class<SC> serviceConnectorType, ServiceConnectorConfig serviceConnectorConfig) {
 		ServiceInfo serviceInfo = getServiceInfo(serviceId);
-		ServiceConnectorCreator<SC, ServiceInfo> serviceConnectorCreator = serviceConnectorCreatorRegistry.getServiceCreator(serviceConnectorType, serviceInfo);
-		return serviceConnectorCreator.create(serviceInfo, serviceConnectorConfig);
+		
+		return getServiceConnector(serviceInfo, serviceConnectorType, serviceConnectorConfig);
+	}
+
+	/**
+	 * Get the singleton service connector for the given connector type, configured with the given config
+	 * 
+
+	 * @param serviceConnectorType The expected class of service connector such as, DataSource.class.
+	 * @param serviceConnectorConfig service connector configuration (such as pooling parameters).
+	 * 
+	 */
+	public <SC> SC getSingletonServiceConnector(Class<SC> serviceConnectorType, ServiceConnectorConfig serviceConnectorConfig) {
+		List<ServiceInfo> matchingServiceInfos = getServiceInfos(serviceConnectorType);
+		
+		if (matchingServiceInfos.size() != 1) {
+			throw new CloudException("No unique service matching " + serviceConnectorType + " found. Expected 1, found " + matchingServiceInfos.size());
+		}
+		
+		ServiceInfo matchingServiceInfo = matchingServiceInfos.get(0);
+		
+		return getServiceConnector(matchingServiceInfo, serviceConnectorType, serviceConnectorConfig);
 	}
 
 	/**
@@ -202,6 +226,11 @@ public class Cloud {
 		cloudProperties.putAll(getAppProperties());
 		
 		return cloudProperties;
+	}
+	
+	private <SC> SC getServiceConnector(ServiceInfo serviceInfo, Class<SC> serviceConnectorType, ServiceConnectorConfig serviceConnectorConfig) {
+		ServiceConnectorCreator<SC, ServiceInfo> serviceConnectorCreator = serviceConnectorCreatorRegistry.getServiceCreator(serviceConnectorType, serviceInfo);
+		return serviceConnectorCreator.create(serviceInfo, serviceConnectorConfig);
 	}
 	
 	private Properties getAppProperties() {
