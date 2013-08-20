@@ -37,6 +37,7 @@ public class CloudTest {
 	public void appProps() {
 		Map<String, Object> appProps = new HashMap<String, Object>();
 		appProps.put("foo", "bar");
+		appProps.put("users", null); // on v2, users property is null
 		StubCloudConnector stubCloudConnector = 
 				CloudTestUtil.getTestCloudConnector(new StubApplicationInstanceInfo("instance-id-1", "myapp", appProps));
 		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);

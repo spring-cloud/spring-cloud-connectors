@@ -211,7 +211,9 @@ public class Cloud {
 		appProperties.put(appPropLeadKey + "instance-id", getApplicationInstanceInfo().getInstanceId());
 		appProperties.put(appPropLeadKey + "app-id", getApplicationInstanceInfo().getAppId());
 		for (Map.Entry<String, Object> entry : getApplicationInstanceInfo().getProperties().entrySet()) {
-			appProperties.put(appPropLeadKey + entry.getKey(), entry.getValue());
+			if (entry.getValue() != null) {
+				appProperties.put(appPropLeadKey + entry.getKey(), entry.getValue());
+			}
 		}
 
 		return appProperties;
