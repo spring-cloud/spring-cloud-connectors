@@ -4,10 +4,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.springframework.cloud</groupId>
-	<artifactId>cloudfoundry-connector</artifactId>
+	<artifactId>heroku-connector</artifactId>
 	<version>1.0.0.CI-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>Spring-Cloud CloudFoundry Connector</name>
+	<name>Spring-Cloud Heroku Connector</name>
 	<url>http://www.springframework.org</url>
 	<description>
 		<![CDATA[
@@ -15,28 +15,16 @@
     ]]>
 	</description>
 	<properties>
-		<jackson.version>2.2.2</jackson.version>
-			    
 		<junit.version>4.11</junit.version>
-		<mockito.version>1.9.5</mockito.version>
+		<mockito.version>1.8.5</mockito.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>core</artifactId>
+			<artifactId>spring-service-connector</artifactId>
 			<version>1.0.0.CI-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-						
+				
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -48,6 +36,11 @@
 			<artifactId>mockito-all</artifactId>
 			<version>${mockito.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.14</version>
 		</dependency>
 	</dependencies>
 
@@ -61,6 +54,7 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 </project>
