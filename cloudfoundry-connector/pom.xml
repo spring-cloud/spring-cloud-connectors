@@ -3,23 +3,21 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.springframework.cloud</groupId>
 	<artifactId>cloudfoundry-connector</artifactId>
-	<version>1.0.0.CI-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Spring-Cloud CloudFoundry Connector</name>
 	<url>http://www.springframework.org</url>
-	<description>
-		<![CDATA[
-      Spring Cloud connector for CloudFoundry
-    ]]>
-	</description>
+	<description><![CDATA[Spring Cloud connector for CloudFoundry]]></description>
+	<parent>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>parent</artifactId>
+		<version>0.9.0-BUILD-SNAPSHOT</version>
+		<relativePath>../parent/pom.xml</relativePath>
+	</parent>
 	<properties>
-		<jackson.version>2.2.2</jackson.version>
-			    
-		<junit.version>4.11</junit.version>
-		<mockito.version>1.9.5</mockito.version>
+			<jackson.version>2.2.2</jackson.version>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
