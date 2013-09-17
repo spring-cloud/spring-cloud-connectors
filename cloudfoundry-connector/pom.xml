@@ -28,11 +28,13 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>${jackson.version}</version>
+			<scope>provided</scope> <!-- 'provided' because we shade it in -->
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
+			<scope>provided</scope> <!-- 'provided' because we shade it in -->
 		</dependency>
 						
 		<dependency>
@@ -58,6 +60,29 @@
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
+			</plugin>
+			<!-- Shade the jackson dependency, so that we aren't affected by the version of the
+			     library in the app and vice-versa -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<relocations>
+								<relocation>
+									<pattern>com.fasterxml.jackson</pattern>
+									<shadedPattern>org.springframework.cloud.cloudfoundry.com.fasterxml.jackson</shadedPattern>
+								</relocation>
+							</relocations>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
