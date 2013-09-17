@@ -24,7 +24,7 @@ Add the Spring Maven repository to your pom.xml
     <repository>
         <id>org.springframework.maven.milestone</id>
         <name>Spring Maven Milestone Repository</name>
-        <url>http://maven.springframework.org/milestone</url>
+        <url>http://repo.spring.io/milestone</url>
     </repository>
 
 Spring apps
