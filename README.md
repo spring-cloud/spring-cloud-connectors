@@ -9,6 +9,69 @@ The core concepts used in this project are:
 
 The project comprises of three subprojects:
 
-1. **core**: Core library that is cloud agnostic and Spring-agnostic. Provides entry point for application developers that choose to programmatically access cloud services and application information. It also provides an extension mechanism to contribute cloud connectors and service connector creators.
-2. **spring-service-connector**: Library that provides service connectors creators for javax.sql.DataSource and various connection factories spring-data projects.
-3. **cloudfoundry-connector**: Cloud connector for [Cloud Foundry](http://www.cloudfoundry.com).
+1. **[core](core)**: Core library that is cloud agnostic and Spring agnostic. Provides entry point for application developers that choose to programmatically access cloud services and application information. It also provides an extension mechanism to contribute cloud connectors and service connector creators.
+2. **[spring-service-connector](spring-service-connector)**: Library that provides service connectors creators for javax.sql.DataSource and various connection factories spring-data projects.
+3. **[cloudfoundry-connector](cloudfoundry-connector)**: Cloud connector for [Cloud Foundry](http://www.cloudfoundry.com).
+4. **[heroku-connector](heroku-connector)**: Cloud connector for [Heroku](http://www.heroku.com).
+
+Getting Started
+===============
+
+The following assumes that you are using Maven.
+
+Add the Spring Maven repository to your pom.xml
+
+    <repository>
+        <id>org.springframework.maven.milestone</id>
+        <name>Spring Maven Milestone Repository</name>
+        <url>http://maven.springframework.org/milestone</url>
+    </repository>
+
+Spring apps
+-----------
+
+Add the [`spring-service-connector`](spring-service-connector) and one or more cloud connectors dependencies (it is okay to add more that one cloud connectors):
+
+    <dependency>
+    	<groupId>org.springframework.cloud</groupId>
+    	<artifactId>spring-service-connector</artifactId>
+    	<version>0.9.0</version>
+    </dependency>
+    <!-- If you intend to deploy the app on CloudFoundry, add the following -->
+    <dependency>
+    	<groupId>org.springframework.cloud</groupId>
+    	<artifactId>cloudfoundry-connector</artifactId>
+    	<version>0.9.0</version>
+    </dependency>
+    <!-- If you intend to deploy the app on Heroku, add the following -->
+    <dependency>
+    	<groupId>org.springframework.cloud</groupId>
+    	<artifactId>heroku-connector</artifactId>
+    	<version>0.9.0</version>
+    </dependency>
+
+Then follow instructions on [how you use the `<cloud>` namespace](spring-service-connector). You can also follow the [instructions](core) on using the core API directly.
+
+Non-spring apps
+---------------
+Add the [`core`](core) and one or more cloud connectors dependencies (it is okay to add more that one cloud connectors):
+
+    <dependency>
+    	<groupId>org.springframework.cloud</groupId>
+    	<artifactId>core</artifactId>
+    	<version>0.9.0</version>
+    </dependency>
+    <!-- If you intend to deploy the app on CloudFoundry, add the following -->
+    <dependency>
+    	<groupId>org.springframework.cloud</groupId>
+    	<artifactId>cloudfoundry-connector</artifactId>
+    	<version>0.9.0</version>
+    </dependency>
+    <!-- If you intend to deploy the app on Heroku, add the following -->
+    <dependency>
+    	<groupId>org.springframework.cloud</groupId>
+    	<artifactId>heroku-connector</artifactId>
+    	<version>0.9.0</version>
+    </dependency>
+
+Then follow the [insructions](core) on using spring-cloud API.
