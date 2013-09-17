@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>core</artifactId>
-			<version>1.0.0.CI-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>

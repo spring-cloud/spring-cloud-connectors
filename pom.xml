@@ -9,6 +9,7 @@
 	<version>0.9.0-BUILD-SNAPSHOT</version>
 
 	<modules>
+		<module>parent</module>
 		<module>core</module>
 		<module>spring-service-connector</module>
 		<module>cloudfoundry-connector</module>

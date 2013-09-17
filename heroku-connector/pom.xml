@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-service-connector</artifactId>
-			<version>1.0.0.CI-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 				
 		<dependency>
