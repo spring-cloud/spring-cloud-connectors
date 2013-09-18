@@ -28,13 +28,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>${jackson.version}</version>
-			<scope>provided</scope> <!-- 'provided' because we shade it in -->
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
-			<scope>provided</scope> <!-- 'provided' because we shade it in -->
 		</dependency>
 						
 		<dependency>
@@ -74,6 +72,11 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<artifactSet>
+								<includes>
+									<include>com.fasterxml.jackson.core:*</include>
+								</includes>
+							</artifactSet>
 							<relocations>
 								<relocation>
 									<pattern>com.fasterxml.jackson</pattern>
