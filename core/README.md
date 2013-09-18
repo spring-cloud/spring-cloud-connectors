@@ -52,11 +52,11 @@ A cloud provider may extends the functionality in two ways:
    This is done declaratively by adding connector classes to:
     ```
     META-INF/services/org.springframework.cloud.CloudConnector
-    ````
+    ```
 2. Add new [`ServiceConnectorCreator`](src/main/java/org/springframework/cloud/service/ServiceConnectorCreator.java)s 
    to allow creation of service connector objects.	
    See [spring-service-connector](../spring-service-connector) for an example. 
    This is done declaratively by adding creator classes to: 
-	```
+   ```
     META-INF/services/org.springframework.cloud.service.ServiceConnectorCreator
-	```
+   ```
