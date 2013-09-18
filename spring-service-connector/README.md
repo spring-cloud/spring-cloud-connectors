@@ -29,11 +29,11 @@ Each namespace element that creates a bean corresponding to a service follows th
         <cloud:pool pool-size="20" max-wait-time="200"/>
     </cloud>
 
-This creates a `javax.sql.DataSource` bean with the `inventory-db` id, binding it to `inventory-db-service`. The created `DataSource` bean is configured with connection and pool propeties as specified in the nested elements.
+This creates a `javax.sql.DataSource` bean with the `inventory-db` id, binding it to `inventory-db-service`. The created `DataSource` bean is configured with connection and pool properties as specified in the nested elements.
 When the `id` attribute is not specified, the service name is used as the `id`. When the `service-name` is not specified, the bean is bound to the only service in the corresponding category (relational database, in this case). If no unique service is found, a runtime exception is thrown.
 
 Other namespace elements that create service connector include:
-	
+
     <cloud:mongo-db-factory/>
     <cloud:redis-connection-factory/>
     <cloud:rabbit-connection-factory/>
@@ -48,7 +48,7 @@ We also supports a generic `<cloud:service>` namespace to allow connecting to a 
 Scanning for services
 ---------------------
 
-Besides these element that create one bean per element, we also support the `<cloud:service-scan>` element in the same spirit as the `<context:component-scan>` element. It scans for all the services bound to the app and creates a bean corresponding to each service. Each created bean has id that matches the service name to allow the use of the @Qualifier annotaiton along with @Autowired when more than one bean of the same type is introduced.
+Besides these element that create one bean per element, we also support the `<cloud:service-scan>` element in the same spirit as the `<context:component-scan>` element. It scans for all the services bound to the app and creates a bean corresponding to each service. Each created bean has id that matches the service name to allow the use of the @Qualifier annotation along with @Autowired when more than one bean of the same type is introduced.
 
 Accessing service properties
 ----------------------------
