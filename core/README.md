@@ -41,8 +41,8 @@ Usage pattern: Application Developers
     DataSource ds = cloud.getServiceConnector("inventory-db", DataSource.class, null /* default config */);
     ```
     
-Usage pattern: Cloud Providers
-==============================
+Usage pattern: Cloud and Service Providers
+==========================================
 A cloud provider may extends the functionality in two ways:
 
 1. Add new [`CloudConnector`](src/main/java/org/springframework/cloud/CloudConnector.java)s to make 
