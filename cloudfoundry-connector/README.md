@@ -1,8 +1,7 @@
-CloudFoundry connector for spring-cloud
-=======================================
+Cloud Foundry connector for spring-cloud
+========================================
 
-Provides CloudFoundry connector with support for Mysql, Postgres, RabbitMQ, 
-MongoDB, and Redis services.
+Provides Cloud Foundry connector with support for Mysql, Postgres, RabbitMQ, MongoDB, and Redis services.
 
 Supporting additional services
 ------------------------------
@@ -18,7 +17,7 @@ itself. All you need to do is:
    Along the way, you will, of course, add an implementation of [`ServiceInfo`](../core/main/java/org/springframework/cloud/service/ServiceInfo.java) 
    (consider extending [`BaseServiceInfo`](../core/main/java/org/springframework/cloud/service/BaseServiceInfo.java)), 
    attach an [`@ServiceLabel`](../core/main/java/org/springframework/cloud/service/ServiceLabel.java) annotation, 
-   and mark appropriate properties with [`@SerivceProperty`]((../core/main/java/org/springframework/cloud/service/ServiceProperty.java)) annotation.
+   and mark appropriate properties with [`@ServiceProperty`]((../core/main/java/org/springframework/cloud/service/ServiceProperty.java)) annotation.
 3. Add a file on classpath 
    `META-INF/services/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator`
    and add all your implementations of `CloudFoundryServiceInfoCreator`.

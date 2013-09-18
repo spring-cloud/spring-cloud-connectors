@@ -5,7 +5,7 @@ The core concepts used in this project are:
 1. **Cloud Connector**: An interface that a cloud provider can implement to allow the rest of the library work with a Platform As a Service (PaaS) offering.
 2. **Service Connector**: An object, such as `javax.sql.DataSource`, that represent a connection to a service.
 3. **Service information**: Information about the underlying service such as host, port, and credentials.
-4. **Applicaiton information**: Information about application and instance in which these libraries are embedded.
+4. **Application information**: Information about application and instance in which these libraries are embedded.
 
 The project comprises of three subprojects:
 
@@ -37,7 +37,7 @@ Add the [`spring-service-connector`](spring-service-connector) and one or more c
     	<artifactId>spring-service-connector</artifactId>
     	<version>0.9.0</version>
     </dependency>
-    <!-- If you intend to deploy the app on CloudFoundry, add the following -->
+    <!-- If you intend to deploy the app on Cloud Foundry, add the following -->
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
     	<artifactId>cloudfoundry-connector</artifactId>
@@ -74,4 +74,4 @@ Add the [`core`](core) and one or more cloud connectors dependencies (it is okay
     	<version>0.9.0</version>
     </dependency>
 
-Then follow the [insructions](core) on using spring-cloud API.
+Then follow the [instructions](core) on using spring-cloud API.
