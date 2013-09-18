@@ -6,7 +6,7 @@
 	<artifactId>cloud</artifactId>
 	<packaging>pom</packaging>
 	<name>Spring Cloud (Aggregate)</name>
-	<version>0.9.0</version>
+	<version>0.9.1-BUILD-SNAPSHOT</version>
 
 	<modules>
 		<module>parent</module>

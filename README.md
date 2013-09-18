@@ -1,4 +1,4 @@
-Libraries that lets application connect to cloud services and discover information about themselves.
+Spring-cloud offers a simple way for JVM apps in cloud to access services and discover their own information during runtime with special support for Spring apps. It offers an extensibility mechanism to make it work on multiple clouds and a variety of cloud services. Through the abstraction of cloud connector, you can make it work with multiple clouds (we include two examples: Cloud Foundry and Heroku) without touching the spring-cloud project itself. Through the service connector abstraction, you can make it work with a variety of services (such as all the new ones on Cloud Foundry marketplace), again, without touching the spring-cloud project itself.
 
 The core concepts used in this project are:
 

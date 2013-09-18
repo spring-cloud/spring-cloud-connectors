@@ -15,7 +15,7 @@
 	<parent>
 		<groupId>org.springframework.cloud</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.9.0</version>
+		<version>0.9.1-BUILD-SNAPSHOT</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 	<dependencies>

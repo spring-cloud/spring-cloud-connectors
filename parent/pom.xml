@@ -6,7 +6,7 @@
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<name>Spring Cloud Parent</name>
-	<version>0.9.0</version>
+	<version>0.9.1-BUILD-SNAPSHOT</version>
 
 	<properties>
 		<junit.version>4.11</junit.version>
