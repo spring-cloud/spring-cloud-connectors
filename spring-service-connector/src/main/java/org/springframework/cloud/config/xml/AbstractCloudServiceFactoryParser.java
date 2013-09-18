@@ -3,12 +3,12 @@ package org.springframework.cloud.config.xml;
 import java.lang.reflect.Constructor;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
-import org.springframework.cloud.CloudException;
 import org.springframework.cloud.service.AbstractCloudServiceConnectorFactory;
 import org.springframework.cloud.service.CloudServiceConnectorFactory;
 import org.springframework.cloud.service.ServiceConnectorConfig;
@@ -87,7 +87,7 @@ class CloudServiceIntroducer implements BeanFactoryPostProcessor {
 				beanFactory.registerSingleton(serviceFactory.getServiceId(), serviceFactory);
 			}
 		} catch (Exception ex) {
-			throw new CloudException("Error registering service factory", ex);
+			throw new BeanCreationException("Error registering service factory", ex);
 		}
 	}
 	

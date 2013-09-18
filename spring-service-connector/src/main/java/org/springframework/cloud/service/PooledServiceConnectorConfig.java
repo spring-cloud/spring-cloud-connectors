@@ -26,6 +26,16 @@ public class PooledServiceConnectorConfig implements ServiceConnectorConfig {
 		private int maxPoolSize;
 		private int maxWaitTime;
 
+		public PoolConfig(int minPoolSize, int maxPoolSize, int maxWaitTime) {
+			this.minPoolSize = minPoolSize;
+			this.maxPoolSize = maxPoolSize;
+			this.maxWaitTime = maxWaitTime;
+		}
+		
+		public PoolConfig(int maxPoolSize, int maxWaitTime) {
+			this(0, maxPoolSize, maxWaitTime);
+		}		
+		
 		public PoolConfig(String poolSize, int maxWaitTime) {
 			determinePoolSizeRange(poolSize);
 			this.maxWaitTime = maxWaitTime;

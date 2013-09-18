@@ -6,7 +6,7 @@ import javax.sql.DataSource;
 
 import org.junit.Test;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.cloud.CloudException;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.cloud.StubCloudConnectorTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -19,12 +19,12 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
  */
 public class CloudAllServicesTest extends StubCloudConnectorTest {
 	
-	@Test(expected=CloudException.class)
+	@Test(expected=BeanCreationException.class)
 	public void noServices() {
 		getTestApplicationContext("cloud-all-services.xml");
 	}
 	
-	@Test(expected=CloudException.class)
+	@Test(expected=BeanCreationException.class)
 	public void partialServicesProvisioned() {
 		getTestApplicationContext("cloud-all-services.xml", createMysqlService("db"));
 	}

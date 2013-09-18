@@ -40,9 +40,7 @@ public class CloudMongoDbFactoryParser extends AbstractNestedElementCloudService
 				BeanDefinitionBuilder.genericBeanDefinition("org.springframework.cloud.service.document.MongoDbFactoryConfig");
 		for (String key : new String[]{WRITE_CONCERN, CONNECTIONS_PER_HOST, MAX_WAIT_TIME}) {
 			String value = attributeMap.get(key);
-			//if (value != null) {
-				cloudMongoConfigurationBeanBuilder.addConstructorArgValue(value);		
-			//}
+			cloudMongoConfigurationBeanBuilder.addConstructorArgValue(value);		
 		}
 		
 		builder.addConstructorArgValue(cloudMongoConfigurationBeanBuilder.getBeanDefinition());
