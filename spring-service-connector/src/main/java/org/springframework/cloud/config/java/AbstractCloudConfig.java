@@ -20,7 +20,7 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 /**
- * JavaConfig base class for simplified access to the app and services
+ * JavaConfig base class for simplified access to the bound services.
  * 
  * 
  * Note that this class doesn't directly expose low-level methods such as getServiceInfo()
@@ -63,10 +63,6 @@ public class AbstractCloudConfig implements BeanFactoryAware {
 	@Bean
 	public Cloud cloud() {
 		return cloudFactory().getCloud();
-	}
-	
-	public ApplicationInstanceInfo getApplicationInstanceInfo() {
-		return cloud().getApplicationInstanceInfo();
 	}
 	
 	// Relational database
@@ -136,7 +132,24 @@ public class AbstractCloudConfig implements BeanFactoryAware {
 	public RedisConnectionFactory redisConnectionFactory(String serviceId, PooledServiceConnectorConfig redisConnectionFactoryConfig) {
 		return cloud().getServiceConnector(serviceId, RedisConnectionFactory.class, redisConnectionFactoryConfig);
 	}
+	
+	// Generic service
+	public Object service() {
+		return service(Object.class);
+	}
 
+	public <T> T service(Class<T> serviceConnectorType) {
+		return cloud().getSingletonServiceConnector(serviceConnectorType, null);
+	}
+
+	public Object service(String serviceId) {
+		return service(serviceId, Object.class);
+	}
+
+	public <T> T service(String serviceId, Class<T> serviceConnectorType) {
+		return cloud().getServiceConnector(serviceId, serviceConnectorType, null);
+	}
+	
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
