@@ -54,6 +54,11 @@ public abstract class BaseServiceInfo implements ServiceInfo {
 	public int getPort() {
 		return uriInfo.getPort();
 	}
+
+	@ServiceProperty(category="connection")
+	public String getPath() {
+		return uriInfo.getPath();
+	}
 	
 	/**
 	 * Validate the URI and clean it up by using defaults for any missing information, if possible.

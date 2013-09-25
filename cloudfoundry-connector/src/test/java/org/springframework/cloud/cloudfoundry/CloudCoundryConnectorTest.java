@@ -162,6 +162,10 @@ public class CloudCoundryConnectorTest {
 	}
 	
 	private static String getJdbcUrl(String databaseType, String name) {
-		return "jdbc:" + databaseType + "://" + username + ":" + password + "@" + hostname + ":" + port + "/" + name;
+		if (databaseType.equals("postgres")) {
+			return "jdbc:postgresql://" + hostname + ":" + port + "/" + name + "?user=" + username + "&password=" + password;
+		} else {
+			return "jdbc:" + databaseType + "://" + username + ":" + password + "@" + hostname + ":" + port + "/" + name;
+		}
 	}
 }

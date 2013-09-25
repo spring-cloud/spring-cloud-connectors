@@ -15,7 +15,7 @@
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 	<properties>
-			<jackson.version>2.2.2</jackson.version>
+		<jackson.version>2.2.2</jackson.version>
 	</properties>
 	
 	<dependencies>

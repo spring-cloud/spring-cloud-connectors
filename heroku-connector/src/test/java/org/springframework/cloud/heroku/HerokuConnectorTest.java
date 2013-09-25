@@ -64,7 +64,7 @@ public class HerokuConnectorTest {
 		assertEquals(port, postgresqlServiceInfo.getPort());
 		assertEquals(username, postgresqlServiceInfo.getUserName());
 		assertEquals(password, postgresqlServiceInfo.getPassword());
-		assertEquals("jdbc:" + postgresUrl, postgresqlServiceInfo.getJdbcUrl());
+		assertEquals(getJdbcUrl("postgres", "db"), postgresqlServiceInfo.getJdbcUrl());
 	}
 
 	@Test
@@ -99,5 +99,12 @@ public class HerokuConnectorTest {
 		return null;
 	}
 	
+	private static String getJdbcUrl(String databaseType, String name) {
+		if (databaseType.equals("postgres")) {
+			return "jdbc:postgresql://" + host + ":" + port + "/" + name + "?user=" + username + "&password=" + password;
+		} else {
+			return "jdbc:" + databaseType + "://" + username + ":" + password + "@" + host + ":" + port + "/" + name;
+		}
+	}
 
 }

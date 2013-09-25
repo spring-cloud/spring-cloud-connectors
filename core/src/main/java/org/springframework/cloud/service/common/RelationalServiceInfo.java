@@ -8,7 +8,7 @@ import org.springframework.cloud.service.BaseServiceInfo;
  *
  */
 public abstract class RelationalServiceInfo extends BaseServiceInfo {
-	private String jdbcUrl;
+	protected String jdbcUrl;
 	
 	public RelationalServiceInfo(String id, String uriString) {
 		super(id, uriString);
