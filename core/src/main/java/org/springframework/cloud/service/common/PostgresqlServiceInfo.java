@@ -11,8 +11,6 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 @ServiceLabel("postgresql")
 public class PostgresqlServiceInfo extends RelationalServiceInfo {
 	public PostgresqlServiceInfo(String id, String url) {
-		super(id, url);
-		jdbcUrl = String.format("jdbc:postgresql://%s:%d/%s?user=%s&password=%s", 
-				                getHost(), getPort(), getPath(), getUserName(), getPassword());
+		super(id, url, "postgresql");
 	}
 }

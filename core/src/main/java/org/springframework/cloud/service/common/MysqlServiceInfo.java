@@ -11,6 +11,6 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 public class MysqlServiceInfo extends RelationalServiceInfo {
 
 	public MysqlServiceInfo(String id, String url) {
-		super(id, url);
+		super(id, url, "mysql");
 	}
 }
