@@ -4,6 +4,6 @@
 	"tags":[],
 	"plan":"standard",
 	"credentials": {
-		"licenseKey": "$licenseKey"
+		
 	}
 }

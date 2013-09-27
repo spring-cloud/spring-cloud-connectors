@@ -2,9 +2,9 @@ package org.springframework.cloud.service.common;
 
 import org.springframework.cloud.service.BaseServiceInfo;
 
-public class NewRelicServiceInfo extends BaseServiceInfo {
+public class MonitoringServiceInfo extends BaseServiceInfo {
 
-	public NewRelicServiceInfo(String id) {
+	public MonitoringServiceInfo(String id) {
 		super(id);
 	}
 

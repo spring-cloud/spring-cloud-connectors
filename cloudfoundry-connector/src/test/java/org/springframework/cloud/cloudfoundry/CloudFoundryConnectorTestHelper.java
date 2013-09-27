@@ -96,10 +96,9 @@ public class CloudFoundryConnectorTestHelper {
 		return payload;
 	}
 
-	public static String getNewRelicServicePayload(String serviceName, String licenseKey) {
-		String payload = readTestDataFile("test-newrelic-info.json");
+	public static String getMonitoringServicePayload(String serviceName) {
+		String payload = readTestDataFile("test-monitoring-info.json");
 		payload = payload.replace("$serviceName", serviceName);
-		payload = payload.replace("$licenseKey", licenseKey);
 		
 		return payload;
 	}

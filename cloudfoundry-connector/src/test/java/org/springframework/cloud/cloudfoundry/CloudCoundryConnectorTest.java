@@ -11,7 +11,7 @@ import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHe
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getPostgresqlServicePayload;
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRabbitServicePayload;
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRedisServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getNewRelicServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMonitoringServicePayload;
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getServicesPayload;
 
 import java.util.Arrays;
@@ -145,12 +145,12 @@ public class CloudCoundryConnectorTest {
 	}
 	
 	@Test
-	public void newrelicServiceCreation() {
+	public void monitoringServiceCreation() {
 		when(mockEnvironment.getValue("VCAP_SERVICES"))
-			.thenReturn(getServicesPayload(getNewRelicServicePayload("newrelic-1", "my-license-key")));
+			.thenReturn(getServicesPayload(getMonitoringServicePayload("monitoring-1")));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		assertNotNull(getServiceInfo(serviceInfos, "newrelic-1"));
+		assertNotNull(getServiceInfo(serviceInfos, "monitoring-1"));
 	}
 
 	@Test
