@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.MockitoAnnotations;
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MongoServiceInfo;
@@ -114,7 +114,7 @@ public class CloudTest extends StubCloudConnectorTest {
 		assertRabbitProps("cloud.services.rabbitmq", rabbitServiceInfo, cloudProperties);
 	}
 	
-	private void assertBasicProps(String leadKey, BaseServiceInfo serviceInfo, Properties cloudProperties) {
+	private void assertBasicProps(String leadKey, UriBasedServiceInfo serviceInfo, Properties cloudProperties) {
 		assertEquals(serviceInfo.getId(), cloudProperties.get(leadKey + ".id"));
 
 		assertEquals(serviceInfo.getUri(), cloudProperties.get(leadKey + ".connection.uri"));

@@ -1,7 +1,7 @@
 package org.springframework.cloud.service.common;
 
 import org.springframework.cloud.CloudException;
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 import org.springframework.cloud.util.UriInfo;
 
@@ -12,7 +12,7 @@ import org.springframework.cloud.util.UriInfo;
  *
  */
 @ServiceLabel("rabbitmq")
-public class RabbitServiceInfo extends BaseServiceInfo {
+public class RabbitServiceInfo extends UriBasedServiceInfo {
 	public RabbitServiceInfo(String id, String host, int port, String username, String password, String virtualHost) {
 		super(id, "amqp", host, port, username, password, virtualHost);
 	}

@@ -1,0 +1,9 @@
+{
+    "name": "$serviceName",
+	"label":"newrelic-n/a",
+	"tags":[],
+	"plan":"standard",
+	"credentials": {
+		"licenseKey": "$licenseKey"
+	}
+}

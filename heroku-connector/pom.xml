@@ -9,7 +9,7 @@
 	<url>http://www.springframework.org</url>
 	<description>
 		<![CDATA[
-      Spring Cloud connector for CloudFoundry
+      Cloud connector for Heroku
     ]]>
 	</description>
 	<parent>

@@ -1,6 +1,6 @@
 package org.springframework.cloud.service.common;
 
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
  *
  */
 @ServiceLabel("redis")
-public class RedisServiceInfo extends BaseServiceInfo {
+public class RedisServiceInfo extends UriBasedServiceInfo {
 	public RedisServiceInfo(String id, String host, int port, String password) {
 		super(id, "redis", host, port, null, password, null);
 	}

@@ -10,7 +10,7 @@ import java.util.Properties;
 
 import org.springframework.cloud.CloudConnector;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo;
 
 /**
@@ -99,7 +99,7 @@ public class CloudTestUtil {
 	}
 	
 
-	public static void assertBasicProps(String leadKey, BaseServiceInfo serviceInfo, Properties cloudProperties) {
+	public static void assertBasicProps(String leadKey, UriBasedServiceInfo serviceInfo, Properties cloudProperties) {
 		assertEquals(serviceInfo.getId(), cloudProperties.get(leadKey + ".id"));
 		assertEquals(serviceInfo.getHost(), cloudProperties.get(leadKey + ".connection.host"));
 		assertEquals(serviceInfo.getPort(), cloudProperties.get(leadKey + ".connection.port"));

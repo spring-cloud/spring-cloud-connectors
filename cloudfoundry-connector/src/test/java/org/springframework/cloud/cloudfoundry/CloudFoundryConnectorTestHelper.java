@@ -96,6 +96,14 @@ public class CloudFoundryConnectorTestHelper {
 		return payload;
 	}
 
+	public static String getNewRelicServicePayload(String serviceName, String licenseKey) {
+		String payload = readTestDataFile("test-newrelic-info.json");
+		payload = payload.replace("$serviceName", serviceName);
+		payload = payload.replace("$licenseKey", licenseKey);
+		
+		return payload;
+	}
+
 	public static String getServicesPayload(String... servicePayloads) {
 		Map<String, List<String>> labelPayloadMap = new HashMap<String, List<String>>();
 		

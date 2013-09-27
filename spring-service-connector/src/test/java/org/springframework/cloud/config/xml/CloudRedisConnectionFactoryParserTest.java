@@ -3,7 +3,7 @@ package org.springframework.cloud.config.xml;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -17,7 +17,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 public class CloudRedisConnectionFactoryParserTest extends AbstractCloudServiceConnectorFactoryParserTest<RedisConnectionFactory> {
 
-	protected BaseServiceInfo createService(String id) {
+	protected UriBasedServiceInfo createService(String id) {
 		return createRedisService(id);
 	}
 	

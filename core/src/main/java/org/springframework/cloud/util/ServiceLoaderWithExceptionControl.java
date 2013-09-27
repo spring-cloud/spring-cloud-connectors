@@ -12,10 +12,10 @@ import org.springframework.cloud.service.ServiceConnectorCreator;
  * 
  * <p>
  * The {@link ServiceLoader} class throws an error when it encounters a service that it cannot load.
- * For {@link ServiceConnectorCreator}, this can be a common occurance due to missing dependencies.
+ * For {@link ServiceConnectorCreator}, this can be a common occurrence due to missing dependencies.
  * For example, if an app isn't using MongoDB, thus not declaring dependencies on relevant classes,
  * will cause {@link ServiceConnectorCreator} for MongoDB to fail. We don't want to abandon other service
- * connector creator in such cases.
+ * connector creators in such cases.
  * </p>
  * 
  * @author Ramnivas Laddad

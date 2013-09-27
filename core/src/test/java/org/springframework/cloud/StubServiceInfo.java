@@ -1,6 +1,6 @@
 package org.springframework.cloud;
 
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
  *
  */
 @ServiceLabel("stub")
-public class StubServiceInfo extends BaseServiceInfo {
+public class StubServiceInfo extends UriBasedServiceInfo {
 	public StubServiceInfo(String id, String host, int port, String username, String password) {
 		super(id, "stub", host, port, username, password, null);
 	}

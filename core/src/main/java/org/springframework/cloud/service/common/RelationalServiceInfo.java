@@ -1,13 +1,13 @@
 package org.springframework.cloud.service.common;
 
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 
 /**
  * 
  * @author Ramnivas Laddad
  *
  */
-public abstract class RelationalServiceInfo extends BaseServiceInfo {
+public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 	protected String jdbcUrl;
 	
 	public RelationalServiceInfo(String id, String uriString, String jdbcUrlDatabaseType) {

@@ -1,6 +1,6 @@
 package org.springframework.cloud.service.common;
 
-import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
  *
  */
 @ServiceLabel("mongo")
-public class MongoServiceInfo extends BaseServiceInfo {
+public class MongoServiceInfo extends UriBasedServiceInfo {
 	public MongoServiceInfo(String id, String host, int port, String username, String password, String db) {
 		super(id, "mongodb", host, port, username, password, db);
 	}
