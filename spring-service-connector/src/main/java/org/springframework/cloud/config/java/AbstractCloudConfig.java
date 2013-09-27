@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.SingletonBeanRegistry;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudFactory;
@@ -32,7 +33,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
  *
  */
 @Configuration
-public class AbstractCloudConfig implements BeanFactoryAware {
+public abstract class AbstractCloudConfig implements BeanFactoryAware {
 
 	private static final String CLOUD_FACTORY_BEAN_NAME = "__cloud_factory__";
 	
@@ -52,8 +53,9 @@ public class AbstractCloudConfig implements BeanFactoryAware {
 	 */
 	protected CloudFactory cloudFactory() {
 		if (cloudFactory == null) {
-			cloudFactory = beanFactory.getBean(CloudFactory.class);
-			if (cloudFactory == null) {
+			try {
+				cloudFactory = beanFactory.getBean(CloudFactory.class);
+			} catch (NoSuchBeanDefinitionException ex) {
 				cloudFactory = new CloudFactory();
 				((SingletonBeanRegistry)beanFactory).registerSingleton(CLOUD_FACTORY_BEAN_NAME, cloudFactory);
 			}
