@@ -5,7 +5,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd">
 	
-		 
-	<cloud:service service-name="my-service"/>
+	<cloud:service id="my-service-with-type-with-service-name" 
+				   service-name="my-service" 
+				   connector-type="javax.sql.DataSource"/>
+
+	<cloud:service id="my-service-with-type-without-service-name" 
+	               connector-type="javax.sql.DataSource"/>
 	
 </beans>

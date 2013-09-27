@@ -1,13 +1,10 @@
 package org.springframework.cloud.config.xml;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.cloud.config.RabbitConnectionFactoryCloudConfigTestHelper;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
-import org.springframework.test.util.ReflectionTestUtils;
 
 /**
  * 
@@ -33,16 +30,11 @@ public class CloudRabbitConnectionFactoryParserTest extends AbstractCloudService
 	}
 	
 	@Test
-	public void clouRabbitConnectionFactoryWithChannelCacheSize() {
+	public void cloudRabbitConnectionFactoryWithChannelCacheSize() {
 		ApplicationContext testContext = getTestApplicationContext("cloud-rabbit-with-config.xml", createService("my-service"));
 		
 		ConnectionFactory connector = testContext.getBean("service-channelCacheSize200", getConnectorType());
-		assertConfigProperties(connector, 200);
+		RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties(connector, 200);
 	}
 	
-	private void assertConfigProperties(ConnectionFactory connector, Integer channelCacheSize) {
-		assertNotNull(connector);
-
-		assertEquals(channelCacheSize, ReflectionTestUtils.getField(connector, "channelCacheSize"));
-	}
 }

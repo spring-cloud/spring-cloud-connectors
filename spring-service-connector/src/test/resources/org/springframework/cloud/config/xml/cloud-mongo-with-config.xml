@@ -19,11 +19,11 @@
 	</cloud:mongo-db-factory>
 
 	<cloud:mongo-db-factory id="service-maxWaitUnspecified-connectionPerHost50-WriteConcernUnspecified" service-name="my-service">
-	    <cloud:mongo-options max-wait-time="200" connections-per-host="50"/>
+	    <cloud:mongo-options connections-per-host="50"/>
 	</cloud:mongo-db-factory>
 
 	<cloud:mongo-db-factory id="service-maxWait200-connectionPerHostUnspecified-WriteConcernUnspecified" service-name="my-service">
-	    <cloud:mongo-options max-wait-time="200" connections-per-host="50"/>
+	    <cloud:mongo-options max-wait-time="200"/>
 	</cloud:mongo-db-factory>
 				
 </beans>

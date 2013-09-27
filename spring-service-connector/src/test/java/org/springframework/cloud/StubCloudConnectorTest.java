@@ -8,6 +8,8 @@ import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 import org.springframework.cloud.service.common.RabbitServiceInfo;
 import org.springframework.cloud.service.common.RedisServiceInfo;
 import org.springframework.cloud.test.CloudTestUtil;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -20,10 +22,24 @@ abstract public class StubCloudConnectorTest {
 
 	private static final String MOCK_CLOUD_BEAN_NAME = "mockCloud";
 
-	protected ClassPathXmlApplicationContext getTestApplicationContext(String fileName, ServiceInfo... serviceInfos) {
+	protected ApplicationContext getTestApplicationContext(String fileName, ServiceInfo... serviceInfos) {
 		final CloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(serviceInfos);
 		
 		return new ClassPathXmlApplicationContext(getClass().getPackage().getName().replaceAll("\\.", "/") + "/" + fileName) {
+			@Override
+			protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+				CloudFactory cloudFactory = new CloudFactory();
+				cloudFactory.registerCloudConnector(stubCloudConnector);
+				getBeanFactory().registerSingleton(MOCK_CLOUD_BEAN_NAME, cloudFactory);
+				super.prepareBeanFactory(beanFactory);
+			}
+		};
+	}
+	
+	protected ApplicationContext getTestApplicationContext(Class<?> configClass, ServiceInfo... serviceInfos) {
+		final CloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(serviceInfos);
+		
+		return new AnnotationConfigApplicationContext(configClass) {
 			@Override
 			protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 				CloudFactory cloudFactory = new CloudFactory();
@@ -50,7 +66,6 @@ abstract public class StubCloudConnectorTest {
 	protected RabbitServiceInfo createRabbitService(String id) {
 		return new RabbitServiceInfo(id, "10.20.30.40", 1234, "username", "password", "vh");
 	}
-
 	
 	protected RedisServiceInfo createRedisService(String id) {
 		return new RedisServiceInfo(id, "host", 1234, "password");
