@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.MongoDbFactory;
  * @author Ramnivas Laddad
  *
  */
-public class CloudMongoDbFactoryParserTest extends AbstractCloudServiceConnectorFactoryParserTest<MongoDbFactory> {
+public class MongoDbFactoryXmlConfigTest extends AbstractServiceXmlConfigTest<MongoDbFactory> {
 
 	protected ServiceInfo createService(String id) {
 		return createMongoService(id);

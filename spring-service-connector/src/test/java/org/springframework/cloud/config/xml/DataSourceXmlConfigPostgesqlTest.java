@@ -7,7 +7,7 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public class CloudDataSourceFactoryParserPostgresqlTest extends CloudDataSourceFactoryParserTest {
+public class DataSourceXmlConfigPostgesqlTest extends DataSourceXmlConfigTest {
 
 	@Override
 	protected ServiceInfo createService(String id) {

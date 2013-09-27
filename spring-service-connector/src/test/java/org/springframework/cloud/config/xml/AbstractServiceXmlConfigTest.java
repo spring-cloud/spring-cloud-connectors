@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
  * @author Ramnivas Laddad
  *
  */
-public abstract class AbstractCloudServiceConnectorFactoryParserTest<SC> extends AbstractCloudConfigServiceTest<SC> {
+public abstract class AbstractServiceXmlConfigTest<SC> extends AbstractCloudConfigServiceTest<SC> {
 	protected abstract String getWithServiceIdContextFileName();
 	
 	protected abstract String getWithoutServiceIdContextFileName();

@@ -11,7 +11,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
  * @author Ramnivas Laddad
  *
  */
-public class CloudRedisConnectionFactoryParserTest extends AbstractCloudServiceConnectorFactoryParserTest<RedisConnectionFactory> {
+public class RedisConnectionFactoryXmlConfigTest extends AbstractServiceXmlConfigTest<RedisConnectionFactory> {
 
 	protected UriBasedServiceInfo createService(String id) {
 		return createRedisService(id);

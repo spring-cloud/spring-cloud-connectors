@@ -15,7 +15,7 @@ import org.springframework.context.ApplicationContext;
  * @author Ramnivas Laddad
  *
  */
-public abstract class CloudDataSourceFactoryParserTest extends AbstractCloudServiceConnectorFactoryParserTest<DataSource> {
+public abstract class DataSourceXmlConfigTest extends AbstractServiceXmlConfigTest<DataSource> {
 
 	protected abstract ServiceInfo createService(String id);
 	

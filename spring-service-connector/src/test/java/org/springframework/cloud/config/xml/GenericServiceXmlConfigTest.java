@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationContext;
  * @author Ramnivas Laddad
  *
  */
-public class GenericCloudServiceFactoryParserTest extends AbstractCloudServiceConnectorFactoryParserTest<DataSource> {
+public class GenericServiceXmlConfigTest extends AbstractServiceXmlConfigTest<DataSource> {
 	
 	protected ServiceInfo createService(String id) {
 		return createMysqlService(id);

@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext;
  * @author Ramnivas Laddad
  *
  */
-public class CloudRabbitConnectionFactoryParserTest extends AbstractCloudServiceConnectorFactoryParserTest<ConnectionFactory> {
+public class RabbitConnectionFactoryXmlConfigTest extends AbstractServiceXmlConfigTest<ConnectionFactory> {
 
 	protected ServiceInfo createService(String id) {
 		return createRabbitService(id);

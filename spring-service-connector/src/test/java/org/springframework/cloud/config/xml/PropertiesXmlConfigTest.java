@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
  * @author Ramnivas Laddad
  *
  */
-public class CloudPropertiesTest extends AbstractCloudConfigPropertiesTest {
+public class PropertiesXmlConfigTest extends AbstractCloudConfigPropertiesTest {
 	protected ApplicationContext getPropertiesTestApplicationContext(ServiceInfo... serviceInfos) {
 		return getTestApplicationContext("cloud-properties.xml", serviceInfos);
 	}

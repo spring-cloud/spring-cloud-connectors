@@ -4,12 +4,12 @@ import org.springframework.cloud.config.AbstractCloudConfigServiceTest;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 
-public abstract class AbstractCloudJavaConfigServiceTest<SC> extends AbstractCloudConfigServiceTest<SC> {
+public abstract class AbstractServiceJavaConfigTest<SC> extends AbstractCloudConfigServiceTest<SC> {
 
 	private Class<?> withServiceIdContextClassName;
 	private Class<?> withoutServiceIdContextClassName;
 
-	public AbstractCloudJavaConfigServiceTest(Class<?> withServiceIdContextClassName,
+	public AbstractServiceJavaConfigTest(Class<?> withServiceIdContextClassName,
 			                           Class<?> withoutServiceIdContextClassName) {
 		this.withServiceIdContextClassName = withServiceIdContextClassName;
 		this.withoutServiceIdContextClassName = withoutServiceIdContextClassName;

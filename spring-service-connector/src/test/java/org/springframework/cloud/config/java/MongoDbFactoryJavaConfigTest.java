@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.MongoDbFactory;
 
-public class MongoDbFactoryJavaConfigTest extends AbstractCloudJavaConfigServiceTest<MongoDbFactory> {
+public class MongoDbFactoryJavaConfigTest extends AbstractServiceJavaConfigTest<MongoDbFactory> {
 	public MongoDbFactoryJavaConfigTest() {
 		super(MongoDbFactoryConfigWithId.class, MongoDbFactoryConfigWithoutId.class);
 	}
