@@ -51,14 +51,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
 			<!-- Shade the jackson dependency, so that we aren't affected by the version of the
 			     library in the app and vice-versa -->
 			<plugin>
