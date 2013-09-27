@@ -13,7 +13,7 @@ import org.springframework.cloud.service.relational.DataSourceConfig.ConnectionC
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-public abstract class DataSourceJavaConfigTest extends AbstractCloudJavaConfigTest<DataSource> {
+public abstract class DataSourceJavaConfigTest extends AbstractCloudJavaConfigServiceTest<DataSource> {
 	
 	public DataSourceJavaConfigTest() {
 		super(DatasourceConfigWithId.class, DatasourceConfigWithoutId.class);

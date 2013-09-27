@@ -1,5 +1,7 @@
 package org.springframework.cloud.config.java;
 
+import java.util.Properties;
+
 import javax.sql.DataSource;
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.SingletonBeanRegistry;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudFactory;
-import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.PooledServiceConnectorConfig;
 import org.springframework.cloud.service.document.MongoDbFactoryConfig;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryConfig;
@@ -148,6 +149,10 @@ public class AbstractCloudConfig implements BeanFactoryAware {
 
 	public <T> T service(String serviceId, Class<T> serviceConnectorType) {
 		return cloud().getServiceConnector(serviceId, serviceConnectorType, null);
+	}
+	
+	public Properties properties() {
+		return cloud().getCloudProperties();
 	}
 	
 	@Override

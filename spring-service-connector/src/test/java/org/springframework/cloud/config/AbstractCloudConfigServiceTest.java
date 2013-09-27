@@ -8,7 +8,7 @@ import org.springframework.cloud.StubCloudConnectorTest;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 
-public abstract class AbstractCloudConfigTest<SC> extends StubCloudConnectorTest {
+public abstract class AbstractCloudConfigServiceTest<SC> extends StubCloudConnectorTest {
 	protected abstract ServiceInfo createService(String id);
 	
 	protected abstract Class<SC> getConnectorType();

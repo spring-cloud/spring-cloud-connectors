@@ -9,7 +9,7 @@ import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-public class GenericServiceJavaConfigTest extends AbstractCloudJavaConfigTest<DataSource> {
+public class GenericServiceJavaConfigTest extends AbstractCloudJavaConfigServiceTest<DataSource> {
 	public GenericServiceJavaConfigTest() {
 		super(GenericServiceWithId.class, GenericServiceWithoutId.class);
 	}
