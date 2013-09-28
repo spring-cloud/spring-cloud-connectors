@@ -10,6 +10,7 @@ import org.springframework.cloud.CloudException;
 import org.springframework.cloud.FallbackServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.util.EnvironmentAccessor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,7 +34,7 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 
 	@Override
 	public boolean isInMatchingCloud() {
-		return environment.getValue("VCAP_APPLICATION") != null;
+		return environment.getEnvValue("VCAP_APPLICATION") != null;
 	}
 	
 	@Override
@@ -41,7 +42,7 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 		try {
 			@SuppressWarnings("unchecked")
 			Map<String, Object> rawApplicationInstanceInfo 
-				= objectMapper.readValue(environment.getValue("VCAP_APPLICATION"), Map.class);
+				= objectMapper.readValue(environment.getEnvValue("VCAP_APPLICATION"), Map.class);
 			return applicationInstanceInfoCreator.createApplicationInstanceInfo(rawApplicationInstanceInfo);
 		} catch (Exception e) {
 			throw new CloudException(e);
@@ -63,7 +64,7 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 	 */
 	@SuppressWarnings("unchecked")
 	protected List<Map<String,Object>> getServicesData() {
-		String servicesString = environment.getValue("VCAP_SERVICES");
+		String servicesString = environment.getEnvValue("VCAP_SERVICES");
 		Map<String, List<Map<String,Object>>> rawServices = new HashMap<String, List<Map<String,Object>>>();
 		
 		if (servicesString == null || servicesString.length() == 0) {
@@ -86,18 +87,6 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 	@Override
 	protected FallbackServiceInfoCreator<BaseServiceInfo> getFallbackServiceInfoCreator() {
 		return new CloudFoundryFallbackServiceInfoCreator();
-	}
-
-	/**
-	 * Environment available to the deployed app.
-	 * 
-	 * The main purpose of this class is to allow unit-testing of {@link CloudFoundryConnector}
-	 *
-	 */
-	public static class EnvironmentAccessor {
-		public String getValue(String key) {
-			return System.getenv(key);
-		}
 	}
 }
 

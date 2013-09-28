@@ -1,13 +1,17 @@
-package org.springframework.cloud.heroku;
+package org.springframework.cloud.util;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
 
+import org.springframework.cloud.CloudConnector;
 import org.springframework.cloud.CloudException;
 
 /**
  * Environment available to the deployed app.
+ * 
+ * The main purpose of this class is to allow unit-testing of {@link CloudConnector} implementations
+ * that rely on environment
  * 
  * @author Ramnivas Laddad
  */
@@ -17,7 +21,7 @@ public class EnvironmentAccessor {
 		return System.getenv();
 	}
 	
-	public String getValue(String key) {
+	public String getEnvValue(String key) {
 		return System.getenv(key);
 	}
 	

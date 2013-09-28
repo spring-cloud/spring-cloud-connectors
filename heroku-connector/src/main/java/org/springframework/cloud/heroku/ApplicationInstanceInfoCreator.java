@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.app.BasicApplicationInstanceInfo;
+import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
  * Application instance info creator.
@@ -26,16 +27,16 @@ public class ApplicationInstanceInfoCreator {
 	}
 	
 	public ApplicationInstanceInfo createApplicationInstanceInfo() {
-		String appname = environment.getValue("SPRING_CLOUD_APP_NAME");
+		String appname = environment.getEnvValue("SPRING_CLOUD_APP_NAME");
 		if (appname == null) {
 			logger.warning("Environment variable SPRING_CLOUD_APP_NAME not set. App name set to <unknown>");
 			appname = "<unknown>";
 		}
 		
-		String dyno = environment.getValue("DYNO");
+		String dyno = environment.getEnvValue("DYNO");
 
 		Map<String,Object> appProperties = new HashMap<String, Object>();
-		appProperties.put("port", environment.getValue("PORT"));
+		appProperties.put("port", environment.getEnvValue("PORT"));
 		appProperties.put("host", environment.getHost());
 		
 		return new BasicApplicationInstanceInfo(dyno, appname, appProperties);

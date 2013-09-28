@@ -10,6 +10,7 @@ import org.springframework.cloud.FallbackServiceInfoCreator;
 import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
  * Implementation of CloudConnector for Heroku
@@ -32,7 +33,7 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 
 	@Override
 	public boolean isInMatchingCloud() {
-		return environment.getValue("DYNO") != null;
+		return environment.getEnvValue("DYNO") != null;
 	}
 	
 	@Override

@@ -7,11 +7,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getApplicationInstanceInfo;
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMongoServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMonitoringServicePayload;
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayload;
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getPostgresqlServicePayload;
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRabbitServicePayload;
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRedisServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMonitoringServicePayload;
 import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getServicesPayload;
 
 import java.util.Arrays;
@@ -21,11 +21,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.cloud.cloudfoundry.CloudFoundryConnector;
-import org.springframework.cloud.cloudfoundry.CloudFoundryConnector.EnvironmentAccessor;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
+import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
  * 
@@ -50,10 +49,10 @@ public class CloudCoundryConnectorTest {
 	
 	@Test
 	public void isInMatchingEnvironment() {
-		when(mockEnvironment.getValue("VCAP_APPLICATION")).thenReturn(getApplicationInstanceInfo("myapp", "http://myapp.com"));
+		when(mockEnvironment.getEnvValue("VCAP_APPLICATION")).thenReturn(getApplicationInstanceInfo("myapp", "http://myapp.com"));
 		assertTrue(testCloudConnector.isInMatchingCloud());
 		
-		when(mockEnvironment.getValue("VCAP_APPLICATION")).thenReturn(null);
+		when(mockEnvironment.getEnvValue("VCAP_APPLICATION")).thenReturn(null);
 		assertFalse(testCloudConnector.isInMatchingCloud());
 	}
 	
@@ -63,7 +62,7 @@ public class CloudCoundryConnectorTest {
 		String name1 = "database-1";
 		String name2 = "database-2";
 		for (String version : versions) {
-			when(mockEnvironment.getValue("VCAP_SERVICES"))
+			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 				.thenReturn(getServicesPayload(
 								getMysqlServicePayload(version, "mysql-1", hostname, port, username, password, name1),
 								getMysqlServicePayload(version, "mysql-2", hostname, port, username, password, name2)));
@@ -84,7 +83,7 @@ public class CloudCoundryConnectorTest {
 		String name1 = "database-1";
 		String name2 = "database-2";
 		for (String version : versions) {
-			when(mockEnvironment.getValue("VCAP_SERVICES"))
+			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 				.thenReturn(getServicesPayload(
 								getPostgresqlServicePayload(version, "postgresql-1", hostname, port, username, password, name1),
 								getPostgresqlServicePayload(version, "postgresql-2", hostname, port, username, password, name2)));
@@ -103,7 +102,7 @@ public class CloudCoundryConnectorTest {
 	public void redisServiceCreation() {
 		String[] versions = {"2.0", "2.2"};
 		for (String version : versions) {
-			when(mockEnvironment.getValue("VCAP_SERVICES"))
+			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 				.thenReturn(getServicesPayload(
 						getRedisServicePayload(version, "redis-1", hostname, port, password, "redis-db"),
 						getRedisServicePayload(version, "redis-2", hostname, port, password, "redis-db")));
@@ -118,7 +117,7 @@ public class CloudCoundryConnectorTest {
 	public void mongoServiceCreation() {
 		String[] versions = {"2.0", "2.2"};
 		for (String version : versions) {
-			when(mockEnvironment.getValue("VCAP_SERVICES"))
+			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 				.thenReturn(getServicesPayload(
 						getMongoServicePayload(version, "mongo-1", hostname, port, username, password, "inventory-1", "db"),
 						getMongoServicePayload(version, "mongo-2", hostname, port, username, password, "inventory-2", "db")));
@@ -133,7 +132,7 @@ public class CloudCoundryConnectorTest {
 	public void rabbitServiceCreation() {
 		String[] versions = {"2.0", "2.2"};
 		for (String version : versions) {
-			when(mockEnvironment.getValue("VCAP_SERVICES"))
+			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 				.thenReturn(getServicesPayload(
 						getRabbitServicePayload(version, "rabbit-1", hostname, port, username, password, "q-1", "vhost1"),
 						getRabbitServicePayload(version, "rabbit-2", hostname, port, username, password, "q-2", "vhost2")));
@@ -146,7 +145,7 @@ public class CloudCoundryConnectorTest {
 	
 	@Test
 	public void monitoringServiceCreation() {
-		when(mockEnvironment.getValue("VCAP_SERVICES"))
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 			.thenReturn(getServicesPayload(getMonitoringServicePayload("monitoring-1")));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
@@ -155,7 +154,7 @@ public class CloudCoundryConnectorTest {
 
 	@Test
 	public void applicationInstanceInfo() {
-		when(mockEnvironment.getValue("VCAP_APPLICATION")).thenReturn(getApplicationInstanceInfo("my-app", "foo.cf.com", "bar.cf.com"));
+		when(mockEnvironment.getEnvValue("VCAP_APPLICATION")).thenReturn(getApplicationInstanceInfo("my-app", "foo.cf.com", "bar.cf.com"));
 		
 		assertEquals("my-app", testCloudConnector.getApplicationInstanceInfo().getAppId());
 		assertEquals(Arrays.asList("foo.cf.com", "bar.cf.com"), testCloudConnector.getApplicationInstanceInfo().getProperties().get("uris"));

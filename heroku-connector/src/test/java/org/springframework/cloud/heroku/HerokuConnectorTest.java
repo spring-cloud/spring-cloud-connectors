@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
+import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
  * 
@@ -41,10 +42,10 @@ public class HerokuConnectorTest {
 	
 	@Test
 	public void isInMatchingEnvironment() {
-		when(mockEnvironment.getValue("DYNO")).thenReturn("web.1");
+		when(mockEnvironment.getEnvValue("DYNO")).thenReturn("web.1");
 		assertTrue(testCloudConnector.isInMatchingCloud());
 		
-		when(mockEnvironment.getValue("DYNO")).thenReturn(null);
+		when(mockEnvironment.getEnvValue("DYNO")).thenReturn(null);
 		assertFalse(testCloudConnector.isInMatchingCloud());
 	}
 	
@@ -69,9 +70,9 @@ public class HerokuConnectorTest {
 
 	@Test
 	public void applicationInstanceInfo() {
-		when(mockEnvironment.getValue("SPRING_CLOUD_APP_NAME")).thenReturn("myapp");
-		when(mockEnvironment.getValue("DYNO")).thenReturn("web.1");
-		when(mockEnvironment.getValue("PORT")).thenReturn(Integer.toString(port));
+		when(mockEnvironment.getEnvValue("SPRING_CLOUD_APP_NAME")).thenReturn("myapp");
+		when(mockEnvironment.getEnvValue("DYNO")).thenReturn("web.1");
+		when(mockEnvironment.getEnvValue("PORT")).thenReturn(Integer.toString(port));
 		when(mockEnvironment.getHost()).thenReturn(host);
 		
 		assertEquals("myapp", testCloudConnector.getApplicationInstanceInfo().getAppId());
@@ -83,8 +84,8 @@ public class HerokuConnectorTest {
 	
 	@Test
 	public void applicationInstanceInfoNoSpringCloudAppName() {
-		when(mockEnvironment.getValue("DYNO")).thenReturn("web.1");
-		when(mockEnvironment.getValue("PORT")).thenReturn(Integer.toString(port));
+		when(mockEnvironment.getEnvValue("DYNO")).thenReturn("web.1");
+		when(mockEnvironment.getEnvValue("PORT")).thenReturn(Integer.toString(port));
 		when(mockEnvironment.getHost()).thenReturn(host);
 		assertEquals("<unknown>", testCloudConnector.getApplicationInstanceInfo().getAppId());
 		assertEquals("web.1", testCloudConnector.getApplicationInstanceInfo().getInstanceId());
