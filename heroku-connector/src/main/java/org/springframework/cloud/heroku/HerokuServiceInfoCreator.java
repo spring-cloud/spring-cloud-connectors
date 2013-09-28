@@ -1,7 +1,5 @@
 package org.springframework.cloud.heroku;
 
-import java.util.Map;
-
 import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.service.ServiceInfo;
 
@@ -10,7 +8,7 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public abstract class HerokuServiceInfoCreator<T extends ServiceInfo> implements ServiceInfoCreator<T> {
+public abstract class HerokuServiceInfoCreator<SI extends ServiceInfo> implements ServiceInfoCreator<SI> {
 
 	private String urlProtocol;
 
@@ -19,9 +17,16 @@ public abstract class HerokuServiceInfoCreator<T extends ServiceInfo> implements
 	}
 	
 	public boolean accept(Object serviceData) {
-		@SuppressWarnings("unchecked")
-		Map.Entry<String,Object> serviceDataEntry = (Map.Entry<String,Object>)serviceData;
+		HerokuConnector.KeyValuePair serviceDataEntry = (HerokuConnector.KeyValuePair) serviceData;
 		
 		return serviceDataEntry.getValue().toString().startsWith(urlProtocol + "://");
+	}
+	
+	public abstract SI createServiceInfo(String id, String uri);
+	
+	public SI createServiceInfo(Object serviceData) {
+		HerokuConnector.KeyValuePair serviceDataEntry = (HerokuConnector.KeyValuePair)serviceData;
+		
+		return createServiceInfo(serviceDataEntry.getKey(), serviceDataEntry.getValue());
 	}
 }

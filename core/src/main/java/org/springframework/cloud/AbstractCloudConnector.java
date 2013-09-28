@@ -19,15 +19,27 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public abstract class AbstractCloudConnector implements CloudConnector {
+public abstract class AbstractCloudConnector<SD> implements CloudConnector {
 
 	protected List<ServiceInfoCreator<?>> serviceInfoCreators = new ArrayList<ServiceInfoCreator<?>>();
 
+	abstract protected List<SD> getServicesData();
+	
 	public AbstractCloudConnector(Class<? extends ServiceInfoCreator<? extends ServiceInfo>> serviceInfoCreatorClass) {
 		scanServiceInfoCreators(serviceInfoCreatorClass);
 	}
 
-	public void registerServiceInfoCreator(ServiceInfoCreator<?> serviceInfoCreator) {
+	@Override
+	public List<ServiceInfo> getServiceInfos() {
+		List<ServiceInfo> serviceInfos = new ArrayList<ServiceInfo>();
+		for (SD serviceData : getServicesData()) {
+			serviceInfos.add(getServiceInfo(serviceData));
+		}
+		
+		return serviceInfos;
+	}
+
+	private void registerServiceInfoCreator(ServiceInfoCreator<?> serviceInfoCreator) {
 		serviceInfoCreators.add(serviceInfoCreator);
 	}
 
@@ -37,5 +49,15 @@ public abstract class AbstractCloudConnector implements CloudConnector {
 		for (ServiceInfoCreator<?> serviceInfoCreator : serviceInfoCreators) {
 			registerServiceInfoCreator(serviceInfoCreator);
 		}
+	}
+	
+	private ServiceInfo getServiceInfo(SD serviceData) {
+		for (ServiceInfoCreator<?> serviceInfoCreator : serviceInfoCreators) {
+			if (serviceInfoCreator.accept(serviceData)) {
+				return serviceInfoCreator.createServiceInfo(serviceData);
+			}
+		}
+		
+		throw new CloudException("No suitable service info creator found");
 	}
 }

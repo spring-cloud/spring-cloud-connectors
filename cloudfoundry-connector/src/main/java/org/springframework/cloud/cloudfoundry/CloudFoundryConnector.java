@@ -7,9 +7,7 @@ import java.util.Map;
 
 import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.CloudException;
-import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
-import org.springframework.cloud.service.ServiceInfo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,12 +16,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Ramnivas Laddad
  *
  */
-public class CloudFoundryConnector extends AbstractCloudConnector {
+public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Object>> {
 
 	private ObjectMapper objectMapper = new ObjectMapper();
 	private EnvironmentAccessor environment = new EnvironmentAccessor();
 	
-	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator = new ApplicationInstanceInfoCreator();
+	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator 
+		= new ApplicationInstanceInfoCreator();
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public CloudFoundryConnector() {
@@ -39,33 +38,13 @@ public class CloudFoundryConnector extends AbstractCloudConnector {
 	public ApplicationInstanceInfo getApplicationInstanceInfo() {
 		try {
 			@SuppressWarnings("unchecked")
-			Map<String, Object> rawApplicationInstanceInfo = objectMapper.readValue(environment.getValue("VCAP_APPLICATION"), Map.class);
+			Map<String, Object> rawApplicationInstanceInfo 
+				= objectMapper.readValue(environment.getValue("VCAP_APPLICATION"), Map.class);
 			return applicationInstanceInfoCreator.createApplicationInstanceInfo(rawApplicationInstanceInfo);
 		} catch (Exception e) {
 			throw new CloudException(e);
 		} 
 	}
-	
-	@Override
-	public List<ServiceInfo> getServiceInfos() {
-		List<ServiceInfo> serviceInfos = new ArrayList<ServiceInfo>();
-		for (Map<String,Object> serviceData : getServicesData()) {
-			serviceInfos.add(getServiceInfo(serviceData));
-		}
-		
-		return serviceInfos;
-	}
-
-	private ServiceInfo getServiceInfo(Map<String,Object> serviceData) {
-		for (ServiceInfoCreator<?> serviceInfoCreator : serviceInfoCreators) {
-			if (serviceInfoCreator.accept(serviceData)) {
-				return serviceInfoCreator.createServiceInfo(serviceData);
-			}
-		}
-		
-		throw new CloudException("No suitable service info creator found");
-	}
-
 	
 	/* package for testing purpose */
 	void setCloudEnvironment(EnvironmentAccessor environment) {
@@ -81,7 +60,7 @@ public class CloudFoundryConnector extends AbstractCloudConnector {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private List<Map<String,Object>> getServicesData() {
+	protected List<Map<String,Object>> getServicesData() {
 		String servicesString = environment.getValue("VCAP_SERVICES");
 		Map<String, List<Map<String,Object>>> rawServices = new HashMap<String, List<Map<String,Object>>>();
 		
