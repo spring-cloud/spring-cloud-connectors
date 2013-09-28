@@ -85,17 +85,15 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 	
 
 	@Override
-	protected FallbackServiceInfoCreator<BaseServiceInfo> getFallbackServiceInfoCreator() {
+	protected FallbackServiceInfoCreator<BaseServiceInfo,Map<String,Object>> getFallbackServiceInfoCreator() {
 		return new CloudFoundryFallbackServiceInfoCreator();
 	}
 }
 
-class CloudFoundryFallbackServiceInfoCreator extends FallbackServiceInfoCreator<BaseServiceInfo> {
+class CloudFoundryFallbackServiceInfoCreator extends FallbackServiceInfoCreator<BaseServiceInfo,Map<String,Object>> {
 	@Override
-	public BaseServiceInfo createServiceInfo(Object serviceData) {
-		@SuppressWarnings("unchecked")
-		Map<String,Object> serviceDataMap = (Map<String,Object>)serviceData;
-		String id = (String) serviceDataMap.get("name");
+	public BaseServiceInfo createServiceInfo(Map<String,Object> serviceData) {
+		String id = (String) serviceData.get("name");
 		return new BaseServiceInfo(id);
 	}
 }

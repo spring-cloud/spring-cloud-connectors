@@ -24,12 +24,12 @@ public abstract class AbstractCloudConnector<SD> implements CloudConnector {
 
 	private static Logger logger = Logger.getLogger(AbstractCloudConnector.class.getName());
 	
-	protected List<ServiceInfoCreator<?>> serviceInfoCreators = new ArrayList<ServiceInfoCreator<?>>();
+	protected List<ServiceInfoCreator<?,SD>> serviceInfoCreators = new ArrayList<ServiceInfoCreator<?,SD>>();
 
 	protected abstract List<SD> getServicesData();
-	protected abstract FallbackServiceInfoCreator<?> getFallbackServiceInfoCreator();
+	protected abstract FallbackServiceInfoCreator<?,SD> getFallbackServiceInfoCreator();
 	
-	public AbstractCloudConnector(Class<? extends ServiceInfoCreator<? extends ServiceInfo>> serviceInfoCreatorClass) {
+	public AbstractCloudConnector(Class<? extends ServiceInfoCreator<? extends ServiceInfo, ?>> serviceInfoCreatorClass) {
 		scanServiceInfoCreators(serviceInfoCreatorClass);
 	}
 
@@ -43,20 +43,20 @@ public abstract class AbstractCloudConnector<SD> implements CloudConnector {
 		return serviceInfos;
 	}
 
-	private void registerServiceInfoCreator(ServiceInfoCreator<?> serviceInfoCreator) {
+	private void registerServiceInfoCreator(ServiceInfoCreator<? extends ServiceInfo, SD> serviceInfoCreator) {
 		serviceInfoCreators.add(serviceInfoCreator);
 	}
 
-	private void scanServiceInfoCreators(Class<? extends ServiceInfoCreator<?>> serviceInfoCreatorClass) {
-		@SuppressWarnings("rawtypes")
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	private void scanServiceInfoCreators(Class<? extends ServiceInfoCreator<? extends ServiceInfo,?>> serviceInfoCreatorClass) {
 		ServiceLoader<? extends ServiceInfoCreator> serviceInfoCreators = ServiceLoader.load(serviceInfoCreatorClass);
-		for (ServiceInfoCreator<?> serviceInfoCreator : serviceInfoCreators) {
+		for (ServiceInfoCreator<? extends ServiceInfo,SD> serviceInfoCreator : serviceInfoCreators) {
 			registerServiceInfoCreator(serviceInfoCreator);
 		}
 	}
 	
 	private ServiceInfo getServiceInfo(SD serviceData) {
-		for (ServiceInfoCreator<?> serviceInfoCreator : serviceInfoCreators) {
+		for (ServiceInfoCreator<? extends ServiceInfo,SD> serviceInfoCreator : serviceInfoCreators) {
 			if (serviceInfoCreator.accept(serviceData)) {
 				return serviceInfoCreator.createServiceInfo(serviceData);
 			}

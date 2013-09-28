@@ -13,8 +13,8 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  * 
  */
-public interface ServiceInfoCreator<SI extends ServiceInfo> {
-	public boolean accept(Object serviceData);
+public interface ServiceInfoCreator<SI extends ServiceInfo, SD> {
+	public boolean accept(SD serviceData);
 
-	public SI createServiceInfo(Object serviceData);
+	public SI createServiceInfo(SD serviceData);
 }

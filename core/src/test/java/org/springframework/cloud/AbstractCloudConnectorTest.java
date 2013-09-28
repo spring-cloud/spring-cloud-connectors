@@ -63,17 +63,15 @@ class TestCloudConnector extends AbstractCloudConnector<TestServiceData> {
 	}
 
 	@Override
-	protected FallbackServiceInfoCreator<BaseServiceInfo> getFallbackServiceInfoCreator() {
+	protected FallbackServiceInfoCreator<BaseServiceInfo,TestServiceData> getFallbackServiceInfoCreator() {
 		return new TestFallbackServiceInfoCreator();
 	}
 }
 
-class TestFallbackServiceInfoCreator extends FallbackServiceInfoCreator<BaseServiceInfo> {
+class TestFallbackServiceInfoCreator extends FallbackServiceInfoCreator<BaseServiceInfo,TestServiceData> {
 	@Override
-	public BaseServiceInfo createServiceInfo(Object serviceData) {
-		TestServiceData serviceDataMap = (TestServiceData)serviceData;
-
-		return new BaseServiceInfo(serviceDataMap.getId());
+	public BaseServiceInfo createServiceInfo(TestServiceData serviceData) {
+		return new BaseServiceInfo(serviceData.getId());
 	}
 }
 

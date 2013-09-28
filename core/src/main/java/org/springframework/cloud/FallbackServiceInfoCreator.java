@@ -15,13 +15,13 @@ import org.springframework.cloud.service.ServiceInfo;
  *
  * @param <SI>
  */
-public abstract class FallbackServiceInfoCreator<SI extends ServiceInfo> implements ServiceInfoCreator<SI>{
+public abstract class FallbackServiceInfoCreator<SI extends ServiceInfo, SD> implements ServiceInfoCreator<SI, SD>{
 
 	/*
 	 * Override to ensure that it accepts all service data 
 	 */
 	@Override
-	public final boolean accept(Object serviceData) {
+	public final boolean accept(SD serviceData) {
 		return true;
 	}
 }

@@ -11,7 +11,7 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public abstract class CloudFoundryServiceInfoCreator<T extends ServiceInfo> implements ServiceInfoCreator<T> {
+public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> implements ServiceInfoCreator<SI, Map<String,Object>> {
 
 	private String tag;
 
@@ -20,9 +20,7 @@ public abstract class CloudFoundryServiceInfoCreator<T extends ServiceInfo> impl
 	}
 	
 	@SuppressWarnings("unchecked")
-	public boolean accept(Object serviceData) {
-		Map<String,Object> serviceDataMap = (Map<String,Object>)serviceData;
-		
-		return ((List<String>)serviceDataMap.get("tags")).contains(tag);
+	public boolean accept(Map<String,Object> serviceData) {
+		return ((List<String>)serviceData.get("tags")).contains(tag);
 	}
 }

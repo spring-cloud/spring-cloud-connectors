@@ -17,14 +17,11 @@ public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceI
 
 	public abstract SI createServiceInfo(String id, String uri);
 	
-	public SI createServiceInfo(Object serviceData) {
+	public SI createServiceInfo(Map<String,Object> serviceData) {
 		@SuppressWarnings("unchecked")
-		Map<String,Object> serviceDataMap = (Map<String,Object>) serviceData;
-
-		@SuppressWarnings("unchecked")
-		Map<String,Object> credentials = (Map<String, Object>) serviceDataMap.get("credentials");
+		Map<String,Object> credentials = (Map<String, Object>) serviceData.get("credentials");
 		
-		String id = (String) serviceDataMap.get("name");
+		String id = (String) serviceData.get("name");
 		
 		String uri = (String) credentials.get("uri");
 

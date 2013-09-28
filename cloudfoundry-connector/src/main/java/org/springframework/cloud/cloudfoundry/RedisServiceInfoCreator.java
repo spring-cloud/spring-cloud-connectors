@@ -16,14 +16,11 @@ public class RedisServiceInfoCreator extends CloudFoundryServiceInfoCreator<Redi
 
 	}
 
-	public RedisServiceInfo createServiceInfo(Object serviceData) {
+	public RedisServiceInfo createServiceInfo(Map<String,Object> serviceData) {
 		@SuppressWarnings("unchecked")
-		Map<String,Object> serviceDataMap = (Map<String,Object>) serviceData;
-
-		@SuppressWarnings("unchecked")
-		Map<String,Object> credentials = (Map<String, Object>) serviceDataMap.get("credentials");
+		Map<String,Object> credentials = (Map<String, Object>) serviceData.get("credentials");
 		
-		String id = (String) serviceDataMap.get("name");
+		String id = (String) serviceData.get("name");
 		
 		String host = (String) credentials.get("hostname");
 		Integer port = Integer.parseInt(credentials.get("port").toString());

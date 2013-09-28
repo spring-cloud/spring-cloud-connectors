@@ -13,17 +13,13 @@ public class RabbitServiceInfoCreator extends CloudFoundryServiceInfoCreator<Rab
 
 	public RabbitServiceInfoCreator() {
 		super("rabbitmq");
-
 	}
 
-	public RabbitServiceInfo createServiceInfo(Object serviceData) {
+	public RabbitServiceInfo createServiceInfo(Map<String,Object> serviceData) {
 		@SuppressWarnings("unchecked")
-		Map<String,Object> serviceDataMap = (Map<String,Object>) serviceData;
-
-		@SuppressWarnings("unchecked")
-		Map<String,Object> credentials = (Map<String, Object>) serviceDataMap.get("credentials");
+		Map<String,Object> credentials = (Map<String, Object>) serviceData.get("credentials");
 		
-		String id = (String) serviceDataMap.get("name");
+		String id = (String) serviceData.get("name");
 		
 		String uri = (String) credentials.get("uri");
 
