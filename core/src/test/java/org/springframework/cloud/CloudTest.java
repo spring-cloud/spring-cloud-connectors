@@ -26,11 +26,11 @@ import org.springframework.cloud.test.CloudTestUtil.StubCloudConnector;
  */
 public class CloudTest {
 
-	private List<ServiceConnectorCreator<?, ? extends ServiceInfo>> serviceCreators;
+	private List<ServiceConnectorCreator<?, ? extends ServiceInfo>> serviceConnectorCreators;
 	
 	@Before
 	public void setup() {
-		serviceCreators = new ArrayList<ServiceConnectorCreator<?, ? extends ServiceInfo>>();
+		serviceConnectorCreators = new ArrayList<ServiceConnectorCreator<?, ? extends ServiceInfo>>();
 	}
 	
 	@Test
@@ -40,7 +40,7 @@ public class CloudTest {
 		appProps.put("users", null); // on v2, users property is null
 		StubCloudConnector stubCloudConnector = 
 				CloudTestUtil.getTestCloudConnector(new StubApplicationInstanceInfo("instance-id-1", "myapp", appProps));
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 		
 		assertEquals("myapp", testCloud.getCloudProperties().get("cloud.application.app-id"));
 		assertEquals("instance-id-1", testCloud.getCloudProperties().get("cloud.application.instance-id"));
@@ -51,8 +51,8 @@ public class CloudTest {
 	public void serviceConnectorCreationDefaultTypeAndConfig() {
 		StubServiceInfo testServiceInfo = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo);
-		serviceCreators.add(new StubServiceConnectorCreator());
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		serviceConnectorCreators.add(new StubServiceConnectorCreator());
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 		
 		StubServiceConnector connector = testCloud.getServiceConnector(testServiceInfo.getId(), null, null);
 		
@@ -63,8 +63,8 @@ public class CloudTest {
 	public void getSingletonServiceConnectorSingleService() {
 		StubServiceInfo testServiceInfo = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo);
-		serviceCreators.add(new StubServiceConnectorCreator());
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		serviceConnectorCreators.add(new StubServiceConnectorCreator());
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 		
 		StubServiceConnector connector = testCloud.getSingletonServiceConnector(null, null);
 		
@@ -74,7 +74,7 @@ public class CloudTest {
 	@Test(expected=CloudException.class)
 	public void getSingletonServiceConnectorNoService() {
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector();
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 		
 		testCloud.getSingletonServiceConnector(null, null);
 	}
@@ -84,8 +84,8 @@ public class CloudTest {
 		StubServiceInfo testServiceInfo1 = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");
 		StubServiceInfo testServiceInfo2 = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");		
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo1, testServiceInfo2);
-		serviceCreators.add(new StubServiceConnectorCreator());
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		serviceConnectorCreators.add(new StubServiceConnectorCreator());
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 		
 		testCloud.getSingletonServiceConnector(null, null);
 	}
@@ -94,8 +94,8 @@ public class CloudTest {
 	public void serviceConnectorCreationSpecifiedTypeAndConfig() {
 		StubServiceInfo testServiceInfo = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo);
-		serviceCreators.add(new StubServiceConnectorCreator());
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		serviceConnectorCreators.add(new StubServiceConnectorCreator());
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 		
 		StubServiceConnectorConfig config = new StubServiceConnectorConfig("test-config");
 		StubServiceConnector connector = testCloud.getServiceConnector(testServiceInfo.getId(), StubServiceConnector.class, config);
@@ -106,7 +106,7 @@ public class CloudTest {
 	@Test
 	public void serviceInfoNoServices() {
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector();
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 		assertEquals(0, testCloud.getServiceInfos().size());
 		assertEquals(0, testCloud.getServiceInfos(StubServiceInfo.class).size());
 	}
@@ -116,8 +116,8 @@ public class CloudTest {
 		StubServiceInfo testServiceInfo1 = new StubServiceInfo("test-id1", "test-host", 1000, "test-username", "test-password");
 		StubServiceInfo testServiceInfo2 = new StubServiceInfo("test-id2", "test-host", 1000, "test-username", "test-password");
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo1, testServiceInfo2);
-		serviceCreators.add(new StubServiceConnectorCreator());
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		serviceConnectorCreators.add(new StubServiceConnectorCreator());
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 
 		assertEquals(2, testCloud.getServiceInfos().size());
 		assertEquals(2, testCloud.getServiceInfos(StubServiceConnector.class).size());
@@ -128,7 +128,7 @@ public class CloudTest {
 		StubServiceInfo testServiceInfo1 = new StubServiceInfo("test-id1", "test-host", 1000, "test-username", "test-password");
 		StubServiceInfo testServiceInfo2 = new StubServiceInfo("test-id2", "test-host", 1000, "test-username", "test-password");
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo1, testServiceInfo2);
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 
 		assertEquals(testServiceInfo1, testCloud.getServiceInfo(testServiceInfo1.getId()));
 		assertEquals(testServiceInfo2, testCloud.getServiceInfo(testServiceInfo2.getId()));		
@@ -139,7 +139,7 @@ public class CloudTest {
 		StubServiceInfo testServiceInfo1 = new StubServiceInfo("test-id1", "test-host", 1000, "test-username", "test-password");
 		StubServiceInfo testServiceInfo2 = new StubServiceInfo("test-id2", "test-host", 1000, "test-username", "test-password");
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo1, testServiceInfo2);
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 		
 		Properties cloudProperties = testCloud.getCloudProperties();
 		assertStubServiceProp("cloud.services.test-id1", testServiceInfo1, cloudProperties);
@@ -153,7 +153,7 @@ public class CloudTest {
 		StubServiceInfo testServiceInfo = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");
 
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo);
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 		
 		Properties cloudProperties = testCloud.getCloudProperties();
 		assertStubServiceProp("cloud.services.test-id", testServiceInfo, cloudProperties);
@@ -163,7 +163,7 @@ public class CloudTest {
 	@Test(expected=CloudException.class)
 	public void getServiceInfoByInvalidId() {
 		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector();
-		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 
 		testCloud.getServiceInfo("foo");
 	}

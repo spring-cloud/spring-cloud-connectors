@@ -6,7 +6,10 @@ import java.util.Map;
 
 import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.CloudException;
+import org.springframework.cloud.FallbackServiceInfoCreator;
+import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
+import org.springframework.cloud.service.BaseServiceInfo;
 
 /**
  * Implementation of CloudConnector for Heroku
@@ -67,6 +70,11 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 
 		return serviceData;
 	}
+
+	@Override
+	protected FallbackServiceInfoCreator<BaseServiceInfo> getFallbackServiceInfoCreator() {
+		return new HerokuFallbackServiceInfoCreator();
+	}
 	
 	public static class KeyValuePair {
 		private String key;
@@ -84,5 +92,14 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 		public String getValue() {
 			return value;
 		}
+	}
+}
+
+class HerokuFallbackServiceInfoCreator extends FallbackServiceInfoCreator<BaseServiceInfo> {
+	@Override
+	public BaseServiceInfo createServiceInfo(Object serviceData) {
+		HerokuConnector.KeyValuePair serviceDataEntry = (HerokuConnector.KeyValuePair)serviceData;
+		
+		return new BaseServiceInfo(serviceDataEntry.getKey());
 	}
 }

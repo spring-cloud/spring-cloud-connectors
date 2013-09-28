@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.CloudException;
+import org.springframework.cloud.FallbackServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
+import org.springframework.cloud.service.BaseServiceInfo;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -80,6 +82,12 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 		return flatServices;
 	}
 	
+
+	@Override
+	protected FallbackServiceInfoCreator<BaseServiceInfo> getFallbackServiceInfoCreator() {
+		return new CloudFoundryFallbackServiceInfoCreator();
+	}
+
 	/**
 	 * Environment available to the deployed app.
 	 * 
@@ -90,5 +98,15 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 		public String getValue(String key) {
 			return System.getenv(key);
 		}
+	}
+}
+
+class CloudFoundryFallbackServiceInfoCreator extends FallbackServiceInfoCreator<BaseServiceInfo> {
+	@Override
+	public BaseServiceInfo createServiceInfo(Object serviceData) {
+		@SuppressWarnings("unchecked")
+		Map<String,Object> serviceDataMap = (Map<String,Object>)serviceData;
+		String id = (String) serviceDataMap.get("name");
+		return new BaseServiceInfo(id);
 	}
 }
