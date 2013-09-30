@@ -309,7 +309,7 @@ class ServiceConnectorCreatorRegistry {
 				return (ServiceConnectorCreator<SC, SI>) serviceConnectorCreator;
 			}
 		}
-		return null;
+		throw new CloudException("No suitable ServiceConnectorCreator found for " + serviceInfo.getId() + " -> " + serviceConnectorType);
 	}
 	
 	public boolean accept(ServiceConnectorCreator<?, ? extends ServiceInfo> creator, Class<?> serviceConnectorType, ServiceInfo serviceInfo) {
