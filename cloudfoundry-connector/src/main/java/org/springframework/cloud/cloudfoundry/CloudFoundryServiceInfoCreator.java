@@ -21,6 +21,14 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 	
 	@SuppressWarnings("unchecked")
 	public boolean accept(Map<String,Object> serviceData) {
-		return ((List<String>)serviceData.get("tags")).contains(tag);
+		List<String> tags = (List<String>)serviceData.get("tags");
+		String label = (String) serviceData.get("label");
+		
+		boolean tagAcceptable = tags.contains(tag);
+		// Use label as a tag to cover cases where tag doesn't exist and label value
+		// itself starts with the tag text (for example, "label : mysql-n/a")
+		boolean labelAcceptable = label != null && label.startsWith(tag);
+		
+		return tagAcceptable || labelAcceptable;
 	}
 }

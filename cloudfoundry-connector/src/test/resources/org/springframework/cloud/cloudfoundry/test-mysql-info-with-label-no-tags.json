@@ -1,0 +1,9 @@
+{
+        "name": "$serviceName",
+        "label": "mysql-$version",
+        "tags": [],
+        "plan": "free",
+		"credentials":{
+			"uri" : "mysql://$user:$password@$hostname:$port/$name"
+		}
+}

@@ -48,10 +48,10 @@ public class CloudFoundryConnectorTestHelper {
 		return payload;
 	}
 
-	public static String getMysqlServicePayload(String version, String serviceName,
-			String hostname, int port,
-			String user, String password, String name) {
-		String payload = readTestDataFile("test-mysql-info.json");
+	private static String getRelationalPayload(String templateFile, String version, String serviceName,
+			                                   String hostname, int port,
+			                                   String user, String password, String name) {
+		String payload = readTestDataFile(templateFile);
 		payload = payload.replace("$version", version);
 		payload = payload.replace("$serviceName", serviceName);
 		payload = payload.replace("$hostname", hostname);
@@ -63,20 +63,25 @@ public class CloudFoundryConnectorTestHelper {
 		return payload;
 	}
 	
+	public static String getMysqlServicePayload(String version, String serviceName,
+                                                String hostname, int port,
+			                                    String user, String password, String name) {
+		return getRelationalPayload("test-mysql-info.json", version, serviceName,
+				                    hostname, port, user, password, name);
+	}
+
+	public static String getMysqlServicePayloadWithLabelNoTags(String version, String serviceName,
+                                                               String hostname, int port,
+                                                               String user, String password, String name) {
+		return getRelationalPayload("test-mysql-info-with-label-no-tags.json", version, serviceName,
+                                     hostname, port, user, password, name);
+	}
+	
 	public static String getPostgresqlServicePayload(String version, String serviceName,
-			String hostname, int port,
-			String user, String password,
-			String name) {
-		String payload = readTestDataFile("test-postgresql-info.json");
-		payload = payload.replace("$version", version);
-		payload = payload.replace("$serviceName", serviceName);
-		payload = payload.replace("$hostname", hostname);
-		payload = payload.replace("$port", Integer.toString(port));
-		payload = payload.replace("$user", user);
-		payload = payload.replace("$password", password);
-		payload = payload.replace("$name", name);
-		
-		return payload;
+			                                         String hostname, int port,
+			                                         String user, String password, String name) {
+		return getRelationalPayload("test-postgresql-info.json", version, serviceName,
+                                     hostname, port, user, password, name);
 	}
 
 	public static String getRabbitServicePayload(String version, String serviceName,
