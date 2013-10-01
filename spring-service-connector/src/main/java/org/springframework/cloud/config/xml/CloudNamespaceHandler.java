@@ -2,6 +2,7 @@ package org.springframework.cloud.config.xml;
 
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
+import org.springframework.cloud.config.CloudServicesScanner;
 import org.w3c.dom.Element;
 
 /**

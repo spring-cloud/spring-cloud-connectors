@@ -1,4 +1,4 @@
-package org.springframework.cloud.config.xml;
+package org.springframework.cloud.config;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.cloud.StubCloudConnectorTest;
+import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -17,18 +18,20 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
  * @author Ramnivas Laddad
  *
  */
-public class CloudScanTest extends StubCloudConnectorTest {
+public abstract class AbstractCloudConfigServiceScanTest extends StubCloudConnectorTest {
+	
+	protected abstract ApplicationContext getTestApplicationContext(ServiceInfo... serviceInfos);
 	
 	@Test(expected=NoSuchBeanDefinitionException.class)
 	public void cloudScanWithNoServices() {
-		ApplicationContext testContext = getTestApplicationContext("cloud-scan.xml");
+		ApplicationContext testContext = getTestApplicationContext();
 		
 		testContext.getBean(DataSource.class);
 	}
 	
 	@Test
 	public void cloudScanWithOneService() {
-		ApplicationContext testContext = getTestApplicationContext("cloud-scan.xml", createMysqlService("db"));
+		ApplicationContext testContext = getTestApplicationContext(createMysqlService("db"));
 		
 		assertNotNull("Getting service by id", testContext.getBean("db"));
 		assertNotNull("Getting service by id and type", testContext.getBean("db", DataSource.class));		
@@ -37,7 +40,7 @@ public class CloudScanTest extends StubCloudConnectorTest {
 	
 	@Test
 	public void cloudScanWithTwoServicesOfSameType() {
-		ApplicationContext testContext = getTestApplicationContext("cloud-scan.xml", createMysqlService("db"), createMysqlService("db2"));
+		ApplicationContext testContext = getTestApplicationContext(createMysqlService("db"), createMysqlService("db2"));
 		
 		assertNotNull("Getting service by id", testContext.getBean("db"));
 		assertNotNull("Getting service by id and type", testContext.getBean("db", DataSource.class));		
@@ -49,12 +52,11 @@ public class CloudScanTest extends StubCloudConnectorTest {
 	
 	@Test
 	public void cloudScanWithAllTypesOfServices() {
-		ApplicationContext testContext = getTestApplicationContext("cloud-scan.xml", 
-																   createMysqlService("mysqlDb"), 
-																   createPostgresqlService("postDb"),
-																   createMongoService("mongoDb"),
-																   createRedisService("redisDb"),
-																   createRabbitService("rabbit"));
+		ApplicationContext testContext = getTestApplicationContext(createMysqlService("mysqlDb"), 
+																  createPostgresqlService("postDb"),
+																  createMongoService("mongoDb"),
+																  createRedisService("redisDb"),
+																  createRabbitService("rabbit"));
 		
 		assertNotNull("Getting service by id", testContext.getBean("mysqlDb"));
 		assertNotNull("Getting service by id and type", testContext.getBean("mysqlDb", DataSource.class));		

@@ -1,4 +1,4 @@
-package org.springframework.cloud.config.xml;
+package org.springframework.cloud.config;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudException;
 import org.springframework.cloud.CloudFactory;
+import org.springframework.cloud.config.java.ServiceScan;
 import org.springframework.cloud.service.AbstractCloudServiceConnectorFactory;
 import org.springframework.cloud.service.GenericCloudServiceConnectorFactory;
 import org.springframework.cloud.service.ServiceInfo;
@@ -23,8 +24,9 @@ import org.springframework.cloud.service.ServiceInfo;
  * </p>
  *
  * Usage:
- * <p>
- * An application may add a bean of this type:
+ * Most applications should use either the Java config usign {@link ServiceScan} annotation 
+ * or XML config using &lt;cloud:service-scan/&gt; that introduce a bean of this type lgically 
+ * equivalent to:
  * <pre>
  * &lt;bean class="org.cloudfoundry.runtime.service.CloudServicesScanner"/&gt;
  * </pre>
@@ -42,8 +44,6 @@ import org.springframework.cloud.service.ServiceInfo;
  * &#64;Autowired &#64;Qualifier("service-name1") RedisConnectionFactory redisConnectionFactory;
  * &#64;Autowired &#64;Qualifier("service-name2") RedisConnectionFactory redisConnectionFactory;
  * </pre>
- *
- * You may, of course, use XML-based configuration.
  *
  * @author Ramnivas Laddad
  * @author Jennifer Hickey
