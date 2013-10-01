@@ -5,15 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getApplicationInstanceInfo;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMongoServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMonitoringServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayloadWithLabelNoTags;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getPostgresqlServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRabbitServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRedisServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getServicesPayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -79,7 +71,7 @@ public class CloudCoundryConnectorTest {
 	}
 
 	@Test
-	public void mysqlServiceCreationWithLableNoTags() {
+	public void mysqlServiceCreationWithLabelNoTags() {
 		String[] versions = {"5.1", "5.5"};
 		String name1 = "database-1";
 		String name2 = "database-2";
@@ -99,6 +91,26 @@ public class CloudCoundryConnectorTest {
 		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
 	}
 	
+	@Test
+	public void mysqlServiceCreationWithLabelNoUri() {
+		String[] versions = {"5.1", "5.5"};
+		String name1 = "database-1";
+		String name2 = "database-2";
+		for (String version : versions) {
+			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+								getMysqlServicePayloadWithLabelNoUri(version, "mysql-1", hostname, port, username, password, name1),
+								getMysqlServicePayloadWithLabelNoUri(version, "mysql-2", hostname, port, username, password, name2)));
+		}
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		
+		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
+		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
+		assertNotNull(info1);
+		assertNotNull(info2);
+		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
+		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
+	}
 	
 	@Test
 	public void postgresqlServiceCreation() {

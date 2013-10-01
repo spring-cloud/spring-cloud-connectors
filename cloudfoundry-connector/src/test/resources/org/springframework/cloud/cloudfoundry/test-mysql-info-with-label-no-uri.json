@@ -1,0 +1,15 @@
+{
+    "name": "$serviceName",
+    "label": "mysql-$version",
+	"tags":[],
+	"plan":"100",
+	"credentials":{
+		"name": "$name",
+		"hostname": "$hostname",
+		"host": "$hostname",
+		"port": $port,
+		"user": "$user",
+		"username":"$user",
+		"password":"$password"
+	}
+}

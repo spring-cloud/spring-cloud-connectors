@@ -31,4 +31,8 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 		
 		return tagAcceptable || labelAcceptable;
 	}
+	
+	protected String getTag() {
+		return tag;
+	}
 }

@@ -77,6 +77,13 @@ public class CloudFoundryConnectorTestHelper {
                                      hostname, port, user, password, name);
 	}
 	
+	public static String getMysqlServicePayloadWithLabelNoUri(String version, String serviceName,
+                                                              String hostname, int port,
+                                                              String user, String password, String name) {
+        return getRelationalPayload("test-mysql-info-with-label-no-uri.json", version, serviceName,
+                                    hostname, port, user, password, name);
+    }
+
 	public static String getPostgresqlServicePayload(String version, String serviceName,
 			                                         String hostname, int port,
 			                                         String user, String password, String name) {
