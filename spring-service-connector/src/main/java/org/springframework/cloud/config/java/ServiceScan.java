@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Import;
  * &#64;Autowired RedisConnectionFactory redisConnectionFactory;
  * </pre>
  *
- * If there are more than one services of a type, you can use the &#064;Qualifier annoation
+ * If there are more than one services of a type, you can use the &#064;Qualifier annotation
  * as in the following code:
  * <pre>
  * &#64;Autowired &#64;Qualifier("service-name1") RedisConnectionFactory redisConnectionFactory;
