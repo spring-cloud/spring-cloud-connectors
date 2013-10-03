@@ -8,6 +8,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.MongoDbFactory;
 
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public class MongoDbFactoryJavaConfigTest extends AbstractServiceJavaConfigTest<MongoDbFactory> {
 	public MongoDbFactoryJavaConfigTest() {
 		super(MongoDbFactoryConfigWithId.class, MongoDbFactoryConfigWithoutId.class);

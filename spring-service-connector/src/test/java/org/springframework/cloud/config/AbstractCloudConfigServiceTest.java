@@ -8,6 +8,16 @@ import org.springframework.cloud.StubCloudConnectorTest;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 
+/**
+/**
+ * Common base class to test service-related Java and XML configuration
+ * 
+ * Subclasses need to implement only two abstract methods to gain all the tests
+ * 
+ * @author Ramnivas Laddad
+ *
+ * @param <SC>
+ */
 public abstract class AbstractCloudConfigServiceTest<SC> extends StubCloudConnectorTest {
 	protected abstract ServiceInfo createService(String id);
 	

@@ -14,6 +14,8 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
 /**
+ /**
+ * Common base class to test the service scanning mechanism through Java and XML configuration
  * 
  * @author Ramnivas Laddad
  *

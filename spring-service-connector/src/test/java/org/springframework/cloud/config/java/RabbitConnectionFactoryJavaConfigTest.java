@@ -8,6 +8,11 @@ import org.springframework.cloud.service.messaging.RabbitConnectionFactoryConfig
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public class RabbitConnectionFactoryJavaConfigTest extends AbstractServiceJavaConfigTest<ConnectionFactory> {
 	public RabbitConnectionFactoryJavaConfigTest() {
 		super(RabbitConnectionFactoryConfigWithId.class, RabbitConnectionFactoryConfigWithoutId.class);

@@ -9,6 +9,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public class RedisConnectionFactoryJavaConfigTest extends AbstractServiceJavaConfigTest<RedisConnectionFactory> {
 	public RedisConnectionFactoryJavaConfigTest() {
 		super(RedisConnectionFactoryConfigWithId.class, RedisConnectionFactoryConfigWithoutId.class);

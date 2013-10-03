@@ -7,6 +7,11 @@ import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public class PropertiesJavaConfigTest extends AbstractCloudConfigPropertiesTest {
 	protected ApplicationContext getPropertiesTestApplicationContext(ServiceInfo... serviceInfos) {
 		return getTestApplicationContext(CloudPropertiesConfig.class, serviceInfos);

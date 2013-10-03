@@ -9,6 +9,11 @@ import org.springframework.test.util.ReflectionTestUtils;
 import com.mongodb.Mongo;
 import com.mongodb.WriteConcern;
 
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public class MongoDbFactoryCloudConfigTestHelper {
 	
 	public static void assertConfigProperties(MongoDbFactory connector, Integer writeConcernW, Integer connectionsPerHost, Integer maxWaitTime) {

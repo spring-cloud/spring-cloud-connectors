@@ -8,6 +8,11 @@ import javax.sql.DataSource;
 
 import org.springframework.test.util.ReflectionTestUtils;
 
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public class DataSourceCloudConfigTestHelper {
 
 	public static void assertPoolProperties(DataSource dataSource, int maxActive, int minIdle, long maxWait) {

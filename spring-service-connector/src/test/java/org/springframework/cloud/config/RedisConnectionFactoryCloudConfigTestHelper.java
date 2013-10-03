@@ -7,6 +7,11 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import redis.clients.jedis.JedisPoolConfig;
 
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public class RedisConnectionFactoryCloudConfigTestHelper {
 	
 	public static void assertPoolProperties(RedisConnectionFactory connector, int maxActive, int minIdle, long maxWait) {

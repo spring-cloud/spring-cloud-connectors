@@ -10,6 +10,12 @@ import org.springframework.cloud.StubCloudConnectorTest;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 
+/**
+ * Common base class to test exposing properties through Java and XML configuration
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public abstract class AbstractCloudConfigPropertiesTest extends StubCloudConnectorTest {
 	
 	protected abstract ApplicationContext getPropertiesTestApplicationContext(ServiceInfo... serviceInfos);

@@ -13,6 +13,12 @@ import org.springframework.cloud.service.relational.DataSourceConfig.ConnectionC
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * Common base class for testing datasource-related Java config
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public abstract class DataSourceJavaConfigTest extends AbstractServiceJavaConfigTest<DataSource> {
 	
 	public DataSourceJavaConfigTest() {

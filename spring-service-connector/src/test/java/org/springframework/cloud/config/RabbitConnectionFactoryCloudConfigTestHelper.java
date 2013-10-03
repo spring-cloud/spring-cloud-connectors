@@ -6,6 +6,11 @@ import static org.junit.Assert.assertNotNull;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.test.util.ReflectionTestUtils;
 
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public class RabbitConnectionFactoryCloudConfigTestHelper {
 	
 	public static void assertConfigProperties(ConnectionFactory connector, Integer channelCacheSize) {
