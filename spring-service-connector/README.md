@@ -25,12 +25,12 @@ Please check Javadoc for `AbstractCloudConfig` for ways to connect to other serv
     class CloudConfig extends AbstractCloudConfig {
         @Bean
         	public DataSource inventoryDataSource() {
-            return dataSource();
+            return connectionFactory().dataSource();
         }
         
         @Bean
         public MongoDbFactory documentMongoDbFactory() {
-            return mongoDbFactory();
+            return connectionFactory().mongoDbFactory();
         }
         
         ... more beans to obtain service connectors
@@ -46,12 +46,12 @@ and `mongoDbFactory()` as follows:
     class CloudConfig extends AbstractCloudConfig {
         @Bean
         	public DataSource inventoryDataSource() {
-            return dataSource("inventory-db-service");
+            return connectionFactory().dataSource("inventory-db-service");
         }
         
         @Bean
         public MongoDbFactory documentMongoDbFactory() {
-            return mongoDbFactory("document-service");
+            return connectionFactory().mongoDbFactory("document-service");
         }
         
         ... more beans to obtain service connectors

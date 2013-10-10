@@ -37,8 +37,11 @@ public abstract class AbstractCloudConfig implements BeanFactoryAware {
 
 	private static final String CLOUD_FACTORY_BEAN_NAME = "__cloud_factory__";
 	
-	private BeanFactory beanFactory;
 	private CloudFactory cloudFactory;
+
+	private Cloud cloud;
+
+	private ServiceConnectionFactory connectionFactory;
 
 	/**
 	 * Get the cloud factory.
@@ -52,14 +55,6 @@ public abstract class AbstractCloudConfig implements BeanFactoryAware {
 	 * @return
 	 */
 	protected CloudFactory cloudFactory() {
-		if (cloudFactory == null) {
-			try {
-				cloudFactory = beanFactory.getBean(CloudFactory.class);
-			} catch (NoSuchBeanDefinitionException ex) {
-				cloudFactory = new CloudFactory();
-				((SingletonBeanRegistry)beanFactory).registerSingleton(CLOUD_FACTORY_BEAN_NAME, cloudFactory);
-			}
-		}
 		return cloudFactory;
 	}
 
@@ -70,280 +65,11 @@ public abstract class AbstractCloudConfig implements BeanFactoryAware {
 	 */
 	@Bean
 	public Cloud cloud() {
-		return cloudFactory().getCloud();
+		return cloud;
 	}
 	
-	// Relational database
-	
-	/**
-	 * Get the {@link DataSource} object associated with the only relational database service bound to the app.
-	 * 
-	 * This is equivalent to the <cloud:data-source/> element.  
-	 * 
-	 * @return data source
-	 * @throws CloudException if there are either 0 or more than 1 relational database services.
-	 */
-	public DataSource dataSource() {
-		return dataSource((DataSourceConfig)null);
-	}
-	
-	/**
-	 * Get the {@link DataSource} object associated with the only relational database service bound to the app
-	 * configured as specified.
-	 * 
-	 * This is equivalent to the <cloud:data-source> element with a nested <cloud:connection> 
-	 * and/or <cloud:pool> elements.  
-	 *
-	 * @param dataSourceConfig configuration for the data source created
-	 * @return data source 
-	 * @throws CloudException if there are either 0 or more than 1 relational database services. 
-	 */
-	public DataSource dataSource(DataSourceConfig dataSourceConfig) {
-		return cloud().getSingletonServiceConnector(DataSource.class, dataSourceConfig);
-	}
-
-	/**
-	 * Get the {@link DataSource} object for the specified relational database service.
-	 * 
-	 * This is equivalent to the <cloud:data-source service-id="serviceId"/>  
-	 *
-	 * @param serviceId the name of the service
-	 * @return data source 
-	 * @throws CloudException if the specified service doesn't exist 
-	 */
-	public DataSource dataSource(String serviceId) {
-		return dataSource(serviceId, null);
-	}
-
-	/**
-	 * Get the {@link DataSource} object for the specified relational database service configured as specified.
-	 * 
-	 * This is equivalent to the <cloud:data-source service-id="serviceId"/> element with a
-	 * nested <cloud:connection> and/or <cloud:pool> elements.
-	 *   
-	 * @param serviceId the name of the service   
-	 * @param dataSourceConfig configuration for the data source created
-	 * @return data source 
-	 * @throws CloudException if the specified service doesn't exist 
-	 */
-	public DataSource dataSource(String serviceId, DataSourceConfig dataSourceConfig) {
-		return cloud().getServiceConnector(serviceId, DataSource.class, dataSourceConfig);
-	}
-
-	// Mongodb
-	/**
-	 * Get the {@link MongoDbFactory} object associated with the only MongoDB service bound to the app.
-	 * 
-	 * This is equivalent to the <cloud:mongo-db-factory/> element.  
-	 * 
-	 * @return mongo db factory
-	 * @throws CloudException if there are either 0 or more than 1 mongodb services.
-	 */
-	public MongoDbFactory mongoDbFactory() {
-		return mongoDbFactory((MongoDbFactoryConfig)null);
-	}
-	
-	/**
-	 * Get the {@link MongoDbFactory} object associated with the only MongoDB service bound to the app
-	 * configured as specified.
-	 * 
-	 * This is equivalent to the <cloud:mongo-db-factory> element with a nested <cloud:mongo-options> element.  
-	 *
-	 * @param mongoDbFactoryConfig configuration for the mondo db factory created
-	 * @return mongo db factory 
-	 * @throws CloudException if there are either 0 or more than 1 mongodb services. 
-	 */
-	public MongoDbFactory mongoDbFactory(MongoDbFactoryConfig mongoDbFactoryConfig) {
-		return cloud().getSingletonServiceConnector(MongoDbFactory.class, mongoDbFactoryConfig);
-	}
-
-	/**
-	 * Get the {@link MongoDbFactory} object for the specified MongoDB service.
-	 * 
-	 * This is equivalent to the <cloud:mongo-db-factory service-id="serviceId"> element. 
-	 *
-	 * @param serviceId the name of the service
-	 * @return mongo db factory 
-	 * @throws CloudException if the specified service doesn't exist 
-	 */
-	public MongoDbFactory mongoDbFactory(String serviceId) {
-		return mongoDbFactory(serviceId, null);
-	}
-
-	/**
-	 * Get the {@link MongoDbFactory} object for the specified MongoDB service configured as specified.
-	 * 
-	 * This is equivalent to the <cloud:mongo-db-factory service-id="serviceId"> element 
-	 * with a nested <cloud:mongo-options> element.  
-	 *   
-	 * @param serviceId the name of the service
-	 * @param mongoDbFactoryConfig configuration for the mongo db factory created
-	 * @return mongo db factory 
-	 * @throws CloudException if the specified service doesn't exist 
-	 */
-	public MongoDbFactory mongoDbFactory(String serviceId, MongoDbFactoryConfig mongoDbFactoryConfig) {
-		return cloud().getServiceConnector(serviceId, MongoDbFactory.class, mongoDbFactoryConfig);
-	}
-
-	// RabbitMQ
-	/**
-	 * Get the {@link ConnectionFactory} object associated with the only RabbitMQ service bound to the app.
-	 * 
-	 * This is equivalent to the <cloud:rabbit-connection-factory> element. 
-	 *   
-	 * @return rabbit connection factory 
-	 * @throws CloudException if there are either 0 or more than 1 RabbitMQ services. 
-	 */
-	public ConnectionFactory rabbitConnectionFactory() {
-		return rabbitConnectionFactory((RabbitConnectionFactoryConfig)null);
-	}
-	
-	/**
-	 * Get the {@link ConnectionFactory} object associated with the only RabbitMQ service bound to the app
-	 * configured as specified.
-	 * 
-	 * This is equivalent to the <cloud:rabbit-connection-factory> element 
-	 * with a nested <cloud:rabbit-options> element.  
-	 *   
-	 * @param rabbitConnectionFactoryConfig configuration for the rabbit connection factory created
-	 * @return rabbit connection factory 
-	 * @throws CloudException if there are either 0 or more than 1 RabbitMQ services. 
-	 */
-	public ConnectionFactory rabbitConnectionFactory(RabbitConnectionFactoryConfig rabbitConnectionFactoryConfig) {
-		return cloud().getSingletonServiceConnector(ConnectionFactory.class, rabbitConnectionFactoryConfig);
-	}
-
-	/**
-	 * Get the {@link ConnectionFactory} object for the specified RabbitMQ service.
-	 * 
-	 * This is equivalent to the <cloud:rabbit-connection-factory service-id="serviceId"> element. 
-	 *   
-	 * @param serviceId the name of the service
-	 * @return rabbit connection factory 
-	 * @throws CloudException if the specified service doesn't exist 
-	 */
-	public ConnectionFactory rabbitConnectionFactory(String serviceId) {
-		return rabbitConnectionFactory(serviceId, null);
-	}
-
-	/**
-	 * Get the {@link ConnectionFactory} object for the specified RabbitMQ service configured as specified.
-	 * 
-	 * This is equivalent to the <cloud:rabbit-connection-factory service-id="serviceId"> element 
-	 * with a nested <cloud:rabbit-options> element.  
-	 *   
-	 * @param serviceId the name of the service
-	 * @param rabbitConnectionFactoryConfig configuration for the {@link ConnectionFactory} created
-	 * @return rabbit connection factory 
-	 * @throws CloudException if the specified service doesn't exist 
-	 */
-	public ConnectionFactory rabbitConnectionFactory(String serviceId, RabbitConnectionFactoryConfig rabbitConnectionFactoryConfig) {
-		return cloud().getServiceConnector(serviceId, ConnectionFactory.class, rabbitConnectionFactoryConfig);
-	}
-	
-	// Redis
-	/**
- 	 * Get the {@link RedisConnectionFactory} object associated with the only Redis service bound to the app.
-	 * 
-	 * This is equivalent to the <cloud:redis-connection-factory/> element 
-	 *   
-	 * @return redis connection factory 
-	 * @throws CloudException if there are either 0 or more than 1 redis services. 
-	 */
-	public RedisConnectionFactory redisConnectionFactory() {
-		return redisConnectionFactory((PooledServiceConnectorConfig)null);
-	}
-	
-	/**
- 	 * Get the {@link RedisConnectionFactory} object associated with the only Redis service bound to the app
-	 * configured as specified.
-	 * 
-	 * This is equivalent to the <cloud:redis-connection-factory service-id="serviceId"> element 
-	 * with a nested <cloud:pool> element.  
-	 *   
-	 * @param redisConnectionFactoryConfig configuration for the {@link RedisConnectionFactory} created
-	 * @return redis connection factory 
-	 * @throws CloudException if there are either 0 or more than 1 redis services. 
-	 */
-	public RedisConnectionFactory redisConnectionFactory(PooledServiceConnectorConfig redisConnectionFactoryConfig) {
-		return cloud().getSingletonServiceConnector(RedisConnectionFactory.class, redisConnectionFactoryConfig);
-	}
-
-	/**
-	 * Get the {@link RedisConnectionFactory} object for the specified Redis service.
-	 * 
-	 * This is equivalent to the <cloud:redis-connection-factory service-id="serviceId"> element. 
-	 *   
-	 * @param serviceId the name of the service
-	 * @return redis connection factory 
-	 * @throws CloudException if the specified service doesn't exist 
-	 */
-	public RedisConnectionFactory redisConnectionFactory(String serviceId) {
-		return redisConnectionFactory(serviceId, null);
-	}
-
-	/**
-	 * Get the {@link RedisConnectionFactory} object for the specified Redis service configured as specified.
-	 * 
-	 * This is equivalent to the <cloud:redis-connection-factory service-id="serviceId"> element 
-	 * with a nested <cloud:pool> element.  
-	 *   
-	 * @param serviceId the name of the service
-	 * @param redisConnectionFactoryConfig configuration for the {@link RedisConnectionFactory} created
-	 * @return redis connection factory 
-	 * @throws CloudException if the specified service doesn't exist 
-	 */
-	public RedisConnectionFactory redisConnectionFactory(String serviceId, PooledServiceConnectorConfig redisConnectionFactoryConfig) {
-		return cloud().getServiceConnector(serviceId, RedisConnectionFactory.class, redisConnectionFactoryConfig);
-	}
-	
-	// Generic service
-	/**
-	 * Get the service connector object associated with the only service bound to the app.
-	 * 
-	 * This is equivalent to the <cloud:service/> element.  
-	 * 
-	 * @return service connector object
-	 * @throws CloudException if there are either 0 or more than 1 services.
-	 */
-	public Object service() {
-		return service(Object.class);
-	}
-
-	/**
-	 * Get the service connector object of the specified type if there is only one such candidate service
-	 * 
-	 * This is equivalent to the <cloud:service connector-type="T.class"/> element.  
-	 * 
-	 * @return service connector object
-	 * @throws CloudException if there are either 0 or more than 1 candidate services.
-	 */
-	public <T> T service(Class<T> serviceConnectorType) {
-		return cloud().getSingletonServiceConnector(serviceConnectorType, null);
-	}
-
-	/**
-	 * Get the service connector object for the specified service.
-	 * 
-	 * This is equivalent to the <cloud:service service-id="serviceId"/> element.  
-	 * 
-	 * @return service connector object
-	 * @throws CloudException if the specified service doesn't exist
-	 */
-	public Object service(String serviceId) {
-		return service(serviceId, Object.class);
-	}
-
-	/**
-	 * Get the service connector object of the specified type and service id
-	 * 
-	 * This is equivalent to the <cloud:service service-id="serviceId" connector-type="T.class"/> element.  
-	 * 
-	 * @return service connector object
-	 * @throws CloudException if the specified service doesn't exist
-	 */
-	public <T> T service(String serviceId, Class<T> serviceConnectorType) {
-		return cloud().getServiceConnector(serviceId, serviceConnectorType, null);
+	public ServiceConnectionFactory connectionFactory() {
+		return connectionFactory;
 	}
 	
 	/**
@@ -357,6 +83,291 @@ public abstract class AbstractCloudConfig implements BeanFactoryAware {
 	
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		this.beanFactory = beanFactory;
+		if (cloudFactory == null) {
+			try {
+				cloudFactory = beanFactory.getBean(CloudFactory.class);
+			} catch (NoSuchBeanDefinitionException ex) {
+				cloudFactory = new CloudFactory();
+				((SingletonBeanRegistry)beanFactory).registerSingleton(CLOUD_FACTORY_BEAN_NAME, cloudFactory);
+			}
+		}
+		this.cloud = cloudFactory.getCloud();
+		this.connectionFactory = new ServiceConnectionFactory();
 	}
+
+	
+	public class ServiceConnectionFactory {
+		// Relational database
+		
+		/**
+		 * Get the {@link DataSource} object associated with the only relational database service bound to the app.
+		 * 
+		 * This is equivalent to the <cloud:data-source/> element.  
+		 * 
+		 * @return data source
+		 * @throws CloudException if there are either 0 or more than 1 relational database services.
+		 */
+		public DataSource dataSource() {
+			return dataSource((DataSourceConfig)null);
+		}
+		
+		/**
+		 * Get the {@link DataSource} object associated with the only relational database service bound to the app
+		 * configured as specified.
+		 * 
+		 * This is equivalent to the <cloud:data-source> element with a nested <cloud:connection> 
+		 * and/or <cloud:pool> elements.  
+		 *
+		 * @param dataSourceConfig configuration for the data source created
+		 * @return data source 
+		 * @throws CloudException if there are either 0 or more than 1 relational database services. 
+		 */
+		public DataSource dataSource(DataSourceConfig dataSourceConfig) {
+			return cloud.getSingletonServiceConnector(DataSource.class, dataSourceConfig);
+		}
+	
+		/**
+		 * Get the {@link DataSource} object for the specified relational database service.
+		 * 
+		 * This is equivalent to the <cloud:data-source service-id="serviceId"/>  
+		 *
+		 * @param serviceId the name of the service
+		 * @return data source 
+		 * @throws CloudException if the specified service doesn't exist 
+		 */
+		public DataSource dataSource(String serviceId) {
+			return dataSource(serviceId, null);
+		}
+	
+		/**
+		 * Get the {@link DataSource} object for the specified relational database service configured as specified.
+		 * 
+		 * This is equivalent to the <cloud:data-source service-id="serviceId"/> element with a
+		 * nested <cloud:connection> and/or <cloud:pool> elements.
+		 *   
+		 * @param serviceId the name of the service   
+		 * @param dataSourceConfig configuration for the data source created
+		 * @return data source 
+		 * @throws CloudException if the specified service doesn't exist 
+		 */
+		public DataSource dataSource(String serviceId, DataSourceConfig dataSourceConfig) {
+			return cloud.getServiceConnector(serviceId, DataSource.class, dataSourceConfig);
+		}
+	
+		// Mongodb
+		/**
+		 * Get the {@link MongoDbFactory} object associated with the only MongoDB service bound to the app.
+		 * 
+		 * This is equivalent to the <cloud:mongo-db-factory/> element.  
+		 * 
+		 * @return mongo db factory
+		 * @throws CloudException if there are either 0 or more than 1 mongodb services.
+		 */
+		public MongoDbFactory mongoDbFactory() {
+			return mongoDbFactory((MongoDbFactoryConfig)null);
+		}
+		
+		/**
+		 * Get the {@link MongoDbFactory} object associated with the only MongoDB service bound to the app
+		 * configured as specified.
+		 * 
+		 * This is equivalent to the <cloud:mongo-db-factory> element with a nested <cloud:mongo-options> element.  
+		 *
+		 * @param mongoDbFactoryConfig configuration for the mondo db factory created
+		 * @return mongo db factory 
+		 * @throws CloudException if there are either 0 or more than 1 mongodb services. 
+		 */
+		public MongoDbFactory mongoDbFactory(MongoDbFactoryConfig mongoDbFactoryConfig) {
+			return cloud.getSingletonServiceConnector(MongoDbFactory.class, mongoDbFactoryConfig);
+		}
+	
+		/**
+		 * Get the {@link MongoDbFactory} object for the specified MongoDB service.
+		 * 
+		 * This is equivalent to the <cloud:mongo-db-factory service-id="serviceId"> element. 
+		 *
+		 * @param serviceId the name of the service
+		 * @return mongo db factory 
+		 * @throws CloudException if the specified service doesn't exist 
+		 */
+		public MongoDbFactory mongoDbFactory(String serviceId) {
+			return mongoDbFactory(serviceId, null);
+		}
+	
+		/**
+		 * Get the {@link MongoDbFactory} object for the specified MongoDB service configured as specified.
+		 * 
+		 * This is equivalent to the <cloud:mongo-db-factory service-id="serviceId"> element 
+		 * with a nested <cloud:mongo-options> element.  
+		 *   
+		 * @param serviceId the name of the service
+		 * @param mongoDbFactoryConfig configuration for the mongo db factory created
+		 * @return mongo db factory 
+		 * @throws CloudException if the specified service doesn't exist 
+		 */
+		public MongoDbFactory mongoDbFactory(String serviceId, MongoDbFactoryConfig mongoDbFactoryConfig) {
+			return cloud.getServiceConnector(serviceId, MongoDbFactory.class, mongoDbFactoryConfig);
+		}
+	
+		// RabbitMQ
+		/**
+		 * Get the {@link ConnectionFactory} object associated with the only RabbitMQ service bound to the app.
+		 * 
+		 * This is equivalent to the <cloud:rabbit-connection-factory> element. 
+		 *   
+		 * @return rabbit connection factory 
+		 * @throws CloudException if there are either 0 or more than 1 RabbitMQ services. 
+		 */
+		public ConnectionFactory rabbitConnectionFactory() {
+			return rabbitConnectionFactory((RabbitConnectionFactoryConfig)null);
+		}
+		
+		/**
+		 * Get the {@link ConnectionFactory} object associated with the only RabbitMQ service bound to the app
+		 * configured as specified.
+		 * 
+		 * This is equivalent to the <cloud:rabbit-connection-factory> element 
+		 * with a nested <cloud:rabbit-options> element.  
+		 *   
+		 * @param rabbitConnectionFactoryConfig configuration for the rabbit connection factory created
+		 * @return rabbit connection factory 
+		 * @throws CloudException if there are either 0 or more than 1 RabbitMQ services. 
+		 */
+		public ConnectionFactory rabbitConnectionFactory(RabbitConnectionFactoryConfig rabbitConnectionFactoryConfig) {
+			return cloud.getSingletonServiceConnector(ConnectionFactory.class, rabbitConnectionFactoryConfig);
+		}
+	
+		/**
+		 * Get the {@link ConnectionFactory} object for the specified RabbitMQ service.
+		 * 
+		 * This is equivalent to the <cloud:rabbit-connection-factory service-id="serviceId"> element. 
+		 *   
+		 * @param serviceId the name of the service
+		 * @return rabbit connection factory 
+		 * @throws CloudException if the specified service doesn't exist 
+		 */
+		public ConnectionFactory rabbitConnectionFactory(String serviceId) {
+			return rabbitConnectionFactory(serviceId, null);
+		}
+	
+		/**
+		 * Get the {@link ConnectionFactory} object for the specified RabbitMQ service configured as specified.
+		 * 
+		 * This is equivalent to the <cloud:rabbit-connection-factory service-id="serviceId"> element 
+		 * with a nested <cloud:rabbit-options> element.  
+		 *   
+		 * @param serviceId the name of the service
+		 * @param rabbitConnectionFactoryConfig configuration for the {@link ConnectionFactory} created
+		 * @return rabbit connection factory 
+		 * @throws CloudException if the specified service doesn't exist 
+		 */
+		public ConnectionFactory rabbitConnectionFactory(String serviceId, RabbitConnectionFactoryConfig rabbitConnectionFactoryConfig) {
+			return cloud.getServiceConnector(serviceId, ConnectionFactory.class, rabbitConnectionFactoryConfig);
+		}
+		
+		// Redis
+		/**
+	 	 * Get the {@link RedisConnectionFactory} object associated with the only Redis service bound to the app.
+		 * 
+		 * This is equivalent to the <cloud:redis-connection-factory/> element 
+		 *   
+		 * @return redis connection factory 
+		 * @throws CloudException if there are either 0 or more than 1 redis services. 
+		 */
+		public RedisConnectionFactory redisConnectionFactory() {
+			return redisConnectionFactory((PooledServiceConnectorConfig)null);
+		}
+		
+		/**
+	 	 * Get the {@link RedisConnectionFactory} object associated with the only Redis service bound to the app
+		 * configured as specified.
+		 * 
+		 * This is equivalent to the <cloud:redis-connection-factory service-id="serviceId"> element 
+		 * with a nested <cloud:pool> element.  
+		 *   
+		 * @param redisConnectionFactoryConfig configuration for the {@link RedisConnectionFactory} created
+		 * @return redis connection factory 
+		 * @throws CloudException if there are either 0 or more than 1 redis services. 
+		 */
+		public RedisConnectionFactory redisConnectionFactory(PooledServiceConnectorConfig redisConnectionFactoryConfig) {
+			return cloud.getSingletonServiceConnector(RedisConnectionFactory.class, redisConnectionFactoryConfig);
+		}
+	
+		/**
+		 * Get the {@link RedisConnectionFactory} object for the specified Redis service.
+		 * 
+		 * This is equivalent to the <cloud:redis-connection-factory service-id="serviceId"> element. 
+		 *   
+		 * @param serviceId the name of the service
+		 * @return redis connection factory 
+		 * @throws CloudException if the specified service doesn't exist 
+		 */
+		public RedisConnectionFactory redisConnectionFactory(String serviceId) {
+			return redisConnectionFactory(serviceId, null);
+		}
+	
+		/**
+		 * Get the {@link RedisConnectionFactory} object for the specified Redis service configured as specified.
+		 * 
+		 * This is equivalent to the <cloud:redis-connection-factory service-id="serviceId"> element 
+		 * with a nested <cloud:pool> element.  
+		 *   
+		 * @param serviceId the name of the service
+		 * @param redisConnectionFactoryConfig configuration for the {@link RedisConnectionFactory} created
+		 * @return redis connection factory 
+		 * @throws CloudException if the specified service doesn't exist 
+		 */
+		public RedisConnectionFactory redisConnectionFactory(String serviceId, PooledServiceConnectorConfig redisConnectionFactoryConfig) {
+			return cloud.getServiceConnector(serviceId, RedisConnectionFactory.class, redisConnectionFactoryConfig);
+		}
+		
+		// Generic service
+		/**
+		 * Get the service connector object associated with the only service bound to the app.
+		 * 
+		 * This is equivalent to the <cloud:service/> element.  
+		 * 
+		 * @return service connector object
+		 * @throws CloudException if there are either 0 or more than 1 services.
+		 */
+		public Object service() {
+			return service(Object.class);
+		}
+	
+		/**
+		 * Get the service connector object of the specified type if there is only one such candidate service
+		 * 
+		 * This is equivalent to the <cloud:service connector-type="T.class"/> element.  
+		 * 
+		 * @return service connector object
+		 * @throws CloudException if there are either 0 or more than 1 candidate services.
+		 */
+		public <T> T service(Class<T> serviceConnectorType) {
+			return cloud.getSingletonServiceConnector(serviceConnectorType, null);
+		}
+	
+		/**
+		 * Get the service connector object for the specified service.
+		 * 
+		 * This is equivalent to the <cloud:service service-id="serviceId"/> element.  
+		 * 
+		 * @return service connector object
+		 * @throws CloudException if the specified service doesn't exist
+		 */
+		public Object service(String serviceId) {
+			return service(serviceId, Object.class);
+		}
+	
+		/**
+		 * Get the service connector object of the specified type and service id
+		 * 
+		 * This is equivalent to the <cloud:service service-id="serviceId" connector-type="T.class"/> element.  
+		 * 
+		 * @return service connector object
+		 * @throws CloudException if the specified service doesn't exist
+		 */
+		public <T> T service(String serviceId, Class<T> serviceConnectorType) {
+			return cloud.getServiceConnector(serviceId, serviceConnectorType, null);
+		}
+	}	
 }

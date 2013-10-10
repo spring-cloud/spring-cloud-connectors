@@ -39,14 +39,14 @@ public class RabbitConnectionFactoryJavaConfigTest extends AbstractServiceJavaCo
 class RabbitConnectionFactoryConfigWithId extends AbstractCloudConfig {
 	@Bean(name="my-service")
 	public ConnectionFactory testRabbitConnectionFactory() {
-		return rabbitConnectionFactory("my-service");
+		return connectionFactory().rabbitConnectionFactory("my-service");
 	}
 }
 
 class RabbitConnectionFactoryConfigWithoutId extends AbstractCloudConfig {
 	@Bean(name="my-service")
 	public ConnectionFactory testRabbitConnectionFactory() {
-		return rabbitConnectionFactory();
+		return connectionFactory().rabbitConnectionFactory();
 	}
 }
 
@@ -54,6 +54,6 @@ class RabbitConnectionFactoryConfigWithServiceConfig extends AbstractCloudConfig
 	@Bean
 	public ConnectionFactory channelCacheSize200() {
 		RabbitConnectionFactoryConfig serviceConfig = new RabbitConnectionFactoryConfig(200);
-		return rabbitConnectionFactory("my-service", serviceConfig);		
+		return connectionFactory().rabbitConnectionFactory("my-service", serviceConfig);		
 	}
 }

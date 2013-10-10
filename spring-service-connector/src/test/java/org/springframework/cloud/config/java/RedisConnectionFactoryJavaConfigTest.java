@@ -51,14 +51,14 @@ public class RedisConnectionFactoryJavaConfigTest extends AbstractServiceJavaCon
 class RedisConnectionFactoryConfigWithId extends AbstractCloudConfig {
 	@Bean(name="my-service")
 	public RedisConnectionFactory testRedisConnectionFactory() {
-		return redisConnectionFactory("my-service");
+		return connectionFactory().redisConnectionFactory("my-service");
 	}
 }
 
 class RedisConnectionFactoryConfigWithoutId extends AbstractCloudConfig {
 	@Bean(name="my-service")
 	public RedisConnectionFactory testRedisConnectionFactory() {
-		return redisConnectionFactory();
+		return connectionFactory().redisConnectionFactory();
 	}
 }
 
@@ -67,14 +67,14 @@ class RedisConnectionFactoryConfigWithServiceConfig extends AbstractCloudConfig 
 	public RedisConnectionFactory pool20Wait200() {
 		PoolConfig poolConfig = new PoolConfig(20, 200);
 		PooledServiceConnectorConfig serviceConfig = new PooledServiceConnectorConfig(poolConfig);
-		return redisConnectionFactory("my-service", serviceConfig);
+		return connectionFactory().redisConnectionFactory("my-service", serviceConfig);
 	}
 	
 	@Bean
 	public RedisConnectionFactory pool5_30Wait3000() {
 		PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
 		PooledServiceConnectorConfig serviceConfig = new PooledServiceConnectorConfig(poolConfig);
-		return redisConnectionFactory("my-service", serviceConfig);
+		return connectionFactory().redisConnectionFactory("my-service", serviceConfig);
 	}
 
 }

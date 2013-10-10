@@ -75,14 +75,14 @@ public class MongoDbFactoryJavaConfigTest extends AbstractServiceJavaConfigTest<
 class MongoDbFactoryConfigWithId extends AbstractCloudConfig {
 	@Bean(name="my-service")
 	public MongoDbFactory testMongoDbFactory() {
-		return mongoDbFactory("my-service");
+		return connectionFactory().mongoDbFactory("my-service");
 	}
 }
 
 class MongoDbFactoryConfigWithoutId extends AbstractCloudConfig {
 	@Bean(name="my-service")
 	public MongoDbFactory testMongoDbFactory() {
-		return mongoDbFactory();
+		return connectionFactory().mongoDbFactory();
 	}
 }
 
@@ -90,30 +90,30 @@ class MongoDbFactoryConfigWithServiceConfig extends AbstractCloudConfig {
 	@Bean
 	public MongoDbFactory connectionPerHost50_MaxWait200_WriteConcernNone() {
 		MongoDbFactoryConfig serviceConfig = new MongoDbFactoryConfig("NONE", 50, 200);
-		return mongoDbFactory("my-service", serviceConfig);
+		return connectionFactory().mongoDbFactory("my-service", serviceConfig);
 	}
 
 	@Bean
 	public MongoDbFactory connectionPerHost50_MaxWait200_WriteConcernSafe() {
 		MongoDbFactoryConfig serviceConfig = new MongoDbFactoryConfig("SAFE", 50, 200);
-		return mongoDbFactory("my-service", serviceConfig);
+		return connectionFactory().mongoDbFactory("my-service", serviceConfig);
 	}
 
 	@Bean
 	public MongoDbFactory connectionPerHost50_MaxWait200_WriteConcernUnspecified() {
 		MongoDbFactoryConfig serviceConfig = new MongoDbFactoryConfig(null, 50, 200);
-		return mongoDbFactory("my-service", serviceConfig);
+		return connectionFactory().mongoDbFactory("my-service", serviceConfig);
 	}
 	
 	@Bean
 	public MongoDbFactory connectionPerHost50_MaxWaitUnspecified_WriteConcernUnspecified() {
 		MongoDbFactoryConfig serviceConfig = new MongoDbFactoryConfig(null, 50, null);
-		return mongoDbFactory("my-service", serviceConfig);
+		return connectionFactory().mongoDbFactory("my-service", serviceConfig);
 	}
 	
 	@Bean
 	public MongoDbFactory connectionPerHostUnspecified_MaxWait200_WriteConcernUnspecified() {
 		MongoDbFactoryConfig serviceConfig = new MongoDbFactoryConfig(null, null, 200);
-		return mongoDbFactory("my-service", serviceConfig);
+		return connectionFactory().mongoDbFactory("my-service", serviceConfig);
 	}
 }

@@ -74,14 +74,14 @@ public abstract class DataSourceJavaConfigTest extends AbstractServiceJavaConfig
 class DatasourceConfigWithId extends AbstractCloudConfig {
 	@Bean(name="my-service")
 	public DataSource testDatasource() {
-		return dataSource("my-service");
+		return connectionFactory().dataSource("my-service");
 	}
 }
 
 class DatasourceConfigWithoutId extends AbstractCloudConfig {
 	@Bean(name="my-service")
 	public DataSource testDatasource() {
-		return dataSource();
+		return connectionFactory().dataSource();
 	}
 }
 
@@ -91,13 +91,13 @@ class DatasourceConfigWithServiceConfig extends AbstractCloudConfig {
 		PoolConfig poolConfig = new PoolConfig(20, 200);
 		ConnectionConfig connectionConfig = new ConnectionConfig("sessionVariables=sql_mode='ANSI';characterEncoding=UTF-8");
 		DataSourceConfig serviceConfig = new DataSourceConfig(poolConfig, connectionConfig);
-		return dataSource("my-service", serviceConfig);
+		return connectionFactory().dataSource("my-service", serviceConfig);
 	}
 
 	@Bean
 	public DataSource dbPool5_20Wait3000() { // use this name so that we have a case with default name
 		PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
 		DataSourceConfig serviceConfig = new DataSourceConfig(poolConfig, null);
-		return dataSource("my-service", serviceConfig);
+		return connectionFactory().dataSource("my-service", serviceConfig);
 	}
 }

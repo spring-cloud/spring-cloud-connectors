@@ -7,9 +7,6 @@ import org.junit.Test;
 import org.springframework.cloud.service.common.SmtpServiceInfo;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import com.mongodb.ServerAddress;
 
 /**
  * 

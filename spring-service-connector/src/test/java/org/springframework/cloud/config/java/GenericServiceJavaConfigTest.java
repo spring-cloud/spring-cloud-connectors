@@ -44,7 +44,7 @@ public class GenericServiceJavaConfigTest extends AbstractServiceJavaConfigTest<
 class GenericServiceWithId extends AbstractCloudConfig {
 	@Bean(name="my-service")
 	public Object testService() {
-		return service("my-service");
+		return connectionFactory().service("my-service");
 	}
 	
 }
@@ -52,18 +52,18 @@ class GenericServiceWithId extends AbstractCloudConfig {
 class GenericServiceWithoutId extends AbstractCloudConfig {
 	@Bean(name="my-service")
 	public Object testService() {
-		return service();
+		return connectionFactory().service();
 	}
 }
 
 class GenericServiceWithConnectorType extends AbstractCloudConfig {
 	@Bean
 	public DataSource myServiceWithTypeWithServiceName() {
-		return service("my-service", DataSource.class);
+		return connectionFactory().service("my-service", DataSource.class);
 	}
 
 	@Bean
 	public DataSource myServiceWithTypeWithoutServiceName() {
-		return service(DataSource.class);
+		return connectionFactory().service(DataSource.class);
 	}
 }
