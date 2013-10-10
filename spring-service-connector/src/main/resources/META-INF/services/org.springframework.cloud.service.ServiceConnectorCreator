@@ -3,3 +3,4 @@ org.springframework.cloud.service.relational.PostgresqlDataSourceCreator
 org.springframework.cloud.service.keyval.RedisConnectionFactoryCreator
 org.springframework.cloud.service.document.MongoDbFactoryCreator
 org.springframework.cloud.service.messaging.RabbitConnectionFactoryCreator
+org.springframework.cloud.service.smtp.MailSenderCreator

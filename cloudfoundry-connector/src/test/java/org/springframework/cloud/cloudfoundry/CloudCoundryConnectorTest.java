@@ -5,7 +5,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.*;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getApplicationInstanceInfo;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMongoServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMonitoringServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayloadWithLabelNoTags;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayloadWithLabelNoUri;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getPostgresqlServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRabbitServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRedisServicePayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getServicesPayload;
+import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getSmtpServicePayload;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +27,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
+import org.springframework.cloud.service.common.SmtpServiceInfo;
 import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
@@ -185,6 +196,20 @@ public class CloudCoundryConnectorTest {
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 		assertNotNull(getServiceInfo(serviceInfos, "monitoring-1"));
+	}
+
+	@Test
+	public void smtpServiceCreation() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+			.thenReturn(getServicesPayload(getSmtpServicePayload("n/a", "smtp-1", hostname, username, password)));
+
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		SmtpServiceInfo smptServiceInfo = (SmtpServiceInfo) getServiceInfo(serviceInfos, "smtp-1");
+		assertNotNull(smptServiceInfo);
+		assertEquals(hostname, smptServiceInfo.getHost());
+		assertEquals(587, smptServiceInfo.getPort());
+		assertEquals(username, smptServiceInfo.getUserName());
+		assertEquals(password, smptServiceInfo.getPassword());		
 	}
 
 	@Test

@@ -32,6 +32,10 @@ public class UriInfo {
 		this.uri = buildUri();
 	}
 
+	public UriInfo(String scheme, String host, int port, String username, String password) {
+		this(scheme, host, port, username, password, "");
+	}
+	
 	public UriInfo(String uriString) throws IllegalArgumentException {
 		try {
 			this.uri = new URI(uriString);

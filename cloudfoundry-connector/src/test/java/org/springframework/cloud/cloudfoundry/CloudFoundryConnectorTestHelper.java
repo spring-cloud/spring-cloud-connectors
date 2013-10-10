@@ -108,6 +108,19 @@ public class CloudFoundryConnectorTestHelper {
 		return payload;
 	}
 
+	public static String getSmtpServicePayload(String version, String serviceName,
+			String hostname, 
+			String user, String password) {
+		String payload = readTestDataFile("test-smtp-info.json");
+		payload = payload.replace("$version", version);
+		payload = payload.replace("$serviceName", serviceName);
+		payload = payload.replace("$hostname", hostname);
+		payload = payload.replace("$username", user);
+		payload = payload.replace("$password", password);
+		
+		return payload;
+	}
+	
 	public static String getMonitoringServicePayload(String serviceName) {
 		String payload = readTestDataFile("test-monitoring-info.json");
 		payload = payload.replace("$serviceName", serviceName);

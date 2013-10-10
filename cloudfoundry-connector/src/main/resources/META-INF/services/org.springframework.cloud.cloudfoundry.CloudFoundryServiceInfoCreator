@@ -4,3 +4,4 @@ org.springframework.cloud.cloudfoundry.RedisServiceInfoCreator
 org.springframework.cloud.cloudfoundry.MongoServiceInfoCreator
 org.springframework.cloud.cloudfoundry.RabbitServiceInfoCreator
 org.springframework.cloud.cloudfoundry.MonitoringServiceInfoCreator
+org.springframework.cloud.cloudfoundry.SmtpServiceInfoCreator

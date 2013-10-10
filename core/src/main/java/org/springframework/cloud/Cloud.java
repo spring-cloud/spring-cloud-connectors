@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 import javax.activation.DataSource;
 
@@ -37,6 +38,8 @@ import org.springframework.cloud.service.ServiceInfo.ServiceProperty;
  *
  */
 public class Cloud {
+	private static Logger logger = Logger.getLogger(Cloud.class.getName());
+	
 	private CloudConnector cloudConnector;
 	private ServiceConnectorCreatorRegistry serviceConnectorCreatorRegistry = new ServiceConnectorCreatorRegistry();
 	
@@ -296,6 +299,8 @@ public class Cloud {
 }
 
 class ServiceConnectorCreatorRegistry {
+	private static Logger logger = Logger.getLogger(Cloud.class.getName());
+
 	private List<ServiceConnectorCreator<?, ? extends ServiceInfo>> serviceConnectorCreators = new ArrayList<ServiceConnectorCreator<?, ? extends ServiceInfo>>();
 	
 	public void registerCreator(ServiceConnectorCreator<?, ? extends ServiceInfo> serviceConnectorCreator) {
@@ -305,11 +310,15 @@ class ServiceConnectorCreatorRegistry {
 	@SuppressWarnings("unchecked")
 	public <SC, SI extends ServiceInfo> ServiceConnectorCreator<SC, SI> getServiceCreator(Class<SC> serviceConnectorType, SI serviceInfo) {
 		for (ServiceConnectorCreator<?, ? extends ServiceInfo> serviceConnectorCreator : serviceConnectorCreators) {
+			logger.info("Trying connector creator type " + serviceConnectorCreator);			
 			if (accept(serviceConnectorCreator, serviceConnectorType, serviceInfo)) {
 				return (ServiceConnectorCreator<SC, SI>) serviceConnectorCreator;
 			}
 		}
-		throw new CloudException("No suitable ServiceConnectorCreator found for " + serviceInfo.getId() + " -> " + serviceConnectorType);
+		throw new CloudException("No suitable ServiceConnectorCreator found: "
+                                 + "service id=" + serviceInfo.getId() 
+                                 + "service info type=" + serviceInfo.getClass().getName() + ", " 
+                                 + "connector type=" + serviceConnectorType);
 	}
 	
 	public boolean accept(ServiceConnectorCreator<?, ? extends ServiceInfo> creator, Class<?> serviceConnectorType, ServiceInfo serviceInfo) {

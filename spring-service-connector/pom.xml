@@ -32,7 +32,7 @@
 		
 		<mysql-driver.version>5.0.5</mysql-driver.version>
 		<postgres-driver.version>9.0-801.jdbc4</postgres-driver.version>
-		
+		<javax-mail.version>1.4.7</javax-mail.version>
 		<cglib.version>2.2.2</cglib.version>		
 	</properties>	
 	
@@ -68,6 +68,12 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.framework.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
 			<version>${spring.framework.version}</version>
 			<scope>provided</scope>
 		</dependency>
@@ -167,6 +173,12 @@
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgres-driver.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${javax-mail.version}</version>
 			<scope>test</scope>
 		</dependency>
 		
