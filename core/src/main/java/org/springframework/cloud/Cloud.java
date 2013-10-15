@@ -310,15 +310,15 @@ class ServiceConnectorCreatorRegistry {
 	@SuppressWarnings("unchecked")
 	public <SC, SI extends ServiceInfo> ServiceConnectorCreator<SC, SI> getServiceCreator(Class<SC> serviceConnectorType, SI serviceInfo) {
 		for (ServiceConnectorCreator<?, ? extends ServiceInfo> serviceConnectorCreator : serviceConnectorCreators) {
-			logger.info("Trying connector creator type " + serviceConnectorCreator);			
+			logger.info("Trying connector creator type " + serviceConnectorCreator);
 			if (accept(serviceConnectorCreator, serviceConnectorType, serviceInfo)) {
 				return (ServiceConnectorCreator<SC, SI>) serviceConnectorCreator;
 			}
 		}
 		throw new CloudException("No suitable ServiceConnectorCreator found: "
-                                 + "service id=" + serviceInfo.getId() 
-                                 + "service info type=" + serviceInfo.getClass().getName() + ", " 
-                                 + "connector type=" + serviceConnectorType);
+								 + "service id=" + serviceInfo.getId() + ", "
+								 + "service info type=" + serviceInfo.getClass().getName() + ", "
+								 + "connector type=" + serviceConnectorType);
 	}
 	
 	public boolean accept(ServiceConnectorCreator<?, ? extends ServiceInfo> creator, Class<?> serviceConnectorType, ServiceInfo serviceInfo) {
