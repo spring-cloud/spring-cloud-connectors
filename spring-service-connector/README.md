@@ -45,7 +45,7 @@ and `mongoDbFactory()` as follows:
     
     class CloudConfig extends AbstractCloudConfig {
         @Bean
-        	public DataSource inventoryDataSource() {
+        public DataSource inventoryDataSource() {
             return connectionFactory().dataSource("inventory-db-service");
         }
         

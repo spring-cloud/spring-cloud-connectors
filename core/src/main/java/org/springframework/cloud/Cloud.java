@@ -131,7 +131,6 @@ public class Cloud {
 	/**
 	 * Get the singleton service connector for the given connector type, configured with the given config
 	 * 
-
 	 * @param serviceConnectorType The expected class of service connector such as, DataSource.class.
 	 * @param serviceConnectorConfig service connector configuration (such as pooling parameters).
 	 * 
@@ -313,26 +312,26 @@ class ServiceConnectorCreatorRegistry {
 		if (serviceConnectorCreator != null) {
 			return serviceConnectorCreator;
 		} else {
-			throw new CloudException("No suitable ServiceConnectorCreator found: "
-	                                 + "service id=" + serviceInfo.getId() 
-	                                 + "service info type=" + serviceInfo.getClass().getName() + ", " 
-	                                 + "connector type=" + serviceConnectorType);
+  		    throw new CloudException("No suitable ServiceConnectorCreator found: "
+			    					 + "service id=" + serviceInfo.getId() + ", "
+				    				 + "service info type=" + serviceInfo.getClass().getName() + ", "
+					    			 + "connector type=" + serviceConnectorType);
 		}
 	}
 	
 	public <SC, SI extends ServiceInfo> boolean canCreate(Class<SC> serviceConnectorType, SI serviceInfo) {
 		return getServiceCreatorOrNull(serviceConnectorType, serviceInfo) != null;
 	}
-	
+
 	public boolean accept(ServiceConnectorCreator<?, ? extends ServiceInfo> creator, Class<?> serviceConnectorType, ServiceInfo serviceInfo) {
 		boolean typeBasedAccept = serviceConnectorType == null ? true : serviceConnectorType.isAssignableFrom(creator.getServiceConnectorType());
 		boolean infoBasedAccept = serviceInfo == null ? true : serviceInfo.getClass().isAssignableFrom(creator.getServiceInfoType());
 		
 		return  typeBasedAccept && infoBasedAccept;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public <SC, SI extends ServiceInfo> ServiceConnectorCreator<SC, SI> getServiceCreatorOrNull(Class<SC> serviceConnectorType, SI serviceInfo) {
+	private <SC, SI extends ServiceInfo> ServiceConnectorCreator<SC, SI> getServiceCreatorOrNull(Class<SC> serviceConnectorType, SI serviceInfo) {
 		for (ServiceConnectorCreator<?, ? extends ServiceInfo> serviceConnectorCreator : serviceConnectorCreators) {
 			logger.info("Trying connector creator type " + serviceConnectorCreator);			
 			if (accept(serviceConnectorCreator, serviceConnectorType, serviceInfo)) {
