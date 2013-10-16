@@ -3,6 +3,7 @@ package org.springframework.cloud.util;
 import java.util.Iterator;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.springframework.cloud.service.ServiceConnectorCreator;
@@ -58,7 +59,7 @@ public class ServiceLoaderWithExceptionControl<T> implements Iterable<T> {
 			try {
 				return underlying.next();
 			} catch (ServiceConfigurationError e) {
-				logger.warning("Failed to load " + e);
+				logger.log(Level.CONFIG, "Failed to load " + e);
 				if (hasNext()) {
 					return next();
 				}
