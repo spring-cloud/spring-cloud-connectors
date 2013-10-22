@@ -13,6 +13,10 @@ This library also supports an extension to create services connectors of user-de
 Usage pattern: Application Developers
 =====================================
 
+> **Note:** If you are using spring-cloud in a Spring application, you should consider using the 
+[Java config](../spring-service-connector#the-java-config) or the 
+[XML namespace support](../spring-service-connector#the-cloud-namespace) instead.
+
 * Create a [`CloudFactory`](src/main/java/org/springframework/cloud/CloudFactory.java) instance. 
   Creation of a `CloudFactory` instance is a bit expensive, so caching such an instance is recommended.
   If you are using a dependency inject frameworks such as Spring, creating a bean for `CloudFactory`
