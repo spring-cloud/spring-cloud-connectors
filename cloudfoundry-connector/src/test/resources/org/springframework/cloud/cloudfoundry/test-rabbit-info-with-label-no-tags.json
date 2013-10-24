@@ -1,0 +1,14 @@
+{
+	"name":"$serviceName",
+	"label":"rabbitmq-$version",
+	"tags":[],
+	"plan":"Standard",
+	"credentials":{
+		"uri":"amqp://$username:$password@$hostname/$virtualHost",
+		"vhost":"$virtualHost",
+		"username":"$username",
+		"password":"$password",
+		"hostname":"$hostname",
+		"http_api_uri":"http://$username:$password@$hostname:15672/api/"
+	}
+}
