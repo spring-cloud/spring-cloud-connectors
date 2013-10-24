@@ -2,14 +2,17 @@ package org.springframework.cloud.cloudfoundry;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMonitoringServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getServicesPayload;
 
 import java.util.List;
 
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public class CloudFoundryConnectorMonitoringServiceTest extends AbstractCloudFactoryConnectorTest {
 
 	@Test
@@ -19,5 +22,12 @@ public class CloudFoundryConnectorMonitoringServiceTest extends AbstractCloudFac
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 		assertNotNull(getServiceInfo(serviceInfos, "monitoring-1"));
+	}
+	
+	private String getMonitoringServicePayload(String serviceName) {
+		String payload = readTestDataFile("test-monitoring-info.json");
+		payload = payload.replace("$serviceName", serviceName);
+		
+		return payload;
 	}
 }

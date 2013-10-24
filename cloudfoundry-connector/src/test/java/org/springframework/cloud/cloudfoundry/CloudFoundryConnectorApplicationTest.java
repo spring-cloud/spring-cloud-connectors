@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getApplicationInstanceInfo;
 
 import java.util.Arrays;
 
@@ -15,7 +14,8 @@ import org.junit.Test;
  * @author Ramnivas Laddad
  *
  */
-public class CloudCoundryConnectorTest extends AbstractCloudFactoryConnectorTest {
+public class CloudFoundryConnectorApplicationTest extends AbstractCloudFactoryConnectorTest {
+	
 	@Test
 	public void isInMatchingEnvironment() {
 		when(mockEnvironment.getEnvValue("VCAP_APPLICATION")).thenReturn(getApplicationInstanceInfo("myapp", "http://myapp.com"));
@@ -33,4 +33,22 @@ public class CloudCoundryConnectorTest extends AbstractCloudFactoryConnectorTest
 		assertEquals(Arrays.asList("foo.cf.com", "bar.cf.com"), testCloudConnector.getApplicationInstanceInfo().getProperties().get("uris"));
 	}
 	
+	private String getApplicationInstanceInfo(String name, String... uri) {
+		String payload = readTestDataFile("test-application-info.json");
+		payload = payload.replace("$name", name);
+		StringBuilder uris = new StringBuilder();
+		for (String u : uri) {
+			if (uris.length() > 0) {
+				uris.append(",");
+			}
+			uris.append("\"");
+			uris.append(u);
+			uris.append("\"");
+		}
+		payload = payload.replace("$uris", uris.toString());
+		
+		return payload;
+	}
+	
+
 }

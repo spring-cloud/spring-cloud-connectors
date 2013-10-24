@@ -2,14 +2,17 @@ package org.springframework.cloud.cloudfoundry;
 
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getRabbitServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getServicesPayload;
 
 import java.util.List;
 
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
 public class CloudFoundryConnectorRabbitServiceTest extends AbstractCloudFactoryConnectorTest {
 	@Test
 	public void rabbitServiceCreation() {
@@ -26,4 +29,22 @@ public class CloudFoundryConnectorRabbitServiceTest extends AbstractCloudFactory
 		assertNotNull(getServiceInfo(serviceInfos, "rabbit-2"));
 	}
 
+	private String getRabbitServicePayload(String version, String serviceName,
+                                			  String hostname, int port,
+                                			  String user, String password, String name,
+                                			  String vHost) {
+		String payload = readTestDataFile("test-rabbit-info.json");
+		payload = payload.replace("$version", version);
+		payload = payload.replace("$serviceName", serviceName);
+		payload = payload.replace("$hostname", hostname);
+		payload = payload.replace("$port", Integer.toString(port));
+		payload = payload.replace("$user", user);
+		payload = payload.replace("$pass", password);
+		payload = payload.replace("$name", name);
+		payload = payload.replace("$virtualHost", vHost);
+		
+		return payload;
+	}
+
+	
 }

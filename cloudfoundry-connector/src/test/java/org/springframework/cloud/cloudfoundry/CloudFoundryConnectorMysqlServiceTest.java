@@ -3,10 +3,6 @@ package org.springframework.cloud.cloudfoundry;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayload;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayloadWithLabelNoTags;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getMysqlServicePayloadWithLabelNoUri;
-import static org.springframework.cloud.cloudfoundry.CloudFoundryConnectorTestHelper.getServicesPayload;
 
 import java.util.List;
 
@@ -14,7 +10,12 @@ import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 
-public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFactoryConnectorTest {
+/**
+ * 
+ * @author Ramnivas Laddad
+ *
+ */
+public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryConnectorRelationalServiceTest {
 	@Test
 	public void mysqlServiceCreation() {
 		String[] versions = {"5.1", "5.5"};
@@ -77,4 +78,26 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFactoryC
 		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
 		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
 	}
+	
+	private String getMysqlServicePayload(String version, String serviceName,
+            String hostname, int port,
+            String user, String password, String name) {
+		return getRelationalPayload("test-mysql-info.json", version, serviceName,
+				hostname, port, user, password, name);
+	}
+
+	private String getMysqlServicePayloadWithLabelNoTags(String version, String serviceName,
+                           String hostname, int port,
+                           String user, String password, String name) {
+		return getRelationalPayload("test-mysql-info-with-label-no-tags.json", version, serviceName,
+				hostname, port, user, password, name);
+	}
+
+	private String getMysqlServicePayloadWithLabelNoUri(String version, String serviceName,
+                          String hostname, int port,
+                          String user, String password, String name) {
+		return getRelationalPayload("test-mysql-info-with-label-no-uri.json", version, serviceName,
+				hostname, port, user, password, name);
+	}
+	
 }
