@@ -1,6 +1,8 @@
 package org.springframework.cloud.service;
 
+import org.springframework.cloud.util.StandardUriInfoFactory;
 import org.springframework.cloud.util.UriInfo;
+import org.springframework.cloud.util.UriInfoFactory;
 
 /**
  * Common class for all {@link ServiceInfo}s
@@ -9,21 +11,33 @@ import org.springframework.cloud.util.UriInfo;
  *
  */
 public abstract class UriBasedServiceInfo extends BaseServiceInfo {
-	private UriInfo uriInfo; 
+	private UriInfo uriInfo;
+
+  private static UriInfoFactory uriFactory = new StandardUriInfoFactory();
 
 	public UriBasedServiceInfo(String id, String scheme, String host, int port, String username, String password, String path) {
-		this(id, new UriInfo(scheme, host, port, username, password, path));
+		super(id);
+    this.uriInfo = getUriInfoFactory().createUri(scheme, host, port, username, password, path);
+    this.uriInfo = validateAndCleanUriInfo(uriInfo);
 	}
 	
 	public UriBasedServiceInfo(String id, String uriString) {
-		this(id, new UriInfo(uriString));
-	}
-	
-	private UriBasedServiceInfo(String id, UriInfo uriInfo) {
-		super(id);
-		this.uriInfo = validateAndCleanUriInfo(uriInfo);
-	}
-	
+    super(id);
+    this.uriInfo = getUriInfoFactory().createUri(uriString);
+    this.uriInfo = validateAndCleanUriInfo(uriInfo);
+  }
+
+  /**
+   * For URI-based (@link ServiceInfo}s which don't conform to the standard URI
+   * format, override this method in your own ServiceInfo class to return a
+   * {@link UriInfoFactory} which will create the appropriate URIs.
+   *
+   * @return your special UriInfoFactory
+   */
+  public UriInfoFactory getUriInfoFactory() {
+    return uriFactory;
+  }
+
 	@ServiceProperty(category="connection")
 	public String getUri() {
 		return uriInfo.getUri().toString();
