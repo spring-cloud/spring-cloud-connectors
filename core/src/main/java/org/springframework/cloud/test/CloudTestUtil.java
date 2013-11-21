@@ -12,6 +12,8 @@ import org.springframework.cloud.CloudConnector;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
+import org.springframework.cloud.service.ServiceInfo.ServiceProperty;
 
 /**
  * Class to support testing.
@@ -80,6 +82,19 @@ public class CloudTestUtil {
 		public Map<String, Object> getProperties() {
 			return properties;
 		}
+	}
+	
+	@ServiceLabel("stub")
+	public static class StubServiceInfo extends UriBasedServiceInfo {
+	    public StubServiceInfo(String id, String host, int port, String username, String password) {
+	        super(id, "stub", host, port, username, password, null);
+	    }
+	    
+	    // To test the scenario, where the name attribute of a property is explicitly specified 
+	    @ServiceProperty(name="bar")
+	    public String getFoo() {
+	        return "foo";
+	    }
 	}
 	
 	public static StubCloudConnector getTestCloudConnector(ApplicationInstanceInfo applicationInstanceInfo, ServiceInfo... serviceInfos) {

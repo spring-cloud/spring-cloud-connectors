@@ -18,6 +18,7 @@ import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.test.CloudTestUtil;
 import org.springframework.cloud.test.CloudTestUtil.StubApplicationInstanceInfo;
 import org.springframework.cloud.test.CloudTestUtil.StubCloudConnector;
+import org.springframework.cloud.test.CloudTestUtil.StubServiceInfo;
 
 /**
  * 
