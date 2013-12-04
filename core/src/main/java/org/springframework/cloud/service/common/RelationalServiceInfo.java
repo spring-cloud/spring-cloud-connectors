@@ -9,11 +9,11 @@ import org.springframework.cloud.service.UriBasedServiceInfo;
  */
 public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 
-  private String jdbcUrlDatabaseType;
+    private String jdbcUrlDatabaseType;
 
-	public RelationalServiceInfo(String id, String uriString, String jdbcUrlDatabaseType) {
+    public RelationalServiceInfo(String id, String uriString, String jdbcUrlDatabaseType) {
 		super(id, uriString);
-    this.jdbcUrlDatabaseType = jdbcUrlDatabaseType;
+		this.jdbcUrlDatabaseType = jdbcUrlDatabaseType;
 	}
 	
 	@ServiceProperty(category="connection")

@@ -33,7 +33,7 @@ public class UriInfo {
 		this(scheme, host, port, username, password, "");
 	}
 
-  public String getScheme() {
+	public String getScheme() {
 		return scheme;
 	}
 
