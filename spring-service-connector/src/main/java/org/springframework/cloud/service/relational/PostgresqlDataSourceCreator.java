@@ -10,16 +10,10 @@ import org.springframework.cloud.service.common.PostgresqlServiceInfo;
  */
 public class PostgresqlDataSourceCreator extends DataSourceCreator<PostgresqlServiceInfo> {
 	
-	private static final String POSTGRESQL_DRIVER_CLASS_NAME = "org.postgresql.Driver";
+	private static final String[] DRIVERS = new String[]{"org.postgresql.Driver"};
 	private static final String VALIDATION_QUERY = "SELECT 1";
 	
-	@Override
-	public String getDriverClassName() {
-		return POSTGRESQL_DRIVER_CLASS_NAME;
-	}
-
-	@Override
-	public String getValidationQuery() {
-		return VALIDATION_QUERY;
+	public PostgresqlDataSourceCreator() {
+	    super("spring-cloud.postgresql.driver", DRIVERS, VALIDATION_QUERY);    
 	}
 }

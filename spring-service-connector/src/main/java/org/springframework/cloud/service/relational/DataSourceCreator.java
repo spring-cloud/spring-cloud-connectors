@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.springframework.cloud.CloudException;
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreationException;
@@ -21,15 +22,19 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
  */
 public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extends AbstractServiceConnectorCreator<DataSource, SI> {
 
-	protected static Logger logger = Logger.getLogger(DataSourceCreator.class.getName());
-	
-	public abstract String getDriverClassName();
+    protected static Logger logger = Logger.getLogger(DataSourceCreator.class.getName());
 
-	public abstract String getValidationQuery();
+    private String driverSystemPropKey;
+    private String[] driverClasses;
+    private String validationQuery;
 
-	private List<PooledDataSourceCreator<SI>> pooledDataSourceCreators = new ArrayList<PooledDataSourceCreator<SI>>();
-	
-	public DataSourceCreator() {
+    private List<PooledDataSourceCreator<SI>> pooledDataSourceCreators = new ArrayList<PooledDataSourceCreator<SI>>();
+
+	public DataSourceCreator(String driverSystemPropKey, String[] driverClasses, String validationQuery) {
+	    this.driverSystemPropKey = driverSystemPropKey;
+	    this.driverClasses = driverClasses;
+	    this.validationQuery = validationQuery;
+	    
 		if (pooledDataSourceCreators.size() == 0) {
 			pooledDataSourceCreators.add(new BasicDbcpPooledDataSourceCreator<SI>());
 			pooledDataSourceCreators.add(new TomcatDbcpPooledDataSourceCreator<SI>());
@@ -40,10 +45,8 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 	@Override
 	public DataSource create(SI serviceInfo, ServiceConnectorConfig serviceConnectorConfig) {
 		try {
-			Class.forName(getDriverClassName());
-			
 			for (PooledDataSourceCreator<SI> delegate: pooledDataSourceCreators) {
-				DataSource ds = delegate.create(serviceInfo, serviceConnectorConfig, getDriverClassName(), getValidationQuery());
+				DataSource ds = delegate.create(serviceInfo, serviceConnectorConfig, getDriverClassName(serviceInfo), validationQuery);
 				
 				if (ds != null) {
 					return ds;
@@ -58,4 +61,22 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 							+ serviceInfo.getId() + " service", e);
 		}
 	}
+	
+    public String getDriverClassName(SI serviceInfo) {
+        String userSpecifiedDriver = System.getProperty(driverSystemPropKey);
+        
+        if (userSpecifiedDriver != null && !userSpecifiedDriver.isEmpty()) {
+            return userSpecifiedDriver;
+        } else {
+            for (String driver : driverClasses) {
+                try {
+                    Class.forName(driver);
+                    return driver;
+                } catch (ClassNotFoundException ex) {
+                    // continue...
+                }
+            }
+        }
+        throw new CloudException("No suitable database driver found for " + serviceInfo.getId() + " service ");
+    }
 }

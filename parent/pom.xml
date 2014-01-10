@@ -48,9 +48,9 @@
 	<repositories>
 		<!-- For testing against latest Spring snapshots -->
 		<repository>
-			<id>org.springframework.maven.snapshot</id>
+			<id>spring-snapshot</id>
 			<name>Spring Maven Snapshot Repository</name>
-			<url>http://maven.springframework.org/snapshot</url>
+			<url>http://repo.spring.io/snapshot</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
@@ -60,20 +60,20 @@
 		</repository>
 		<!-- For developing against latest Spring milestones -->
 		<repository>
-			<id>org.springframework.maven.milestone</id>
+			<id>spring-milestone</id>
 			<name>Spring Maven Milestone Repository</name>
-			<url>http://maven.springframework.org/milestone</url>
+			<url>http://repo.spring.io/milestone</url>
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 		<repository>
-			<id>spring-maven-snapshot</id>
+			<id>spring-lib-milestone</id>
+			<name>Spring Maven Milestone Repository</name>
+			<url>http://repo.spring.io/libs-milestone</url>
 			<snapshots>
-				<enabled>true</enabled>
+				<enabled>false</enabled>
 			</snapshots>
-			<name>Springframework Maven SNAPSHOT Repository</name>
-			<url>http://maven.springframework.org/snapshot</url>
 		</repository>
 	</repositories>
 	

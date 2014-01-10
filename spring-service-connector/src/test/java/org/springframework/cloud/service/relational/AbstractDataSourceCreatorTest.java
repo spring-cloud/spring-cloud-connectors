@@ -26,7 +26,7 @@ public abstract class AbstractDataSourceCreatorTest<C extends DataSourceCreator<
 	public abstract String getValidationQueryStart();
 	
 	@Test
-	public void cloudMySQLDataSourceCreationNoConfig() throws Exception {
+	public void cloudDataSourceCreationNoConfig() throws Exception {
 		SI relationalServiceInfo = createServiceInfo();
 
 		DataSource dataSource = getCreator().create(relationalServiceInfo, null);
@@ -35,7 +35,7 @@ public abstract class AbstractDataSourceCreatorTest<C extends DataSourceCreator<
 	}
 
 	@Test
-	public void cloudMySQLDataSourceCreationWithConfig() throws Exception {
+	public void cloudDataSourceCreationWithConfig() throws Exception {
 		SI relationalServiceInfo = createServiceInfo();
 
 		DataSourceConfig config = new DataSourceConfig(new PoolConfig("5", 100), new ConnectionConfig("foo=bar"));

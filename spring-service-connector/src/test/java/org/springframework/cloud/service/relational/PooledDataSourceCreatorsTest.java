@@ -33,8 +33,8 @@ public class PooledDataSourceCreatorsTest {
 
 		for (PooledDataSourceCreator<MysqlServiceInfo> testCreator : pooledDataSourceCreators) {
 			DataSource ds = testCreator.create(mockMysqlServiceInfo, null, 
-					                           mysqlDataSourceCreator.getDriverClassName(), 
-					                           mysqlDataSourceCreator.getValidationQuery());
+					                           mysqlDataSourceCreator.getDriverClassName(mockMysqlServiceInfo), 
+					                           "select 1");
 			
 			Assert.assertNotNull(ds);
 		}

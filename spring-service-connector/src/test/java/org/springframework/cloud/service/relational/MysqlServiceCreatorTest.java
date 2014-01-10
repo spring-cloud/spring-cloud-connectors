@@ -12,7 +12,7 @@ import org.springframework.cloud.service.common.MysqlServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public class MysqlServiceCreatorTest extends AbstractDataSourceCreatorTest<MysqlDataSourceCreator, MysqlServiceInfo> {
+public abstract class MysqlServiceCreatorTest extends AbstractDataSourceCreatorTest<MysqlDataSourceCreator, MysqlServiceInfo> {
 	@Mock private MysqlServiceInfo mockMysqlServiceInfo;
 
 	@Before
@@ -25,11 +25,6 @@ public class MysqlServiceCreatorTest extends AbstractDataSourceCreatorTest<Mysql
 		when(mockMysqlServiceInfo.getJdbcUrl()).thenReturn("jdbc:mysql://myuser:mypassword@10.20.30.40:3306/database-123");
 		
 		return mockMysqlServiceInfo;
-	}
-
-	@Override
-	public String getDriverName() {
-		return "com.mysql.jdbc.Driver";
 	}
 
 	@Override
