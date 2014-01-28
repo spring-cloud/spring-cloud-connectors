@@ -325,7 +325,7 @@ class ServiceConnectorCreatorRegistry {
 
 	public boolean accept(ServiceConnectorCreator<?, ? extends ServiceInfo> creator, Class<?> serviceConnectorType, ServiceInfo serviceInfo) {
 		boolean typeBasedAccept = serviceConnectorType == null ? true : serviceConnectorType.isAssignableFrom(creator.getServiceConnectorType());
-		boolean infoBasedAccept = serviceInfo == null ? true : serviceInfo.getClass().isAssignableFrom(creator.getServiceInfoType());
+		boolean infoBasedAccept = serviceInfo == null ? true : creator.getServiceInfoType().isAssignableFrom(serviceInfo.getClass());
 		
 		return  typeBasedAccept && infoBasedAccept;
 	}

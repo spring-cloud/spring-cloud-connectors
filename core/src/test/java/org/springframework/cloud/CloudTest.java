@@ -10,8 +10,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.activation.DataSource;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceInfo;
@@ -89,6 +92,20 @@ public class CloudTest {
 		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
 		
 		testCloud.getSingletonServiceConnector(null, null);
+	}
+	
+	@Test(expected=CloudException.class)
+	public void getSingletonServiceConnectorNoMatchingServiceConnectorCreator() {
+	    // Think an app bound to a (user) service that doesn't have a corresponding
+	    // registered ServiceConnectorCreator. When user asks for singleton service connector
+	    // for another type (with a corresponding creator registered), 
+	    // getSingletonServiceConnector() should throw a CloudException.
+	    BaseServiceInfo testServiceInfo = new BaseServiceInfo("user-service");
+	    StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo);
+	    serviceConnectorCreators.add(new StubServiceConnectorCreator());
+	    Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);	
+
+	    testCloud.getSingletonServiceConnector(StubServiceConnector.class, null);
 	}
 	
 	@Test
