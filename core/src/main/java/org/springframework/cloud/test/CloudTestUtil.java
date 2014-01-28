@@ -13,7 +13,6 @@ import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
-import org.springframework.cloud.service.ServiceInfo.ServiceProperty;
 
 /**
  * Class to support testing.

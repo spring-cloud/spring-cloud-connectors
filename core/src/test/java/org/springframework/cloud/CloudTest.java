@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.activation.DataSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.cloud.service.BaseServiceInfo;
