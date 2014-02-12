@@ -8,7 +8,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
