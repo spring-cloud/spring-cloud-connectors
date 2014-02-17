@@ -6,9 +6,9 @@ import static org.junit.Assert.assertNotNull;
 import java.util.List;
 
 import org.junit.Test;
+import org.springframework.cloud.CloudTestUtil.StubCloudConnector;
 import org.springframework.cloud.service.ServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceInfo;
-import org.springframework.cloud.test.CloudTestUtil.StubCloudConnector;
 
 /**
  * 

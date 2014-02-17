@@ -1,0 +1,35 @@
+description = 'Service Connectors'
+
+dependencies {
+  testCompile project(path: ':core', configuration: 'tests')
+  compile project(':core')
+  
+  compile("org.springframework:spring-context:$springVersion")
+  compile("log4j:log4j:$log4jVersion")
+  testCompile("org.springframework:spring-test:$springVersion")
+  testCompile("mysql:mysql-connector-java:$mysqlDriverVersion")
+  testCompile("org.mariadb.jdbc:mariadb-java-client:$mariadbDriverVersion")
+  testCompile("postgresql:postgresql:$postgresDriverVersion")
+  testCompile("javax.mail:mail:$javaxMailVersion")
+  testCompile("cglib:cglib:$cglibVersion")
+  optional("org.springframework:spring-jdbc:$springVersion")
+  optional("org.springframework:spring-context-support:$springVersion")
+  optional("org.apache.tomcat:tomcat-jdbc:$tomcatVersion")
+  optional("org.apache.tomcat:tomcat-dbcp:$tomcatVersion")
+  optional("commons-dbcp:commons-dbcp:$commonDbcpVersion") {
+    exclude(module: 'commons-logging')
+    exclude(module: 'commons-pool')
+    exclude(module: 'xerces')
+    exclude(module: 'xercesImpl')
+    exclude(module: 'xml-apis')
+  }
+  optional("org.springframework.amqp:spring-rabbit:$springAmqpVersion")
+  optional("org.springframework.data:spring-data-redis:$springDataRedisVersion") {
+    exclude(module: 'spring-context-support')
+  }
+  optional("org.springframework.data:spring-data-mongodb:$springDataMongoVersion") {
+    exclude(module: 'spring-beans')
+    exclude(module: 'spring-expression')
+    exclude(module: 'spring-tx')
+  }
+}

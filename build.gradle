@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        maven { url 'http://repo.springsource.org/plugins-release' }
+    }
+    dependencies {
+        classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.5'
+    }
+}
+
+ext {
+    springVersion = "3.0.7.RELEASE"
+    tomcatVersion = "7.0.42"
+
+    springAmqpVersion = "1.0.0.RELEASE"
+    springDataRedisVersion = "1.0.0.RELEASE"
+    springDataMongoVersion = "1.0.1.RELEASE"
+
+    commonDbcpVersion = "1.3"
+
+    mysqlDriverVersion = "5.0.5"
+    mariadbDriverVersion = "1.1.3"
+    postgresDriverVersion = "9.0-801.jdbc4"
+    javaxMailVersion = "1.4.7"
+    cglibVersion = "2.2.2"
+
+    jacksonVersion = "2.2.2"
+
+    log4jVersion = "1.2.14"
+
+    junitVersion = "4.11"
+    mockitoVersion = "1.9.5"
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'propdeps'
+    apply plugin: 'propdeps-maven'
+    apply plugin: 'propdeps-idea'
+    apply plugin: 'propdeps-eclipse'
+
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
+
+    task packageSources(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    artifacts.archives packageSources
+
+    dependencies {
+        testCompile("junit:junit:$junitVersion")
+        testCompile("org.mockito:mockito-core:$mockitoVersion")
+    }
+    
+	repositories {
+	    mavenLocal()
+	    
+	    maven { url "http://repo.spring.io/snapshot" }
+	    maven { url "http://repo.spring.io/milestone" }
+	    maven { url "http://repo.spring.io/libs-milestone" }
+	    maven { url "http://repo.maven.apache.org/maven2" }
+	}
+}
+

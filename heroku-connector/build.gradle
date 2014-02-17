@@ -1,0 +1,5 @@
+description = 'Spring-Cloud Heroku Connector'
+
+dependencies {
+  compile project(':core')
+}

@@ -3,7 +3,7 @@ package org.springframework.cloud;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.springframework.cloud.test.CloudTestUtil.getTestCloudConnector;
+import static org.springframework.cloud.CloudTestUtil.getTestCloudConnector;
 
 import java.util.ArrayList;
 import java.util.List;

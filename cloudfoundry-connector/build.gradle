@@ -1,0 +1,36 @@
+description = 'Spring-Cloud CloudFoundry Connector'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:0.8'
+    }
+}
+
+apply plugin: 'shadow'
+
+dependencies {
+  compile project(':core')
+  compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+  compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+}
+
+shadow {
+    relocation {
+        pattern = 'com.fasterxml.jackson'
+        shadedPattern = 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson'
+    }
+}
+
+task moveShadowJar(type: Copy) {
+    from "$buildDir/distributions/${archivesBaseName}-${version}-shadow.jar"
+    into "$buildDir/libs"
+     rename { String fileName ->
+        fileName.replace('-shadow', '')
+    }
+}
+
+moveShadowJar.dependsOn shadowJar
+assemble.dependsOn moveShadowJar

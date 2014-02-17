@@ -1,0 +1,16 @@
+description = 'Spring-Cloud Core'
+
+configurations {
+	tests
+}
+
+task testJar(type: Jar) {
+	classifier = 'tests'
+	from sourceSets.test.output.classesDir
+}
+
+build.dependsOn testJar
+
+artifacts {
+  tests testJar
+}
