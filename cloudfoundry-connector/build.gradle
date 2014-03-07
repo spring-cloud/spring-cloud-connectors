@@ -34,3 +34,4 @@ task moveShadowJar(type: Copy) {
 
 moveShadowJar.dependsOn shadowJar
 assemble.dependsOn moveShadowJar
+install.dependsOn moveShadowJar
