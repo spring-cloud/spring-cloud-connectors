@@ -3,4 +3,6 @@
 .settings
 .metadata
 target
+build
 Servers
+.gradle

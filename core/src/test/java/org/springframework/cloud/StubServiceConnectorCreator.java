@@ -1,8 +1,8 @@
 package org.springframework.cloud;
 
+import org.springframework.cloud.CloudTestUtil.StubServiceInfo;
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
-import org.springframework.cloud.test.CloudTestUtil.StubServiceInfo;
 
 /**
  * 

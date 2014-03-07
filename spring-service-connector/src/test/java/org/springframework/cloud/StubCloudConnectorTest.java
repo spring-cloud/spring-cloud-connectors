@@ -7,7 +7,6 @@ import org.springframework.cloud.service.common.MysqlServiceInfo;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 import org.springframework.cloud.service.common.RabbitServiceInfo;
 import org.springframework.cloud.service.common.RedisServiceInfo;
-import org.springframework.cloud.test.CloudTestUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -29,6 +28,7 @@ abstract public class StubCloudConnectorTest {
 			@Override
 			protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 				CloudFactory cloudFactory = new CloudFactory();
+				cloudFactory.getCloudConnectors().clear();
 				cloudFactory.registerCloudConnector(stubCloudConnector);
 				getBeanFactory().registerSingleton(MOCK_CLOUD_BEAN_NAME, cloudFactory);
 				super.prepareBeanFactory(beanFactory);
@@ -43,6 +43,7 @@ abstract public class StubCloudConnectorTest {
 			@Override
 			protected void prepareBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 				CloudFactory cloudFactory = new CloudFactory();
+				cloudFactory.getCloudConnectors().clear();
 				cloudFactory.registerCloudConnector(stubCloudConnector);
 				getBeanFactory().registerSingleton(MOCK_CLOUD_BEAN_NAME, cloudFactory);
 				super.prepareBeanFactory(beanFactory);

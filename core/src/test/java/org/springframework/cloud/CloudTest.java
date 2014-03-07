@@ -12,14 +12,13 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.cloud.CloudTestUtil.StubApplicationInstanceInfo;
+import org.springframework.cloud.CloudTestUtil.StubCloudConnector;
+import org.springframework.cloud.CloudTestUtil.StubServiceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceInfo;
-import org.springframework.cloud.test.CloudTestUtil;
-import org.springframework.cloud.test.CloudTestUtil.StubApplicationInstanceInfo;
-import org.springframework.cloud.test.CloudTestUtil.StubCloudConnector;
-import org.springframework.cloud.test.CloudTestUtil.StubServiceInfo;
 
 /**
  * 

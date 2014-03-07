@@ -1,4 +1,4 @@
-package org.springframework.cloud.test;
+package org.springframework.cloud;
 
 import static org.junit.Assert.assertEquals;
 
