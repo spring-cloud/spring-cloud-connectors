@@ -16,8 +16,18 @@ public class RedisConnectionFactoryCloudConfigTestHelper {
 	
 	public static void assertPoolProperties(RedisConnectionFactory connector, int maxActive, int minIdle, long maxWait) {
 		JedisPoolConfig poolConfig = (JedisPoolConfig) ReflectionTestUtils.getField(connector, "poolConfig");
-		assertEquals(maxActive, ReflectionTestUtils.getField(poolConfig, "maxActive"));
-		assertEquals(minIdle, ReflectionTestUtils.getField(poolConfig, "minIdle"));
-		assertEquals(maxWait, ReflectionTestUtils.getField(poolConfig, "maxWait"));		
+		assertEquals(maxActive, getValue(poolConfig, "maxActive", "maxTotal"));
+		assertEquals(minIdle, getValue(poolConfig, "minIdle"));
+		assertEquals(maxWait, getValue(poolConfig, "maxWait", "maxWaitMillis"));		
+	}
+	
+	private static Object getValue(Object object, String... fieldNames) {
+	    for (String fieldName : fieldNames) {
+	        try {
+	            return ReflectionTestUtils.getField(object, fieldName);
+	        } catch (IllegalArgumentException ex) {
+	        }
+	    }
+	    return null;
 	}
 }

@@ -62,13 +62,23 @@ public class PooledServiceConnectorConfig implements ServiceConnectorConfig {
 			return maxPoolSize;
 		}
 
-		/**
+		// For commons-pool2
+        public int getMaxTotal() {
+            return maxPoolSize;
+        }
+
+        /**
 		 * Getter corresponding to the DBCP maxWait property
 		 */
 		public int getMaxWait() {
 			return maxWaitTime;
 		}
 
+        // For commons-pool2		
+        public int getMaxWaitMillis() {
+            return maxWaitTime;
+        }
+		
 		private void determinePoolSizeRange(String poolSize) {
 			if (StringUtils.hasText(poolSize)) {
 				try {
