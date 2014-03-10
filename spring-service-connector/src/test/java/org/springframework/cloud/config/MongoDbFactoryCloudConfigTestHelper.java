@@ -18,7 +18,7 @@ public class MongoDbFactoryCloudConfigTestHelper {
 	
 	public static void assertConfigProperties(MongoDbFactory connector, Integer writeConcernW, Integer connectionsPerHost, Integer maxWaitTime) {
 		if (connectionsPerHost == null) {
-			connectionsPerHost = 10; // default
+			connectionsPerHost = 100; // default
 		}
 		if (maxWaitTime == null) {
 			maxWaitTime = 120000; // default

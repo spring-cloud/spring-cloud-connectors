@@ -68,7 +68,7 @@ public class MongoDbFactoryJavaConfigTest extends AbstractServiceJavaConfigTest<
 				getTestApplicationContext(MongoDbFactoryConfigWithServiceConfig.class, createService("my-service"));
 		
 		MongoDbFactory connector = testContext.getBean("connectionPerHostUnspecified_MaxWait200_WriteConcernUnspecified", getConnectorType());
-		MongoDbFactoryCloudConfigTestHelper.assertConfigProperties(connector, null, 10 /* default*/, 200);
+		MongoDbFactoryCloudConfigTestHelper.assertConfigProperties(connector, null, 100 /* default*/, 200);
 	}
 }
 

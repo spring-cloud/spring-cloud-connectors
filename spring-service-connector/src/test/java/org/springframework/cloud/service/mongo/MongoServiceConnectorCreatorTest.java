@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.cloud.service.document.MongoDbFactoryCreator;
+import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -31,9 +32,9 @@ public class MongoServiceConnectorCreatorTest {
 	public void cloudMongoCreationNoConfig() throws Exception {
 		MongoServiceInfo serviceInfo = createServiceInfo();
 
-		MongoDbFactory dataSource = testCreator.create(serviceInfo, null);
+		MongoDbFactory mongoDbFactory = testCreator.create(serviceInfo, null);
 
-		assertConnectorProperties(serviceInfo, dataSource);
+		assertConnectorProperties(serviceInfo, mongoDbFactory);
 	}
 
 	public MongoServiceInfo createServiceInfo() {
@@ -44,13 +45,14 @@ public class MongoServiceConnectorCreatorTest {
 		assertNotNull(connector);
 		
 		Mongo mongo = (Mongo) ReflectionTestUtils.getField(connector, "mongo");
+		UserCredentials credentials = (UserCredentials) ReflectionTestUtils.getField(connector, "credentials");
 		assertNotNull(mongo);
 		ServerAddress address = mongo.getAddress();
 		
 		assertEquals(serviceInfo.getHost(), address.getHost());
 		assertEquals(serviceInfo.getPort(), address.getPort());
-		assertEquals(serviceInfo.getUserName(), ReflectionTestUtils.getField(connector, "username"));
-		assertEquals(serviceInfo.getPassword(), ReflectionTestUtils.getField(connector, "password"));
+		assertEquals(serviceInfo.getUserName(), ReflectionTestUtils.getField(credentials, "username"));
+		assertEquals(serviceInfo.getPassword(), ReflectionTestUtils.getField(credentials, "password"));
 		
 		// Don't do connector.getDatabase().getName() as that will try to initiate the connection
 		assertEquals(serviceInfo.getDatabase(), ReflectionTestUtils.getField(connector, "databaseName"));

@@ -1,11 +1,7 @@
 package org.springframework.cloud.service.document;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
 import java.net.UnknownHostException;
 
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreationException;
@@ -13,11 +9,11 @@ import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
-import org.springframework.util.ReflectionUtils;
 
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientOptions.Builder;
 import com.mongodb.MongoException;
-import com.mongodb.MongoOptions;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
 
@@ -33,13 +29,13 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 	public MongoDbFactory create(MongoServiceInfo serviceInfo, ServiceConnectorConfig config) {
 		try {
 			UserCredentials credentials = new UserCredentials(serviceInfo.getUserName(), serviceInfo.getPassword());
-			Mongo mongo = null;
-			MongoOptions mongoOptionsToUse = getMongoOptions((MongoDbFactoryConfig) config);
+			MongoClient mongo = null;
+			MongoClientOptions mongoOptionsToUse = getMongoOptions((MongoDbFactoryConfig) config);
 			if (mongoOptionsToUse != null) {
 				ServerAddress serverAddress = new ServerAddress(serviceInfo.getHost(), serviceInfo.getPort());
-				mongo = new Mongo(serverAddress, mongoOptionsToUse);
+				mongo = new MongoClient(serverAddress, mongoOptionsToUse);
 			} else {
-				mongo = new Mongo(serviceInfo.getHost(), serviceInfo.getPort());
+				mongo = new MongoClient(serviceInfo.getHost(), serviceInfo.getPort());
 			}
 			SimpleMongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, serviceInfo.getDatabase(), credentials);
 			return configure(mongoDbFactory, (MongoDbFactoryConfig) config);
@@ -50,26 +46,24 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 		}
 	}
 
-	private MongoOptions getMongoOptions(MongoDbFactoryConfig config) {
+	private MongoClientOptions getMongoOptions(MongoDbFactoryConfig config) {
 		if (config == null) {
 			return null;
 		}
-		MongoOptions mongoOptions = null;
-		BeanWrapper source = new BeanWrapperImpl(config);
-		for (PropertyDescriptor pd : source.getPropertyDescriptors()) {
-			String property = pd.getName();
-			if (!"class".equals(property) && source.isReadableProperty(property) &&
-						source.getPropertyValue(property) != null) {
-				Field field = ReflectionUtils.findField(MongoOptions.class, property);
-				if (field != null) {
-					if (mongoOptions == null) {
-						mongoOptions = new MongoOptions();
-					}
-					ReflectionUtils.setField(field, mongoOptions, source.getPropertyValue(property));
-				}
-			}
+		
+		MongoClientOptions.Builder builder = MongoClientOptions.builder();
+		
+		if (config.getConnectionsPerHost() != null) {
+		    builder.connectionsPerHost(config.getConnectionsPerHost());
 		}
-		return mongoOptions;
+		if (config.getMaxWaitTime() != null) {
+		    builder.maxWaitTime(config.getMaxWaitTime());
+		}
+		if (config.getWriteConcern() != null) {
+		    builder.writeConcern(new WriteConcern(config.getWriteConcern()));
+		}
+		    
+		return builder.build();
 	}
 
 	
