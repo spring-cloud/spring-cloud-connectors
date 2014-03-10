@@ -11,7 +11,7 @@ ext {
     springVersion = "3.0.7.RELEASE"
     tomcatVersion = "7.0.42"
 
-    springAmqpVersion = "1.0.0.RELEASE"
+    springAmqpVersion = "1.2.1.RELEASE"
     springDataRedisVersion = "1.2.0.RELEASE"
     springDataMongoVersion = "1.0.1.RELEASE"
     
