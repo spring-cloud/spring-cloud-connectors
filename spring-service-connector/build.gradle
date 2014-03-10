@@ -18,6 +18,13 @@ dependencies {
   optional("org.springframework:spring-context-support:$springVersion")
   optional("org.apache.tomcat:tomcat-jdbc:$tomcatVersion")
   optional("org.apache.tomcat:tomcat-dbcp:$tomcatVersion")
+  optional("org.apache.commons:commons-dbcp2:$commonDbcp2Version") {
+    exclude(module: 'commons-logging')
+    exclude(module: 'commons-pool')
+    exclude(module: 'xerces')
+    exclude(module: 'xercesImpl')
+    exclude(module: 'xml-apis')
+  }
   optional("commons-dbcp:commons-dbcp:$commonDbcpVersion") {
     exclude(module: 'commons-logging')
     exclude(module: 'commons-pool')

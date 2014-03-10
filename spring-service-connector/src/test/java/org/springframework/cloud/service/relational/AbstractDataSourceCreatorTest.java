@@ -9,6 +9,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.junit.Test;
+import org.springframework.cloud.config.DataSourceCloudConfigTestHelper;
 import org.springframework.cloud.service.PooledServiceConnectorConfig.PoolConfig;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.cloud.service.relational.DataSourceConfig.ConnectionConfig;
@@ -42,7 +43,7 @@ public abstract class AbstractDataSourceCreatorTest<C extends DataSourceCreator<
 		DataSource dataSource = getCreator().create(relationalServiceInfo, config);
 		
 		assertDataSourceProperties(relationalServiceInfo, dataSource);
-		assertPoolProperties(dataSource, 5, 0, 100);
+		DataSourceCloudConfigTestHelper.assertPoolProperties(dataSource, 5, 0, 100);
 		
 		Properties connectionProp = new Properties();
 		connectionProp.put("foo", "bar");
@@ -63,9 +64,4 @@ public abstract class AbstractDataSourceCreatorTest<C extends DataSourceCreator<
 		assertTrue(((String) ReflectionTestUtils.invokeGetterMethod(dataSource, "validationQuery")).startsWith(getValidationQueryStart()));
 	}
 	
-	private void assertPoolProperties(DataSource dataSource, int maxActive, int minIdle, long maxWait) {
-		assertEquals(maxActive, ReflectionTestUtils.getField(dataSource, "maxActive"));
-		assertEquals(minIdle, ReflectionTestUtils.getField(dataSource, "minIdle"));
-		assertEquals(maxWait, ReflectionTestUtils.getField(dataSource, "maxWait"));		
-	}
 }
