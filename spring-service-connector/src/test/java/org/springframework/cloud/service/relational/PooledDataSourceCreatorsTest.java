@@ -36,7 +36,7 @@ public class PooledDataSourceCreatorsTest {
 					                           mysqlDataSourceCreator.getDriverClassName(mockMysqlServiceInfo), 
 					                           "select 1");
 			
-			Assert.assertNotNull(ds);
+			Assert.assertNotNull("Failed to create datasource with " + testCreator.getClass().getSimpleName(), ds);
 		}
 	}
 }
