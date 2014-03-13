@@ -1,8 +1,5 @@
 package org.springframework.cloud.service.relational;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.sql.DataSource;
 
 import org.junit.Assert;
@@ -24,19 +21,26 @@ public class PooledDataSourceCreatorsTest {
 	}
 
 	@Test
-	public void pooledDataSourceCreation() {
-		List<PooledDataSourceCreator<MysqlServiceInfo>> pooledDataSourceCreators = new ArrayList<PooledDataSourceCreator<MysqlServiceInfo>>();
+	public void pooledDataSourceCreationDbcp() {
+	    assertPooledDataSource(new BasicDbcpPooledDataSourceCreator<MysqlServiceInfo>());
+	}
 
-		pooledDataSourceCreators.add(new BasicDbcpPooledDataSourceCreator<MysqlServiceInfo>());
-		pooledDataSourceCreators.add(new TomcatDbcpPooledDataSourceCreator<MysqlServiceInfo>());
-		pooledDataSourceCreators.add(new TomcatHighPerformancePooledDataSourceCreator<MysqlServiceInfo>());
+    @Test
+    public void pooledDataSourceCreationTomcatDbcp() {
+        assertPooledDataSource(new TomcatDbcpPooledDataSourceCreator<MysqlServiceInfo>());
+    }
 
-		for (PooledDataSourceCreator<MysqlServiceInfo> testCreator : pooledDataSourceCreators) {
-			DataSource ds = testCreator.create(mockMysqlServiceInfo, null, 
-					                           mysqlDataSourceCreator.getDriverClassName(mockMysqlServiceInfo), 
-					                           "select 1");
-			
-			Assert.assertNotNull("Failed to create datasource with " + testCreator.getClass().getSimpleName(), ds);
-		}
+    @Test
+    public void pooledDataSourceCreationTomcatHighPerformance() {
+        assertPooledDataSource(new TomcatHighPerformancePooledDataSourceCreator<MysqlServiceInfo>());
+    }
+    
+	private void assertPooledDataSource(PooledDataSourceCreator<MysqlServiceInfo> testCreator) {
+        DataSource ds = testCreator.create(mockMysqlServiceInfo, null, 
+                mysqlDataSourceCreator.getDriverClassName(mockMysqlServiceInfo), 
+                "select 1");
+
+        Assert.assertNotNull("Failed to create datasource with " + testCreator.getClass().getSimpleName(), ds);
+
 	}
 }
