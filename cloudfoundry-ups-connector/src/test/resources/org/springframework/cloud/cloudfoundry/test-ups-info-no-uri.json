@@ -1,0 +1,12 @@
+{
+    "name": "$serviceName",
+    "label": "user-provided",
+    "tags": [],
+    "credentials": {
+        "host": "$hostname",
+        "port": "$port",
+        "username": "$user",
+        "password": "$password",
+        "name": "$name"
+    }
+}

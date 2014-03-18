@@ -55,7 +55,9 @@ public abstract class AbstractCloudFactoryConnectorTest {
 			scanner = new Scanner(fileReader);
 			return scanner.useDelimiter("\\Z").next();
 		} finally {
-			scanner.close();
+			if (scanner != null) {
+				scanner.close();
+			}
 		}
 	}
 	
@@ -78,7 +80,7 @@ public abstract class AbstractCloudFactoryConnectorTest {
 		int i = 0;
 
 		for (Map.Entry<String, List<String>> entry : labelPayloadMap.entrySet()) {
-			result.append(quote(entry.getKey()) + ":");
+			result.append(quote(entry.getKey())).append(":");
 			result.append(getServicePayload(entry.getValue()));
 			if (i++ != labelSize-1) {
 				result.append(",\n");

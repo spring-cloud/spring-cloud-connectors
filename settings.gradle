@@ -2,5 +2,6 @@ rootProject.name = "spring-cloud"
 
 include 'core'
 include 'cloudfoundry-connector'
+include 'cloudfoundry-ups-connector'
 include 'spring-service-connector'
 include 'heroku-connector'
