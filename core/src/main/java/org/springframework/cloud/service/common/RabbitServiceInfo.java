@@ -56,7 +56,7 @@ public class RabbitServiceInfo extends UriBasedServiceInfo {
 			// Check that the path only has a single segment.  As we have an authority component
 			// in the URI, paths always begin with a slash.
 			if (path.indexOf('/') != -1) {
-				throw new IllegalArgumentException("multiple segemtns in path of amqp URI: " + uriInfo);
+				throw new IllegalArgumentException("multiple segments in path of amqp URI: " + uriInfo);
 			}
 		}
 		return new UriInfo(uriInfo.getScheme(), uriInfo.getHost(), port, uriInfo.getUserName(), uriInfo.getPassword(), path);

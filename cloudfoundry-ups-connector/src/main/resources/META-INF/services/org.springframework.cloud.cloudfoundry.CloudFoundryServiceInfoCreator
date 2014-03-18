@@ -1,0 +1,4 @@
+org.springframework.cloud.cloudfoundry.UserProvidedMysqlServiceInfoCreator
+org.springframework.cloud.cloudfoundry.UserProvidedPostgresqlServiceInfoCreator
+org.springframework.cloud.cloudfoundry.UserProvidedOracleServiceInfoCreator
+org.springframework.cloud.cloudfoundry.UserProvidedRabbitServiceInfoCreator

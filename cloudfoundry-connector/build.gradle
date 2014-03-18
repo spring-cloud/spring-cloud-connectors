@@ -1,4 +1,4 @@
-description = 'Spring-Cloud CloudFoundry Connector'
+description = 'Spring-Cloud Cloud Foundry Connector'
 
 buildscript {
     repositories {
@@ -35,3 +35,18 @@ task moveShadowJar(type: Copy) {
 moveShadowJar.dependsOn shadowJar
 assemble.dependsOn moveShadowJar
 install.dependsOn moveShadowJar
+
+configurations {
+    tests
+}
+
+task testJar(type: Jar) {
+    classifier = 'tests'
+    from sourceSets.test.output.classesDir
+}
+
+build.dependsOn testJar
+
+artifacts {
+    tests testJar
+}

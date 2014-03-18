@@ -1,0 +1,7 @@
+description = 'Spring-Cloud Cloud Foundry User-provided Connector'
+
+dependencies {
+    compile project(':cloudfoundry-connector')
+    testCompile project(path: ':cloudfoundry-connector', configuration: 'tests')
+}
+
