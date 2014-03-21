@@ -1,3 +1,5 @@
+apply plugin: 'base'
+	
 buildscript {
     repositories {
         maven { url 'http://repo.springsource.org/plugins-release' }
@@ -52,7 +54,9 @@ subprojects {
         from sourceSets.main.allSource
     }
 
-    artifacts.archives packageSources
+    artifacts {
+    		archives packageSources
+    }
 
     dependencies {
         testCompile("junit:junit:$junitVersion")
@@ -69,3 +73,43 @@ subprojects {
 	}
 }
 
+configure(rootProject) {
+	task schemaZip(type: Zip) {
+		group = 'Distribution'
+		classifier = 'schema'
+		description = "Builds -${classifier} archive containing all " +
+			"XSDs for deployment at static.springframework.org/schema."
+	
+		subprojects.each { subproject ->
+			def Properties schemas = new Properties();
+			def shortName = subproject.name
+	
+			subproject.sourceSets.main.resources.find {
+				it.path.endsWith('META-INF/spring.schemas')
+			}?.withInputStream { schemas.load(it) }
+	
+			for (def key : schemas.keySet()) {
+				File xsdFile = subproject.sourceSets.main.resources.find {
+					it.path.endsWith(schemas.get(key))
+				}
+				assert xsdFile != null
+				into ("cloud/${shortName}") {
+					from xsdFile.path
+				}
+			}
+		}
+	}
+	
+	artifacts {
+		archives schemaZip
+	}
+}
+
+task dist(dependsOn: assemble) {
+	group = 'Distribution'
+	description = 'Builds -dist, -docs and -schema distribution archives.'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}
