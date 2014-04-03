@@ -6,13 +6,14 @@ dependencies {
 
   compile("org.springframework:spring-context:$springVersion")
   compile("log4j:log4j:$log4jVersion")
-  
+
   testCompile("org.springframework:spring-test:$springVersion")
   testCompile("mysql:mysql-connector-java:$mysqlDriverVersion")
   testCompile("org.mariadb.jdbc:mariadb-java-client:$mariadbDriverVersion")
   testCompile("postgresql:postgresql:$postgresDriverVersion")
-  testCompile("javax.mail:mail:$javaxMailVersion")
   testCompile("cglib:cglib-nodep:$cglibVersion")
+
+  testRuntime("javax.mail:javax.mail-api:$javaxMailVersion")
 
   optional("org.springframework:spring-jdbc:$springVersion")
   optional("org.springframework:spring-context-support:$springVersion")
