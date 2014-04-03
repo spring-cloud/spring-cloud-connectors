@@ -19,7 +19,7 @@ Usage pattern: Application Developers
 
 * Create a [`CloudFactory`](src/main/java/org/springframework/cloud/CloudFactory.java) instance. 
   Creation of a `CloudFactory` instance is a bit expensive, so caching such an instance is recommended.
-  If you are using a dependency inject frameworks such as Spring, creating a bean for `CloudFactory`
+  If you are using a dependency injection frameworks such as Spring, creating a bean for `CloudFactory`
   will achieve the caching effect.
 
     ```java
@@ -31,7 +31,10 @@ Usage pattern: Application Developers
     ```java
     Cloud cloud = cloudFactory.getCloud();
     ```
-
+  Note that you must have a `CloudConnector` implementation suitable
+  for the environment in which the application is being deployed in your classpath. For example, if you are
+  deploying the application in Cloud Foundry, you must add [cloudfoundry-connector](../cloudfoundry-connector) 
+  in your classpath. If no suitable `CloudConnctor` is found, the `getCloud()` method will throw a `CloudException`.
 * Use the `Cloud` instance to get access to application info, service infos, and create service 
   connectors.
 
