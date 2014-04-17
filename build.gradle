@@ -93,7 +93,7 @@ configure(rootProject) {
 					it.path.endsWith(schemas.get(key))
 				}
 				assert xsdFile != null
-				into ("cloud/${shortName}") {
+				into ("cloud") {
 					from xsdFile.path
 				}
 			}
