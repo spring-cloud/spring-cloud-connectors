@@ -13,7 +13,7 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public class CloudFoundryConnectorRabbitServiceTest extends AbstractCloudFactoryConnectorTest {
+public class CloudFoundryConnectorRabbitServiceTest extends AbstractCloudFoundryConnectorTest {
 	@Test
 	public void rabbitServiceCreationWithTags() {
 		String[] versions = {"2.0", "2.2"};

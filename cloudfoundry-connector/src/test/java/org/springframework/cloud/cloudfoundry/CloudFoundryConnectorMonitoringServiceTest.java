@@ -13,7 +13,7 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public class CloudFoundryConnectorMonitoringServiceTest extends AbstractCloudFactoryConnectorTest {
+public class CloudFoundryConnectorMonitoringServiceTest extends AbstractCloudFoundryConnectorTest {
 
 	@Test
 	public void monitoringServiceCreation() {

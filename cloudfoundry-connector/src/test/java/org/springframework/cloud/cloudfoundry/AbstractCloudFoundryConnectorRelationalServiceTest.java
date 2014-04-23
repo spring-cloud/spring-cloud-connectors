@@ -5,7 +5,7 @@ package org.springframework.cloud.cloudfoundry;
  * @author Ramnivas Laddad
  *
  */
-public abstract class AbstractCloudFoundryConnectorRelationalServiceTest extends AbstractCloudFactoryConnectorTest {
+public abstract class AbstractCloudFoundryConnectorRelationalServiceTest extends AbstractCloudFoundryConnectorTest {
 	protected String getRelationalPayload(String templateFile, String version, String serviceName, 
 			                              String hostname, int port, String user, String password, String name) {
 		String payload = readTestDataFile(templateFile);

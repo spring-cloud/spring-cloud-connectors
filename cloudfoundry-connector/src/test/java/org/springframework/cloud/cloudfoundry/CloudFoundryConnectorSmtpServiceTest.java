@@ -15,7 +15,7 @@ import org.springframework.cloud.service.common.SmtpServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public class CloudFoundryConnectorSmtpServiceTest extends AbstractCloudFactoryConnectorTest {
+public class CloudFoundryConnectorSmtpServiceTest extends AbstractCloudFoundryConnectorTest {
 
 	@Test
 	public void smtpServiceCreation() {

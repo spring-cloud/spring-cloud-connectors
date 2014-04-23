@@ -13,7 +13,7 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public class CloudFoundryConnectorRedisServiceTest extends AbstractCloudFactoryConnectorTest {
+public class CloudFoundryConnectorRedisServiceTest extends AbstractCloudFoundryConnectorTest {
 	@Test
 	public void redisServiceCreation() {
 		String[] versions = {"2.0", "2.2"};

@@ -14,7 +14,7 @@ import org.junit.Test;
  * @author Ramnivas Laddad
  *
  */
-public class CloudFoundryConnectorApplicationTest extends AbstractCloudFactoryConnectorTest {
+public class CloudFoundryConnectorApplicationTest extends AbstractCloudFoundryConnectorTest {
 	
 	@Test
 	public void isInMatchingEnvironment() {

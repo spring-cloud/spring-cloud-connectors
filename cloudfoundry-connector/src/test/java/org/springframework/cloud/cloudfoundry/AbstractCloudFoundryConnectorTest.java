@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Ramnivas Laddad
  *
  */
-public abstract class AbstractCloudFactoryConnectorTest {
+public abstract class AbstractCloudFoundryConnectorTest {
 	protected CloudFoundryConnector testCloudConnector = new CloudFoundryConnector();
 	@Mock protected EnvironmentAccessor mockEnvironment;
 

@@ -13,7 +13,7 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public class CloudFoundryConnectorMongodbServiceTest extends AbstractCloudFactoryConnectorTest {
+public class CloudFoundryConnectorMongodbServiceTest extends AbstractCloudFoundryConnectorTest {
 	@Test
 	public void mongoServiceCreation() {
 		String[] versions = {"2.0", "2.2"};

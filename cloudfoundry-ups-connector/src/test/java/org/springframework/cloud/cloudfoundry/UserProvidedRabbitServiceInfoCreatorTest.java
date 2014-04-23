@@ -8,7 +8,7 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
-public class UserProvidedRabbitServiceInfoCreatorTest extends AbstractCloudFactoryConnectorTest {
+public class UserProvidedRabbitServiceInfoCreatorTest extends AbstractCloudFoundryConnectorTest {
 	@Test
 	public void rabbitServiceCreationWithTags() {
 			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
