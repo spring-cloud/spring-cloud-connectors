@@ -9,16 +9,23 @@ import org.springframework.cloud.service.UriBasedServiceInfo;
  */
 public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 
-	protected String jdbcUrlDatabaseType;
+    protected String jdbcUrlDatabaseType;
 
-	public RelationalServiceInfo(String id, String uriString, String jdbcUrlDatabaseType) {
-		super(id, uriString);
-		this.jdbcUrlDatabaseType = jdbcUrlDatabaseType;
-	}
+    public RelationalServiceInfo(String id, String uriString, String jdbcUrlDatabaseType) {
+        super(id, uriString);
+        this.jdbcUrlDatabaseType = jdbcUrlDatabaseType;
+    }
 
-	@ServiceProperty(category="connection")
-	public String getJdbcUrl() {
-		return  String.format("jdbc:%s://%s:%d/%s?user=%s&password=%s",
-        jdbcUrlDatabaseType, getHost(), getPort(), getPath(), getUserName(), getPassword());
-	}
+    @ServiceProperty(category="connection")
+    public String getJdbcUrl() {
+        if (getPort() != -1) {
+            return  String.format("jdbc:%s://%s:%d/%s?user=%s&password=%s",
+                                   jdbcUrlDatabaseType, getHost(), getPort(), getPath(), 
+                                   getUserName(), getPassword());
+        } else {
+            return  String.format("jdbc:%s://%s/%s?user=%s&password=%s",
+                                  jdbcUrlDatabaseType, getHost(), getPath(), 
+                                  getUserName(), getPassword());
+        }
+    }
 }

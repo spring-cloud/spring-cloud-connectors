@@ -64,7 +64,7 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 		Map<String,String> env = environment.getEnv();
 		
 		for (Map.Entry<String, String> envEntry : env.entrySet()) {
-			if (envEntry.getKey().startsWith("HEROKU_POSTGRESQL_")) {
+			if (envEntry.getKey().startsWith("HEROKU_POSTGRESQL_") || envEntry.getKey().startsWith("CLEARDB_DATABASE_URL")) {
 				serviceData.add(new KeyValuePair(envEntry.getKey(), envEntry.getValue()));
 			}
 		}

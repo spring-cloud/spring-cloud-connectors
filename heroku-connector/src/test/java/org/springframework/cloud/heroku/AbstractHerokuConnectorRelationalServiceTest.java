@@ -1,12 +1,22 @@
 package org.springframework.cloud.heroku;
 
+import static org.junit.Assert.assertEquals;
+
+import org.springframework.cloud.service.common.RelationalServiceInfo;
+
 /**
  * 
  * @author Ramnivas Laddad
  *
  */
 public abstract class AbstractHerokuConnectorRelationalServiceTest extends AbstractHerokuConnectorTest {
-	protected static String getJdbcUrl(String databaseType, String name) {
+    private String databaseType;
+
+    public AbstractHerokuConnectorRelationalServiceTest(String databaseType) {
+        this.databaseType = databaseType;
+    }
+    
+	protected String getJdbcUrl(String name) {
 		String jdbcUrlDatabaseType = databaseType;
 		if (databaseType.equals("postgres")) {
 			jdbcUrlDatabaseType = "postgresql";
@@ -16,7 +26,7 @@ public abstract class AbstractHerokuConnectorRelationalServiceTest extends Abstr
 			   "?user=" + username + "&password=" + password;
 	}
 
-    protected static String getRelationalServiceUrl(String databaseType, String name) {
+    protected String getRelationalServiceUrl(String name) {
         String template = "$databaseType://$username:$password@$host:$port/$database";
 
         return template.replace("$databaseType", databaseType).
@@ -26,4 +36,12 @@ public abstract class AbstractHerokuConnectorRelationalServiceTest extends Abstr
                         replace("$port", Integer.toString(port)).
                         replace("$database", name);
     }	
+    
+    protected void assertReleationServiceInfo(RelationalServiceInfo serviceInfo, String databaseName) {
+        assertEquals(hostname, serviceInfo.getHost());
+        assertEquals(port, serviceInfo.getPort());
+        assertEquals(username, serviceInfo.getUserName());
+        assertEquals(password, serviceInfo.getPassword());
+        assertEquals(getJdbcUrl(databaseName), serviceInfo.getJdbcUrl());
+    }
 }

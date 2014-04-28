@@ -1,1 +1,2 @@
 org.springframework.cloud.heroku.PostgresqlServiceInfoCreator
+org.springframework.cloud.heroku.MysqlServiceInfoCreator
