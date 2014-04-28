@@ -30,7 +30,7 @@ public class HerokuConnectorPostgresqlServiceTest extends AbstractHerokuConnecto
         when(mockEnvironment.getEnv()).thenReturn(env);
 
         List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-        ServiceInfo serviceInfo = getServiceInfo(serviceInfos, "HEROKU_POSTGRESQL_YELLOW_URL");
+        ServiceInfo serviceInfo = getServiceInfo(serviceInfos, "postgres-service");
         assertNotNull(serviceInfo);
         assertTrue(serviceInfo instanceof PostgresqlServiceInfo);
         assertReleationServiceInfo((PostgresqlServiceInfo)serviceInfo, "db");

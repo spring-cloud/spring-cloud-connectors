@@ -30,7 +30,7 @@ public class HerokuConnectorMysqlServiceTest extends AbstractHerokuConnectorRela
         when(mockEnvironment.getEnv()).thenReturn(env);
 
         List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-        ServiceInfo serviceInfo = getServiceInfo(serviceInfos, "CLEARDB_DATABASE_URL");
+        ServiceInfo serviceInfo = getServiceInfo(serviceInfos, "mysql-service");
         assertNotNull(serviceInfo);
         assertTrue(serviceInfo instanceof MysqlServiceInfo);
         assertReleationServiceInfo((MysqlServiceInfo)serviceInfo, "db");
