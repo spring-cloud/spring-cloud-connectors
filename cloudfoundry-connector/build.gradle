@@ -10,6 +10,7 @@ buildscript {
 }
 
 apply plugin: 'shadow'
+apply from: "publish-maven.gradle"
 
 dependencies {
   compile project(':core')
@@ -18,6 +19,9 @@ dependencies {
 }
 
 shadow {
+	artifactSet {
+        include 'com.fasterxml.jackson.core:jackson-*'
+    }
     relocation {
         pattern = 'com.fasterxml.jackson'
         shadedPattern = 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson'
