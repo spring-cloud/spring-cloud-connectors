@@ -2,6 +2,7 @@ description = 'Spring-Cloud Core'
 
 configurations {
 	tests
+	published.extendsFrom tests, archives 
 }
 
 task testJar(type: Jar) {
@@ -9,8 +10,13 @@ task testJar(type: Jar) {
 	from sourceSets.test.output.classesDir
 }
 
+testJar.dependsOn testClasses
 build.dependsOn testJar
 
 artifacts {
-  tests testJar
+    tests testJar
+}
+
+install { 
+    configuration = configurations.published 
 }
