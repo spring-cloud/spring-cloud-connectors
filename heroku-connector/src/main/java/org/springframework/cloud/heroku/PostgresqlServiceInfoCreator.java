@@ -15,7 +15,7 @@ public class PostgresqlServiceInfoCreator extends RelationalServiceInfoCreator<P
 
 	@Override
 	public PostgresqlServiceInfo createServiceInfo(String id, String uri) {
-		return new PostgresqlServiceInfo("postgres-service", uri);
+		return new PostgresqlServiceInfo(HerokuUtil.computeServiceName(id), uri);
 	}
 
     @Override

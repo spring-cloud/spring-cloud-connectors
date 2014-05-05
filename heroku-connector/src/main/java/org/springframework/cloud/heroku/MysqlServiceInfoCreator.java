@@ -15,7 +15,7 @@ public class MysqlServiceInfoCreator extends RelationalServiceInfoCreator<MysqlS
 
 	@Override
 	public MysqlServiceInfo createServiceInfo(String id, String uri) {
-		return new MysqlServiceInfo("mysql-service", uri);
+		return new MysqlServiceInfo(HerokuUtil.computeServiceName(id), uri);
 	}
 
     @Override
