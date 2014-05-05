@@ -17,4 +17,9 @@ public class PostgresqlServiceInfoCreator extends RelationalServiceInfoCreator<P
 	public PostgresqlServiceInfo createServiceInfo(String id, String uri) {
 		return new PostgresqlServiceInfo("postgres-service", uri);
 	}
+
+    @Override
+    public String[] getEnvPrefixes() {
+        return new String[]{"HEROKU_POSTGRESQL_"};
+    }
 }

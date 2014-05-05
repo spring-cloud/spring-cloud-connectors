@@ -43,7 +43,7 @@ public abstract class AbstractCloudConnector<SD> implements CloudConnector {
 		return serviceInfos;
 	}
 
-	private void registerServiceInfoCreator(ServiceInfoCreator<? extends ServiceInfo, SD> serviceInfoCreator) {
+	protected void registerServiceInfoCreator(ServiceInfoCreator<? extends ServiceInfo, SD> serviceInfoCreator) {
 		serviceInfoCreators.add(serviceInfoCreator);
 	}
 

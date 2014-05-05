@@ -1,15 +1,19 @@
 package org.springframework.cloud.heroku;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.CloudException;
 import org.springframework.cloud.FallbackServiceInfoCreator;
+import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.heroku.HerokuConnector.KeyValuePair;
 import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
@@ -25,6 +29,8 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 	private EnvironmentAccessor environment = new EnvironmentAccessor();
 	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator 
 		= new ApplicationInstanceInfoCreator(environment);
+	
+	private List<String> serviceEnvPrefixes;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public HerokuConnector() {
@@ -50,6 +56,19 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 		this.environment = environment;
 		this.applicationInstanceInfoCreator = new ApplicationInstanceInfoCreator(environment);
 	}
+	
+	@Override
+	protected void registerServiceInfoCreator(ServiceInfoCreator<? extends ServiceInfo, HerokuConnector.KeyValuePair> serviceInfoCreator) {
+	    super.registerServiceInfoCreator(serviceInfoCreator);
+	    HerokuServiceInfoCreator<?> herokuServiceInfoCreator = (HerokuServiceInfoCreator<?>)serviceInfoCreator;
+	    String[] envPrefixes = herokuServiceInfoCreator.getEnvPrefixes();
+	    
+	    // need to do this since this method gets called during construction and we cannot initialize serviceEnvPrefixes before this
+	    if (serviceEnvPrefixes == null) {
+	        serviceEnvPrefixes = new ArrayList<String>();
+	    }
+	    serviceEnvPrefixes.addAll(Arrays.asList(envPrefixes));
+	}
 
 	/**
 	 * Return object representation of the bound services
@@ -64,9 +83,11 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 		Map<String,String> env = environment.getEnv();
 		
 		for (Map.Entry<String, String> envEntry : env.entrySet()) {
-			if (envEntry.getKey().startsWith("HEROKU_POSTGRESQL_") || envEntry.getKey().startsWith("CLEARDB_DATABASE_URL")) {
-				serviceData.add(new KeyValuePair(envEntry.getKey(), envEntry.getValue()));
-			}
+		    for (String envPrefix : serviceEnvPrefixes) {
+		        if (envEntry.getKey().startsWith(envPrefix)) {
+	                serviceData.add(new KeyValuePair(envEntry.getKey(), envEntry.getValue()));		            
+		        }
+		    }
 		}
 
 		return serviceData;
