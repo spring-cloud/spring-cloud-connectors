@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientOptions.Builder;
 import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
@@ -28,15 +27,15 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 	@Override
 	public MongoDbFactory create(MongoServiceInfo serviceInfo, ServiceConnectorConfig config) {
 		try {
-			UserCredentials credentials = new UserCredentials(serviceInfo.getUserName(), serviceInfo.getPassword());
-			MongoClient mongo = null;
 			MongoClientOptions mongoOptionsToUse = getMongoOptions((MongoDbFactoryConfig) config);
-			if (mongoOptionsToUse != null) {
-				ServerAddress serverAddress = new ServerAddress(serviceInfo.getHost(), serviceInfo.getPort());
-				mongo = new MongoClient(serverAddress, mongoOptionsToUse);
+			ServerAddress serverAddress = null;
+			if (serviceInfo.getPort() == -1) {
+			    serverAddress = new ServerAddress(serviceInfo.getHost());
 			} else {
-				mongo = new MongoClient(serviceInfo.getHost(), serviceInfo.getPort());
+			    serverAddress = new ServerAddress(serviceInfo.getHost(), serviceInfo.getPort());
 			}
+			MongoClient mongo = new MongoClient(serverAddress, mongoOptionsToUse);
+            UserCredentials credentials = new UserCredentials(serviceInfo.getUserName(), serviceInfo.getPassword());
 			SimpleMongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, serviceInfo.getDatabase(), credentials);
 			return configure(mongoDbFactory, (MongoDbFactoryConfig) config);
 		} catch (UnknownHostException e) {
@@ -47,21 +46,19 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 	}
 
 	private MongoClientOptions getMongoOptions(MongoDbFactoryConfig config) {
-		if (config == null) {
-			return null;
-		}
-		
 		MongoClientOptions.Builder builder = MongoClientOptions.builder();
-		
-		if (config.getConnectionsPerHost() != null) {
-		    builder.connectionsPerHost(config.getConnectionsPerHost());
-		}
-		if (config.getMaxWaitTime() != null) {
-		    builder.maxWaitTime(config.getMaxWaitTime());
-		}
-		if (config.getWriteConcern() != null) {
-		    builder.writeConcern(new WriteConcern(config.getWriteConcern()));
-		}
+
+		if (config != null) {
+	        if (config.getConnectionsPerHost() != null) {
+	            builder.connectionsPerHost(config.getConnectionsPerHost());
+	        }
+	        if (config.getMaxWaitTime() != null) {
+	            builder.maxWaitTime(config.getMaxWaitTime());
+	        }
+	        if (config.getWriteConcern() != null) {
+	            builder.writeConcern(new WriteConcern(config.getWriteConcern()));
+	        }
+        }
 		    
 		return builder.build();
 	}
