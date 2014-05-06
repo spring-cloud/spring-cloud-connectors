@@ -22,7 +22,9 @@ public class RabbitServiceInfoCreator extends CloudFoundryServiceInfoCreator<Rab
 		String id = (String) serviceData.get("name");
 		
 		String uri = (String) credentials.get("uri");
-
+		if (uri == null || uri.length() == 0)
+			uri = (String) credentials.get("url");
+			
 		return new RabbitServiceInfo(id, uri);
 	}
 
