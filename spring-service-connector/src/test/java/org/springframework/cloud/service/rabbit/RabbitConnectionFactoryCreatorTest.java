@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.cloud.service.common.RabbitServiceInfo;
+import org.springframework.cloud.service.common.AmqpServiceInfo;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryCreator;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -26,18 +26,18 @@ public class RabbitConnectionFactoryCreatorTest {
 
 	@Test
 	public void cloudRabbitCreationNoConfig() throws Exception {
-		RabbitServiceInfo serviceInfo = createServiceInfo();
+		AmqpServiceInfo serviceInfo = createServiceInfo();
 
 		ConnectionFactory connector = testCreator.create(serviceInfo, null);
 
 		assertConnectorProperties(serviceInfo, connector);
 	}
 
-	public RabbitServiceInfo createServiceInfo() {
-		return new RabbitServiceInfo("id", TEST_HOST, TEST_PORT, TEST_USERNAME, TEST_PASSWORD, TEST_VH);
+	public AmqpServiceInfo createServiceInfo() {
+		return new AmqpServiceInfo("id", TEST_HOST, TEST_PORT, TEST_USERNAME, TEST_PASSWORD, TEST_VH);
 	}
 
-	private void assertConnectorProperties(RabbitServiceInfo serviceInfo, ConnectionFactory connector) {
+	private void assertConnectorProperties(AmqpServiceInfo serviceInfo, ConnectionFactory connector) {
 		assertNotNull(connector);
 		
 		assertEquals(serviceInfo.getHost(), connector.getHost());

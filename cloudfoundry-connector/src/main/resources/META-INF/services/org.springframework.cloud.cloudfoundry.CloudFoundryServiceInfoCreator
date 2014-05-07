@@ -2,6 +2,6 @@ org.springframework.cloud.cloudfoundry.MysqlServiceInfoCreator
 org.springframework.cloud.cloudfoundry.PostgresqlServiceInfoCreator
 org.springframework.cloud.cloudfoundry.RedisServiceInfoCreator
 org.springframework.cloud.cloudfoundry.MongoServiceInfoCreator
-org.springframework.cloud.cloudfoundry.RabbitServiceInfoCreator
+org.springframework.cloud.cloudfoundry.AmqpServiceInfoCreator
 org.springframework.cloud.cloudfoundry.MonitoringServiceInfoCreator
 org.springframework.cloud.cloudfoundry.SmtpServiceInfoCreator

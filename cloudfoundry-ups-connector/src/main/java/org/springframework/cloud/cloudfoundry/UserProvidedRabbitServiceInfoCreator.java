@@ -1,16 +1,16 @@
 package org.springframework.cloud.cloudfoundry;
 
-import org.springframework.cloud.service.common.RabbitServiceInfo;
+import org.springframework.cloud.service.common.AmqpServiceInfo;
 
 import java.util.Map;
 
-public class UserProvidedRabbitServiceInfoCreator extends UserProvidedServiceInfoCreator<RabbitServiceInfo> {
+public class UserProvidedRabbitServiceInfoCreator extends UserProvidedServiceInfoCreator<AmqpServiceInfo> {
 
 	public UserProvidedRabbitServiceInfoCreator() {
 		super("amqp:");
 	}
 
-	public RabbitServiceInfo createServiceInfo(Map<String,Object> serviceData) {
+	public AmqpServiceInfo createServiceInfo(Map<String,Object> serviceData) {
 		@SuppressWarnings("unchecked")
 		Map<String,Object> credentials = (Map<String, Object>) serviceData.get("credentials");
 		
@@ -18,7 +18,7 @@ public class UserProvidedRabbitServiceInfoCreator extends UserProvidedServiceInf
 
 		String uri = (String) credentials.get("uri");
 
-		return new RabbitServiceInfo(id, uri);
+		return new AmqpServiceInfo(id, uri);
 	}
 
 }

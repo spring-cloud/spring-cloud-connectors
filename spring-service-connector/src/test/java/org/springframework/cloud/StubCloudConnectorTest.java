@@ -5,7 +5,7 @@ import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
-import org.springframework.cloud.service.common.RabbitServiceInfo;
+import org.springframework.cloud.service.common.AmqpServiceInfo;
 import org.springframework.cloud.service.common.RedisServiceInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -64,8 +64,8 @@ abstract public class StubCloudConnectorTest {
 		return new MongoServiceInfo(id, "10.20.30.40", 1234, "username", "password", "db");
 	}
 	
-	protected RabbitServiceInfo createRabbitService(String id) {
-		return new RabbitServiceInfo(id, "10.20.30.40", 1234, "username", "password", "vh");
+	protected AmqpServiceInfo createRabbitService(String id) {
+		return new AmqpServiceInfo(id, "10.20.30.40", 1234, "username", "password", "vh");
 	}
 	
 	protected RedisServiceInfo createRedisService(String id) {

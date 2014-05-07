@@ -4,7 +4,7 @@ import org.mockito.Mock;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.cloud.service.AbstractCloudServiceConnectorFactoryTest;
 import org.springframework.cloud.service.ServiceConnectorConfig;
-import org.springframework.cloud.service.common.RabbitServiceInfo;
+import org.springframework.cloud.service.common.AmqpServiceInfo;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryFactory;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.cloud.service.messaging.RabbitConnectionFactoryFactor
  * @author Ramnivas Laddad
  *
  */
-public class RabbitConnectionFactoryFactoryTest extends AbstractCloudServiceConnectorFactoryTest<RabbitConnectionFactoryFactory, ConnectionFactory, RabbitServiceInfo> {
+public class RabbitConnectionFactoryFactoryTest extends AbstractCloudServiceConnectorFactoryTest<RabbitConnectionFactoryFactory, ConnectionFactory, AmqpServiceInfo> {
 	@Mock ConnectionFactory mockConnector;
 	
 	public RabbitConnectionFactoryFactory createTestCloudServiceConnectorFactory(String id, ServiceConnectorConfig config) {
@@ -27,7 +27,7 @@ public class RabbitConnectionFactoryFactoryTest extends AbstractCloudServiceConn
 		return mockConnector;
 	}
 	
-	public RabbitServiceInfo getTestServiceInfo(String id) {
-		return new RabbitServiceInfo(id, "host", 0, "username", "password", "vh");
+	public AmqpServiceInfo getTestServiceInfo(String id) {
+		return new AmqpServiceInfo(id, "host", 0, "username", "password", "vh");
 	}
 }

@@ -19,7 +19,7 @@ import org.springframework.cloud.service.ServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
-import org.springframework.cloud.service.common.RabbitServiceInfo;
+import org.springframework.cloud.service.common.AmqpServiceInfo;
 import org.springframework.cloud.service.common.RedisServiceInfo;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.cloud.service.relational.MysqlDataSourceCreator;
@@ -105,7 +105,7 @@ public class CloudTest extends StubCloudConnectorTest {
 	@Test
 	public void servicePropsRabbit() {
 		String serviceId = "my-rabbit";
-		RabbitServiceInfo rabbitServiceInfo = createRabbitService(serviceId);
+		AmqpServiceInfo rabbitServiceInfo = createRabbitService(serviceId);
 		CloudConnector stubCloudConnector = getTestCloudConnector(rabbitServiceInfo);
 		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
 
@@ -134,7 +134,7 @@ public class CloudTest extends StubCloudConnectorTest {
 		assertBasicProps(leadKey, serviceInfo, cloudProperties);
 	}
 
-	private void assertRabbitProps(String leadKey, RabbitServiceInfo serviceInfo, Properties cloudProperties) {
+	private void assertRabbitProps(String leadKey, AmqpServiceInfo serviceInfo, Properties cloudProperties) {
 		assertBasicProps(leadKey, serviceInfo, cloudProperties);
 	}
 }
