@@ -1,5 +1,8 @@
 package org.springframework.cloud.service.document;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.UnknownHostException;
 
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
@@ -9,9 +12,12 @@ import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.ReflectionUtils;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientOptions.Builder;
 import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
@@ -46,7 +52,25 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 	}
 
 	private MongoClientOptions getMongoOptions(MongoDbFactoryConfig config) {
-		MongoClientOptions.Builder builder = MongoClientOptions.builder();
+		MongoClientOptions.Builder builder = null;
+		
+		Method builderMethod = ClassUtils.getMethodIfAvailable(MongoClientOptions.class, "builder");
+		if (builderMethod != null) {
+		    builder = (Builder) ReflectionUtils.invokeMethod(builderMethod, null);
+		} else {
+		    Constructor<Builder> builderConstructor = ClassUtils.getConstructorIfAvailable(MongoClientOptions.Builder.class);
+		    try {
+                builder = builderConstructor.newInstance(new Object[0]);
+            } catch (InstantiationException e) {
+                throw new IllegalStateException(e);
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException(e);
+            } catch (IllegalArgumentException e) {
+                throw new IllegalStateException(e);
+            } catch (InvocationTargetException e) {
+                throw new IllegalStateException(e);
+            }
+		}
 
 		if (config != null) {
 	        if (config.getConnectionsPerHost() != null) {
