@@ -13,4 +13,8 @@ public class RedisServiceInfo extends UriBasedServiceInfo {
 	public RedisServiceInfo(String id, String host, int port, String password) {
 		super(id, "redis", host, port, null, password, null);
 	}
+	
+	public RedisServiceInfo(String id, String uri) {
+        super(id, uri);
+    }
 }
