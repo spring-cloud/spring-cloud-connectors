@@ -113,7 +113,7 @@ public abstract class AbstractCloudFoundryConnectorTest {
 			Map<String, Object> serviceMap = objectMapper.readValue(servicePayload, Map.class);
 			return serviceMap.get("label").toString();
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			return null;
 		} 
 	}
 	

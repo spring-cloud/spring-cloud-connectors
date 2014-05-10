@@ -37,6 +37,27 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
         assertEquals(getJdbcUrl("postgres", name2), info2.getJdbcUrl());
     }
 
+    @Test
+    public void postgresqlServiceCreationNoLabelNoTags() {
+        String[] versions = {"9.1", "9.2"};
+        String name1 = "database-1";
+        String name2 = "database-2";
+        for (String version : versions) {
+            when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+                .thenReturn(getServicesPayload(
+                                getPostgresqlServicePayloadNoLabelNoTags(version, "postgresql-1", hostname, port, username, password, name1),
+                                getPostgresqlServicePayloadNoLabelNoTags(version, "postgresql-2", hostname, port, username, password, name2)));
+        }
+
+        List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+        PostgresqlServiceInfo info1 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-1");
+        PostgresqlServiceInfo info2 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-2");
+        assertNotNull(info1);
+        assertNotNull(info2);
+        assertEquals(getJdbcUrl("postgres", name1), info1.getJdbcUrl());
+        assertEquals(getJdbcUrl("postgres", name2), info2.getJdbcUrl());
+    }
+    
     private String getPostgresqlServicePayload(String version, String serviceName,
                                                String hostname, int port,
                                                String user, String password, String name) {
@@ -44,5 +65,11 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
                 hostname, port, user, password, name);
     }
 
+    private String getPostgresqlServicePayloadNoLabelNoTags(String version, String serviceName,
+            String hostname, int port,
+            String user, String password, String name) {
+        return getRelationalPayload("test-postgresql-info-no-label-no-tags.json", version, serviceName,
+                hostname, port, user, password, name);
+}
     
 }

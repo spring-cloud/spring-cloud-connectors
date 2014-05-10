@@ -12,8 +12,8 @@ import org.springframework.cloud.util.UriInfo;
  */
 public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceInfo> extends CloudFoundryServiceInfoCreator<SI> {
 
-	public RelationalServiceInfoCreator(String tag) {
-		super(tag);
+	public RelationalServiceInfoCreator(String tag, String uriScheme) {
+		super(tag, uriScheme);
 	}
 
 	public abstract SI createServiceInfo(String id, String uri);

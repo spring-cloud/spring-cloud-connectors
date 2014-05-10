@@ -12,7 +12,7 @@ import org.springframework.cloud.service.common.AmqpServiceInfo;
 public class AmqpServiceInfoCreator extends CloudFoundryServiceInfoCreator<AmqpServiceInfo> {
 
 	public AmqpServiceInfoCreator() {
-		super("rabbitmq");
+		super("rabbitmq", "amqp");
 	}
 
 	public AmqpServiceInfo createServiceInfo(Map<String,Object> serviceData) {
