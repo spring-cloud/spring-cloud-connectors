@@ -13,8 +13,8 @@ public interface ServiceConnectorCreator<SC, SI extends ServiceInfo> {
 	 * configuration
 	 * 
 	 * @param serviceInfo
-	 * @param serviceConnectorConfiguration
-	 * @return
+	 * @param serviceConnectorConfig
+	 * @return service connector
 	 */
 	SC create(SI serviceInfo, ServiceConnectorConfig serviceConnectorConfig);
 	

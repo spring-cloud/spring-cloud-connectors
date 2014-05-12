@@ -18,7 +18,8 @@ import org.springframework.cloud.util.EnvironmentAccessor;
 /**
  * Implementation of CloudConnector for Heroku
  * 
- * Currently support only the Postgres service.
+ * Currently support Postgres (default provided), Mysql (Cleardb), MongoDb (MongoLab, MongoHQ, MongoSoup),
+ * Redis (RedisToGo, RedisCloud, OpenRedis, RedisGreen), and AMQP (CloudAmqp).
  * 
  * @author Ramnivas Laddad
  *
@@ -74,7 +75,7 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 	 * <p>
 	 * Returns map whose key is the env key and value is the associated url
 	 * </p>
-	 * @return
+	 * @return information about services bound to the app 
 	 */
 	protected List<KeyValuePair> getServicesData() {
 		List<KeyValuePair> serviceData = new ArrayList<KeyValuePair>();

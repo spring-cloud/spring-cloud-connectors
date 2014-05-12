@@ -47,12 +47,8 @@ public abstract class AbstractCloudConfig implements BeanFactoryAware {
 	 * Get the cloud factory.
 	 * 
 	 * Most applications will never need this method, but provided here to cover corner cases.
-	 * 
-	 * Implementation note: This roundabout way of implementation is required to ensure that
-	 * a CloudFoundry bean if created in some other configuration is available, we should use
-	 * that.
 	 *  
-	 * @return
+	 * @return cloud factory
 	 */
 	protected CloudFactory cloudFactory() {
 		return cloudFactory;
@@ -75,12 +71,16 @@ public abstract class AbstractCloudConfig implements BeanFactoryAware {
 	/**
 	 * Get the object containing service and app properties
 	 *  
-	 * @return
 	 */
 	public Properties properties() {
 		return cloud().getCloudProperties();
 	}
-	
+
+	/**
+     * Implementation note: This roundabout way of implementation is required to ensure that
+     * a {@link CloudFactory} bean if created in some other configuration is available, we should use
+     * that.
+	 */
 	@Override
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		if (cloudFactory == null) {

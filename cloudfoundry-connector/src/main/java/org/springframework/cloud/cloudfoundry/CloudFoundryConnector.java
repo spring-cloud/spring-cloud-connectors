@@ -60,7 +60,7 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 	 * <p>
 	 * Returns a list whose element is a map with service attributes. 
 	 * </p>
-	 * @return
+	 * @return parsed service data
 	 */
 	@SuppressWarnings("unchecked")
 	protected List<Map<String,Object>> getServicesData() {
