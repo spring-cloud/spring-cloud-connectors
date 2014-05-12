@@ -2,9 +2,9 @@ package org.springframework.cloud.cloudfoundry;
 
 import org.springframework.cloud.service.common.OracleServiceInfo;
 
-public class UserProvidedOracleServiceInfoCreator extends UserProvidedRelationalServiceInfoCreator<OracleServiceInfo> {
+public class UserProvidedOracleServiceInfoCreator extends RelationalServiceInfoCreator<OracleServiceInfo> {
 	public UserProvidedOracleServiceInfoCreator() {
-		super("oracle:");
+		super("oracle", "oracle");
 	}
 
 	@Override
