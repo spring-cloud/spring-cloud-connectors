@@ -34,7 +34,6 @@ public abstract class AbstractCloudServiceConnectorFactory<S> extends AbstractFa
 
 	/**
 	 * 
-	 * @param cloud
 	 * @param serviceId Optional service name property. If this property is	null, a unique service of the expected type 
 	 * 					(redis, for example) needs to be bound to the application.
 	 * @param serviceConnectorType

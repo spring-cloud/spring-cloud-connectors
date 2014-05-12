@@ -34,7 +34,7 @@ public interface ApplicationInstanceInfo {
 	 * <p>
 	 * Typical properties could include hostname and port etc.
 	 * 
-	 * @return
+	 * @return map of properties
 	 */
 	public Map<String, Object> getProperties();
 }

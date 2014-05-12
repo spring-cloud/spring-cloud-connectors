@@ -60,7 +60,7 @@ public class Cloud {
 	/**
 	 * @see CloudConnector#getApplicationInstanceInfo()
 	 * 
-	 * @return
+	 * @return information about the application instance
 	 */
 	public ApplicationInstanceInfo getApplicationInstanceInfo() {
 		return cloudConnector.getApplicationInstanceInfo();
@@ -83,7 +83,7 @@ public class Cloud {
 	
 	/**
 	 * @see CloudConnector#getServiceInfos()
-	 * @return
+	 * @return information about all services bound to the application
 	 */
 	public List<ServiceInfo> getServiceInfos() {
 		return cloudConnector.getServiceInfos();
@@ -98,8 +98,8 @@ public class Cloud {
 	 * <p> 
 	 * 
 	 * @param serviceConnectorType service connector type. 
-	 *                             Passing null returns all {@link ServiceInfo}s (matching that of {@link Cloud#getServiceInfo()} 
-	 * @return
+	 *                             Passing null returns all {@link ServiceInfo}s (matching that of {@link Cloud#getServiceInfos()} 
+	 * @return information about services bound to the application that could be transformed into the given connector type
 	 */
 	public <T> List<ServiceInfo> getServiceInfos(Class<T> serviceConnectorType) {
 		List<ServiceInfo> allServiceInfos = getServiceInfos();

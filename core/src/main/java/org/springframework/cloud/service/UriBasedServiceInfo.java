@@ -71,8 +71,8 @@ public abstract class UriBasedServiceInfo extends BaseServiceInfo {
 	/**
 	 * Validate the URI and clean it up by using defaults for any missing information, if possible.
 	 * 
-	 * @param uriInfo
-	 * @return
+	 * @param uriInfo uri info based on parsed payload
+	 * @return cleaned up uri info
 	 */
 	protected UriInfo validateAndCleanUriInfo(UriInfo uriInfo) {
 		return uriInfo;
