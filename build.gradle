@@ -1,5 +1,7 @@
 apply plugin: 'base'
-	
+
+description = "Spring Cloud"
+		
 buildscript {
     repositories {
         maven { url 'http://repo.springsource.org/plugins-release' }
