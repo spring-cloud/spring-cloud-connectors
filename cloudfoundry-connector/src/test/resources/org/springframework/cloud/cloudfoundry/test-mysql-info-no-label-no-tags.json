@@ -1,0 +1,6 @@
+{
+        "name": "$serviceName",
+		"credentials":{
+			"uri" : "mysql://$user:$password@$hostname:$port/$name"
+		}
+}

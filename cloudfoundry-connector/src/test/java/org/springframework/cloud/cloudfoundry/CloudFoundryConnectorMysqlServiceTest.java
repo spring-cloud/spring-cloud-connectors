@@ -58,7 +58,28 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
 	}
 	
-	@Test
+    @Test
+    public void mysqlServiceCreationNoLabelNoTags() {
+        String[] versions = {"5.1", "5.5"};
+        String name1 = "database-1";
+        String name2 = "database-2";
+        for (String version : versions) {
+            when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+                .thenReturn(getServicesPayload(
+                                getMysqlServicePayloadNoLabelNoTags(version, "mysql-1", hostname, port, username, password, name1),
+                                getMysqlServicePayloadNoLabelNoTags(version, "mysql-2", hostname, port, username, password, name2)));
+        }
+        List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+        
+        MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
+        MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
+        assertNotNull(info1);
+        assertNotNull(info2);
+        assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
+        assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
+    }
+
+    @Test
 	public void mysqlServiceCreationWithLabelNoUri() {
 		String[] versions = {"5.1", "5.5"};
 		String name1 = "database-1";
@@ -93,6 +114,13 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 				hostname, port, user, password, name);
 	}
 
+    private String getMysqlServicePayloadNoLabelNoTags(String version, String serviceName,
+            String hostname, int port,
+            String user, String password, String name) {
+        return getRelationalPayload("test-mysql-info-no-label-no-tags.json", version, serviceName,
+                hostname, port, user, password, name);
+    }
+	
 	private String getMysqlServicePayloadWithLabelNoUri(String version, String serviceName,
                           String hostname, int port,
                           String user, String password, String name) {

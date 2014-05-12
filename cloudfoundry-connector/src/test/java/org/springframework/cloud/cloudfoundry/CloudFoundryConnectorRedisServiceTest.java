@@ -28,11 +28,38 @@ public class CloudFoundryConnectorRedisServiceTest extends AbstractCloudFoundryC
 		assertNotNull(getServiceInfo(serviceInfos, "redis-1"));
 		assertNotNull(getServiceInfo(serviceInfos, "redis-2"));
 	}
-	
-	private String getRedisServicePayload(String version, String serviceName,
+
+    @Test
+    public void redisServiceCreationNoLabelNoTags() {
+        String[] versions = {"2.0", "2.2"};
+        for (String version : versions) {
+            when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+                .thenReturn(getServicesPayload(
+                        getRedisServicePayloadNoLabelNoTags(version, "redis-1", hostname, port, password, "redis-db"),
+                        getRedisServicePayloadNoLabelNoTags(version, "redis-2", hostname, port, password, "redis-db")));
+        }
+
+        List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+        assertNotNull(getServiceInfo(serviceInfos, "redis-1"));
+        assertNotNull(getServiceInfo(serviceInfos, "redis-2"));
+    }
+
+    private String getRedisServicePayload(String version, String serviceName,
+            String hostname, int port,
+            String password, String name) {
+        return getRedisServicePayload("test-redis-info.json", version, serviceName, hostname, port, password, name);
+    }
+    
+    private String getRedisServicePayloadNoLabelNoTags(String version, String serviceName,
+            String hostname, int port,
+            String password, String name) {
+        return getRedisServicePayload("test-redis-info-no-label-no-tags.json", version, serviceName, hostname, port, password, name);
+    }
+
+    private String getRedisServicePayload(String payloadFile, String version, String serviceName,
                                 			 String hostname, int port,
                                 			 String password, String name) {
-		String payload = readTestDataFile("test-redis-info.json");
+		String payload = readTestDataFile(payloadFile);
 		payload = payload.replace("$version", version);
 		payload = payload.replace("$serviceName", serviceName);
 		payload = payload.replace("$hostname", hostname);

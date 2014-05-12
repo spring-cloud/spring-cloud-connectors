@@ -15,7 +15,7 @@ public class SmtpServiceInfoCreator extends CloudFoundryServiceInfoCreator<SmtpS
 	private static final int DEFAULT_SMTP_PORT = 587;
 
 	public SmtpServiceInfoCreator() {
-		super("smtp");
+		super("smtp", "smtp");
 	}
 
 	public SmtpServiceInfo createServiceInfo(Map<String,Object> serviceData) {

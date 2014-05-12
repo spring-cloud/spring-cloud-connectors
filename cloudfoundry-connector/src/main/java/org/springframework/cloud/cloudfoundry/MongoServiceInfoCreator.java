@@ -12,7 +12,7 @@ import org.springframework.cloud.service.common.MongoServiceInfo;
 public class MongoServiceInfoCreator extends CloudFoundryServiceInfoCreator<MongoServiceInfo> {
 
 	public MongoServiceInfoCreator() {
-		super("mongodb");
+		super("mongodb", "mongodb");
 
 	}
 

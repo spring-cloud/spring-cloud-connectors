@@ -44,6 +44,21 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
         assertNotNull(getServiceInfo(serviceInfos, "rabbit-2"));
     }
 
+    @Test
+    public void rabbitServiceCreationNoLabelNoTags() {
+        String[] versions = {"1.0", "1.1"};
+        for (String version : versions) {
+            when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+                .thenReturn(getServicesPayload(
+                        getRabbitServicePayloadNoLabelNoTags(version, "rabbit-1", hostname, port, username, password, "q-1", "vhost1"),
+                        getRabbitServicePayloadNoLabelNoTags(version, "rabbit-2", hostname, port, username, password, "q-2", "vhost2")));
+        }
+
+        List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+        assertNotNull(getServiceInfo(serviceInfos, "rabbit-1"));
+        assertNotNull(getServiceInfo(serviceInfos, "rabbit-2"));
+    }
+
     private String getRabbitServicePayloadWithoutTags(String version, String serviceName,
             String hostname, int port,
             String user, String password, String name,
@@ -51,7 +66,15 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
         return getRabbitServicePayload("test-rabbit-info-with-label-no-tags.json", version, serviceName, 
                                        hostname, port, user, password, name, vHost);
     }
-	
+
+    private String getRabbitServicePayloadNoLabelNoTags(String version, String serviceName,
+            String hostname, int port,
+            String user, String password, String name,
+            String vHost) {
+        return getRabbitServicePayload("test-rabbit-info-no-label-no-tags.json", version, serviceName, 
+                                       hostname, port, user, password, name, vHost);
+    }
+    
 	private String getRabbitServicePayloadWithTags(String version, String serviceName,
                                 			  String hostname, int port,
                                 			  String user, String password, String name,
