@@ -12,24 +12,19 @@ import org.springframework.cloud.util.UriInfo;
  */
 public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceInfo> extends CloudFoundryServiceInfoCreator<SI> {
 
-	public RelationalServiceInfoCreator(String tag, String uriScheme) {
-		super(tag, uriScheme);
+	public RelationalServiceInfoCreator(Tags tags, String uriScheme) {
+		super(tags, uriScheme);
 	}
 
 	public abstract SI createServiceInfo(String id, String uri);
-	
-	protected String getConnectionScheme() {
-		 // by default return the tag as the uri scheme
-		return getTag();
-	}
-	
+
 	public SI createServiceInfo(Map<String,Object> serviceData) {
 		@SuppressWarnings("unchecked")
 		Map<String,Object> credentials = (Map<String, Object>) serviceData.get("credentials");
-		
+
 		String id = (String) serviceData.get("name");
-		
-		String uri = null;
+
+		String uri;
 		if (credentials.containsKey("uri")) {
 			uri = credentials.get("uri").toString();
 		} else {
@@ -41,7 +36,7 @@ public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceI
 
 			String database = (String) credentials.get("name");
 			
-			uri = new UriInfo(getConnectionScheme(), host, port, username, password, database).toString();
+			uri = new UriInfo(getUriScheme(), host, port, username, password, database).toString();
 		}
 		return createServiceInfo(id, uri);
 	}

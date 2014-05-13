@@ -7,57 +7,57 @@ import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.service.ServiceInfo;
 
 /**
- * 
  * @author Ramnivas Laddad
- *
  */
-public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> implements ServiceInfoCreator<SI, Map<String,Object>> {
+public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> implements ServiceInfoCreator<SI, Map<String, Object>> {
 
-	private String tag;
+	private Tags tags;
 	private String uriScheme;
 
-	public CloudFoundryServiceInfoCreator(String tag, String uriScheme) {
-		this.tag = tag;
+	public CloudFoundryServiceInfoCreator(Tags tags, String uriScheme) {
+		this.tags = tags;
 		this.uriScheme = uriScheme;
 	}
 
-    public CloudFoundryServiceInfoCreator(String tag) {
-        this(tag, null);
-    }
-    
+	public CloudFoundryServiceInfoCreator(Tags tags) {
+		this(tags, null);
+	}
+
+	public boolean accept(Map<String, Object> serviceData) {
+		return tagsMatch(serviceData) || labelStartsWithTag(serviceData) || uriMatchesScheme(serviceData);
+	}
+
 	@SuppressWarnings("unchecked")
-	public boolean accept(Map<String,Object> serviceData) {
-		List<String> tags = (List<String>)serviceData.get("tags");
+	protected boolean tagsMatch(Map<String, Object> serviceData) {
+		List<String> serviceTags = (List<String>) serviceData.get("tags");
+		return tags.containsOne(serviceTags);
+	}
+
+	protected boolean labelStartsWithTag(Map<String, Object> serviceData) {
 		String label = (String) serviceData.get("label");
-		
-		boolean tagAcceptable = tags != null && tags.contains(tag);
-		// Use label as a tag to cover cases where tag doesn't exist and label value
-		// itself starts with the tag text (for example, "label : mysql-n/a")
-		boolean labelAcceptable = label != null && label.startsWith(tag);
-		
-		return tagAcceptable || labelAcceptable || isUriAcceptable(serviceData);
+		return tags.startsWith(label);
 	}
-	
-	private boolean isUriAcceptable(Map<String,Object> serviceData) {
-	    if (uriScheme == null) {
-	        return false;
-	    }
-	    
-	    @SuppressWarnings("unchecked")
-        Map<String, String> credentials = (Map<String, String>) serviceData.get("credentials");
-	    if (credentials != null) {
-	        String uri = credentials.get("uri");
-	        if (uri == null) {
-	            uri = credentials.get("url");
-	        }
-	        if (uri != null) {
-	            return uri.startsWith(uriScheme + "://"); 
-	        }
-	    }
-	    return false;
+
+	protected boolean uriMatchesScheme(Map<String, Object> serviceData) {
+		if (uriScheme == null) {
+			return false;
+		}
+
+		@SuppressWarnings("unchecked")
+		Map<String, String> credentials = (Map<String, String>) serviceData.get("credentials");
+		if (credentials != null) {
+			String uri = credentials.get("uri");
+			if (uri == null) {
+				uri = credentials.get("url");
+			}
+			if (uri != null) {
+				return uri.startsWith(uriScheme + "://");
+			}
+		}
+		return false;
 	}
-	
-	protected String getTag() {
-		return tag;
+
+	public String getUriScheme() {
+		return uriScheme;
 	}
 }

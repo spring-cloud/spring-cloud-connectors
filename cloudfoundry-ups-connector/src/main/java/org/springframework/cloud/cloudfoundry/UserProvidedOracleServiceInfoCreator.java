@@ -4,7 +4,7 @@ import org.springframework.cloud.service.common.OracleServiceInfo;
 
 public class UserProvidedOracleServiceInfoCreator extends RelationalServiceInfoCreator<OracleServiceInfo> {
 	public UserProvidedOracleServiceInfoCreator() {
-		super("oracle", "oracle");
+		super(new Tags(), "oracle");
 	}
 
 	@Override
