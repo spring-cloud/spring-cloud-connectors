@@ -1,6 +1,6 @@
 {
         "name": "$serviceName",
-        "label": "elephantsql-$version",
+        "label": "elephantsql",
         "plan": "free",
         "tags": ["postgresql"],
         "credentials": {

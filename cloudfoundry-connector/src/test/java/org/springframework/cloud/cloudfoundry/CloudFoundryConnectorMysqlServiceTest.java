@@ -18,15 +18,12 @@ import org.springframework.cloud.service.common.MysqlServiceInfo;
 public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryConnectorRelationalServiceTest {
 	@Test
 	public void mysqlServiceCreation() {
-		String[] versions = {"5.1", "5.5"};
 		String name1 = "database-1";
 		String name2 = "database-2";
-		for (String version : versions) {
-			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
-				.thenReturn(getServicesPayload(
-								getMysqlServicePayload(version, "mysql-1", hostname, port, username, password, name1),
-								getMysqlServicePayload(version, "mysql-2", hostname, port, username, password, name2)));
-		}
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+			.thenReturn(getServicesPayload(
+							getMysqlServicePayload("mysql-1", hostname, port, username, password, name1),
+							getMysqlServicePayload("mysql-2", hostname, port, username, password, name2)));
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 		
 		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
@@ -39,15 +36,12 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 
 	@Test
 	public void mysqlServiceCreationWithLabelNoTags() {
-		String[] versions = {"5.1", "5.5"};
 		String name1 = "database-1";
 		String name2 = "database-2";
-		for (String version : versions) {
-			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
-				.thenReturn(getServicesPayload(
-								getMysqlServicePayloadWithLabelNoTags(version, "mysql-1", hostname, port, username, password, name1),
-								getMysqlServicePayloadWithLabelNoTags(version, "mysql-2", hostname, port, username, password, name2)));
-		}
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+			.thenReturn(getServicesPayload(
+							getMysqlServicePayloadWithLabelNoTags("mysql-1", hostname, port, username, password, name1),
+							getMysqlServicePayloadWithLabelNoTags("mysql-2", hostname, port, username, password, name2)));
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 		
 		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
@@ -57,39 +51,33 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
 		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
 	}
-	
-    @Test
-    public void mysqlServiceCreationNoLabelNoTags() {
-        String[] versions = {"5.1", "5.5"};
-        String name1 = "database-1";
-        String name2 = "database-2";
-        for (String version : versions) {
-            when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
-                .thenReturn(getServicesPayload(
-                                getMysqlServicePayloadNoLabelNoTags(version, "mysql-1", hostname, port, username, password, name1),
-                                getMysqlServicePayloadNoLabelNoTags(version, "mysql-2", hostname, port, username, password, name2)));
-        }
-        List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-        
-        MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
-        MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
-        assertNotNull(info1);
-        assertNotNull(info2);
-        assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
-        assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
-    }
 
-    @Test
+	@Test
+	public void mysqlServiceCreationNoLabelNoTags() {
+		String name1 = "database-1";
+		String name2 = "database-2";
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getMysqlServicePayloadNoLabelNoTags("mysql-1", hostname, port, username, password, name1),
+						getMysqlServicePayloadNoLabelNoTags("mysql-2", hostname, port, username, password, name2)));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+
+		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
+		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
+		assertNotNull(info1);
+		assertNotNull(info2);
+		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
+		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
+	}
+
+	@Test
 	public void mysqlServiceCreationWithLabelNoUri() {
-		String[] versions = {"5.1", "5.5"};
 		String name1 = "database-1";
 		String name2 = "database-2";
-		for (String version : versions) {
-			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
-				.thenReturn(getServicesPayload(
-								getMysqlServicePayloadWithLabelNoUri(version, "mysql-1", hostname, port, username, password, name1),
-								getMysqlServicePayloadWithLabelNoUri(version, "mysql-2", hostname, port, username, password, name2)));
-		}
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+			.thenReturn(getServicesPayload(
+							getMysqlServicePayloadWithLabelNoUri("mysql-1", hostname, port, username, password, name1),
+							getMysqlServicePayloadWithLabelNoUri("mysql-2", hostname, port, username, password, name2)));
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 		
 		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
@@ -99,32 +87,32 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
 		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
 	}
-	
-	private String getMysqlServicePayload(String version, String serviceName,
-            String hostname, int port,
-            String user, String password, String name) {
-		return getRelationalPayload("test-mysql-info.json", version, serviceName,
+
+	private String getMysqlServicePayload(String serviceName,
+										  String hostname, int port,
+										  String user, String password, String name) {
+		return getRelationalPayload("test-mysql-info.json", serviceName,
 				hostname, port, user, password, name);
 	}
 
-	private String getMysqlServicePayloadWithLabelNoTags(String version, String serviceName,
-                           String hostname, int port,
-                           String user, String password, String name) {
-		return getRelationalPayload("test-mysql-info-with-label-no-tags.json", version, serviceName,
+	private String getMysqlServicePayloadWithLabelNoTags(String serviceName,
+														 String hostname, int port,
+														 String user, String password, String name) {
+		return getRelationalPayload("test-mysql-info-with-label-no-tags.json", serviceName,
 				hostname, port, user, password, name);
 	}
 
-    private String getMysqlServicePayloadNoLabelNoTags(String version, String serviceName,
-            String hostname, int port,
-            String user, String password, String name) {
-        return getRelationalPayload("test-mysql-info-no-label-no-tags.json", version, serviceName,
-                hostname, port, user, password, name);
-    }
-	
-	private String getMysqlServicePayloadWithLabelNoUri(String version, String serviceName,
-                          String hostname, int port,
-                          String user, String password, String name) {
-		return getRelationalPayload("test-mysql-info-with-label-no-uri.json", version, serviceName,
+	private String getMysqlServicePayloadNoLabelNoTags(String serviceName,
+													   String hostname, int port,
+													   String user, String password, String name) {
+		return getRelationalPayload("test-mysql-info-no-label-no-tags.json", serviceName,
+				hostname, port, user, password, name);
+	}
+
+	private String getMysqlServicePayloadWithLabelNoUri(String serviceName,
+														String hostname, int port,
+														String user, String password, String name) {
+		return getRelationalPayload("test-mysql-info-with-label-no-uri.json", serviceName,
 				hostname, port, user, password, name);
 	}
 	

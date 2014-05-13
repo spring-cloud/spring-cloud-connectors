@@ -1,6 +1,6 @@
 {
         "name": "$serviceName",
-        "label": "cleardb-$version",
+        "label": "cleardb",
         "tags": ["mysql"],
         "plan": "free",
 		"credentials":{

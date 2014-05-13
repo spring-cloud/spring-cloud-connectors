@@ -16,57 +16,50 @@ import org.springframework.cloud.service.ServiceInfo;
 public class CloudFoundryConnectorRedisServiceTest extends AbstractCloudFoundryConnectorTest {
 	@Test
 	public void redisServiceCreation() {
-		String[] versions = {"2.0", "2.2"};
-		for (String version : versions) {
-			when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
-				.thenReturn(getServicesPayload(
-						getRedisServicePayload(version, "redis-1", hostname, port, password, "redis-db"),
-						getRedisServicePayload(version, "redis-2", hostname, port, password, "redis-db")));
-		}
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+			.thenReturn(getServicesPayload(
+					getRedisServicePayload("redis-1", hostname, port, password, "redis-db"),
+					getRedisServicePayload("redis-2", hostname, port, password, "redis-db")));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 		assertNotNull(getServiceInfo(serviceInfos, "redis-1"));
 		assertNotNull(getServiceInfo(serviceInfos, "redis-2"));
 	}
 
-    @Test
-    public void redisServiceCreationNoLabelNoTags() {
-        String[] versions = {"2.0", "2.2"};
-        for (String version : versions) {
-            when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
-                .thenReturn(getServicesPayload(
-                        getRedisServicePayloadNoLabelNoTags(version, "redis-1", hostname, port, password, "redis-db"),
-                        getRedisServicePayloadNoLabelNoTags(version, "redis-2", hostname, port, password, "redis-db")));
-        }
+	@Test
+	public void redisServiceCreationNoLabelNoTags() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getRedisServicePayloadNoLabelNoTags("redis-1", hostname, port, password, "redis-db"),
+						getRedisServicePayloadNoLabelNoTags("redis-2", hostname, port, password, "redis-db")));
 
-        List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-        assertNotNull(getServiceInfo(serviceInfos, "redis-1"));
-        assertNotNull(getServiceInfo(serviceInfos, "redis-2"));
-    }
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertNotNull(getServiceInfo(serviceInfos, "redis-1"));
+		assertNotNull(getServiceInfo(serviceInfos, "redis-2"));
+	}
 
-    private String getRedisServicePayload(String version, String serviceName,
-            String hostname, int port,
-            String password, String name) {
-        return getRedisServicePayload("test-redis-info.json", version, serviceName, hostname, port, password, name);
-    }
-    
-    private String getRedisServicePayloadNoLabelNoTags(String version, String serviceName,
-            String hostname, int port,
-            String password, String name) {
-        return getRedisServicePayload("test-redis-info-no-label-no-tags.json", version, serviceName, hostname, port, password, name);
-    }
+	private String getRedisServicePayload(String serviceName,
+										  String hostname, int port,
+										  String password, String name) {
+		return getRedisServicePayload("test-redis-info.json", serviceName, hostname, port, password, name);
+	}
 
-    private String getRedisServicePayload(String payloadFile, String version, String serviceName,
-                                			 String hostname, int port,
-                                			 String password, String name) {
+	private String getRedisServicePayloadNoLabelNoTags(String serviceName,
+													   String hostname, int port,
+													   String password, String name) {
+		return getRedisServicePayload("test-redis-info-no-label-no-tags.json", serviceName, hostname, port, password, name);
+	}
+
+	private String getRedisServicePayload(String payloadFile, String serviceName,
+										  String hostname, int port,
+										  String password, String name) {
 		String payload = readTestDataFile(payloadFile);
-		payload = payload.replace("$version", version);
 		payload = payload.replace("$serviceName", serviceName);
 		payload = payload.replace("$hostname", hostname);
 		payload = payload.replace("$port", Integer.toString(port));
 		payload = payload.replace("$password", password);
 		payload = payload.replace("$name", name);
-		
+
 		return payload;
 	}
 }

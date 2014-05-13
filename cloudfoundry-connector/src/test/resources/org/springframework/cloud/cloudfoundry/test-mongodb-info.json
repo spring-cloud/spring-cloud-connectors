@@ -1,6 +1,6 @@
 {
         "name": "$serviceName",
-        "label": "mongolab-$version",
+        "label": "mongolab",
         "plan": "free",
         "tags":["mongodb"],
         "credentials": {

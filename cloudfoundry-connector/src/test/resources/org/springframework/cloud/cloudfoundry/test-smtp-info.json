@@ -1,11 +1,11 @@
 {
         "name": "$serviceName",
-        "label": "sendgrid-$version",
+        "label": "sendgrid",
         "plan": "free",
         "tags":["smtp"],
         "credentials": {
         		"hostname" : "$hostname",
-        		"username" : "$username",        		
+        		"username" : "$username",
         		"password" : "$password"
         }
 }

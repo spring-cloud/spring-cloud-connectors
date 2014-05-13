@@ -1,6 +1,6 @@
 {
         "name": "$serviceName",
-        "label": "mysql-$version",
+        "label": "mysql",
         "tags": [],
         "plan": "free",
 		"credentials":{
