@@ -67,7 +67,12 @@ public abstract class UriBasedServiceInfo extends BaseServiceInfo {
 	public String getPath() {
 		return uriInfo.getPath();
 	}
-	
+
+	@ServiceProperty(category="connection")
+	public String getQuery() {
+		return uriInfo.getQuery();
+	}
+
 	/**
 	 * Validate the URI and clean it up by using defaults for any missing information, if possible.
 	 * 

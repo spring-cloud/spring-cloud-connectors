@@ -17,20 +17,26 @@ public class UriInfo {
 	private String password;
 	private String path;
 	private URI uri;
+	private String query;
+
+	public UriInfo(String scheme, String host, int port, String username, String password) {
+		this(scheme, host, port, username, password, "");
+	}
 
 	public UriInfo(String scheme, String host, int port, String username, String password, String path) {
+		this(scheme, host, port, username, password, path, null);
+	}
+
+	public UriInfo(String scheme, String host, int port, String username, String password, String path, String query) {
 		this.scheme = scheme;
 		this.host = host;
 		this.port = port;
 		this.userName = username;
 		this.password = password;
 		this.path = path;
+		this.query = query;
 
 		this.uri = buildUri();
-	}
-
-	public UriInfo(String scheme, String host, int port, String username, String password) {
-		this(scheme, host, port, username, password, "");
 	}
 
 	public String getScheme() {
@@ -57,11 +63,15 @@ public class UriInfo {
 		return path;
 	}
 
+	public String getQuery() {
+		return query;
+	}
+
 	public URI getUri() {
 		return uri;
 	}
 
-	public URI buildUri() throws IllegalArgumentException {
+	private URI buildUri() {
 		String userInfo = null;
 		
 		if (userName != null && password != null) {
@@ -71,7 +81,7 @@ public class UriInfo {
 		String cleanedPath = path == null || path.startsWith("/") ? path : "/" + path;
 		
 		try {
-			return new URI(scheme, userInfo, host, port, cleanedPath, null, null);
+			return new URI(scheme, userInfo, host, port, cleanedPath, query, null);
 		}
 		catch (URISyntaxException e) {
 			throw new IllegalArgumentException(e);

@@ -6,64 +6,83 @@ import java.net.URLDecoder;
 
 /**
  * Factory for standard Cloud Foundry URIs which all conform to the format:
- * 
- * [jdbc:]scheme://[user:pass]@authority/path
+ * <p/>
+ * [jdbc:]scheme://[user:pass]@authority[:port]/path
  */
 public class StandardUriInfoFactory implements UriInfoFactory {
-    @Override
-    public UriInfo createUri(String uriString) {
-        String userName = null;
-        String password = null;
-        String path;
-        URI tmpUri;
 
-        if (uriString.startsWith("jdbc:")) {
-            int idx = uriString.indexOf(":");
-            uriString = uriString.substring(idx + 1);
-        }
+	public static final String JDBC_PREFIX = "jdbc:";
 
-        try {
-            tmpUri = new URI(uriString);
-        }
-        catch (URISyntaxException e) {
-            throw new IllegalArgumentException(e);
-        }
+	@Override
+	public UriInfo createUri(String scheme, String host, int port, String username, String password, String path) {
+		return new UriInfo(scheme, host, port, username, password, path);
+	}
 
-        String userInfo = tmpUri.getRawUserInfo();
-        if (userInfo != null) {
-            String userPass[] = userInfo.split(":");
-            if (userPass.length != 2) {
-                throw new IllegalArgumentException("bad user info in URI: " + tmpUri);
-            }
+	@Override
+	public UriInfo createUri(String uriString) {
 
-            userName = uriDecode(userPass[0]);
-            password = uriDecode(userPass[1]);
-        }
+		uriString = trimJdbcScheme(uriString);
 
-        String rawPath = tmpUri.getRawPath();
-        if (rawPath != null && rawPath.length() > 1) {
-            path = rawPath.substring(1);
-        }
-        else {
-            path = null;
-        }
-        return new UriInfo(tmpUri.getScheme(), tmpUri.getHost(), tmpUri.getPort(), userName, password, path);
-    }
+		URI tmpUri = createTmpUri(uriString);
 
-    @Override
-    public UriInfo createUri(String scheme, String host, int port, String username, String password, String path) {
-        return new UriInfo(scheme, host, port, username, password, path);
-    }
+		String[] userInfo = parseUserinfo(tmpUri);
+		String userName = uriDecode(userInfo[0]);
+		String password = uriDecode(userInfo[1]);
 
-    private static String uriDecode(String s) {
-        try {
-            // URLDecode decodes '+' to a space, as for
-            // form encoding. So protect plus signs.
-            return URLDecoder.decode(s.replace("+", "%2B"), "US-ASCII");
-        }
-        catch (java.io.UnsupportedEncodingException e) {
-            // US-ASCII is always supported
-            throw new RuntimeException(e);
-        }
-    }
+		return new UriInfo(tmpUri.getScheme(), tmpUri.getHost(), tmpUri.getPort(),
+				userName, password,
+				parsePath(tmpUri), tmpUri.getRawQuery());
+	}
+
+	private URI createTmpUri(String uriString) {
+		try {
+			return new URI(uriString);
+		} catch (URISyntaxException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	private String trimJdbcScheme(String uriString) {
+		if (uriString.startsWith(JDBC_PREFIX)) {
+			uriString = uriString.substring(JDBC_PREFIX.length());
+		}
+		return uriString;
+	}
+
+	private String[] parseUserinfo(URI uri) {
+		String userInfo = uri.getRawUserInfo();
+
+		if (userInfo != null) {
+			String[] userPass = userInfo.split(":");
+			if (userPass.length != 2) {
+				throw new IllegalArgumentException("Bad userinfo in URI: " + uri);
+			}
+			return userPass;
+		}
+
+		return new String[]{null, null};
+	}
+
+	private String parsePath(URI uri) {
+		String rawPath = uri.getRawPath();
+		if (rawPath != null && rawPath.length() > 1) {
+			return rawPath.substring(1);
+		}
+		return null;
+	}
+
+	private static String uriDecode(String s) {
+		if (s == null) {
+			return null;
+		}
+
+		try {
+			// URLDecode decodes '+' to a space, as for
+			// form encoding. So protect plus signs.
+			return URLDecoder.decode(s.replace("+", "%2B"), "US-ASCII");
+		} catch (java.io.UnsupportedEncodingException e) {
+			// US-ASCII is always supported
+			throw new RuntimeException(e);
+		}
+	}
 }
