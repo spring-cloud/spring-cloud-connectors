@@ -15,33 +15,29 @@ dependencies {
 
   testRuntime("javax.mail:javax.mail-api:$javaxMailVersion")
 
-  compile("org.springframework:spring-jdbc:$springVersion", optional)
-  compile("org.springframework:spring-context-support:$springVersion", optional)
-  compile("org.apache.tomcat:tomcat-jdbc:$tomcatVersion", optional)
-  compile("org.apache.tomcat:tomcat-dbcp:$tomcatVersion", optional)
-  compile("org.apache.commons:commons-dbcp2:$commonDbcp2Version") {
-    optional
+  optional("org.springframework:spring-jdbc:$springVersion")
+  optional("org.springframework:spring-context-support:$springVersion")
+  optional("org.apache.tomcat:tomcat-jdbc:$tomcatVersion")
+  optional("org.apache.tomcat:tomcat-dbcp:$tomcatVersion")
+  optional("org.apache.commons:commons-dbcp2:$commonDbcp2Version") {
     exclude(module: 'commons-logging')
     exclude(module: 'xerces')
     exclude(module: 'xercesImpl')
     exclude(module: 'xml-apis')
   }
-  compile("commons-dbcp:commons-dbcp:$commonDbcpVersion") {
-    optional
+  optional("commons-dbcp:commons-dbcp:$commonDbcpVersion") {
     exclude(module: 'commons-logging')
     exclude(module: 'xerces')
     exclude(module: 'xercesImpl')
     exclude(module: 'xml-apis')
   }
-  compile("org.springframework.amqp:spring-rabbit:$springAmqpVersion", optional)
-  compile("org.springframework.data:spring-data-redis:$springDataRedisVersion") {
-    optional
+  optional("org.springframework.amqp:spring-rabbit:$springAmqpVersion")
+  optional("org.springframework.data:spring-data-redis:$springDataRedisVersion") {
     exclude(module: 'spring-context-support')
   }
-  compile("redis.clients:jedis:$jedisVersion", optional)
+  optional("redis.clients:jedis:$jedisVersion")
 
-  compile("org.springframework.data:spring-data-mongodb:$springDataMongoVersion") {
-    optional
+  optional("org.springframework.data:spring-data-mongodb:$springDataMongoVersion") {
     exclude(module: 'spring-beans')
     exclude(module: 'spring-expression')
     exclude(module: 'spring-tx')
