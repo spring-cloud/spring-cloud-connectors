@@ -1,6 +1,6 @@
 {
 	"name":"$serviceName",
-	"label":"rabbitmq-$version",
+	"label":"rabbitmq",
 	"tags":[],
 	"plan":"Standard",
 	"credentials":{

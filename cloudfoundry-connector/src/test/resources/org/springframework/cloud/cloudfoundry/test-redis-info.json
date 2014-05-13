@@ -1,6 +1,6 @@
 {
         "name": "$serviceName",
-        "label": "rediscloud-$version",
+        "label": "rediscloud",
         "plan": "free",
         "tags":["redis","key-value"],
         "credentials": {

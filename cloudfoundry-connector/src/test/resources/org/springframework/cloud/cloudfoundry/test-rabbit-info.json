@@ -1,6 +1,6 @@
 {
 	"name":"$serviceName",
-	"label":"cloudamqp-$version",
+	"label":"cloudamqp",
 	"plan":"free",
 	"tags":["amqp","rabbitmq"],
 	"credentials":{
