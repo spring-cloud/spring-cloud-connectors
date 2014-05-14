@@ -6,7 +6,7 @@ coming soon; PR requests welcome).
 
 Supporting additional services
 ------------------------------
-Please see the documentation for [cloudfoundry-connector](../cloudfoundry-connector), since the same 
+Please see the documentation for [cloudfoundry-connector](../spring-cloud-cloudfoundry-connector), since the same 
 mechanism applies to any cloud connector.
 
 Limitations

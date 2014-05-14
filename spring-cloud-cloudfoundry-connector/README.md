@@ -7,11 +7,11 @@ Supporting additional services
 ------------------------------
 The cloudfoundry-connector offers extending support for additional services 
 through the same [`ServiceLoader`](http://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html) 
-mechanism used in the [core](../core) project. 
-It allows extending to new services without modifying the [cloudfoundry-connector](../cloudfoundry-connector)
+mechanism used in the [core](../spring-cloud-core) project. 
+It allows extending to new services without modifying the [cloudfoundry-connector](../spring-cloud-cloudfoundry-connector)
 itself. All you need to do is:
 
-1. Create a new project declaring dependency of [cloudfoundry-connector](../cloudfoundry-connector).
+1. Create a new project declaring dependency of [cloudfoundry-connector](../spring-cloud-cloudfoundry-connector).
 2. Add one implementation of [`CloudFoundryServiceInfoCreator`](src/main/java/org/springframework/cloud/cloudfoundry/CloudFoundryServiceInfoCreator.java) 
    for each service type you wish to extend. 
    Along the way, you will, of course, add an implementation of [`ServiceInfo`](../core/main/java/org/springframework/cloud/service/ServiceInfo.java) 

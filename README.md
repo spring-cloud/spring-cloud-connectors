@@ -9,10 +9,10 @@ The core concepts used in this project are:
 
 The project comprises of four subprojects:
 
-1. **[core](core)**: Core library that is cloud agnostic and Spring agnostic. Provides entry point for application developers that choose to programmatically access cloud services and application information. It also provides an extension mechanism to contribute cloud connectors and service connector creators.
-2. **[spring-service-connector](spring-service-connector)**: Library that provides service connectors creators for javax.sql.DataSource and various connection factories spring-data projects.
-3. **[cloudfoundry-connector](cloudfoundry-connector)**: Cloud connector for [Cloud Foundry](http://www.cloudfoundry.com).
-4. **[heroku-connector](heroku-connector)**: Cloud connector for [Heroku](http://www.heroku.com).
+1. **[core](spring-cloud-core)**: Core library that is cloud agnostic and Spring agnostic. Provides entry point for application developers that choose to programmatically access cloud services and application information. It also provides an extension mechanism to contribute cloud connectors and service connector creators.
+2. **[spring-service-connector](spring-cloud-spring-service-connector)**: Library that provides service connectors creators for javax.sql.DataSource and various connection factories spring-data projects.
+3. **[cloudfoundry-connector](spring-cloud-cloudfoundry-connector)**: Cloud connector for [Cloud Foundry](http://www.cloudfoundry.com).
+4. **[heroku-connector](spring-cloud-heroku-connector)**: Cloud connector for [Heroku](http://www.heroku.com).
 
 Getting Started
 ===============
@@ -30,7 +30,7 @@ Add the Spring Maven repository to your pom.xml
 Spring apps
 -----------
 
-Add the [`spring-service-connector`](spring-service-connector) and one or more cloud connectors dependencies (it is okay to add more that one cloud connectors):
+Add the [`spring-service-connector`](spring-cloud-spring-service-connector) and one or more cloud connectors dependencies (it is okay to add more that one cloud connectors):
 
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
@@ -50,7 +50,7 @@ Add the [`spring-service-connector`](spring-service-connector) and one or more c
     	<version>0.9.2</version>
     </dependency>
 
-Then follow instructions on [how you use the Java config and `<cloud>` namespace](spring-service-connector). You can also follow the [instructions](core) on using the core API directly.
+Then follow instructions on [how you use the Java config and `<cloud>` namespace](spring-cloud-spring-service-connector). You can also follow the [instructions](spring-cloud-core) on using the core API directly.
 
 Non-spring apps
 ---------------
@@ -74,4 +74,4 @@ Add the [`core`](core) and one or more cloud connectors dependencies (it is okay
     	<version>0.9.2</version>
     </dependency>
 
-Then follow the [instructions](core) on using spring-cloud API.
+Then follow the [instructions](spring-cloud-core) on using spring-cloud API.
