@@ -8,6 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.5'
+        classpath 'org.springframework.build.gradle:spring-io-plugin:0.0.3.RELEASE'
     }
 }
 
@@ -58,6 +59,19 @@ subprojects {
     apply plugin: 'propdeps-eclipse'
 
     apply from: "${rootProject.projectDir}/publish-maven.gradle"
+
+    if (project.hasProperty('platformVersion')) {
+        apply plugin: 'spring-io'
+
+        // necessary to resolve the Spring IO versions (which may include snapshots)
+        repositories {
+           maven { url "https://repo.spring.io/libs-snapshot" }
+        }
+
+        dependencies {
+            springIoVersions "io.spring.platform:platform-versions:${platformVersion}@properties"
+        }
+    }
 
     sourceCompatibility = 1.6
     targetCompatibility = 1.6

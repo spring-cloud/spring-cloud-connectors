@@ -3,6 +3,8 @@ package org.springframework.cloud.service.mongo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.cloud.service.document.MongoDbFactoryCreator;
@@ -47,7 +49,11 @@ public class MongoServiceConnectorCreatorTest {
 		Mongo mongo = (Mongo) ReflectionTestUtils.getField(connector, "mongo");
 		UserCredentials credentials = (UserCredentials) ReflectionTestUtils.getField(connector, "credentials");
 		assertNotNull(mongo);
-		ServerAddress address = mongo.getAddress();
+		
+		List<ServerAddress> addresses = mongo.getAllAddress();
+		assertEquals(1, addresses.size());
+		
+		ServerAddress address = addresses.get(0);
 		
 		assertEquals(serviceInfo.getHost(), address.getHost());
 		assertEquals(serviceInfo.getPort(), address.getPort());
