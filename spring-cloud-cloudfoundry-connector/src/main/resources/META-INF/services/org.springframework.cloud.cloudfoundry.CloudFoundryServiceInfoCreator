@@ -5,3 +5,4 @@ org.springframework.cloud.cloudfoundry.MongoServiceInfoCreator
 org.springframework.cloud.cloudfoundry.AmqpServiceInfoCreator
 org.springframework.cloud.cloudfoundry.MonitoringServiceInfoCreator
 org.springframework.cloud.cloudfoundry.SmtpServiceInfoCreator
+org.springframework.cloud.cloudfoundry.OracleServiceInfoCreator

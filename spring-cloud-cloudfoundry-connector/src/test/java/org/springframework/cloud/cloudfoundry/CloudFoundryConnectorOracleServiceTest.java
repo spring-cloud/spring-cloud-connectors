@@ -13,7 +13,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
-public class UserProvidedOracleServiceInfoCreatorTest extends AbstractUserProvidedServiceInfoCreatorTest {
+public class CloudFoundryConnectorOracleServiceTest extends AbstractUserProvidedServiceInfoCreatorTest {
 
 	private static final String INSTANCE_NAME = "database";
 	private static final String ORACLE_SCHEME = "oracle:";

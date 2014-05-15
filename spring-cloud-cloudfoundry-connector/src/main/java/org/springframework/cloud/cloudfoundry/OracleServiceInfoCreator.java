@@ -2,8 +2,8 @@ package org.springframework.cloud.cloudfoundry;
 
 import org.springframework.cloud.service.common.OracleServiceInfo;
 
-public class UserProvidedOracleServiceInfoCreator extends RelationalServiceInfoCreator<OracleServiceInfo> {
-	public UserProvidedOracleServiceInfoCreator() {
+public class OracleServiceInfoCreator extends RelationalServiceInfoCreator<OracleServiceInfo> {
+	public OracleServiceInfoCreator() {
 		super(new Tags(), "oracle");
 	}
 
