@@ -177,11 +177,35 @@ configure(rootProject) {
 	}
 }
 
+ext {
+	matrix = [
+		"mongo124" : [springDataMongoVersion : "1.2.4.RELEASE"],
+		"mongo135" : [springDataMongoVersion : "1.3.5.RELEASE"],
+		"mongo142" : [springDataMongoVersion : "1.4.2.RELEASE"]
+	]
+}
+
+task matrixTests
+
+task defineMatrixTests {
+	def createTestTask = { name, props ->
+	    task "$name"(type: GradleBuild) {
+	        tasks = ['test']
+	        startParameter.projectProperties = props
+	    }
+	}
+	matrix.each { sp ->
+		def testTask = createTestTask(sp.key, sp.value)
+		matrixTests.dependsOn(testTask.name)
+	} 
+}
+
+
 task dist(dependsOn: assemble) {
 	group = 'Distribution'
 	description = 'Builds -dist, -docs and -schema distribution archives.'
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.11'
+    gradleVersion = '1.12'
 }
