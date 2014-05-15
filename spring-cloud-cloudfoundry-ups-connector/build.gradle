@@ -1,7 +1,0 @@
-description = 'Spring-Cloud Cloud Foundry User-provided Connector'
-
-dependencies {
-    compile project(':spring-cloud-cloudfoundry-connector')
-    testCompile project(path: ':spring-cloud-cloudfoundry-connector', configuration: 'tests')
-}
-
