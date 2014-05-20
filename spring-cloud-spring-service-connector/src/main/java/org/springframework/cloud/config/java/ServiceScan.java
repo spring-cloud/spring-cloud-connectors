@@ -44,7 +44,7 @@ import org.springframework.context.annotation.Import;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
-@Import(DelegatingServiceScanConfiguration.class)
+@Import(ServiceScanConfiguration.class)
 public @interface ServiceScan {
 
 }

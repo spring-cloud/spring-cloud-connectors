@@ -31,6 +31,8 @@ public abstract class AbstractCloudServiceConnectorFactory<S> extends AbstractFa
 	protected String serviceId;
 	private Class<? extends S> serviceConnectorType;
 	private ServiceConnectorConfig serviceConnectorConfiguration;
+	
+	private S serviceInstance;
 
 	/**
 	 * 
@@ -89,7 +91,10 @@ public abstract class AbstractCloudServiceConnectorFactory<S> extends AbstractFa
 	}
 	
 	public S createService() {
-		return cloud.getServiceConnector(serviceId, serviceConnectorType, serviceConnectorConfiguration);		
+	    if (serviceInstance == null && cloud != null) {
+	        serviceInstance = cloud.getServiceConnector(serviceId, serviceConnectorType, serviceConnectorConfiguration);
+	    }
+	    return serviceInstance;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -97,10 +102,10 @@ public abstract class AbstractCloudServiceConnectorFactory<S> extends AbstractFa
 	public Class<?> getObjectType() {
 		if (serviceConnectorType == null) {
 			try {
-				serviceConnectorType = (Class<? extends S>) getObject().getClass();
+				serviceConnectorType = (Class<? extends S>) createService().getClass();
 			}
 			catch (Exception e) {
-				throw new CloudException("Unable to create service to determine its type");
+				return null;
 			}
 		}
 		return serviceConnectorType;
