@@ -13,14 +13,14 @@ buildscript {
 }
 
 ext {
-    springVersion = "3.0.7.RELEASE"
+    springVersion = "3.1.4.RELEASE"
     tomcatVersion = "7.0.53"
 
-    springAmqpVersion = "1.3.3.RELEASE"
-    springDataRedisVersion = "1.3.0.RC1"
-    springDataMongoVersion = "1.5.0.RC1"
+    springAmqpVersion = "1.0.0.RELEASE"
+    springDataRedisVersion = "1.1.1.RELEASE"
+    springDataMongoVersion = "1.2.4.RELEASE"
     
-    jedisVersion = "2.4.2"
+    jedisVersion = "2.1.0"
 
     commonDbcpVersion = "1.4"
     commonDbcp2Version = "2.0"
@@ -179,19 +179,18 @@ configure(rootProject) {
 
 ext {
 	matrix = [
-		"mongo12" : [springDataMongoVersion : "1.2.4.RELEASE"],
 		"mongo13" : [springDataMongoVersion : "1.3.5.RELEASE"],
 		"mongo14" : [springDataMongoVersion : "1.4.2.RELEASE"],
-		"jedis21-redis11" : [jedisVersion : "2.1.0", springDataRedisVersion : "1.1.1.RELEASE"],
+		"mongo15" : [springDataMongoVersion : "1.5.0.RELEASE"],
 		"jedis22-redis11" : [jedisVersion : "2.2.1", springDataRedisVersion : "1.1.1.RELEASE"],
 		"jedis23-redis12" : [jedisVersion : "2.3.1", springDataRedisVersion : "1.2.1.RELEASE"],
-		"jedis23" : [jedisVersion : "2.3.1"],
-		"amqp10" : [springAmqpVersion: "1.0.0.RELEASE"],
+		"jedis23-redis13" : [jedisVersion : "2.3.1", springDataRedisVersion : "1.3.0.RELEASE"],
+		"jedis24-redis13" : [jedisVersion : "2.4.2", springDataRedisVersion : "1.3.0.RELEASE"],
 		"amqp11" : [springAmqpVersion: "1.1.4.RELEASE"],
 		"amqp12" : [springAmqpVersion: "1.2.2.RELEASE"],
-		"spring31": [springVersion : "3.1.4.RELEASE"],
-		"spring32": [springVersion : "3.2.8.RELEASE"],
-		"spring40": [springVersion : "4.0.5.BUILD-SNAPSHOT"]
+		"amqp13" : [springAmqpVersion: "1.3.3.RELEASE"],
+		"spring32": [springVersion : "3.2.9.RELEASE"],
+		"spring40": [springVersion : "4.0.5.RELEASE"]
 	]
 }
 
