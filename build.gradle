@@ -191,7 +191,7 @@ ext {
 		"amqp12" : [springAmqpVersion: "1.2.2.RELEASE"],
 		"spring31": [springVersion : "3.1.4.RELEASE"],
 		"spring32": [springVersion : "3.2.8.RELEASE"],
-		"spring40": [springVersion : "4.0.3.RELEASE"]
+		"spring40": [springVersion : "4.0.5.BUILD-SNAPSHOT"]
 	]
 }
 
