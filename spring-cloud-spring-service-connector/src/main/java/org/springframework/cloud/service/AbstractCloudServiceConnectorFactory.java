@@ -92,6 +92,11 @@ public abstract class AbstractCloudServiceConnectorFactory<S> extends AbstractFa
 		return cloud.getServiceConnector(serviceId, serviceConnectorType, serviceConnectorConfiguration);		
 	}
 	
+	@Override
+	public boolean isSingleton() {
+		return false;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Class<?> getObjectType() {
