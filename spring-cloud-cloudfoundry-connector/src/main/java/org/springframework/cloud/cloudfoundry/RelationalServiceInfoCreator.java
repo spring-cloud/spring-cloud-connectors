@@ -24,20 +24,20 @@ public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceI
 
 		String id = (String) serviceData.get("name");
 
-		String uri;
-		if (credentials.containsKey("uri")) {
-			uri = credentials.get("uri").toString();
-		} else {
-			String host = (String) credentials.get("host");
+		String uri = getStringFromCredentials(credentials, "uri", "url");
+
+		if (uri == null) {
+			String host = getStringFromCredentials(credentials, "hostname", "host");
 			int port = Integer.parseInt(credentials.get("port").toString()); // allows the port attribute to be quoted or plain
 
-			String username = (String) credentials.get("user");
+			String username = getStringFromCredentials(credentials, "user", "username");
 			String password = (String) credentials.get("password");
 
 			String database = (String) credentials.get("name");
 			
 			uri = new UriInfo(getUriScheme(), host, port, username, password, database).toString();
 		}
+
 		return createServiceInfo(id, uri);
 	}
 }

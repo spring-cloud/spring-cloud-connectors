@@ -21,12 +21,10 @@ public class RedisServiceInfoCreator extends CloudFoundryServiceInfoCreator<Redi
 
 		String id = (String) serviceData.get("name");
 
-		String uri = (String) credentials.get("uri");
+		String uri = getStringFromCredentials(credentials, "uri", "url");
+
 		if (uri == null) {
-			uri = (String) credentials.get("url");
-		}
-		if (uri == null) {
-			String host = (String) credentials.get("hostname");
+			String host = getStringFromCredentials(credentials, "hostname", "host");
 			Integer port = Integer.parseInt(credentials.get("port").toString());
 			String password = (String) credentials.get("password");
 
