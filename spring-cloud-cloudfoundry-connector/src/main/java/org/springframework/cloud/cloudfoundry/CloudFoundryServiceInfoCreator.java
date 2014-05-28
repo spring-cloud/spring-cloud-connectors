@@ -57,6 +57,15 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 		return false;
 	}
 
+	protected String getStringFromCredentials(Map<String, Object> credentials, String... keys) {
+		for (String key : keys) {
+			if (credentials.containsKey(key)) {
+				return (String) credentials.get(key);
+			}
+		}
+		return null;
+	}
+
 	public String getUriScheme() {
 		return uriScheme;
 	}

@@ -84,7 +84,10 @@ public class UriInfo {
 			return new URI(scheme, userInfo, host, port, cleanedPath, query, null);
 		}
 		catch (URISyntaxException e) {
-			throw new IllegalArgumentException(e);
+			String details = String.format("Error creating URI with components: " +
+							"scheme=%s, userInfo=%s, host=%s, port=%d, path=%s, query=%s",
+					scheme, userInfo, host, port, cleanedPath, query);
+			throw new IllegalArgumentException(details, e);
 		}
 	}
 

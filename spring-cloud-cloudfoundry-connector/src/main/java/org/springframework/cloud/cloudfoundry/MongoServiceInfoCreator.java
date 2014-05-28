@@ -22,7 +22,7 @@ public class MongoServiceInfoCreator extends CloudFoundryServiceInfoCreator<Mong
 
 		String id = (String) serviceData.get("name");
 
-		String uri = (String) ((credentials.get("uri") == null) ? credentials.get("url") : credentials.get("uri"));
+		String uri = getStringFromCredentials(credentials, "uri", "url");
 
 		return new MongoServiceInfo(id, uri);
 	}
