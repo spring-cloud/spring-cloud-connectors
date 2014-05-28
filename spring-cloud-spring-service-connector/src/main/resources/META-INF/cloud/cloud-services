@@ -1,2 +1,4 @@
 org.springframework.cloud.service.AbstractCloudServiceConnectorFactory
 org.springframework.cloud.config.java.AbstractCloudConfig
+org.springframework.cloud.CloudFactory
+org.springframework.cloud.Cloud
