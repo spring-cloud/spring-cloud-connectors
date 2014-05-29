@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.cloud.service.PooledServiceConnectorConfig.PoolConfig;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 
@@ -31,6 +32,12 @@ public abstract class DbcpLikePooledDataSourceCreator<SI extends RelationalServi
 		if (validationQuery != null) {
 			target.setPropertyValue("validationQuery", validationQuery);
 			target.setPropertyValue("testOnBorrow", true);
+		}
+		
+		if (serviceConnectorConfig == null) {
+		    // choose sensible values so that we set max connection pool size to what 
+		    // free tier services on Cloud Foundry and Heroku allow
+		    serviceConnectorConfig = new DataSourceConfig(new PoolConfig(4, 30000), null);
 		}
 		configurer.configure(basicDataSource, (DataSourceConfig)serviceConnectorConfig);
 	}
