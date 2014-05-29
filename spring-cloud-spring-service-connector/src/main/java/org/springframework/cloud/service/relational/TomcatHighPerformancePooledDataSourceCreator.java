@@ -20,7 +20,7 @@ public class TomcatHighPerformancePooledDataSourceCreator<SI extends RelationalS
 	public DataSource create(RelationalServiceInfo serviceInfo, ServiceConnectorConfig serviceConnectorConfig,
                              String driverClassName, String validationQuery) {
 		if (hasClass("org.apache.tomcat.jdbc.pool.DataSource")) {
-			logger.info("Found Tomcat connection pool on the classpath. Using it for DataSource connection pooling.");
+			logger.info("Found Tomcat high-performance connection pool on the classpath. Using it for DataSource connection pooling.");
 			org.apache.tomcat.jdbc.pool.DataSource ds = new org.apache.tomcat.jdbc.pool.DataSource();
 			setBasicDataSourceProperties(ds, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
 			return ds;
