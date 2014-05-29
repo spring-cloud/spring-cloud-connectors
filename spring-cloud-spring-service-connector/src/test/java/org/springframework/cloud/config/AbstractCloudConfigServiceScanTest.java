@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.cloud.StubCloudConnectorTest;
+import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.mongodb.MongoDbFactory;
@@ -74,6 +75,15 @@ public abstract class AbstractCloudConfigServiceScanTest extends StubCloudConnec
 
 		assertNotNull("Getting service by id", testContext.getBean("rabbit"));
 		assertNotNull("Getting service by id and type", testContext.getBean("rabbit", ConnectionFactory.class));		
+	}
+	
+	@Test
+	public void skipUnknowServices() {
+        ApplicationContext testContext = getTestApplicationContext(createMysqlService("mysqlDb"), 
+                                                                   new BaseServiceInfo("newrelic-service"));
+
+        assertNotNull("Getting service by id", testContext.getBean("mysqlDb"));
+        assertNotNull("Getting service by id and type", testContext.getBean("mysqlDb", DataSource.class));      
 	}
 	
 }

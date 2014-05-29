@@ -1,6 +1,7 @@
 package org.springframework.cloud.config;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.FactoryBean;
@@ -46,6 +47,7 @@ import org.springframework.cloud.service.ServiceInfo;
  */
 public class ServiceScanHelper {
     private static final String CLOUD_FACTORY_BEAN_NAME = "__cloud_factory__";
+    private static Logger logger = Logger.getLogger(ServiceScanHelper.class.getName());
     
     private Cloud cloud;
 
@@ -85,7 +87,7 @@ public class ServiceScanHelper {
                                       "factoryBeanObjectType", serviceFactory.getObjectType());
             registry.registerBeanDefinition(serviceInfo.getId(), definitionBuilder.getBeanDefinition());
         } catch (Exception ex) {
-            throw new CloudException("Error registering service factory", ex);
+            logger.warning("Unable to create service for " + serviceInfo.getId() + " during service scanning. Skiping.");
         }
     }
 
