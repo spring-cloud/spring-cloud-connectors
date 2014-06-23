@@ -19,14 +19,6 @@ Getting Started
 
 The following assumes that you are using Maven.
 
-Add the Spring Maven repository to your pom.xml
-
-    <repository>
-        <id>org.springframework.maven.milestone</id>
-        <name>Spring Maven Milestone Repository</name>
-        <url>http://repo.spring.io/milestone</url>
-    </repository>
-
 Spring apps
 -----------
 
@@ -35,19 +27,19 @@ Add the [`spring-service-connector`](spring-cloud-spring-service-connector) and 
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
     	<artifactId>spring-service-connector</artifactId>
-    	<version>0.9.2</version>
+    	<version>1.0.0.RELEASE</version>
     </dependency>
     <!-- If you intend to deploy the app on Cloud Foundry, add the following -->
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
     	<artifactId>cloudfoundry-connector</artifactId>
-    	<version>0.9.2</version>
+    	<version>1.0.0.RELEASE</version>
     </dependency>
     <!-- If you intend to deploy the app on Heroku, add the following -->
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
     	<artifactId>heroku-connector</artifactId>
-    	<version>0.9.2</version>
+    	<version>1.0.0.RELEASE</version>
     </dependency>
 
 Then follow instructions on [how you use the Java config and `<cloud>` namespace](spring-cloud-spring-service-connector). You can also follow the [instructions](spring-cloud-core) on using the core API directly.
@@ -59,19 +51,19 @@ Add the [`core`](core) and one or more cloud connectors dependencies (it is okay
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
     	<artifactId>core</artifactId>
-    	<version>0.9.2</version>
+    	<version>1.0.0.RELEASE</version>
     </dependency>
     <!-- If you intend to deploy the app on CloudFoundry, add the following -->
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
     	<artifactId>cloudfoundry-connector</artifactId>
-    	<version>0.9.2</version>
+    	<version>1.0.0.RELEASE</version>
     </dependency>
     <!-- If you intend to deploy the app on Heroku, add the following -->
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
     	<artifactId>heroku-connector</artifactId>
-    	<version>0.9.2</version>
+    	<version>1.0.0.RELEASE</version>
     </dependency>
 
 Then follow the [instructions](spring-cloud-core) on using spring-cloud API.
