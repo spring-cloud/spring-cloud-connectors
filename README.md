@@ -26,19 +26,19 @@ Add the [`spring-service-connector`](spring-cloud-spring-service-connector) and 
 
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
-    	<artifactId>spring-service-connector</artifactId>
+    	<artifactId>spring-cloud-spring-service-connector</artifactId>
     	<version>1.0.0.RELEASE</version>
     </dependency>
     <!-- If you intend to deploy the app on Cloud Foundry, add the following -->
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
-    	<artifactId>cloudfoundry-connector</artifactId>
+    	<artifactId>spring-cloud-cloudfoundry-connector</artifactId>
     	<version>1.0.0.RELEASE</version>
     </dependency>
     <!-- If you intend to deploy the app on Heroku, add the following -->
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
-    	<artifactId>heroku-connector</artifactId>
+    	<artifactId>spring-cloud-heroku-connector</artifactId>
     	<version>1.0.0.RELEASE</version>
     </dependency>
 
@@ -50,19 +50,19 @@ Add the [`core`](core) and one or more cloud connectors dependencies (it is okay
 
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
-    	<artifactId>core</artifactId>
+    	<artifactId>spring-cloud-core</artifactId>
     	<version>1.0.0.RELEASE</version>
     </dependency>
     <!-- If you intend to deploy the app on CloudFoundry, add the following -->
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
-    	<artifactId>cloudfoundry-connector</artifactId>
+    	<artifactId>spring-cloud-cloudfoundry-connector</artifactId>
     	<version>1.0.0.RELEASE</version>
     </dependency>
     <!-- If you intend to deploy the app on Heroku, add the following -->
     <dependency>
     	<groupId>org.springframework.cloud</groupId>
-    	<artifactId>heroku-connector</artifactId>
+    	<artifactId>spring-cloud-heroku-connector</artifactId>
     	<version>1.0.0.RELEASE</version>
     </dependency>
 
