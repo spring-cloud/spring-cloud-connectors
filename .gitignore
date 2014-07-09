@@ -7,3 +7,4 @@ build
 Servers
 .gradle
 _site
+/bin
