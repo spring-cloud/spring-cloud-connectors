@@ -12,6 +12,7 @@ import org.springframework.cloud.FallbackServiceInfoCreator;
 import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.FallbackBaseServiceInfoCreator;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.util.EnvironmentAccessor;
 
@@ -95,13 +96,6 @@ public class HerokuConnector extends AbstractCloudConnector<KeyValuePair> {
 
 	@Override
 	protected FallbackServiceInfoCreator<BaseServiceInfo,KeyValuePair> getFallbackServiceInfoCreator() {
-		return new HerokuFallbackServiceInfoCreator();
-	}
-}
-
-class HerokuFallbackServiceInfoCreator extends FallbackServiceInfoCreator<BaseServiceInfo,KeyValuePair> {
-	@Override
-	public BaseServiceInfo createServiceInfo(KeyValuePair serviceData) {
-		return new BaseServiceInfo(serviceData.getKey());
+		return new FallbackBaseServiceInfoCreator();
 	}
 }
