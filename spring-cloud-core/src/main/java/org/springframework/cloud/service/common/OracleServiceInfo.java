@@ -5,8 +5,10 @@ import org.springframework.cloud.service.ServiceInfo;
 @ServiceInfo.ServiceLabel("oracle")
 public class OracleServiceInfo extends RelationalServiceInfo {
 
+    public static final String URI_SCHEME = "oracle";
+
 	public OracleServiceInfo(String id, String url) {
-		super(id, url, "oracle");
+		super(id, url, URI_SCHEME);
 	}
 
 	@Override
