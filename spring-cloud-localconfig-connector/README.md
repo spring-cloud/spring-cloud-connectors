@@ -8,7 +8,7 @@ Pull requests for also inspecting environment variables are welcome.
 
 Property sources
 ----------------
-This connector first attempts to read the system properties generally and a property named
+This connector first attempts to read the system properties generally and a system property named
 `spring.cloud.propertiesFile` specifically. If the system properties are not readable
 (the security manager denies `checkPropertiesAccess`), then they will be treated as empty.
 If a system property named `spring.cloud.propertiesFile` is found, that file will be loaded
@@ -32,8 +32,7 @@ property sources in this order:
 - system properties
 
 The last definition of a specific service ID wins. The connector will log a message at
-`INFO` to notify of service overrides for the same type of service and at `WARN` if you
-override a service ID with a URI to a different type of service.
+`WARN` if you override a service ID.
 
 Activating the connector
 ------------------------
