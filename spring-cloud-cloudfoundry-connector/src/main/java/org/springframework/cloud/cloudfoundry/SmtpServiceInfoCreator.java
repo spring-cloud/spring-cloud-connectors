@@ -6,7 +6,7 @@ import org.springframework.cloud.service.common.SmtpServiceInfo;
 import org.springframework.cloud.util.UriInfo;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
@@ -15,16 +15,17 @@ public class SmtpServiceInfoCreator extends CloudFoundryServiceInfoCreator<SmtpS
 	private static final int DEFAULT_SMTP_PORT = 587;
 
 	public SmtpServiceInfoCreator() {
-		super(new Tags("smtp"), "smtp");
+        // the literal in the tag is CloudFoundry-specific
+		super(new Tags("smtp"), SmtpServiceInfo.URI_SCHEME);
 	}
 
 	public SmtpServiceInfo createServiceInfo(Map<String,Object> serviceData) {
 		String id = (String) serviceData.get("name");
-		
+
 		@SuppressWarnings("unchecked")
 		Map<String,Object> credentials = (Map<String, Object>) serviceData.get("credentials");
 		String host = (String) credentials.get("hostname");
-		
+
 		int port = DEFAULT_SMTP_PORT;
 		if (credentials.containsKey("port")) {
 			port = Integer.parseInt(credentials.get("port").toString());
@@ -33,8 +34,8 @@ public class SmtpServiceInfoCreator extends CloudFoundryServiceInfoCreator<SmtpS
 		String username = (String) credentials.get("username");
 		String password = (String) credentials.get("password");
 
-		String uri = new UriInfo("smtp", host, port, username, password).toString();
-		
+		String uri = new UriInfo(SmtpServiceInfo.URI_SCHEME, host, port, username, password).toString();
+
 		return new SmtpServiceInfo(id, uri);
 	}
 
