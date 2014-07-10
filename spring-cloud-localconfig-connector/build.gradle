@@ -1,0 +1,5 @@
+description = 'Spring Cloud local-configuration connector'
+
+dependencies {
+  compile project(':spring-cloud-core')
+}
