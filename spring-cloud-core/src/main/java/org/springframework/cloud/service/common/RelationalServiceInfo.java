@@ -7,7 +7,7 @@ import org.springframework.cloud.service.UriBasedServiceInfo;
  */
 public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 
-	protected String jdbcUrlDatabaseType;
+	protected final String jdbcUrlDatabaseType;
 
 	public RelationalServiceInfo(String id, String uriString, String jdbcUrlDatabaseType) {
 		super(id, uriString);
