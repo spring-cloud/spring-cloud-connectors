@@ -3,14 +3,14 @@ package org.springframework.cloud.heroku;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
 public class MysqlServiceInfoCreator extends RelationalServiceInfoCreator<MysqlServiceInfo> {
 
 	public MysqlServiceInfoCreator() {
-		super("mysql");
+		super(MysqlServiceInfo.URI_SCHEME);
 	}
 
 	@Override

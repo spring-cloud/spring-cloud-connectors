@@ -13,15 +13,15 @@ import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
 public class HerokuConnectorMysqlServiceTest extends AbstractHerokuConnectorRelationalServiceTest {
     public HerokuConnectorMysqlServiceTest() {
-        super("mysql");
+        super(MysqlServiceInfo.URI_SCHEME);
     }
-    
+
     @Test
     public void mysqlServiceCreation() {
         Map<String, String> env = new HashMap<String, String>();
