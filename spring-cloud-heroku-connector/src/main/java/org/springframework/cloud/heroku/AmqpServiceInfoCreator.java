@@ -3,14 +3,14 @@ package org.springframework.cloud.heroku;
 import org.springframework.cloud.service.common.AmqpServiceInfo;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
 public class AmqpServiceInfoCreator extends HerokuServiceInfoCreator<AmqpServiceInfo> {
 
 	public AmqpServiceInfoCreator() {
-		super("amqp");
+		super(AmqpServiceInfo.URI_SCHEME);
 	}
 
 	@Override
