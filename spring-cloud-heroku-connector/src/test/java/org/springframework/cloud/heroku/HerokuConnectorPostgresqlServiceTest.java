@@ -19,7 +19,7 @@ import org.springframework.cloud.service.common.PostgresqlServiceInfo;
  */
 public class HerokuConnectorPostgresqlServiceTest extends AbstractHerokuConnectorRelationalServiceTest {
     public HerokuConnectorPostgresqlServiceTest() {
-        super(PostgresqlServiceInfo.URI_SCHEMA);
+        super(PostgresqlServiceInfo.URI_SCHEME);
     }
 
     @Test

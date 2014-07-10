@@ -13,7 +13,7 @@ public class PostgresqlServiceInfo extends RelationalServiceInfo {
 
     public static final String JDBC_URL_TYPE = "postgresql";
 
-    public static final String URI_SCHEMA = "postgres";
+    public static final String URI_SCHEME = "postgres";
 
 	public PostgresqlServiceInfo(String id, String url) {
 		super(id, url, JDBC_URL_TYPE);
