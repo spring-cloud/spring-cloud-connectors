@@ -3,14 +3,14 @@ package org.springframework.cloud.heroku;
 import org.springframework.cloud.service.common.MongoServiceInfo;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
 public class MongoServiceInfoCreator extends HerokuServiceInfoCreator<MongoServiceInfo> {
 
 	public MongoServiceInfoCreator() {
-		super("mongodb");
+		super(MongoServiceInfo.URI_SCHEME);
 	}
 
 	@Override
