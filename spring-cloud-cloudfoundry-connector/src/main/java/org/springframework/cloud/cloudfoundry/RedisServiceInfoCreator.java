@@ -12,7 +12,8 @@ import org.springframework.cloud.service.common.RedisServiceInfo;
 public class RedisServiceInfoCreator extends CloudFoundryServiceInfoCreator<RedisServiceInfo> {
 
 	public RedisServiceInfoCreator() {
-		super(new Tags("redis"), "redis");
+        // the literal in the tag is CloudFoundry-specific
+		super(new Tags("redis"), RedisServiceInfo.URI_SCHEME);
 	}
 
 	public RedisServiceInfo createServiceInfo(Map<String,Object> serviceData) {
