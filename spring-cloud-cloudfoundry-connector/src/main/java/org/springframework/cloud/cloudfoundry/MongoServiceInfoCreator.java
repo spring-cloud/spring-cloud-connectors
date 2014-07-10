@@ -12,8 +12,8 @@ import org.springframework.cloud.service.common.MongoServiceInfo;
 public class MongoServiceInfoCreator extends CloudFoundryServiceInfoCreator<MongoServiceInfo> {
 
 	public MongoServiceInfoCreator() {
-		super(new Tags("mongodb"), "mongodb");
-
+	    // the literal in the tag is CloudFoundry-specific
+		super(new Tags("mongodb"), MongoServiceInfo.URI_SCHEME);
 	}
 
 	public MongoServiceInfo createServiceInfo(Map<String,Object> serviceData) {
