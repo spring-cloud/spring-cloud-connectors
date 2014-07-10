@@ -46,13 +46,18 @@ def customizePom(pom, gradleProject) {
 				url = 'https://github.com/spring-projects/spring-cloud/issues'
 			}
 
-			developers {
+			developers {[
 				developer {
 					id = 'ramnivas'
 					name = 'Ramnivas Laddad'
 					email = 'rladdad@gopivotal.com'
-				}
-			}
+				},
+                developer {
+                    id = 'chrylis'
+                    name = 'Christopher Smith'
+                    email = 'chrylis@gmail.com'
+                }
+			]}
 		}
 	}
 }
