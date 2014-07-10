@@ -10,9 +10,11 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 @ServiceLabel("mysql")
 public class MysqlServiceInfo extends RelationalServiceInfo {
 
-    public static final String URI_SCHEME = "mysql";
+    public static final String JDBC_URL_TYPE = "mysql";
 
-	public MysqlServiceInfo(String id, String url) {
-		super(id, url, URI_SCHEME);
-	}
+    public static final String URI_SCHEME = JDBC_URL_TYPE;
+
+    public MysqlServiceInfo(String id, String url) {
+        super(id, url, URI_SCHEME);
+    }
 }

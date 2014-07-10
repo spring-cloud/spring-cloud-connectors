@@ -13,15 +13,15 @@ import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
 public class HerokuConnectorPostgresqlServiceTest extends AbstractHerokuConnectorRelationalServiceTest {
     public HerokuConnectorPostgresqlServiceTest() {
-        super("postgres");
+        super(PostgresqlServiceInfo.URI_SCHEMA);
     }
-    
+
     @Test
     public void postgresqlServiceCreation() {
         Map<String, String> env = new HashMap<String, String>();

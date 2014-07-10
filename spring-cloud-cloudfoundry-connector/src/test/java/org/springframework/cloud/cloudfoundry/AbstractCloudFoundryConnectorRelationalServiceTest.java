@@ -1,7 +1,7 @@
 package org.springframework.cloud.cloudfoundry;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
@@ -20,12 +20,13 @@ public abstract class AbstractCloudFoundryConnectorRelationalServiceTest extends
 	}
 
 	protected static String getJdbcUrl(String databaseType, String name) {
+	    // this should be cleaned up more broadly; pull into RelationalServiceInfo interface?
 		String jdbcUrlDatabaseType = databaseType;
 		if (databaseType.equals("postgres")) {
 			jdbcUrlDatabaseType = "postgresql";
 		}
 
-		return "jdbc:" + jdbcUrlDatabaseType + "://" + hostname + ":" + port + "/" + name + 
+		return "jdbc:" + jdbcUrlDatabaseType + "://" + hostname + ":" + port + "/" + name +
 			   "?user=" + username + "&password=" + password;
 	}
 
