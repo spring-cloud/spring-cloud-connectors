@@ -6,6 +6,28 @@ The current implementation reads from Java properties only; in order to prevent 
 on the Spring Framework, the placeholder functionality is unavailable in the connector.
 Pull requests for also inspecting environment variables are welcome.
 
+Quick start
+-----------
+Since service URIs contain passwords and should not be stored in code, this connector does not
+attempt to read properties out of the classpath. You can provide a filename with service definitions
+by setting the `spring.cloud.propertiesFile` property or by passing in an open `InputStream`:
+
+````java
+InputStream propertyStream = new FileInputStream("/path/to/spring-cloud.properties");
+LocalConfigConnector.supplyProperties(propertyStream);
+Cloud cloud = new CloudFactory().getCloud();
+````
+
+The property file should contain an application ID and the desired services in this format:
+
+````properties
+spring.cloud.appId:    myApp
+; spring.cloud.{id}:   URI
+spring.cloud.database: mysql://user:pass@host:1234/dbname
+````
+
+Service type is determined by the URI scheme.
+
 Property sources
 ----------------
 This connector first attempts to read the system properties generally and a system property named
