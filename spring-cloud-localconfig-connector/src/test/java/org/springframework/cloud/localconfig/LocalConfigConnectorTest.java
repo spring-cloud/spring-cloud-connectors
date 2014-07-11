@@ -29,7 +29,7 @@ public class LocalConfigConnectorTest {
     public static final String APP_ID_2 = "appId2";
     public static final String APP_ID_2_PROPERTY = LocalConfigConnector.APP_ID_PROPERTY + ": " + APP_ID_2;
 
-    public static final String PROPERTY_FILE_NAME = "propFile";
+    public static final String PROPERTY_FILE_NAME = "localconfig.nonsense.properties";
     public static final String PROPERTY_FILE_PROPERTY = LocalConfigConnector.PROPERTIES_FILE_PROPERTY + ": " + PROPERTY_FILE_NAME;
 
     public static class DetectAppIdTest {
@@ -103,7 +103,7 @@ public class LocalConfigConnectorTest {
     @Before
     public void setup() {
         connector = new LocalConfigConnector();
-        propertiesFile = LocalConfigConnectorTest.class.getClassLoader().getResourceAsStream("localconfig.properties");
+        propertiesFile = LocalConfigConnectorTest.class.getClassLoader().getResourceAsStream(PROPERTY_FILE_NAME);
     }
 
     @After
