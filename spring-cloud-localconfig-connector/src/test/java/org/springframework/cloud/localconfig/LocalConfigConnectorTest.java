@@ -32,7 +32,7 @@ public class LocalConfigConnectorTest {
     public static final String PROPERTY_FILE_NAME = "propFile";
     public static final String PROPERTY_FILE_PROPERTY = LocalConfigConnector.PROPERTIES_FILE_PROPERTY + ": " + PROPERTY_FILE_NAME;
 
-    public static class AppIdTest {
+    public static class DetectAppIdTest {
 
         private LocalConfigConnector connector;
 
