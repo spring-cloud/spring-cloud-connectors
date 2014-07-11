@@ -79,6 +79,9 @@ public class LocalConfigConnector extends AbstractCloudConnector<KeyValuePair> {
 
     @Override
     protected List<KeyValuePair> getServicesData() {
+        if(fileProperties == null)
+            throw new IllegalStateException("isInMatchingCloud() must be called first to initialize connector");
+
         LinkedHashMap<String, Properties> propertySources = new LinkedHashMap<String, Properties>();
 
         propertySources.put("programmatic properties", programmaticProperties);

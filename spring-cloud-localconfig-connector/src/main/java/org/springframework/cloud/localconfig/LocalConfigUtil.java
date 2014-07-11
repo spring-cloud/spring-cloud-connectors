@@ -23,7 +23,11 @@ public final class LocalConfigUtil {
 
         // iterate over the property sources in order, extracting matching properties
         for (Map.Entry<String, Properties> propertySource : propertySources.entrySet()) {
-            logger.info("reading services from " + propertySource.getValue());
+            if(propertySource.getValue().isEmpty()) {
+                logger.info("no " + propertySource.getKey());
+                continue;
+            }
+            logger.info("reading services from " + propertySource.getKey());
             Map<String, String> services = readServices(propertySource.getValue());
 
             // add each of the found services to the list, warning about duplicates
