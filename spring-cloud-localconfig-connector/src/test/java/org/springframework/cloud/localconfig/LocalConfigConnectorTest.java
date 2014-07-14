@@ -17,7 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ClearSystemProperties;
 import org.junit.contrib.java.lang.system.ProvideSystemProperty;
-import org.springframework.cloud.AbstractCloudConnector.KeyValuePair;
+import org.springframework.cloud.KeyValuePair;
 
 public class LocalConfigConnectorTest {
 

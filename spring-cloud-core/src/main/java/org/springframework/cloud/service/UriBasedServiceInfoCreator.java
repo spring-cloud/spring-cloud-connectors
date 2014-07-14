@@ -1,7 +1,7 @@
 package org.springframework.cloud.service;
 
+import org.springframework.cloud.KeyValuePair;
 import org.springframework.cloud.ServiceInfoCreator;
-import org.springframework.cloud.AbstractCloudConnector.KeyValuePair;
 
 public abstract class UriBasedServiceInfoCreator<SI extends ServiceInfo> implements
     ServiceInfoCreator<ServiceInfo, KeyValuePair> {

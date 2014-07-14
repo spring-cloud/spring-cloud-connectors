@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.FallbackServiceInfoCreator;
-import org.springframework.cloud.AbstractCloudConnector.KeyValuePair;
+import org.springframework.cloud.KeyValuePair;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.app.BasicApplicationInstanceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;

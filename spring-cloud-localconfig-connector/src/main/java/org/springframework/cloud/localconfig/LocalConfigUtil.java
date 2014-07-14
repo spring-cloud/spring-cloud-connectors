@@ -9,7 +9,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 
-import org.springframework.cloud.AbstractCloudConnector.KeyValuePair;
+import org.springframework.cloud.KeyValuePair;
 
 public final class LocalConfigUtil {
     private static final Logger logger = Logger.getLogger(LocalConfigConnector.class.getName());

@@ -1,7 +1,7 @@
 package org.springframework.cloud.service;
 
 import org.springframework.cloud.FallbackServiceInfoCreator;
-import org.springframework.cloud.AbstractCloudConnector.KeyValuePair;
+import org.springframework.cloud.KeyValuePair;
 
 public class FallbackBaseServiceInfoCreator extends FallbackServiceInfoCreator<BaseServiceInfo, KeyValuePair> {
     @Override

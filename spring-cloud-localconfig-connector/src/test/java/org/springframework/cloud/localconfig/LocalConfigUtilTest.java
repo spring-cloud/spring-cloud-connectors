@@ -9,7 +9,7 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.cloud.AbstractCloudConnector.KeyValuePair;
+import org.springframework.cloud.KeyValuePair;
 
 public class LocalConfigUtilTest {
 
