@@ -4,7 +4,7 @@ import org.springframework.cloud.service.common.OracleServiceInfo;
 
 public class OracleServiceInfoCreator extends RelationalServiceInfoCreator<OracleServiceInfo> {
 	public OracleServiceInfoCreator() {
-		super(new Tags(), "oracle");
+		super(new Tags(), OracleServiceInfo.URI_SCHEME);
 	}
 
 	@Override

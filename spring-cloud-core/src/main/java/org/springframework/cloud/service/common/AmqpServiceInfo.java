@@ -1,8 +1,8 @@
 package org.springframework.cloud.service.common;
 
 import org.springframework.cloud.CloudException;
-import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.util.UriInfo;
 
 /**
@@ -13,29 +13,32 @@ import org.springframework.cloud.util.UriInfo;
  */
 @ServiceLabel("rabbitmq")
 public class AmqpServiceInfo extends UriBasedServiceInfo {
+
+    public static final String URI_SCHEME = "amqp";
+
 	public AmqpServiceInfo(String id, String host, int port, String username, String password, String virtualHost) {
-		super(id, "amqp", host, port, username, password, virtualHost);
+		super(id, URI_SCHEME, host, port, username, password, virtualHost);
 	}
-	
+
 	public AmqpServiceInfo(String id, String uri)	throws CloudException {
 		super(id, uri);
 	}
-	
+
 	@ServiceProperty(category="connection")
 	public String getVirtualHost() {
 		return getUriInfo().getPath();
 	}
-	
+
 	@Override
 	protected UriInfo validateAndCleanUriInfo(UriInfo uriInfo) {
-		if (!"amqp".equals(uriInfo.getScheme())) {
+		if (!URI_SCHEME.equals(uriInfo.getScheme())) {
 			throw new IllegalArgumentException("wrong scheme in amqp URI: " + uriInfo);
 		}
 
 		if (uriInfo.getHost() == null) {
 			throw new IllegalArgumentException("missing authority in amqp URI: " + uriInfo);
 		}
-		
+
 		int port = uriInfo.getPort();
 		if (port == -1) {
 			port = 5672;
@@ -43,7 +46,7 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 
 		String userName = uriInfo.getUserName();
 		String password = uriInfo.getPassword();
-		
+
 		if (userName == null || password == null) {
 			throw new IllegalArgumentException("missing userinfo in amqp URI: " + uriInfo);
 		}

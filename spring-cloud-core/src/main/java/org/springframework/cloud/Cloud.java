@@ -38,8 +38,6 @@ import org.springframework.cloud.service.ServiceInfo.ServiceProperty;
  *
  */
 public class Cloud {
-	private static Logger logger = Logger.getLogger(Cloud.class.getName());
-	
 	private CloudConnector cloudConnector;
 	private ServiceConnectorCreatorRegistry serviceConnectorCreatorRegistry = new ServiceConnectorCreatorRegistry();
 	

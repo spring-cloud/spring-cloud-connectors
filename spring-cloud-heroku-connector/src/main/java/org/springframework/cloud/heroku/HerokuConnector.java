@@ -10,26 +10,27 @@ import org.springframework.cloud.CloudException;
 import org.springframework.cloud.FallbackServiceInfoCreator;
 import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
-import org.springframework.cloud.heroku.HerokuConnector.KeyValuePair;
 import org.springframework.cloud.service.BaseServiceInfo;
+import org.springframework.cloud.service.FallbackBaseServiceInfoCreator;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceData;
 import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
  * Implementation of CloudConnector for Heroku
- * 
+ *
  * Currently support Postgres (default provided), Mysql (Cleardb), MongoDb (MongoLab, MongoHQ, MongoSoup),
  * Redis (RedisToGo, RedisCloud, OpenRedis, RedisGreen), and AMQP (CloudAmqp).
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
-public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyValuePair> {
+public class HerokuConnector extends AbstractCloudConnector<UriBasedServiceData> {
 
 	private EnvironmentAccessor environment = new EnvironmentAccessor();
-	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator 
+	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator
 		= new ApplicationInstanceInfoCreator(environment);
-	
+
 	private List<String> serviceEnvPrefixes;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -41,28 +42,28 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 	public boolean isInMatchingCloud() {
 		return environment.getEnvValue("DYNO") != null;
 	}
-	
+
 	@Override
 	public ApplicationInstanceInfo getApplicationInstanceInfo() {
 		try {
 			return applicationInstanceInfoCreator.createApplicationInstanceInfo();
 		} catch (Exception e) {
 			throw new CloudException(e);
-		} 
+		}
 	}
-	
+
 	/* package for testing purpose */
 	void setCloudEnvironment(EnvironmentAccessor environment) {
 		this.environment = environment;
 		this.applicationInstanceInfoCreator = new ApplicationInstanceInfoCreator(environment);
 	}
-	
+
 	@Override
-	protected void registerServiceInfoCreator(ServiceInfoCreator<? extends ServiceInfo, HerokuConnector.KeyValuePair> serviceInfoCreator) {
+	protected void registerServiceInfoCreator(ServiceInfoCreator<? extends ServiceInfo, UriBasedServiceData> serviceInfoCreator) {
 	    super.registerServiceInfoCreator(serviceInfoCreator);
 	    HerokuServiceInfoCreator<?> herokuServiceInfoCreator = (HerokuServiceInfoCreator<?>)serviceInfoCreator;
 	    String[] envPrefixes = herokuServiceInfoCreator.getEnvPrefixes();
-	    
+
 	    // need to do this since this method gets called during construction and we cannot initialize serviceEnvPrefixes before this
 	    if (serviceEnvPrefixes == null) {
 	        serviceEnvPrefixes = new ArrayList<String>();
@@ -75,17 +76,17 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 	 * <p>
 	 * Returns map whose key is the env key and value is the associated url
 	 * </p>
-	 * @return information about services bound to the app 
+	 * @return information about services bound to the app
 	 */
-	protected List<KeyValuePair> getServicesData() {
-		List<KeyValuePair> serviceData = new ArrayList<KeyValuePair>();
-		
+	protected List<UriBasedServiceData> getServicesData() {
+		List<UriBasedServiceData> serviceData = new ArrayList<UriBasedServiceData>();
+
 		Map<String,String> env = environment.getEnv();
-		
+
 		for (Map.Entry<String, String> envEntry : env.entrySet()) {
 		    for (String envPrefix : serviceEnvPrefixes) {
 		        if (envEntry.getKey().startsWith(envPrefix)) {
-	                serviceData.add(new KeyValuePair(envEntry.getKey(), envEntry.getValue()));		            
+	                serviceData.add(new UriBasedServiceData(envEntry.getKey(), envEntry.getValue()));
 		        }
 		    }
 		}
@@ -94,32 +95,7 @@ public class HerokuConnector extends AbstractCloudConnector<HerokuConnector.KeyV
 	}
 
 	@Override
-	protected FallbackServiceInfoCreator<BaseServiceInfo,KeyValuePair> getFallbackServiceInfoCreator() {
-		return new HerokuFallbackServiceInfoCreator();
-	}
-	
-	public static class KeyValuePair {
-		private String key;
-		private String value;
-
-		public KeyValuePair(String key, String value) {
-			this.key = key;
-			this.value = value;
-		}
-
-		public String getKey() {
-			return key;
-		}
-
-		public String getValue() {
-			return value;
-		}
-	}
-}
-
-class HerokuFallbackServiceInfoCreator extends FallbackServiceInfoCreator<BaseServiceInfo,KeyValuePair> {
-	@Override
-	public BaseServiceInfo createServiceInfo(KeyValuePair serviceData) {
-		return new BaseServiceInfo(serviceData.getKey());
+	protected FallbackServiceInfoCreator<BaseServiceInfo,UriBasedServiceData> getFallbackServiceInfoCreator() {
+		return new FallbackBaseServiceInfoCreator();
 	}
 }

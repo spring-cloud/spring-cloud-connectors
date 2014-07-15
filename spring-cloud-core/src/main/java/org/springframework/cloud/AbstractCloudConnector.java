@@ -10,25 +10,25 @@ import org.springframework.cloud.service.ServiceInfo;
 
 /**
  * Helper abstract class to simplify {@link CloudConnector} implementations.
- * 
+ *
  * User the {@link ServiceLoader} approach to looks for file name matching the class passed in constructor
  * and registers {@link ServiceInfoCreator} found there.
- * 
+ *
  * Implementation of {@link CloudConnector}s that wish to support the recommended service scanning approach
  * should extends this approach to gain that functionality automatically.
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
 public abstract class AbstractCloudConnector<SD> implements CloudConnector {
 
 	private static Logger logger = Logger.getLogger(AbstractCloudConnector.class.getName());
-	
+
 	protected List<ServiceInfoCreator<?,SD>> serviceInfoCreators = new ArrayList<ServiceInfoCreator<?,SD>>();
 
 	protected abstract List<SD> getServicesData();
 	protected abstract FallbackServiceInfoCreator<?,SD> getFallbackServiceInfoCreator();
-	
+
 	public AbstractCloudConnector(Class<? extends ServiceInfoCreator<? extends ServiceInfo, ?>> serviceInfoCreatorClass) {
 		scanServiceInfoCreators(serviceInfoCreatorClass);
 	}
@@ -39,7 +39,7 @@ public abstract class AbstractCloudConnector<SD> implements CloudConnector {
 		for (SD serviceData : getServicesData()) {
 			serviceInfos.add(getServiceInfo(serviceData));
 		}
-		
+
 		return serviceInfos;
 	}
 
@@ -54,14 +54,14 @@ public abstract class AbstractCloudConnector<SD> implements CloudConnector {
 			registerServiceInfoCreator(serviceInfoCreator);
 		}
 	}
-	
+
 	private ServiceInfo getServiceInfo(SD serviceData) {
 		for (ServiceInfoCreator<? extends ServiceInfo,SD> serviceInfoCreator : serviceInfoCreators) {
 			if (serviceInfoCreator.accept(serviceData)) {
 				return serviceInfoCreator.createServiceInfo(serviceData);
 			}
 		}
-		
+
 		// Fallback with a warning
 		ServiceInfo fallackServiceInfo = getFallbackServiceInfoCreator().createServiceInfo(serviceData);
 		logger.warning("No suitable service info creator found for service " + fallackServiceInfo.getId()

@@ -3,14 +3,14 @@ package org.springframework.cloud.heroku;
 import org.springframework.cloud.service.common.RedisServiceInfo;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
  */
 public class RedisServiceInfoCreator extends HerokuServiceInfoCreator<RedisServiceInfo> {
 
 	public RedisServiceInfoCreator() {
-		super("redis");
+		super(RedisServiceInfo.URI_SCHEME);
 	}
 
 	@Override
