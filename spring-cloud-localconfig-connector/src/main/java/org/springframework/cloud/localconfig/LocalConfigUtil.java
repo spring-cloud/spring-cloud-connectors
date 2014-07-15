@@ -9,7 +9,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 
-import org.springframework.cloud.KeyValuePair;
+import org.springframework.cloud.service.UriBasedServiceData;
 
 public final class LocalConfigUtil {
     private static final Logger logger = Logger.getLogger(LocalConfigConnector.class.getName());
@@ -17,7 +17,7 @@ public final class LocalConfigUtil {
     private LocalConfigUtil() {
     }
 
-    static List<KeyValuePair> readServicesData(LinkedHashMap<String, Properties> propertySources) {
+    static List<UriBasedServiceData> readServicesData(LinkedHashMap<String, Properties> propertySources) {
         // we'll turn this into KVPs to return but need to eliminate duplicates first
         Map<String, String> collectedServices = new HashMap<String, String>();
 
@@ -41,9 +41,9 @@ public final class LocalConfigUtil {
         }
 
         // now we have a collated set of service IDs and URIs
-        List<KeyValuePair> serviceData = new ArrayList<KeyValuePair>(collectedServices.size());
+        List<UriBasedServiceData> serviceData = new ArrayList<UriBasedServiceData>(collectedServices.size());
         for (Map.Entry<String, String> serviceInfo : collectedServices.entrySet()) {
-            serviceData.add(new KeyValuePair(serviceInfo.getKey(), serviceInfo.getValue()));
+            serviceData.add(new UriBasedServiceData(serviceInfo.getKey(), serviceInfo.getValue()));
         }
 
         return serviceData;

@@ -15,18 +15,18 @@ import java.util.regex.Pattern;
 
 import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.FallbackServiceInfoCreator;
-import org.springframework.cloud.KeyValuePair;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.app.BasicApplicationInstanceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.FallbackBaseServiceInfoCreator;
+import org.springframework.cloud.service.UriBasedServiceData;
 
 /**
  *
  * @author Christopher Smith
  *
  */
-public class LocalConfigConnector extends AbstractCloudConnector<KeyValuePair> {
+public class LocalConfigConnector extends AbstractCloudConnector<UriBasedServiceData> {
 
     private static final Logger logger = Logger.getLogger(LocalConfigConnector.class.getName());
 
@@ -78,7 +78,7 @@ public class LocalConfigConnector extends AbstractCloudConnector<KeyValuePair> {
     }
 
     @Override
-    protected List<KeyValuePair> getServicesData() {
+    protected List<UriBasedServiceData> getServicesData() {
         if(fileProperties == null)
             throw new IllegalStateException("isInMatchingCloud() must be called first to initialize connector");
 
@@ -97,7 +97,7 @@ public class LocalConfigConnector extends AbstractCloudConnector<KeyValuePair> {
     }
 
     @Override
-    protected FallbackServiceInfoCreator<BaseServiceInfo, KeyValuePair> getFallbackServiceInfoCreator() {
+    protected FallbackServiceInfoCreator<BaseServiceInfo, UriBasedServiceData> getFallbackServiceInfoCreator() {
         return new FallbackBaseServiceInfoCreator();
     }
 

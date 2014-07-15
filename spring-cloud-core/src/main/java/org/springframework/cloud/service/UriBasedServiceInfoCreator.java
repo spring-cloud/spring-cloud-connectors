@@ -1,10 +1,9 @@
 package org.springframework.cloud.service;
 
-import org.springframework.cloud.KeyValuePair;
 import org.springframework.cloud.ServiceInfoCreator;
 
 public abstract class UriBasedServiceInfoCreator<SI extends ServiceInfo> implements
-    ServiceInfoCreator<ServiceInfo, KeyValuePair> {
+    ServiceInfoCreator<ServiceInfo, UriBasedServiceData> {
 
     private final String uriScheme;
 
@@ -13,14 +12,14 @@ public abstract class UriBasedServiceInfoCreator<SI extends ServiceInfo> impleme
     }
 
     @Override
-    public boolean accept(KeyValuePair serviceData) {
-        return serviceData.getValue().toString().startsWith(uriScheme + "://");
+    public boolean accept(UriBasedServiceData serviceData) {
+        return serviceData.getUri().toString().startsWith(uriScheme + "://");
     }
 
     public abstract SI createServiceInfo(String id, String uri);
 
     @Override
-    public SI createServiceInfo(KeyValuePair serviceData) {
-        return createServiceInfo(serviceData.getKey(), serviceData.getValue());
+    public SI createServiceInfo(UriBasedServiceData serviceData) {
+        return createServiceInfo(serviceData.getKey(), serviceData.getUri());
     }
 }

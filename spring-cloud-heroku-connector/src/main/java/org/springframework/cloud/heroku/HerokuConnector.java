@@ -8,12 +8,12 @@ import java.util.Map;
 import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.CloudException;
 import org.springframework.cloud.FallbackServiceInfoCreator;
-import org.springframework.cloud.KeyValuePair;
 import org.springframework.cloud.ServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.FallbackBaseServiceInfoCreator;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceData;
 import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
@@ -25,7 +25,7 @@ import org.springframework.cloud.util.EnvironmentAccessor;
  * @author Ramnivas Laddad
  *
  */
-public class HerokuConnector extends AbstractCloudConnector<KeyValuePair> {
+public class HerokuConnector extends AbstractCloudConnector<UriBasedServiceData> {
 
 	private EnvironmentAccessor environment = new EnvironmentAccessor();
 	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator
@@ -59,7 +59,7 @@ public class HerokuConnector extends AbstractCloudConnector<KeyValuePair> {
 	}
 
 	@Override
-	protected void registerServiceInfoCreator(ServiceInfoCreator<? extends ServiceInfo, KeyValuePair> serviceInfoCreator) {
+	protected void registerServiceInfoCreator(ServiceInfoCreator<? extends ServiceInfo, UriBasedServiceData> serviceInfoCreator) {
 	    super.registerServiceInfoCreator(serviceInfoCreator);
 	    HerokuServiceInfoCreator<?> herokuServiceInfoCreator = (HerokuServiceInfoCreator<?>)serviceInfoCreator;
 	    String[] envPrefixes = herokuServiceInfoCreator.getEnvPrefixes();
@@ -78,15 +78,15 @@ public class HerokuConnector extends AbstractCloudConnector<KeyValuePair> {
 	 * </p>
 	 * @return information about services bound to the app
 	 */
-	protected List<KeyValuePair> getServicesData() {
-		List<KeyValuePair> serviceData = new ArrayList<KeyValuePair>();
+	protected List<UriBasedServiceData> getServicesData() {
+		List<UriBasedServiceData> serviceData = new ArrayList<UriBasedServiceData>();
 
 		Map<String,String> env = environment.getEnv();
 
 		for (Map.Entry<String, String> envEntry : env.entrySet()) {
 		    for (String envPrefix : serviceEnvPrefixes) {
 		        if (envEntry.getKey().startsWith(envPrefix)) {
-	                serviceData.add(new KeyValuePair(envEntry.getKey(), envEntry.getValue()));
+	                serviceData.add(new UriBasedServiceData(envEntry.getKey(), envEntry.getValue()));
 		        }
 		    }
 		}
@@ -95,7 +95,7 @@ public class HerokuConnector extends AbstractCloudConnector<KeyValuePair> {
 	}
 
 	@Override
-	protected FallbackServiceInfoCreator<BaseServiceInfo,KeyValuePair> getFallbackServiceInfoCreator() {
+	protected FallbackServiceInfoCreator<BaseServiceInfo,UriBasedServiceData> getFallbackServiceInfoCreator() {
 		return new FallbackBaseServiceInfoCreator();
 	}
 }

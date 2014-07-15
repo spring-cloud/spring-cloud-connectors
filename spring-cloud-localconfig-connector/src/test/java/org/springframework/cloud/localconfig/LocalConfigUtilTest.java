@@ -9,7 +9,7 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.cloud.KeyValuePair;
+import org.springframework.cloud.service.UriBasedServiceData;
 
 public class LocalConfigUtilTest {
 
@@ -46,13 +46,13 @@ public class LocalConfigUtilTest {
         first.setProperty("spring.cloud.first", "firstUri");
         second.setProperty("spring.cloud.second", "secondUri");
 
-        List<KeyValuePair> serviceData = LocalConfigUtil.readServicesData(propertySources);
+        List<UriBasedServiceData> serviceData = LocalConfigUtil.readServicesData(propertySources);
         assertEquals(2, serviceData.size());
         boolean foundFirst = false;
 
-        for(KeyValuePair kvp : serviceData) {
+        for(UriBasedServiceData kvp : serviceData) {
             if(kvp.getKey().equals("first")) {
-                assertEquals("firstUri", kvp.getValue());
+                assertEquals("firstUri", kvp.getUri());
                 foundFirst = true;
             }
         }
@@ -65,10 +65,10 @@ public class LocalConfigUtilTest {
         first.setProperty("spring.cloud.duplicate", "firstUri");
         second.setProperty("spring.cloud.duplicate", "secondUri");
 
-        List<KeyValuePair> serviceData = LocalConfigUtil.readServicesData(propertySources);
+        List<UriBasedServiceData> serviceData = LocalConfigUtil.readServicesData(propertySources);
         assertEquals(1, serviceData.size());
-        KeyValuePair kvp = serviceData.get(0);
+        UriBasedServiceData kvp = serviceData.get(0);
         assertEquals("duplicate", kvp.getKey());
-        assertEquals("secondUri", kvp.getValue());
+        assertEquals("secondUri", kvp.getUri());
     }
 }

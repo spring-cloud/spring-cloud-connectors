@@ -17,7 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ClearSystemProperties;
 import org.junit.contrib.java.lang.system.ProvideSystemProperty;
-import org.springframework.cloud.KeyValuePair;
+import org.springframework.cloud.service.UriBasedServiceData;
 
 public class LocalConfigConnectorTest {
 
@@ -119,11 +119,11 @@ public class LocalConfigConnectorTest {
         assertTrue(connector.isInMatchingCloud());
         assertEquals("testApp", connector.getApplicationInstanceInfo().getAppId());
 
-        List<KeyValuePair> services = connector.getServicesData();
+        List<UriBasedServiceData> services = connector.getServicesData();
         assertEquals(2, services.size());
-        for (KeyValuePair service : services)
+        for (UriBasedServiceData service : services)
             if ("foo".equals(service.getKey()))
-                assertEquals("bar", service.getValue());
+                assertEquals("bar", service.getUri());
     }
 
     @Rule
@@ -136,10 +136,10 @@ public class LocalConfigConnectorTest {
         assertTrue(connector.isInMatchingCloud());
         assertEquals("testApp", connector.getApplicationInstanceInfo().getAppId());
 
-        List<KeyValuePair> services = connector.getServicesData();
+        List<UriBasedServiceData> services = connector.getServicesData();
         assertEquals(2, services.size());
-        for(KeyValuePair service: services)
+        for(UriBasedServiceData service: services)
             if("baz".equals(service.getKey()))
-                assertEquals("inline!", service.getValue());
+                assertEquals("inline!", service.getUri());
     }
 }
