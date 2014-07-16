@@ -21,14 +21,14 @@ locally-provided configuration for development and testing.
   If you are using a dependency injection framework such as Spring, creating a bean for the `CloudFactory`.
 
     ```java
-    CloudFactory cloudFactory = new CloudFactory();
+CloudFactory cloudFactory = new CloudFactory();
     ```
 
 * Obtain the [`Cloud`](src/main/java/org/springframework/cloud/Cloud.java) object for the environment
   in which the application is running.
 
     ```java
-    Cloud cloud = cloudFactory.getCloud();
+Cloud cloud = cloudFactory.getCloud();
     ```
   Note that you must have a `CloudConnector` suitable for your deployment environment on your classpath.
   For example, if you are deploying the application to Cloud Foundry, you must add [cloudfoundry-connector](../spring-cloud-cloudfoundry-connector)
@@ -39,19 +39,19 @@ locally-provided configuration for development and testing.
   connectors.
 
     ```java
-    // ServiceInfo has all the information necessary to connect to the underlying service
-    List<ServiceInfo> serviceInfos = cloud.getServiceInfos();
+// ServiceInfo has all the information necessary to connect to the underlying service
+List<ServiceInfo> serviceInfos = cloud.getServiceInfos();
     ```
 
     ```java
-    // find the definitions suitable for connecting to a particular service type
-    List<ServiceInfos> databaseInfos = cloud.getServiceInfos(DataSource.class);
+// find the definitions suitable for connecting to a particular service type
+List<ServiceInfos> databaseInfos = cloud.getServiceInfos(DataSource.class);
 	````
 
     ```java
-    // Alternately, let Spring Cloud create a service connector for you
-    String serviceId = "inventory-db";
-    DataSource ds = cloud.getServiceConnector(serviceId, DataSource.class, null /* default config */);
+// Alternately, let Spring Cloud create a service connector for you
+String serviceId = "inventory-db";
+DataSource ds = cloud.getServiceConnector(serviceId, DataSource.class, null /* default config */);
     ```
 
 ##Adding cloud connectors
