@@ -1,10 +1,16 @@
-Spring-cloud offers a simple way for JVM apps in cloud to access services and discover their own information during runtime with special support for Spring apps. It offers an extensibility mechanism to make it work on multiple clouds and a variety of cloud services. Through the abstraction of cloud connector, you can make it work with multiple clouds (we include two examples: Cloud Foundry and Heroku) without touching the spring-cloud project itself. Through the service connector abstraction, you can make it work with a variety of services (such as all the new ones on Cloud Foundry marketplace), again, without touching the spring-cloud project itself.
+Spring Cloud provides a simple abstraction for JVM-based applications running on cloud platforms
+to discover bound services and deployment information at runtime and can optionally inject
+discovered services as Spring beans. It is based on a plugin model so that the identical
+compiled application can be deployed locally or on multiple clouds and supports custom service
+definitions through Java SPI.
 
 The core concepts used in this project are:
 
-1. **Cloud Connector**: An interface that a cloud provider can implement to allow the rest of the library work with a Platform As a Service (PaaS) offering.
-2. **Service Connector**: An object, such as `javax.sql.DataSource`, that represent a connection to a service.
-3. **Service information**: Information about the underlying service such as host, port, and credentials.
+- [**Cloud Connector**](./spring-cloud-core/src/main/java/org/springframework/cloud/CloudConnector.java): An interface specific to a cloud platform that identifies the presence
+of the platform and discovers any services bound to the application deployment.
+- **Service Connector**: An object, such as a `javax.sql.DataSource`, that represents a runtime
+connection to a service.
+- **Service information**: Information about the underlying service such as host, port, and credentials.
 4. **Application information**: Information about application and instance in which these libraries are embedded.
 
 The project comprises of four subprojects:
