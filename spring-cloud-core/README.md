@@ -1,23 +1,20 @@
-Spring Cloud Core Library
-=========================
+#Spring Cloud Core
 
-The core library to let cloud applications access application information and services.
-While Spring applications is one of the main target for this library, it may be used in
-non-Spring projects as well. In fact, **this library doesn't even depend on Spring**.
+This core library provides manual access to application and service information. This library
+has no Spring dependencies and may be used in non-Spring applications.
 
-This library requires Java 6,
+This library requires Java 6.
 
-This library is cloud-agnostic. Through connectors, it supports multiple clouds
-(with Cloud Foundry and Heroku as the example clouds).
+This library is cloud-agnostic. Using Java SPI, it supports pluggable cloud and service
+connectors; support for Cloud Foundry and Heroku is available out-of-the-box, in addition to
+locally-provided configuration for development and testing.
 
-This library also supports an extension to create services connectors of user-desired types.
+###Usage
 
-Usage pattern: Application Developers
-=====================================
+> **Note:** If you are using Spring Cloud in a Spring application, you should consider
+[automatically injecting Spring beans](../spring-cloud-spring-service-connector) instead.
 
-> **Note:** If you are using spring-cloud in a Spring application, you should consider using the
-[Java config](../spring-cloud-spring-service-connector#the-java-config) or the
-[XML namespace support](../spring-cloud-spring-service-connector#the-cloud-namespace) instead.
+* Include the desired cloud connectors [as described in the main documentation](../#including-cloud-connectors)
 
 * Create a [`CloudFactory`](src/main/java/org/springframework/cloud/CloudFactory.java) instance.
   Creation of a `CloudFactory` instance is a bit expensive, so caching such an instance is recommended.
