@@ -73,6 +73,42 @@ should list the fully-qualified class name in the provider-configuration file at
 META-INF/services/org.springframework.cloud.CloudConnector
 ```
 
+## Adding service discovery
+
+To allow Spring Cloud to discover a new type of service (`HelloWorldService`),
+create a `ServiceInfo` class containing the information necessary to connect to your
+service. If your service can be specified via a URI, extend `UriBasedServiceInfo`
+and provide the URI scheme in a call to the `super` constructor.
+
+This class will expose information for a service available at
+
+````
+helloworld://username:password@host:port/Bonjour
+````
+
+````java
+public class HelloWorldServiceInfo extends UriBasedServiceInfo {
+    public static final String URI_SCHEME = "helloworld";
+
+	// needed to support structured service definitions like Cloud Foundry
+    public HelloWorldServiceInfo(String id, String host, int port, String username, String password, String greeting) {
+		super(id, URI_SCHEME, host, port, username, password, greeting);
+    }
+
+    // needed to support URI-based service definitions like Heroku
+    public HelloWorldServiceInfo(String id, String uri) {
+        super(id, uri);
+    }
+}
+````
+
+Then you will need to create a `ServiceInfoCreator` for each cloud platform you want to support.
+You will probably want to extend the appropriate creator base class(es), such as `HerokuServiceInfoCreator`. This is
+often as simple as writing a method that instantiates a new `HelloWorldServiceInfo`.
+
+Register your `ServiceInfoCreator` classes in the appropriate provider-configuration file for
+your cloud's `ServiceInfoCreator` base class.
+
 ## Adding service connectors
 
 A service connector takes a `ServiceInfo` discovered by the cloud connector and converts
