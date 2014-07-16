@@ -45,7 +45,7 @@ still read the stream, but the properties will have no effect on the connector
 service configuration. Calling this method multiple times will load the supplied
 streams onto the same `Properties` object, overwriting duplicates.
 
-###Property order
+###Property precedence
 To provide the maximum configuration flexibility, the connector will scan the available
 property sources in this order:
 
