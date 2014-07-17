@@ -34,6 +34,10 @@ public class EnvironmentAccessor {
 		return System.getProperty(key);
 	}
 
+	public String getSystemProperty(String key, String def) {
+	    return System.getProperty(key, def);
+	}
+
 	public String getHost() {
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
