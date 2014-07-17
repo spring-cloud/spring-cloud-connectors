@@ -25,7 +25,7 @@ public class EnvironmentAccessor {
 		return System.getenv(key);
 	}
 	
-	public String getPropertyValue(String key) {
+	public String getSystemProperty(String key) {
 		return System.getProperty(key);
 	}
 
