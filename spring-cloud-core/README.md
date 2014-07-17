@@ -111,11 +111,11 @@ your cloud's `ServiceInfoCreator` base class.
 
 ## Adding service connectors
 
-A service connector takes a `ServiceInfo` discovered by the cloud connector and converts
+A service connector consumes a `ServiceInfo` discovered by the cloud connector and converts
 it into the appropriate service object, such as a `DataSource` for a service definition
 representing a SQL database.
 
-Service connectors are tightly bound to the environment whose service objects they are
+Service connectors may be tightly bound to the environment whose service objects they are
 creating; for example, some connectors in the
 [Spring service connector](../spring-cloud-spring-service-connector) create connection
 factories defined by Spring Data, for use in building Spring Data templates.
