@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MongoServiceInfo;
 
-public class LocalConfigConnectorMongoServiceTest extends AbstractLocalConfigConnectorTest {
+public class LocalConfigConnectorMongoServiceTest extends AbstractLocalConfigConnectorWithUrisTest {
 
     @Test
     public void serviceCreation() {

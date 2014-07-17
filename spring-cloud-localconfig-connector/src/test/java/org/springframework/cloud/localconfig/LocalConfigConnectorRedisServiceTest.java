@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.RedisServiceInfo;
 
-public class LocalConfigConnectorRedisServiceTest extends AbstractLocalConfigConnectorTest {
+public class LocalConfigConnectorRedisServiceTest extends AbstractLocalConfigConnectorWithUrisTest {
 
     @Test
     public void serviceCreation() {

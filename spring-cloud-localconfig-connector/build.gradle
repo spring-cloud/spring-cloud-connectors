@@ -2,5 +2,5 @@ description = 'Spring Cloud local-configuration connector'
 
 dependencies {
   compile project(':spring-cloud-core')
-  testCompile 'com.github.stefanbirkner:system-rules:1.5.0'
+  compile 'org.apache.commons:commons-lang3:3.3.2'
 }

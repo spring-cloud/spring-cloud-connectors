@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.AmqpServiceInfo;
 
-public class LocalConfigConnectorAmqpServiceTest extends AbstractLocalConfigConnectorTest {
+public class LocalConfigConnectorAmqpServiceTest extends AbstractLocalConfigConnectorWithUrisTest {
 
     @Test
     public void serviceCreation() {
