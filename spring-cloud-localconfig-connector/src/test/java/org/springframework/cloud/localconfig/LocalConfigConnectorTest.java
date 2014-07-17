@@ -13,10 +13,7 @@ import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.ClearSystemProperties;
-import org.junit.contrib.java.lang.system.ProvideSystemProperty;
 import org.springframework.cloud.service.UriBasedServiceData;
 
 public class LocalConfigConnectorTest {
@@ -32,22 +29,28 @@ public class LocalConfigConnectorTest {
     public static final String PROPERTY_FILE_NAME = "localconfig.nonsense.properties";
     public static final String PROPERTY_FILE_PROPERTY = LocalConfigConnector.PROPERTIES_FILE_PROPERTY + ": " + PROPERTY_FILE_NAME;
 
+    private static PassthroughEnvironmentAccessor bazEnv() {
+        PassthroughEnvironmentAccessor bazEnv = new PassthroughEnvironmentAccessor();
+        bazEnv.setSystemProperty("spring.cloud.baz", "inline!");
+        return bazEnv;
+    }
+
     public static class DetectAppIdTest {
 
         private LocalConfigConnector connector;
 
+        private PassthroughEnvironmentAccessor env;
+
         @Before
         public void setup() {
             connector = new LocalConfigConnector();
+            LocalConfigConnector.setEnvironmentAccessor(env = bazEnv());
         }
 
         @After
         public void clearProperties() {
             LocalConfigConnector.programmaticProperties = new Properties();
         }
-
-        @Rule
-        public final ClearSystemProperties NO_APP_ID_PROPERTY = new ClearSystemProperties(LocalConfigConnector.APP_ID_PROPERTY);
 
         @Test
         public void testNoAppIdAnywhere() {
@@ -90,9 +93,10 @@ public class LocalConfigConnectorTest {
                 };
             };
 
-            System.setProperty(LocalConfigConnector.APP_ID_PROPERTY, "helloApp");
+            env.setSystemProperty(LocalConfigConnector.APP_ID_PROPERTY, APP_ID_2);
+
             assertTrue(stubConnector.isInMatchingCloud());
-            assertEquals("helloApp", stubConnector.getApplicationInstanceInfo().getAppId());
+            assertEquals(APP_ID_2, stubConnector.getApplicationInstanceInfo().getAppId());
         }
     }
 
@@ -104,6 +108,7 @@ public class LocalConfigConnectorTest {
     public void setup() {
         connector = new LocalConfigConnector();
         propertiesFile = LocalConfigConnectorTest.class.getClassLoader().getResourceAsStream(PROPERTY_FILE_NAME);
+        LocalConfigConnector.setEnvironmentAccessor(bazEnv());
     }
 
     @After
@@ -125,9 +130,6 @@ public class LocalConfigConnectorTest {
             if ("foo".equals(service.getKey()))
                 assertEquals("bar", service.getUri());
     }
-
-    @Rule
-    public ProvideSystemProperty BAZ_PROPERTY = new ProvideSystemProperty("spring.cloud.baz", "inline!");
 
     @Test
     public void testLoadFromInputStreamWithOverride() throws IOException {
