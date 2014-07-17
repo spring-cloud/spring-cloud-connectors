@@ -31,7 +31,7 @@ public class EnvironmentAccessor {
 	}
 
 	public String getSystemProperty(String key) {
-		return System.getProperty(key);
+		return getSystemProperty(key, null);
 	}
 
 	public String getSystemProperty(String key, String def) {
