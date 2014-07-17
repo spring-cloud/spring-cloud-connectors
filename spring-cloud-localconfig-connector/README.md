@@ -65,9 +65,9 @@ The last definition of a specific service ID wins. The connector will log a mess
 
 ##Activating the connector
 
-The Spring Cloud core expects exactly one cloud connector to return `true` for
-`isInMatchingCloud()`. This connector identifies the "local cloud" by the presence of
-a property named `spring.cloud.appId`, which will be used in the `ApplicationInstanceInfo`.
+The Spring Cloud core expects exactly one cloud connector match the runtime environment.
+This connector identifies the "local cloud" by the presence of a property named
+`spring.cloud.appId`, which will be used in the `ApplicationInstanceInfo`.
 
 ##Service definitions
 

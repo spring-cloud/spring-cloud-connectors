@@ -12,8 +12,8 @@ It currently knows about:
 - SMTP gateway
 - application monitoring (New Relic)
 
-Since Cloud Foundry tags each service with a type, Spring Cloud does not care which
-service provider is providing it.
+Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does
+not care which service provider is providing it.
 
 ##Supporting new service types
 
