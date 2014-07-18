@@ -1,23 +1,27 @@
-Cloud Foundry connector for spring-cloud
-========================================
+#Spring Cloud Cloud Foundry connector
 
-Provides Cloud Foundry connector with support for Mysql, Postgres, RabbitMQ, MongoDB, and Redis services.
+This connector will discover services bound to an application running in Cloud Foundry.
+It currently knows about:
 
-Supporting additional services
-------------------------------
-The cloudfoundry-connector offers extending support for additional services 
-through the same [`ServiceLoader`](http://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html) 
-mechanism used in the [core](../spring-cloud-core) project. 
-It allows extending to new services without modifying the [cloudfoundry-connector](../spring-cloud-cloudfoundry-connector)
-itself. All you need to do is:
+- PostgreSQL
+- MySQL
+- Oracle
+- Redis
+- MongoDB
+- RabbitMQ
+- SMTP gateway
+- application monitoring (New Relic)
 
-1. Create a new project declaring dependency of [cloudfoundry-connector](../spring-cloud-cloudfoundry-connector).
-2. Add one implementation of [`CloudFoundryServiceInfoCreator`](src/main/java/org/springframework/cloud/cloudfoundry/CloudFoundryServiceInfoCreator.java) 
-   for each service type you wish to extend. 
-   Along the way, you will, of course, add an implementation of [`ServiceInfo`](../core/main/java/org/springframework/cloud/service/ServiceInfo.java) 
-   (consider extending [`BaseServiceInfo`](../core/main/java/org/springframework/cloud/service/BaseServiceInfo.java)), 
-   attach an [`@ServiceLabel`](../core/main/java/org/springframework/cloud/service/ServiceLabel.java) annotation, 
-   and mark appropriate properties with [`@ServiceProperty`]((../core/main/java/org/springframework/cloud/service/ServiceProperty.java)) annotation.
-3. Add a file on classpath 
-   `META-INF/services/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator`
-   and add all your implementations of `CloudFoundryServiceInfoCreator`.
+Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does
+not care which service provider is providing it.
+
+##Supporting new service types
+
+Extend [`CloudFoundryServiceInfoCreator`]((src/main/java/org/springframework/cloud/cloudfoundry/CloudFoundryServiceInfoCreator.java))
+with a creator for [your service's `ServiceInfo` class](../spring-cloud-core/#adding-service-discovery).
+
+Add the fully-qualified class name for your creator to
+
+````
+META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator
+````
