@@ -20,6 +20,7 @@ import org.springframework.cloud.app.BasicApplicationInstanceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.FallbackBaseServiceInfoCreator;
 import org.springframework.cloud.service.UriBasedServiceData;
+import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
  *
@@ -45,6 +46,14 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
      */
     public static final List<String> META_PROPERTIES = Collections.unmodifiableList(
         Arrays.asList(new String[] { APP_ID_PROPERTY, PROPERTIES_FILE_PROPERTY }));
+
+    /*--------------- inject system property access for testing ---------------*/
+
+    private EnvironmentAccessor env = new EnvironmentAccessor();
+
+    void setEnvironmentAccessor(EnvironmentAccessor env) {
+        this.env = env;
+    }
 
     /*--------------- sources for service-definition properties ---------------*/
 
@@ -87,7 +96,7 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
         propertySources.put("programmatic properties", programmaticProperties);
         propertySources.put("properties from file", fileProperties);
         try {
-            propertySources.put("system properties", System.getProperties());
+            propertySources.put("system properties", env.getSystemProperties());
         } catch (SecurityException e) {
             logger.log(Level.WARNING,
                 "couldn't read system properties; no service definitions from system properties will be applied", e);
@@ -130,7 +139,7 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
         filename = programmaticProperties.getProperty(PROPERTIES_FILE_PROPERTY);
 
         try {
-            filename = System.getProperty(PROPERTIES_FILE_PROPERTY, filename);
+            filename = env.getSystemProperty(PROPERTIES_FILE_PROPERTY, filename);
         } catch (SecurityException e) {
             logSystemReadException(PROPERTIES_FILE_PROPERTY, e);
             return;
@@ -176,7 +185,7 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
         String value = programmaticProperties.getProperty(key);
         value = fileProperties.getProperty(key, value);
         try {
-            value = System.getProperty(key, value);
+            value = env.getSystemProperty(key, value);
         } catch (SecurityException e) {
             logSystemReadException(key, e);
         }
