@@ -49,10 +49,10 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
 
     /*--------------- inject system property access for testing ---------------*/
 
-    private static EnvironmentAccessor env = new EnvironmentAccessor();
+    private EnvironmentAccessor env = new EnvironmentAccessor();
 
-    static void setEnvironmentAccessor(EnvironmentAccessor env) {
-        LocalConfigConnector.env = env;
+    void setEnvironmentAccessor(EnvironmentAccessor env) {
+        this.env = env;
     }
 
     /*--------------- sources for service-definition properties ---------------*/

@@ -18,7 +18,7 @@ public class LocalConfigServiceOverrideTest extends AbstractLocalConfigConnector
     @Before
     public void injectEnvironment() {
         env = new PassthroughEnvironmentAccessor();
-        LocalConfigConnector.setEnvironmentAccessor(env);
+        connector.setEnvironmentAccessor(env);
     }
 
     @Test

@@ -44,7 +44,7 @@ public class LocalConfigConnectorTest {
         @Before
         public void setup() {
             connector = new LocalConfigConnector();
-            LocalConfigConnector.setEnvironmentAccessor(env = bazEnv());
+            connector.setEnvironmentAccessor(env = bazEnv());
         }
 
         @After
@@ -108,7 +108,7 @@ public class LocalConfigConnectorTest {
     public void setup() {
         connector = new LocalConfigConnector();
         propertiesFile = LocalConfigConnectorTest.class.getClassLoader().getResourceAsStream(PROPERTY_FILE_NAME);
-        LocalConfigConnector.setEnvironmentAccessor(bazEnv());
+        connector.setEnvironmentAccessor(bazEnv());
     }
 
     @After

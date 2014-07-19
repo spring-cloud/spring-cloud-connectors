@@ -9,11 +9,9 @@ import java.util.List;
 import java.util.Properties;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.UriBasedServiceInfo;
-import org.springframework.cloud.util.EnvironmentAccessor;
 
 public class AbstractLocalConfigConnectorTest {
 
@@ -36,11 +34,6 @@ public class AbstractLocalConfigConnectorTest {
     @After
     public void clearProperties() {
         LocalConfigConnector.programmaticProperties = new Properties();
-    }
-
-    @AfterClass
-    public static void resetEnvironment() {
-        LocalConfigConnector.setEnvironmentAccessor(new EnvironmentAccessor());
     }
 
     protected static ServiceInfo getServiceInfo(List<ServiceInfo> serviceInfos, String serviceId) {
