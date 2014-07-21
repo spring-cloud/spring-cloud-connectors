@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 
-public class LocalConfigConnectorPostgresqlServiceTest extends AbstractLocalConfigConnectorTest {
+public class LocalConfigConnectorPostgresqlServiceTest extends AbstractLocalConfigConnectorWithUrisTest {
 
     @Test
     public void serviceCreation() {

@@ -1,5 +1,6 @@
 package org.springframework.cloud.localconfig;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +21,7 @@ import org.springframework.cloud.app.BasicApplicationInstanceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.FallbackBaseServiceInfoCreator;
 import org.springframework.cloud.service.UriBasedServiceData;
+import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
  *
@@ -46,11 +48,13 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
     public static final List<String> META_PROPERTIES = Collections.unmodifiableList(
         Arrays.asList(new String[] { APP_ID_PROPERTY, PROPERTIES_FILE_PROPERTY }));
 
-    /*--------------- sources for service-definition properties ---------------*/
+    /*--------------- inject system property access for testing ---------------*/
 
-    static Properties programmaticProperties = new Properties();
+    private EnvironmentAccessor env = new EnvironmentAccessor();
 
-    private Properties fileProperties = null;
+    void setEnvironmentAccessor(EnvironmentAccessor env) {
+        this.env = env;
+    }
 
     /*--------------- API implementation ---------------*/
 
@@ -58,6 +62,10 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
     public LocalConfigConnector() {
         super((Class) LocalConfigServiceInfoCreator.class);
     }
+
+    /*--------------- properties read out of the file at spring.cloud.propertiesFile ---------------*/
+
+    private Properties fileProperties = null;
 
     /**
      * Returns {@code true} if a property named {@code spring.cloud.appId} is present in any of the property sources.
@@ -79,15 +87,14 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
 
     @Override
     protected List<UriBasedServiceData> getServicesData() {
-        if(fileProperties == null)
+        if (fileProperties == null)
             throw new IllegalStateException("isInMatchingCloud() must be called first to initialize connector");
 
         LinkedHashMap<String, Properties> propertySources = new LinkedHashMap<String, Properties>();
 
-        propertySources.put("programmatic properties", programmaticProperties);
         propertySources.put("properties from file", fileProperties);
         try {
-            propertySources.put("system properties", System.getProperties());
+            propertySources.put("system properties", env.getSystemProperties());
         } catch (SecurityException e) {
             logger.log(Level.WARNING,
                 "couldn't read system properties; no service definitions from system properties will be applied", e);
@@ -104,20 +111,6 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
     /*--------------- methods for manipulating properties and sources ---------------*/
 
     /**
-     * Adds properties to be scanned from the supplied {@link InputStream}, overwriting
-     * existing properties with the same name. Closes the stream after loading.
-     *
-     * @param propertiesInputStream
-     *            a property list
-     * @throws IOException
-     *             if the underlying load operation throws an exception
-     */
-    public static void supplyProperties(final InputStream propertiesInputStream) throws IOException {
-        programmaticProperties.load(propertiesInputStream);
-        propertiesInputStream.close();
-    }
-
-    /**
      * Checks for the presence of a supplied or system property named {@code spring.cloud.propertiesFile}. If the property
      * is present, load its contents into {@link #fileProperties}. If there's a problem, log but continue.
      */
@@ -125,29 +118,22 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
         fileProperties = new Properties();
         logger.fine("looking for a properties file");
 
-        String filename = null;
+        // will search system properties and the classpath
+        File propertiesFile = new PropertiesFileResolver(env).findCloudPropertiesFile();
 
-        filename = programmaticProperties.getProperty(PROPERTIES_FILE_PROPERTY);
-
-        try {
-            filename = System.getProperty(PROPERTIES_FILE_PROPERTY, filename);
-        } catch (SecurityException e) {
-            logSystemReadException(PROPERTIES_FILE_PROPERTY, e);
+        if (propertiesFile == null) {
+            logger.info("not loading service definitions from a properties file");
             return;
         }
 
-        if (filename == null) {
-            logger.info("did not find a system property " + PROPERTIES_FILE_PROPERTY);
-            return;
-        }
-
-        logger.info("loading properties from file " + filename);
+        logger.info("loading service definitions from properties file " + propertiesFile);
 
         try {
-            InputStream fis = openFile(filename);
+            InputStream fis = openFile(propertiesFile);
             fileProperties.load(fis);
+            fis.close();
         } catch (IOException e) {
-            logger.log(Level.SEVERE, "exception while loading properties from file " + filename, e);
+            logger.log(Level.SEVERE, "exception while loading properties from file " + propertiesFile, e);
             return;
         }
 
@@ -156,27 +142,29 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
 
     /**
      * Broken out into a separate method for mocking the filesystem.
-     * @param filename the file to open
+     *
+     * @param filename
+     *            the file to open
      * @return a {@code FileInputStream} to the file
-     * @throws IOException if opening the file throws
+     * @throws IOException
+     *             if opening the file throws
      */
-    InputStream openFile(String filename) throws IOException {
-        return new FileInputStream(filename);
+    InputStream openFile(File file) throws IOException {
+        return new FileInputStream(file);
     }
 
     /**
-     * Look for a specific property in programmatically-supplied properties, properties from a file,
-     * or the system properties. Last source wins.
+     * Look for a specific property in the config file or the system properties.
      *
      * @param key
      *            the property to look for
-     * @return the highest-priority value for the key, or {@code null} if the key is not found
+     * @return the preferred value for the key, or {@code null} if the key is not found
      */
     private String findProperty(String key) {
-        String value = programmaticProperties.getProperty(key);
-        value = fileProperties.getProperty(key, value);
+        String value = fileProperties.getProperty(key);
+
         try {
-            value = System.getProperty(key, value);
+            value = env.getSystemProperty(key, value);
         } catch (SecurityException e) {
             logSystemReadException(key, e);
         }
