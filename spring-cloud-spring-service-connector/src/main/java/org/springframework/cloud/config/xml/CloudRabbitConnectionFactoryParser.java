@@ -9,7 +9,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Parser for the <cloud:rabbit-connection-factory> namespace element
+ * Parser for the {@code <cloud:rabbit-connection-factory>} namespace element
  *
  * @author Thomas Risberg
  * @author Ramnivas Laddad

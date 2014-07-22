@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Parser for the <cloud:mongo-db-factory> namespace element
+ * Parser for the {@code <cloud:mongo-db-factory>} namespace element
  *
  * @author Thomas Risberg
  * @author Ramnivas Laddad
@@ -31,7 +31,7 @@ public class CloudMongoDbFactoryParser extends AbstractNestedElementCloudService
 	@Override
 	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
 		super.doParse(element, parserContext, builder);
-		
+
 		Map<String, String> attributeMap = new HashMap<String, String>();
 		parseWriteConcern(element, attributeMap);
 		parseMongoOptionsElement(element, parserContext, attributeMap);
@@ -40,9 +40,9 @@ public class CloudMongoDbFactoryParser extends AbstractNestedElementCloudService
 				BeanDefinitionBuilder.genericBeanDefinition("org.springframework.cloud.service.document.MongoDbFactoryConfig");
 		for (String key : new String[]{WRITE_CONCERN, CONNECTIONS_PER_HOST, MAX_WAIT_TIME}) {
 			String value = attributeMap.get(key);
-			cloudMongoConfigurationBeanBuilder.addConstructorArgValue(value);		
+			cloudMongoConfigurationBeanBuilder.addConstructorArgValue(value);
 		}
-		
+
 		builder.addConstructorArgValue(cloudMongoConfigurationBeanBuilder.getBeanDefinition());
 	}
 
@@ -55,7 +55,7 @@ public class CloudMongoDbFactoryParser extends AbstractNestedElementCloudService
 
 	private void parseMongoOptionsElement(Element element, ParserContext parserContext, Map<String, String> attributeMap) {
 		NodeList childNodes = element.getChildNodes();
-		
+
 		for (int i = 0; i < childNodes.getLength(); i++) {
 			Node child = childNodes.item(i);
 			if (isElement(child, parserContext, ELEMENT_MONGO_OPTIONS)) {

@@ -12,7 +12,7 @@ public class MongoDbFactoryConfig implements ServiceConnectorConfig {
 	private String writeConcern;
 	private Integer connectionsPerHost;
 	private Integer maxWaitTime;
-	
+
 	public MongoDbFactoryConfig(String writeConcern, Integer connectionsPerHost, Integer maxWaitTime) {
 		this.writeConcern = writeConcern;
 		this.connectionsPerHost = connectionsPerHost;
@@ -24,14 +24,14 @@ public class MongoDbFactoryConfig implements ServiceConnectorConfig {
 	}
 
 	/**
-	 * Getter corresponding to the MongoOptions connectionsPerHost field
+	 * @return property corresponding to MongoOptions {@code connectionsPerHost}
 	 */
 	public Integer getConnectionsPerHost() {
 		return connectionsPerHost;
 	}
 
 	/**
-	 * Getter corresponding to the MongoOptions maxWaitTime field
+	 * @return property corresponding to the MongoOptions {@code maxWaitTime}
 	 */
 	public Integer getMaxWaitTime () {
 		return maxWaitTime ;

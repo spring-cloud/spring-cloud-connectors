@@ -15,10 +15,10 @@ import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
- * @param <SI>
+ * @param <SI> the {@link RelationalServiceInfo} for the backing database service
  */
 public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extends AbstractServiceConnectorCreator<DataSource, SI> {
 
@@ -34,20 +34,20 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 	    this.driverSystemPropKey = driverSystemPropKey;
 	    this.driverClasses = driverClasses;
 	    this.validationQuery = validationQuery;
-	    
+
 		if (pooledDataSourceCreators.size() == 0) {
 			pooledDataSourceCreators.add(new BasicDbcpPooledDataSourceCreator<SI>());
 			pooledDataSourceCreators.add(new TomcatDbcpPooledDataSourceCreator<SI>());
 			pooledDataSourceCreators.add(new TomcatHighPerformancePooledDataSourceCreator<SI>());
 		}
 	}
-	
+
 	@Override
 	public DataSource create(SI serviceInfo, ServiceConnectorConfig serviceConnectorConfig) {
 		try {
 			for (PooledDataSourceCreator<SI> delegate: pooledDataSourceCreators) {
 				DataSource ds = delegate.create(serviceInfo, serviceConnectorConfig, getDriverClassName(serviceInfo), validationQuery);
-				
+
 				if (ds != null) {
 					return ds;
 				}
@@ -61,10 +61,10 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 							+ serviceInfo.getId() + " service", e);
 		}
 	}
-	
+
     public String getDriverClassName(SI serviceInfo) {
         String userSpecifiedDriver = System.getProperty(driverSystemPropKey);
-        
+
         if (userSpecifiedDriver != null && !userSpecifiedDriver.isEmpty()) {
             return userSpecifiedDriver;
         } else {

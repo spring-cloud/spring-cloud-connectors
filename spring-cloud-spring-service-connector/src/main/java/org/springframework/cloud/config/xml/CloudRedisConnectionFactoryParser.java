@@ -9,8 +9,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Parser for the <cloud:redis-connection-factory> namespace element
- * 
+ * Parser for the {@code <cloud:redis-connection-factory>} namespace element
+ *
  * @author Ramnivas Laddad
  *
  */
@@ -33,11 +33,11 @@ public class CloudRedisConnectionFactoryParser extends AbstractPoolingCloudServi
 				cloudPoolConfiguration = parsePoolElement((Element) child, parserContext);
 			}
 		}
-		
+
 		BeanDefinitionBuilder redisConfigBeanBuilder =
 				BeanDefinitionBuilder.genericBeanDefinition("org.springframework.cloud.service.PooledServiceConnectorConfig");
 		redisConfigBeanBuilder.addConstructorArgValue(cloudPoolConfiguration);
 
 		builder.addConstructorArgValue(redisConfigBeanBuilder.getBeanDefinition());
-	}	
+	}
 }

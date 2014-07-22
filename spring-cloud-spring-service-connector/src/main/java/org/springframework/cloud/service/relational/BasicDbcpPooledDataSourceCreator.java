@@ -8,10 +8,10 @@ import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 
 /**
- * 
+ *
  * @author Ramnivas Laddad
  *
- * @param <SI>
+ * @param <SI> the {@link RelationalServiceInfo} type for the underlying database service
  */
 public class BasicDbcpPooledDataSourceCreator<SI extends RelationalServiceInfo> extends DbcpLikePooledDataSourceCreator<SI> {
 
