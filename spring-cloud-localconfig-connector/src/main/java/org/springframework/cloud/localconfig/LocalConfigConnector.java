@@ -131,6 +131,11 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
             return;
         }
 
+        if (!propertiesFile.exists()) {
+            logger.info("properties file " + propertiesFile + " does not exist; probably running in a real cloud");
+            return;
+        }
+
         logger.info("loading service definitions from properties file " + propertiesFile);
 
         try {
