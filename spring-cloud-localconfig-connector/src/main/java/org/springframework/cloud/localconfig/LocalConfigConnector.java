@@ -76,7 +76,12 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
         if (fileProperties == null)
             readFileProperties();
 
-        return findProperty(APP_ID_PROPERTY) != null;
+        String appId = findProperty(APP_ID_PROPERTY);
+
+        if (appId == null)
+            logger.info("the property " + APP_ID_PROPERTY + " was not found in the system properties or configuration file");
+
+        return appId != null;
     }
 
     @Override
