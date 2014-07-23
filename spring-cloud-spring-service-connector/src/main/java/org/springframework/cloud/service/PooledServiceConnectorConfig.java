@@ -4,7 +4,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * Configuration for pooling
- * 
+ *
  * @author Ramnivas Laddad
  * @author Mark Fisher
  * @author Thomas Risberg
@@ -20,7 +20,7 @@ public class PooledServiceConnectorConfig implements ServiceConnectorConfig {
 	public PoolConfig getPoolConfig() {
 		return poolConfig;
 	}
-	
+
 	public static class PoolConfig {
 		private int minPoolSize;
 		private int maxPoolSize;
@@ -31,54 +31,60 @@ public class PooledServiceConnectorConfig implements ServiceConnectorConfig {
 			this.maxPoolSize = maxPoolSize;
 			this.maxWaitTime = maxWaitTime;
 		}
-		
+
 		public PoolConfig(int maxPoolSize, int maxWaitTime) {
 			this(0, maxPoolSize, maxWaitTime);
-		}		
-		
+		}
+
 		public PoolConfig(String poolSize, int maxWaitTime) {
 			determinePoolSizeRange(poolSize);
 			this.maxWaitTime = maxWaitTime;
 		}
-		
+
 		/**
-		 * Getter corresponding to the DBCP initialSize property
+		 * @return property corresponding to DBCP {@code initialSize}
 		 */
 		public int getInitialSize() {
 			return minPoolSize;
 		}
 
 		/**
-		 * Getter corresponding to the DBCP minIdle property
+		 * @return property corresponding to DBCP {@code minIdle}
 		 */
 		public int getMinIdle() {
 			return minPoolSize;
 		}
 
 		/**
-		 * Getter corresponding to the DBCP maxActive property
+		 * @return property corresponding to DBCP {@code maxActive}
 		 */
 		public int getMaxActive() {
 			return maxPoolSize;
 		}
 
 		// For commons-pool2
+		/**
+		 * @return property corresponding to commons-pool {@code maxTotal}
+		 */
         public int getMaxTotal() {
             return maxPoolSize;
         }
 
         /**
-		 * Getter corresponding to the DBCP maxWait property
+		 * @return property corresponding to DBCP {@code maxWait}
 		 */
 		public int getMaxWait() {
 			return maxWaitTime;
 		}
 
-        // For commons-pool2		
+        // For commons-pool2
+		/**
+		 * @return property corresponding to commons-pool {@code maxWaitMillis}
+		 */
         public int getMaxWaitMillis() {
             return maxWaitTime;
         }
-		
+
 		private void determinePoolSizeRange(String poolSize) {
 			if (StringUtils.hasText(poolSize)) {
 				try {

@@ -8,12 +8,10 @@ import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 
 /**
- * 
- * @author Ramnivas Laddad
  *
- * @param <SI>
+ * @author Ramnivas Laddad
  */
-public class TomcatHighPerformancePooledDataSourceCreator<SI extends RelationalServiceInfo> 
+public class TomcatHighPerformancePooledDataSourceCreator<SI extends RelationalServiceInfo>
 	extends DbcpLikePooledDataSourceCreator<SI> {
 
 	@Override

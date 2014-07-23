@@ -10,7 +10,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Parser for the <cloud:data-source> namespace element
+ * Parser for the {@code <cloud:data-source>} namespace element
  *
  * @author Ramnivas Laddad
  * @author Thomas Risberg
@@ -38,7 +38,7 @@ public class CloudDataSourceFactoryParser extends AbstractPoolingCloudServiceFac
 				cloudPoolConfiguration = parsePoolElement((Element) child, parserContext);
 			}
 		}
-		
+
 		BeanDefinitionBuilder dataSourceConfigBeanBuilder =
 				BeanDefinitionBuilder.genericBeanDefinition("org.springframework.cloud.service.relational.DataSourceConfig");
 		dataSourceConfigBeanBuilder.addConstructorArgValue(cloudPoolConfiguration);

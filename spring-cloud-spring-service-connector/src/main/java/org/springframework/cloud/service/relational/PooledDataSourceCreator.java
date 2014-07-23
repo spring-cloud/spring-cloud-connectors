@@ -7,10 +7,10 @@ import org.springframework.cloud.service.common.RelationalServiceInfo;
 
 /**
  * DataSource creator that produces a pooled connection
- * 
+ *
  * @author Ramnivas Laddad
  *
- * @param <SI>
+ * @param <SI> the {@link RelationalServiceInfo} type for the underlying database service
  */
 public interface PooledDataSourceCreator<SI extends RelationalServiceInfo> {
 	public abstract DataSource create(RelationalServiceInfo serviceInfo, ServiceConnectorConfig serviceConnectorConfig,

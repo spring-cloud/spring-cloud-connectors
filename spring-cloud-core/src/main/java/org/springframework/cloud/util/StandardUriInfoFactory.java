@@ -5,9 +5,9 @@ import java.net.URISyntaxException;
 import java.net.URLDecoder;
 
 /**
- * Factory for standard Cloud Foundry URIs which all conform to the format:
- * <p/>
- * [jdbc:]scheme://[user:pass]@authority[:port]/path
+ * Factory for standard Cloud Foundry URIs, which all conform to the format:
+ * <p>
+ * {@code [jdbc:]scheme://[user:pass]@authority[:port]/path}
  */
 public class StandardUriInfoFactory implements UriInfoFactory {
 

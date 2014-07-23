@@ -9,8 +9,8 @@ import org.w3c.dom.Element;
 
 
 /**
- * Support for the catch-all <cloud:service> namespace
- * 
+ * Support for the catch-all {@code <cloud:service>} namespace
+ *
  * @author Ramnivas Laddad
  *
  */
@@ -26,7 +26,7 @@ public class GenericCloudServiceFactoryParser extends AbstractCloudServiceFactor
 	@Override
 	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
 		super.doParse(element, parserContext, builder);
-		
+
 		String connectorTypeName = element.getAttribute(CONNECTOR_TYPE);
 		if (StringUtils.hasText(connectorTypeName)) {
 			try {
@@ -36,7 +36,7 @@ public class GenericCloudServiceFactoryParser extends AbstractCloudServiceFactor
 				throw new CloudException("Failed to load " + connectorTypeName, ex);
 			}
 		}
-		
+
 		// TBD: Support generic (map-based?) service config
 		builder.addConstructorArgValue(null);
 	}

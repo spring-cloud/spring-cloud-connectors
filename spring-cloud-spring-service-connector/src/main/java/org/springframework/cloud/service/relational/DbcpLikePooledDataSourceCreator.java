@@ -12,13 +12,13 @@ import org.springframework.cloud.service.common.RelationalServiceInfo;
 
 /**
  * Common implementation that assumes DBCP connection pool properties.
- * 
+ *
  * @author Ramnivas Laddad
  *
- * @param <SI>
+ * @param <SI> the {@link RelationalServiceInfo} type for the underlying database service
  */
 public abstract class DbcpLikePooledDataSourceCreator<SI extends RelationalServiceInfo> implements PooledDataSourceCreator<SI> {
-	
+
 	protected static Logger logger = Logger.getLogger(PooledDataSourceCreator.class.getName());
 
 	private DataSourceConfigurer configurer = new DataSourceConfigurer();
@@ -33,9 +33,9 @@ public abstract class DbcpLikePooledDataSourceCreator<SI extends RelationalServi
 			target.setPropertyValue("validationQuery", validationQuery);
 			target.setPropertyValue("testOnBorrow", true);
 		}
-		
+
 		if (serviceConnectorConfig == null) {
-		    // choose sensible values so that we set max connection pool size to what 
+		    // choose sensible values so that we set max connection pool size to what
 		    // free tier services on Cloud Foundry and Heroku allow
 		    serviceConnectorConfig = new DataSourceConfig(new PoolConfig(4, 30000), null);
 		}
