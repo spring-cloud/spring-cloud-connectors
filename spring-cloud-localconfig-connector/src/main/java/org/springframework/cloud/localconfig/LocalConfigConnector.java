@@ -131,7 +131,7 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
             return;
         }
 
-        if (!propertiesFile.exists()) {
+        if (!fileExists(propertiesFile)) {
             logger.info("properties file " + propertiesFile + " does not exist; probably running in a real cloud");
             return;
         }
@@ -153,7 +153,18 @@ public class LocalConfigConnector extends AbstractCloudConnector<UriBasedService
     /**
      * Broken out into a separate method for mocking the filesystem.
      *
-     * @param filename
+     * @param file
+     *            the file to check
+     * @return whether the file exists
+     */
+    boolean fileExists(File file) {
+        return file.exists();
+    }
+
+    /**
+     * Broken out into a separate method for mocking the filesystem.
+     *
+     * @param file
      *            the file to open
      * @return a {@code FileInputStream} to the file
      * @throws IOException

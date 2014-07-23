@@ -25,6 +25,11 @@ class StubbedOpenFileLocalConfigConnector extends LocalConfigConnector {
         return fileProvider.openFile(file);
     }
 
+    @Override
+    boolean fileExists(File file) {
+        return true;
+    }
+
     public void setFileProvider(InputStreamProvider provider) {
         this.fileProvider = provider;
     }
