@@ -1,3 +1,5 @@
+= Spring Cloud image:https://build.spring.io/plugins/servlet/buildStatusImage/CLOUD-NIGHTLY["Build Status", link="https://build.spring.io/browse/CLOUD-NIGHTLY"]
+
 Spring Cloud provides a simple abstraction for JVM-based applications running on cloud platforms
 to discover bound services and deployment information at runtime and provides support for registering
 discovered services as Spring beans. It is based on a plugin model so that the identical
