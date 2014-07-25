@@ -19,6 +19,12 @@ public interface ServiceInfo {
 	
 	/**
 	 * Annotation to mark service label (used in presenting properties) 
+	 * 
+	 * <p>
+	 * If a {@link ServiceInfo} class carries this annotation, it is used categorize
+	 * similar services together for the purpose of exposing cloud properties. 
+	 * </p>
+	 * 
 	 * @see Cloud#getCloudProperties()
 	 */
 	@Inherited

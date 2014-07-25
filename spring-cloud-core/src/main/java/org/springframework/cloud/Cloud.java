@@ -201,9 +201,11 @@ public class Cloud {
      * </pre>
      *
      * <p>
-     * If a there is only a single service of a given type, that service is aliased to the service type. Keys for such properties
-     * start in <code>cloud.services.&lt;service-type&gt;</code>. For example, if there is only a single MySQL service bound to the
-     * application, the service properties will also be exposed starting with '<code>cloud.services.mysql</code>' key: <pre>
+     * If a there is only a single service of a given type (as defined by the {@link ServiceInfo.ServiceLabel} 
+     * annoation's value of the corresponding {@link ServiceInfo} class), that service is aliased 
+     * to the service type. Keys for such properties start in <code>cloud.services.&lt;service-type&gt;</code>. 
+     * For example, if there is only a single MySQL service bound to the application, the service properties 
+     * will also be exposed starting with '<code>cloud.services.mysql</code>' key: <pre>
      * cloud.services.mysql.type = mysql-5.1
      * cloud.services.mysql.plan = free
      * cloud.services.mysql.connection.hostname = ...
