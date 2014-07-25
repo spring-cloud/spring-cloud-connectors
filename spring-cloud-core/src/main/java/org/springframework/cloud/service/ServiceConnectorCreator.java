@@ -1,5 +1,9 @@
 package org.springframework.cloud.service;
 
+import javax.sql.DataSource;
+
+import org.springframework.cloud.service.common.MysqlServiceInfo;
+
 /**
  *
  * @author Ramnivas Laddad
@@ -22,7 +26,17 @@ public interface ServiceConnectorCreator<SC, SI extends ServiceInfo> {
      */
     SC create(SI serviceInfo, ServiceConnectorConfig serviceConnectorConfig);
 
+    /**
+     * Get the type of connector created (such as {@link DataSource})
+     * 
+     * @return service connector type
+     */
     Class<SC> getServiceConnectorType();
 
+    /**
+     * Get the service info type this creator can work with (such as {@link MysqlServiceInfo})
+     * 
+     * @return service info type
+     */
     Class<?> getServiceInfoType();
 }
