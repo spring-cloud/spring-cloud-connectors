@@ -359,7 +359,7 @@ class ServiceConnectorCreatorRegistry {
     private <SC, SI extends ServiceInfo> ServiceConnectorCreator<SC, SI> getServiceCreatorOrNull(Class<SC> serviceConnectorType,
         SI serviceInfo) {
         for (ServiceConnectorCreator<?, ? extends ServiceInfo> serviceConnectorCreator : serviceConnectorCreators) {
-            logger.info("Trying connector creator type " + serviceConnectorCreator);
+            logger.fine("Trying connector creator type " + serviceConnectorCreator);
             if (accept(serviceConnectorCreator, serviceConnectorType, serviceInfo)) {
                 return (ServiceConnectorCreator<SC, SI>) serviceConnectorCreator;
             }
