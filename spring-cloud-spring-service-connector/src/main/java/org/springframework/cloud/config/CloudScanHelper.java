@@ -10,6 +10,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudFactory;
+import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.config.java.ServiceScan;
 import org.springframework.cloud.service.GenericCloudServiceConnectorFactory;
 import org.springframework.cloud.service.ServiceInfo;
@@ -21,7 +22,7 @@ import org.springframework.cloud.service.ServiceInfo;
  *
  * Usage:
  * Most applications should use either the Java config using {@link ServiceScan} annotation 
- * or XML config using &lt;cloud:service-scan/&gt; that introduce a bean of this type lgically 
+ * or XML config using &lt;cloud:service-scan/&gt; that introduce a bean of this type logically 
  * equivalent to:
  * <pre>
  * &lt;bean class="org.cloudfoundry.runtime.service.CloudServicesScanner"/&gt;
@@ -44,9 +45,9 @@ import org.springframework.cloud.service.ServiceInfo;
  * @author Ramnivas Laddad
  *
  */
-public class ServiceScanHelper {
+public class CloudScanHelper {
     private static final String CLOUD_FACTORY_BEAN_NAME = "__cloud_factory__";
-    private static Logger logger = Logger.getLogger(ServiceScanHelper.class.getName());
+    private static Logger logger = Logger.getLogger(CloudScanHelper.class.getName());
     
     private Cloud cloud;
 
@@ -57,6 +58,17 @@ public class ServiceScanHelper {
         for(ServiceInfo serviceInfo: serviceInfos) {
             registerServiceBean(registry, serviceInfo);
         }
+    }
+    
+    public void registerApplicationInstanceBean(BeanDefinitionRegistry registry) {
+        initializeCloud(registry);
+        
+        BeanDefinitionBuilder definitionBuilder = 
+                BeanDefinitionBuilder.genericBeanDefinition(ApplicationInstanceInfoWrapper.class);
+        definitionBuilder.addConstructorArgValue(cloud);
+        definitionBuilder.getRawBeanDefinition().setAttribute(
+                                  "factoryBeanObjectType", ApplicationInstanceInfo.class);
+        registry.registerBeanDefinition("spring.cloud.appplicationInstanceInfo", definitionBuilder.getBeanDefinition());
     }
 
     private void initializeCloud(BeanDefinitionRegistry registry) {
@@ -113,5 +125,27 @@ public class ServiceScanHelper {
         }
     }
 
+    public static class ApplicationInstanceInfoWrapper implements FactoryBean<ApplicationInstanceInfo> {
+        private Cloud cloud;
+        
+        public ApplicationInstanceInfoWrapper(Cloud cloud) {
+            this.cloud = cloud;
+        }
+        
+        @Override
+        public ApplicationInstanceInfo getObject() throws Exception {
+            return cloud.getApplicationInstanceInfo();
+        }
 
+        @Override
+        public Class<?> getObjectType() {
+            return ApplicationInstanceInfo.class;
+        }
+
+        @Override
+        public boolean isSingleton() {
+            return true;
+        }
+        
+    }
 }

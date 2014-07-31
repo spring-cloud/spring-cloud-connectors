@@ -6,7 +6,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
-import org.springframework.cloud.config.ServiceScanHelper;
+import org.springframework.cloud.config.CloudScanHelper;
 import org.w3c.dom.Element;
 
 /**
@@ -47,7 +47,7 @@ public class CloudNamespaceHandler extends NamespaceHandlerSupport {
 	}
 	
 	public static class ServiceScanBeanFactoryProcessor implements BeanFactoryPostProcessor {
-	    private ServiceScanHelper helper = new ServiceScanHelper();
+	    private CloudScanHelper helper = new CloudScanHelper();
 	    
 	    @Override
 	    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
