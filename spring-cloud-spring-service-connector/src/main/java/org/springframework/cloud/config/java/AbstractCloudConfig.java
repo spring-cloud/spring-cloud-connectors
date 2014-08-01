@@ -13,6 +13,7 @@ import org.springframework.beans.factory.config.SingletonBeanRegistry;
 import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudException;
 import org.springframework.cloud.CloudFactory;
+import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.PooledServiceConnectorConfig;
 import org.springframework.cloud.service.document.MongoDbFactoryConfig;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryConfig;
@@ -62,6 +63,16 @@ public abstract class AbstractCloudConfig implements BeanFactoryAware {
     @Bean
     public Cloud cloud() {
         return cloud;
+    }
+
+    /**
+     * Register information about this application instance.
+     *
+     * @return information about this instance.
+     */
+    @Bean
+    public ApplicationInstanceInfo applicationInstanceInfo() {
+        return cloud.getApplicationInstanceInfo();
     }
 
     public ServiceConnectionFactory connectionFactory() {
