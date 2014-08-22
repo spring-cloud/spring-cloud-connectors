@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.activation.DataSource;
 
 import org.springframework.cloud.app.ApplicationInstanceInfo;
+import org.springframework.cloud.service.CompositeServiceInfo;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceInfo;
@@ -88,7 +89,7 @@ public class Cloud {
      * @return information about all services bound to the application
      */
     public List<ServiceInfo> getServiceInfos() {
-        return cloudConnector.getServiceInfos();
+        return flatten(cloudConnector.getServiceInfos());
     }
 
     /**
@@ -316,6 +317,24 @@ public class Cloud {
             return labelAnnotation.value();
         }
     }
+    
+    private static List<ServiceInfo> flatten(List<ServiceInfo> serviceInfos) {
+        List<ServiceInfo> flattened = new ArrayList<ServiceInfo>();
+        
+        for (ServiceInfo serviceInfo : serviceInfos) {
+            if (serviceInfo instanceof CompositeServiceInfo) {
+                // recursively flatten any CompositeServiceInfos
+                CompositeServiceInfo compositeServiceInfo = (CompositeServiceInfo)serviceInfo;
+                flattened.addAll(flatten(compositeServiceInfo.getServiceInfos()));
+            } else {
+                flattened.add(serviceInfo);
+            }
+        }
+        
+        return flattened;
+    }
+
+
 }
 
 class ServiceConnectorCreatorRegistry {

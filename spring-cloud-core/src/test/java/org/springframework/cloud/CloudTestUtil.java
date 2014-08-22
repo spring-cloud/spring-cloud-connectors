@@ -3,6 +3,7 @@ package org.springframework.cloud;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Properties;
 
 import org.springframework.cloud.CloudConnector;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
+import org.springframework.cloud.service.CompositeServiceInfo;
 import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
@@ -94,6 +96,26 @@ public class CloudTestUtil {
 	    public String getFoo() {
 	        return "foo";
 	    }
+	}
+	
+	public static class StubCompositeServiceInfo implements CompositeServiceInfo {
+        private String id;
+	    private List<ServiceInfo> constituents;
+
+        public StubCompositeServiceInfo(String id, ServiceInfo... constituents) {
+            this.id = id;
+	        this.constituents = Arrays.asList(constituents);
+	    }
+
+        @Override
+        public String getId() {
+            return id;
+        }
+
+        @Override
+        public List<ServiceInfo> getServiceInfos() {
+            return constituents;
+        }
 	}
 	
 	public static StubCloudConnector getTestCloudConnector(ApplicationInstanceInfo applicationInstanceInfo, ServiceInfo... serviceInfos) {

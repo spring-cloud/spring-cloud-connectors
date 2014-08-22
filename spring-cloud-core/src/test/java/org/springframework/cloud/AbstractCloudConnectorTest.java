@@ -105,3 +105,18 @@ class TestServiceData {
 		return tag;
 	}
 }
+
+class TestCompositeServiceData extends TestServiceData {
+
+    private TestServiceData[] constituents;
+
+    public TestCompositeServiceData(String id, String tag, TestServiceData... constituents) {
+        super(id, tag);
+        this.constituents = constituents;
+    }
+
+    public TestServiceData[] getConstituents() {
+        return constituents;
+    }
+    
+}

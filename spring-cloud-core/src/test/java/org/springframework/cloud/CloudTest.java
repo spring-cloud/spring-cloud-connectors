@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.cloud.CloudTestUtil.StubApplicationInstanceInfo;
 import org.springframework.cloud.CloudTestUtil.StubCloudConnector;
+import org.springframework.cloud.CloudTestUtil.StubCompositeServiceInfo;
 import org.springframework.cloud.CloudTestUtil.StubServiceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.ServiceConnectorConfig;
@@ -182,7 +183,41 @@ public class CloudTest {
 
 		testCloud.getServiceInfo("foo");
 	}
+	
+	@Test
+	public void compositeServiceInfo() {
+        StubServiceInfo testServiceInfo1 = new StubServiceInfo("test-id-1", "test-host", 1000, "test-username", "test-password");
+        StubServiceInfo testServiceInfo2 = new StubServiceInfo("test-id-2", "test-host", 1000, "test-username", "test-password");
+        ServiceInfo testCompositeServiceInfo = new StubCompositeServiceInfo("test-composite",testServiceInfo1, testServiceInfo2);
 
+        StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testCompositeServiceInfo);
+        Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
+        
+        assertNotNull(testCloud.getServiceInfo("test-id-1"));
+        assertNotNull(testCloud.getServiceInfo("test-id-2"));
+	}
+
+    @Test
+    public void compositeServiceInfoRecursive() {
+        StubServiceInfo testServiceInfo1a = new StubServiceInfo("test-id-1a", "test-host", 1000, "test-username", "test-password");
+        StubServiceInfo testServiceInfo1b = new StubServiceInfo("test-id-1b", "test-host", 1000, "test-username", "test-password");
+        ServiceInfo testCompositeServiceInfo1 = new StubCompositeServiceInfo("test-composite-1",testServiceInfo1a, testServiceInfo1b);
+
+        StubServiceInfo testServiceInfo2a = new StubServiceInfo("test-id-2a", "test-host", 1000, "test-username", "test-password");
+        StubServiceInfo testServiceInfo2b = new StubServiceInfo("test-id-2b", "test-host", 1000, "test-username", "test-password");
+        ServiceInfo testCompositeServiceInfo2 = new StubCompositeServiceInfo("test-composite-2",testServiceInfo2a, testServiceInfo2b);
+        
+        ServiceInfo testCompositeServiceInfo = new StubCompositeServiceInfo("test-composite",testCompositeServiceInfo1, testCompositeServiceInfo2);
+
+        StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testCompositeServiceInfo);
+        Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
+        
+        assertNotNull(testCloud.getServiceInfo("test-id-1a"));
+        assertNotNull(testCloud.getServiceInfo("test-id-1b"));
+        assertNotNull(testCloud.getServiceInfo("test-id-2a"));
+        assertNotNull(testCloud.getServiceInfo("test-id-2b"));
+    }
+	
 	private void assertStubServiceProp(String leadKey, StubServiceInfo serviceInfo, Properties cloudProperties) {
 		CloudTestUtil.assertBasicProps(leadKey, serviceInfo, cloudProperties);
 		
