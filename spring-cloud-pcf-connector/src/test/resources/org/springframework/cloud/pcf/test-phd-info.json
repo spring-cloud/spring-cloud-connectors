@@ -1,0 +1,31 @@
+{
+	"name":"$serviceName",
+	"label":"p-hd",
+    "tags":[],
+	"plan":"Standard",
+	"credentials":{
+		"hadoop_username":"$hadoop-username",
+		"hdfs":{
+			"configuration":{
+				"fs.defaultFS":"hdfs://$hdfs-host:$hdfs-port"
+			},
+			"directory":"$hdfs-directory"
+		},
+		"yarn":{
+			"configuration":{
+				"yarn.resourcemanager.address":"$yarn-resource-host:$yarn-resource-port",
+				"mapreduce.framework.name":"yarn",
+				"yarn.resourcemanager.scheduler.address":"$yarn-resource-scheduler-host:$yarn-resource-scheduler-port",
+				"mapreduce.job.working.dir":"$yarn-map-reduce-dir",
+				"yarn.app.mapreduce.am.staging-dir":"$yarn-staging-dir"
+			}
+		},
+		"hawq":{
+			"uri":"jdbc:postgresql://$hawk-host:$hawk-port/postgres?user=$hawk-username&password=$hawk-password"
+		},
+		"gemfirexd":{
+			"uri":"jdbc:gemfirexd://$gem-host:$gem-port/;user=$gem-username;password=$gem-password",
+			"working.dir":"$gem-working-dir"
+		}
+	}
+}

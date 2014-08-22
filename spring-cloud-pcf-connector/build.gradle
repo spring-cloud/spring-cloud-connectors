@@ -1,0 +1,8 @@
+description = 'Spring-Cloud Support for Pivotal CF'
+
+dependencies {
+  compile project(':spring-cloud-cloudfoundry-connector')
+  optional("org.apache.hadoop:hadoop-common:2.2.0")
+  
+  testCompile project(path: ':spring-cloud-cloudfoundry-connector', configuration: 'tests')
+}
