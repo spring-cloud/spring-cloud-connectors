@@ -1,1 +1,2 @@
 org.springframework.cloud.pcf.hadoop.HadoopConfigurationCreator
+org.springframework.cloud.pcf.gemfire.GemfireXDDataSourceCreator
