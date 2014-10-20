@@ -35,6 +35,11 @@ public class PooledDataSourceCreatorsTest {
         assertPooledDataSource(new TomcatHighPerformancePooledDataSourceCreator<MysqlServiceInfo>());
     }
     
+    @Test
+    public void pooledDataSourceCreationHikariCP() {
+        assertPooledDataSource(new HikariCpPooledDataSourceCreator<MysqlServiceInfo>());
+    }
+    
 	private void assertPooledDataSource(PooledDataSourceCreator<MysqlServiceInfo> testCreator) {
         DataSource ds = testCreator.create(mockMysqlServiceInfo, null, 
                 mysqlDataSourceCreator.getDriverClassName(mockMysqlServiceInfo), 

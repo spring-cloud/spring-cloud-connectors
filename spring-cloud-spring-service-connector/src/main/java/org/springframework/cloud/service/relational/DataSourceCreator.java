@@ -39,6 +39,7 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 			pooledDataSourceCreators.add(new BasicDbcpPooledDataSourceCreator<SI>());
 			pooledDataSourceCreators.add(new TomcatDbcpPooledDataSourceCreator<SI>());
 			pooledDataSourceCreators.add(new TomcatHighPerformancePooledDataSourceCreator<SI>());
+			pooledDataSourceCreators.add(new HikariCpPooledDataSourceCreator<SI>());
 		}
 	}
 
