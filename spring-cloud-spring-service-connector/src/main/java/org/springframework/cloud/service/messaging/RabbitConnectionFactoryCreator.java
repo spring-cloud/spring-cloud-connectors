@@ -19,19 +19,12 @@ public class RabbitConnectionFactoryCreator extends	AbstractServiceConnectorCrea
 	@Override
 	public ConnectionFactory create(AmqpServiceInfo serviceInfo, ServiceConnectorConfig serviceConnectorConfiguration) {
 		com.rabbitmq.client.ConnectionFactory connectionFactory = new com.rabbitmq.client.ConnectionFactory();
-		connectionFactory.setHost(serviceInfo.getHost());
-		connectionFactory.setVirtualHost(serviceInfo.getVirtualHost());
-		connectionFactory.setUsername(serviceInfo.getUserName());
-		connectionFactory.setPassword(serviceInfo.getPassword());
-		if ("amqps".equals(serviceInfo.getScheme())) {		
-			try {
-				connectionFactory.useSslProtocol();
-			}
-			catch (Exception e) {
-				throw new IllegalStateException("failed to configure SSL protocol", e);
-			}
+		try {
+			connectionFactory.setUri(serviceInfo.getUri());
 		}
-		connectionFactory.setPort(serviceInfo.getPort());
+		catch (Exception e) {
+			throw new IllegalArgumentException("failed to create ConnectionFactory", e);
+		}
 		CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(connectionFactory);
 		if (serviceConnectorConfiguration != null) {
 			cachingConnectionFactory.setChannelCacheSize(((RabbitConnectionFactoryConfig)serviceConnectorConfiguration).getChannelCacheSize());
