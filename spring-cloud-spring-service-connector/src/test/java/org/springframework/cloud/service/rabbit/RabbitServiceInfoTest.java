@@ -21,10 +21,15 @@ public class RabbitServiceInfoTest {
 		assertEquals("mypass", serviceInfo.getPassword());
 		assertEquals("myvhost", serviceInfo.getVirtualHost());
 	}
-	
+
 	@Test(expected=IllegalArgumentException.class)
-	public void badProtocol() {
-		new AmqpServiceInfo("id",  "XX://myuser:mypass@myhost:12345/myvhost");
+	public void missingScheme() {
+		new AmqpServiceInfo("id",  "://myuser:mypass@:12345/myvhost");
+	}
+
+	public void amqpsSchemeAccepted() {
+		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id",  "amqps://myuser:mypass@myhost:12345/myvhost");
+		assertEquals("amqps", serviceInfo.getScheme());
 	}
 
 	@Test(expected=IllegalArgumentException.class)

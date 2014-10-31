@@ -31,8 +31,8 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 
 	@Override
 	protected UriInfo validateAndCleanUriInfo(UriInfo uriInfo) {
-		if (!URI_SCHEME.equals(uriInfo.getScheme())) {
-			throw new IllegalArgumentException("wrong scheme in amqp URI: " + uriInfo);
+		if (uriInfo.getScheme() == null) {
+			throw new IllegalArgumentException("missing scheme in amqp URI: " + uriInfo);
 		}
 
 		if (uriInfo.getHost() == null) {
