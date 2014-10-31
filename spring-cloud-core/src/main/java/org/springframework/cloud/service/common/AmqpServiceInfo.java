@@ -39,11 +39,6 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 			throw new IllegalArgumentException("missing authority in amqp URI: " + uriInfo);
 		}
 
-		int port = uriInfo.getPort();
-		if (port == -1) {
-			port = 5672;
-		}
-
 		String userName = uriInfo.getUserName();
 		String password = uriInfo.getPassword();
 
@@ -62,6 +57,6 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 				throw new IllegalArgumentException("multiple segments in path of amqp URI: " + uriInfo);
 			}
 		}
-		return new UriInfo(uriInfo.getScheme(), uriInfo.getHost(), port, uriInfo.getUserName(), uriInfo.getPassword(), path);
+		return new UriInfo(uriInfo.getScheme(), uriInfo.getHost(), uriInfo.getPort(), uriInfo.getUserName(), uriInfo.getPassword(), path);
 	}
 }
