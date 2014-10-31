@@ -10,8 +10,8 @@ import org.springframework.cloud.service.UriBasedServiceInfoCreator;
  */
 public abstract class HerokuServiceInfoCreator<SI extends ServiceInfo> extends UriBasedServiceInfoCreator<SI> {
 
-	public HerokuServiceInfoCreator(String uriScheme) {
-		super(uriScheme);
+	public HerokuServiceInfoCreator(String... uriSchemes) {
+		super(uriSchemes);
 	}
 
 	/**

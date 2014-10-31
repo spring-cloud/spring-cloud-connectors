@@ -10,7 +10,7 @@ import org.springframework.cloud.service.common.PostgresqlServiceInfo;
 public class PostgresqlServiceInfoCreator extends RelationalServiceInfoCreator<PostgresqlServiceInfo> {
 
 	public PostgresqlServiceInfoCreator() {
-		super(new Tags("postgresql"), PostgresqlServiceInfo.URI_SCHEME);
+		super(new Tags("postgresql"), PostgresqlServiceInfo.POSTGRES_SCHEME);
 	}
 
 	@Override

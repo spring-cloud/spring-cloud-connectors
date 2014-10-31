@@ -1,7 +1,6 @@
 package org.springframework.cloud.cloudfoundry;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -27,8 +26,9 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 		PostgresqlServiceInfo info1 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-1");
 		PostgresqlServiceInfo info2 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-2");
-		assertNotNull(info1);
-		assertNotNull(info2);
+
+		assertServiceFoundOfType(info1, PostgresqlServiceInfo.class);
+		assertServiceFoundOfType(info2, PostgresqlServiceInfo.class);
 		assertEquals(getJdbcUrl("postgres", name1), info1.getJdbcUrl());
 		assertEquals(getJdbcUrl("postgres", name2), info2.getJdbcUrl());
 	}
@@ -45,8 +45,9 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 		PostgresqlServiceInfo info1 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-1");
 		PostgresqlServiceInfo info2 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-2");
-		assertNotNull(info1);
-		assertNotNull(info2);
+
+		assertServiceFoundOfType(info1, PostgresqlServiceInfo.class);
+		assertServiceFoundOfType(info2, PostgresqlServiceInfo.class);
 		assertEquals(getJdbcUrl("postgres", name1), info1.getJdbcUrl());
 		assertEquals(getJdbcUrl("postgres", name2), info2.getJdbcUrl());
 	}

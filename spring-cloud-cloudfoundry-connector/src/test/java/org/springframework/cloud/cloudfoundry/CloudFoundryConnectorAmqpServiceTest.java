@@ -1,12 +1,12 @@
 package org.springframework.cloud.cloudfoundry;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.common.AmqpServiceInfo;
 
 /**
  * 
@@ -22,8 +22,8 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 					getRabbitServicePayloadWithTags("rabbit-2", hostname, port, username, password, "q-2", "vhost2")));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		assertNotNull(getServiceInfo(serviceInfos, "rabbit-1"));
-		assertNotNull(getServiceInfo(serviceInfos, "rabbit-2"));
+		assertServiceFoundOfType(serviceInfos, "rabbit-1", AmqpServiceInfo.class);
+		assertServiceFoundOfType(serviceInfos, "rabbit-2", AmqpServiceInfo.class);
 	}
 
 	@Test
@@ -34,20 +34,32 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 						getRabbitServicePayloadWithoutTags("rabbit-2", hostname, port, username, password, "q-2", "vhost2")));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		assertNotNull(getServiceInfo(serviceInfos, "rabbit-1"));
-		assertNotNull(getServiceInfo(serviceInfos, "rabbit-2"));
+		assertServiceFoundOfType(serviceInfos, "rabbit-1", AmqpServiceInfo.class);
+		assertServiceFoundOfType(serviceInfos, "rabbit-2", AmqpServiceInfo.class);
 	}
 
-    @Test
-    public void rabbitServiceCreationNoLabelNoTags() {
+	@Test
+	public void rabbitServiceCreationNoLabelNoTags() {
 		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 			.thenReturn(getServicesPayload(
 					getRabbitServicePayloadNoLabelNoTags("rabbit-1", hostname, port, username, password, "q-1", "vhost1"),
 					getRabbitServicePayloadNoLabelNoTags("rabbit-2", hostname, port, username, password, "q-2", "vhost2")));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		assertNotNull(getServiceInfo(serviceInfos, "rabbit-1"));
-		assertNotNull(getServiceInfo(serviceInfos, "rabbit-2"));
+		assertServiceFoundOfType(serviceInfos, "rabbit-1", AmqpServiceInfo.class);
+		assertServiceFoundOfType(serviceInfos, "rabbit-2", AmqpServiceInfo.class);
+	}
+
+	@Test
+	public void rabbitServiceCreationNoLabelNoTagsSecure() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+			.thenReturn(getServicesPayload(
+					getRabbitServicePayloadNoLabelNoTagsSecure("rabbit-1", hostname, port, username, password, "q-1", "vhost1"),
+					getRabbitServicePayloadNoLabelNoTagsSecure("rabbit-2", hostname, port, username, password, "q-2", "vhost2")));
+
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertServiceFoundOfType(serviceInfos, "rabbit-1", AmqpServiceInfo.class);
+		assertServiceFoundOfType(serviceInfos, "rabbit-2", AmqpServiceInfo.class);
 	}
 
 	private String getRabbitServicePayloadWithoutTags(String serviceName,
@@ -63,6 +75,14 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 														String user, String password, String name,
 														String vHost) {
 		return getRabbitServicePayload("test-rabbit-info-no-label-no-tags.json", serviceName,
+				hostname, port, user, password, name, vHost);
+	}
+
+	private String getRabbitServicePayloadNoLabelNoTagsSecure(String serviceName,
+														String hostname, int port,
+														String user, String password, String name,
+														String vHost) {
+		return getRabbitServicePayload("test-rabbit-info-no-label-no-tags-secure.json", serviceName,
 				hostname, port, user, password, name, vHost);
 	}
 

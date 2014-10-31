@@ -12,21 +12,19 @@ import org.springframework.cloud.service.common.RedisServiceInfo;
 public class RedisServiceInfoCreator extends CloudFoundryServiceInfoCreator<RedisServiceInfo> {
 
 	public RedisServiceInfoCreator() {
-        // the literal in the tag is CloudFoundry-specific
-		super(new Tags("redis"), RedisServiceInfo.URI_SCHEME);
+		// the literal in the tag is CloudFoundry-specific
+		super(new Tags("redis"), RedisServiceInfo.REDIS_SCHEME);
 	}
 
 	public RedisServiceInfo createServiceInfo(Map<String,Object> serviceData) {
-		@SuppressWarnings("unchecked")
-		Map<String, Object> credentials = (Map<String, Object>) serviceData.get("credentials");
-
 		String id = (String) serviceData.get("name");
 
-		String uri = getStringFromCredentials(credentials, "uri", "url");
+		Map<String, Object> credentials = getCredentials(serviceData);
+		String uri = getUriFromCredentials(credentials);
 
 		if (uri == null) {
 			String host = getStringFromCredentials(credentials, "hostname", "host");
-			Integer port = Integer.parseInt(credentials.get("port").toString());
+			Integer port = getIntFromCredentials(credentials, "port");
 			String password = (String) credentials.get("password");
 
 			return new RedisServiceInfo(id, host, port, password);

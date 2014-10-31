@@ -5,9 +5,9 @@ import org.springframework.cloud.service.ServiceInfo;
 @ServiceInfo.ServiceLabel("oracle")
 public class OracleServiceInfo extends RelationalServiceInfo {
 
-    public static final String JDBC_URL_TYPE = "oracle";
+    private static final String JDBC_URL_TYPE = "oracle";
 
-    public static final String URI_SCHEME = JDBC_URL_TYPE;
+    public static final String ORACLE_SCHEME = JDBC_URL_TYPE;
 
 	public OracleServiceInfo(String id, String url) {
 		super(id, url, JDBC_URL_TYPE);

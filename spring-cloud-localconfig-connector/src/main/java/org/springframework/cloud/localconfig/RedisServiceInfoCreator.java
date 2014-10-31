@@ -10,7 +10,7 @@ import org.springframework.cloud.service.common.RedisServiceInfo;
 public class RedisServiceInfoCreator extends LocalConfigServiceInfoCreator<RedisServiceInfo>{
 
     public RedisServiceInfoCreator() {
-        super(RedisServiceInfo.URI_SCHEME);
+        super(RedisServiceInfo.REDIS_SCHEME);
     }
 
     @Override

@@ -10,8 +10,8 @@ import org.springframework.cloud.service.common.MysqlServiceInfo;
 public class MysqlServiceInfoCreator extends RelationalServiceInfoCreator<MysqlServiceInfo> {
 
 	public MysqlServiceInfoCreator() {
-        // the literal in the tag is CloudFoundry-specific
-		super(new Tags("mysql"), MysqlServiceInfo.URI_SCHEME);
+		// the literal in the tag is CloudFoundry-specific
+		super(new Tags("mysql"), MysqlServiceInfo.MYSQL_SCHEME);
 	}
 
 	@Override

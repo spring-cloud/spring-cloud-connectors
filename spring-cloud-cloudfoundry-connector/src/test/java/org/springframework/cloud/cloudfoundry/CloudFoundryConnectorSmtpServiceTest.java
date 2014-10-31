@@ -28,7 +28,7 @@ public class CloudFoundryConnectorSmtpServiceTest extends AbstractCloudFoundryCo
 		assertEquals(hostname, smptServiceInfo.getHost());
 		assertEquals(587, smptServiceInfo.getPort());
 		assertEquals(username, smptServiceInfo.getUserName());
-		assertEquals(password, smptServiceInfo.getPassword());		
+		assertEquals(password, smptServiceInfo.getPassword());
 	}
 
 	private String getSmtpServicePayload(String serviceName, String hostname,

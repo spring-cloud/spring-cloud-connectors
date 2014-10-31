@@ -12,17 +12,14 @@ import org.springframework.cloud.service.common.MongoServiceInfo;
 public class MongoServiceInfoCreator extends CloudFoundryServiceInfoCreator<MongoServiceInfo> {
 
 	public MongoServiceInfoCreator() {
-	    // the literal in the tag is CloudFoundry-specific
-		super(new Tags("mongodb"), MongoServiceInfo.URI_SCHEME);
+		// the literal in the tag is CloudFoundry-specific
+		super(new Tags("mongodb"), MongoServiceInfo.MONGODB_SCHEME);
 	}
 
 	public MongoServiceInfo createServiceInfo(Map<String,Object> serviceData) {
-		@SuppressWarnings("unchecked")
-		Map<String,Object> credentials = (Map<String, Object>) serviceData.get("credentials");
-
 		String id = (String) serviceData.get("name");
 
-		String uri = getStringFromCredentials(credentials, "uri", "url");
+		String uri = getUriFromCredentials(getCredentials(serviceData));
 
 		return new MongoServiceInfo(id, uri);
 	}

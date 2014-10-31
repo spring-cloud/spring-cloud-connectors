@@ -1,7 +1,6 @@
 package org.springframework.cloud.cloudfoundry;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -28,8 +27,9 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 		
 		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
 		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
-		assertNotNull(info1);
-		assertNotNull(info2);
+
+		assertServiceFoundOfType(info1, MysqlServiceInfo.class);
+		assertServiceFoundOfType(info2, MysqlServiceInfo.class);
 		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
 		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
 	}
@@ -46,8 +46,8 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 		
 		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
 		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
-		assertNotNull(info1);
-		assertNotNull(info2);
+		assertServiceFoundOfType(info1, MysqlServiceInfo.class);
+		assertServiceFoundOfType(info2, MysqlServiceInfo.class);
 		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
 		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
 	}
@@ -64,8 +64,8 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 
 		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
 		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
-		assertNotNull(info1);
-		assertNotNull(info2);
+		assertServiceFoundOfType(info1, MysqlServiceInfo.class);
+		assertServiceFoundOfType(info2, MysqlServiceInfo.class);
 		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
 		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
 	}
@@ -82,8 +82,8 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 		
 		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
 		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
-		assertNotNull(info1);
-		assertNotNull(info2);
+		assertServiceFoundOfType(info1, MysqlServiceInfo.class);
+		assertServiceFoundOfType(info2, MysqlServiceInfo.class);
 		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
 		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
 	}

@@ -19,7 +19,7 @@ import org.springframework.cloud.service.common.MysqlServiceInfo;
  */
 public class HerokuConnectorMysqlServiceTest extends AbstractHerokuConnectorRelationalServiceTest {
     public HerokuConnectorMysqlServiceTest() {
-        super(MysqlServiceInfo.URI_SCHEME);
+        super(MysqlServiceInfo.MYSQL_SCHEME);
     }
 
     @Test

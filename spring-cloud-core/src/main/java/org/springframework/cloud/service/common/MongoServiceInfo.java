@@ -11,10 +11,10 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 @ServiceLabel("mongo")
 public class MongoServiceInfo extends UriBasedServiceInfo {
 
-    public static final String URI_SCHEME = "mongodb";
+    public static final String MONGODB_SCHEME = "mongodb";
 
 	public MongoServiceInfo(String id, String host, int port, String username, String password, String db) {
-		super(id, URI_SCHEME, host, port, username, password, db);
+		super(id, MONGODB_SCHEME, host, port, username, password, db);
 	}
 
 	public MongoServiceInfo(String id, String uri) {

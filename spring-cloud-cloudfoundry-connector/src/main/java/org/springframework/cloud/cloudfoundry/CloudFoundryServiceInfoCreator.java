@@ -12,15 +12,11 @@ import org.springframework.cloud.service.ServiceInfo;
 public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> implements ServiceInfoCreator<SI, Map<String, Object>> {
 
 	private Tags tags;
-	private String uriScheme;
+	private String[] uriSchemes;
 
-	public CloudFoundryServiceInfoCreator(Tags tags, String uriScheme) {
+	public CloudFoundryServiceInfoCreator(Tags tags, String... uriSchemes) {
 		this.tags = tags;
-		this.uriScheme = uriScheme;
-	}
-
-	public CloudFoundryServiceInfoCreator(Tags tags) {
-		this(tags, null);
+		this.uriSchemes = uriSchemes;
 	}
 
 	public boolean accept(Map<String, Object> serviceData) {
@@ -39,22 +35,28 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 	}
 
 	protected boolean uriMatchesScheme(Map<String, Object> serviceData) {
-		if (uriScheme == null) {
+		if (uriSchemes == null) {
 			return false;
 		}
 
-		@SuppressWarnings("unchecked")
-		Map<String, String> credentials = (Map<String, String>) serviceData.get("credentials");
-		if (credentials != null) {
-			String uri = credentials.get("uri");
-			if (uri == null) {
-				uri = credentials.get("url");
-			}
-			if (uri != null) {
-				return uri.startsWith(uriScheme + "://");
+		String uri = getUriFromCredentials(getCredentials(serviceData));
+		if (uri != null) {
+			for (String uriScheme : uriSchemes) {
+				if (uri.startsWith(uriScheme + "://")) {
+					return true;
+				}
 			}
 		}
 		return false;
+	}
+
+	@SuppressWarnings("unchecked")
+	protected Map<String, Object> getCredentials(Map<String, Object> serviceData) {
+		return (Map<String, Object>) serviceData.get("credentials");
+	}
+
+	protected String getUriFromCredentials(Map<String, Object> credentials) {
+		return getStringFromCredentials(credentials, "uri", "url");
 	}
 
 	protected String getStringFromCredentials(Map<String, Object> credentials, String... keys) {
@@ -66,7 +68,21 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 		return null;
 	}
 
-	public String getUriScheme() {
-		return uriScheme;
+	protected int getIntFromCredentials(Map<String, Object> credentials, String... keys) {
+		for (String key : keys) {
+			if (credentials.containsKey(key)) {
+				// allows the value to be quoted as a String or native integer type
+				return Integer.parseInt(credentials.get(key).toString());
+			}
+		}
+		return -1;
+	}
+
+	public String[] getUriSchemes() {
+		return uriSchemes;
+	}
+
+	public String getDefaultUriScheme() {
+		return uriSchemes[0];
 	}
 }
