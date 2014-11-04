@@ -22,18 +22,18 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
  */
 public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extends AbstractServiceConnectorCreator<DataSource, SI> {
 
-    protected static Logger logger = Logger.getLogger(DataSourceCreator.class.getName());
+	protected static Logger logger = Logger.getLogger(DataSourceCreator.class.getName());
 
-    private String driverSystemPropKey;
-    private String[] driverClasses;
-    private String validationQuery;
+	private String driverSystemPropKey;
+	private String[] driverClasses;
+	private String validationQuery;
 
-    private List<PooledDataSourceCreator<SI>> pooledDataSourceCreators = new ArrayList<PooledDataSourceCreator<SI>>();
+	private List<PooledDataSourceCreator<SI>> pooledDataSourceCreators = new ArrayList<PooledDataSourceCreator<SI>>();
 
 	public DataSourceCreator(String driverSystemPropKey, String[] driverClasses, String validationQuery) {
-	    this.driverSystemPropKey = driverSystemPropKey;
-	    this.driverClasses = driverClasses;
-	    this.validationQuery = validationQuery;
+		this.driverSystemPropKey = driverSystemPropKey;
+		this.driverClasses = driverClasses;
+		this.validationQuery = validationQuery;
 
 		if (pooledDataSourceCreators.size() == 0) {
 			pooledDataSourceCreators.add(new BasicDbcpPooledDataSourceCreator<SI>());
@@ -63,21 +63,21 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 		}
 	}
 
-    public String getDriverClassName(SI serviceInfo) {
-        String userSpecifiedDriver = System.getProperty(driverSystemPropKey);
+	public String getDriverClassName(SI serviceInfo) {
+		String userSpecifiedDriver = System.getProperty(driverSystemPropKey);
 
-        if (userSpecifiedDriver != null && !userSpecifiedDriver.isEmpty()) {
-            return userSpecifiedDriver;
-        } else {
-            for (String driver : driverClasses) {
-                try {
-                    Class.forName(driver);
-                    return driver;
-                } catch (ClassNotFoundException ex) {
-                    // continue...
-                }
-            }
-        }
-        throw new CloudException("No suitable database driver found for " + serviceInfo.getId() + " service ");
-    }
+		if (userSpecifiedDriver != null && !userSpecifiedDriver.isEmpty()) {
+			return userSpecifiedDriver;
+		} else {
+			for (String driver : driverClasses) {
+				try {
+					Class.forName(driver);
+					return driver;
+				} catch (ClassNotFoundException ex) {
+					// continue...
+				}
+			}
+		}
+		throw new CloudException("No suitable database driver found for " + serviceInfo.getId() + " service ");
+	}
 }

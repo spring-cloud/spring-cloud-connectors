@@ -14,7 +14,7 @@ public class PooledDataSourceCreatorsTest {
 
 	// Just to grab driver class name and validation query string 
 	private MysqlDataSourceCreator mysqlDataSourceCreator = new MysqlDataSourceCreator();
-	
+
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
@@ -22,30 +22,30 @@ public class PooledDataSourceCreatorsTest {
 
 	@Test
 	public void pooledDataSourceCreationDbcp() {
-	    assertPooledDataSource(new BasicDbcpPooledDataSourceCreator<MysqlServiceInfo>());
+		assertPooledDataSource(new BasicDbcpPooledDataSourceCreator<MysqlServiceInfo>());
 	}
 
-    @Test
-    public void pooledDataSourceCreationTomcatDbcp() {
-        assertPooledDataSource(new TomcatDbcpPooledDataSourceCreator<MysqlServiceInfo>());
-    }
+	@Test
+	public void pooledDataSourceCreationTomcatDbcp() {
+		assertPooledDataSource(new TomcatDbcpPooledDataSourceCreator<MysqlServiceInfo>());
+	}
 
-    @Test
-    public void pooledDataSourceCreationTomcatHighPerformance() {
-        assertPooledDataSource(new TomcatHighPerformancePooledDataSourceCreator<MysqlServiceInfo>());
-    }
-    
-    @Test
-    public void pooledDataSourceCreationHikariCP() {
-        assertPooledDataSource(new HikariCpPooledDataSourceCreator<MysqlServiceInfo>());
-    }
-    
+	@Test
+	public void pooledDataSourceCreationTomcatHighPerformance() {
+		assertPooledDataSource(new TomcatHighPerformancePooledDataSourceCreator<MysqlServiceInfo>());
+	}
+
+	@Test
+	public void pooledDataSourceCreationHikariCP() {
+		assertPooledDataSource(new HikariCpPooledDataSourceCreator<MysqlServiceInfo>());
+	}
+
 	private void assertPooledDataSource(PooledDataSourceCreator<MysqlServiceInfo> testCreator) {
-        DataSource ds = testCreator.create(mockMysqlServiceInfo, null, 
-                mysqlDataSourceCreator.getDriverClassName(mockMysqlServiceInfo), 
-                "select 1");
+		DataSource ds = testCreator.create(mockMysqlServiceInfo, null, 
+				mysqlDataSourceCreator.getDriverClassName(mockMysqlServiceInfo), 
+				"select 1");
 
-        Assert.assertNotNull("Failed to create datasource with " + testCreator.getClass().getSimpleName(), ds);
+		Assert.assertNotNull("Failed to create datasource with " + testCreator.getClass().getSimpleName(), ds);
 
 	}
 }
