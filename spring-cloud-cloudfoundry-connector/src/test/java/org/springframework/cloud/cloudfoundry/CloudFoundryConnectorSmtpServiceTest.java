@@ -23,12 +23,26 @@ public class CloudFoundryConnectorSmtpServiceTest extends AbstractCloudFoundryCo
 			.thenReturn(getServicesPayload(getSmtpServicePayload("smtp-1", hostname, username, password)));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		SmtpServiceInfo smptServiceInfo = (SmtpServiceInfo) getServiceInfo(serviceInfos, "smtp-1");
-		assertNotNull(smptServiceInfo);
-		assertEquals(hostname, smptServiceInfo.getHost());
-		assertEquals(587, smptServiceInfo.getPort());
-		assertEquals(username, smptServiceInfo.getUserName());
-		assertEquals(password, smptServiceInfo.getPassword());
+		SmtpServiceInfo smtpServiceInfo = (SmtpServiceInfo) getServiceInfo(serviceInfos, "smtp-1");
+		assertNotNull(smtpServiceInfo);
+		assertEquals(hostname, smtpServiceInfo.getHost());
+		assertEquals(587, smtpServiceInfo.getPort());
+		assertEquals(username, smtpServiceInfo.getUserName());
+		assertEquals(password, smtpServiceInfo.getPassword());
+	}
+
+	@Test
+	public void smtpServiceCreationWithUri() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+			.thenReturn(getServicesPayload(getSmtpServicePayloadWithUri("smtp-1", hostname, port, username, password)));
+
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		SmtpServiceInfo smtpServiceInfo = (SmtpServiceInfo) getServiceInfo(serviceInfos, "smtp-1");
+		assertNotNull(smtpServiceInfo);
+		assertEquals(hostname, smtpServiceInfo.getHost());
+		assertEquals(port, smtpServiceInfo.getPort());
+		assertEquals(username, smtpServiceInfo.getUserName());
+		assertEquals(password, smtpServiceInfo.getPassword());
 	}
 
 	private String getSmtpServicePayload(String serviceName, String hostname,
@@ -36,6 +50,18 @@ public class CloudFoundryConnectorSmtpServiceTest extends AbstractCloudFoundryCo
 		String payload = readTestDataFile("test-smtp-info.json");
 		payload = payload.replace("$serviceName", serviceName);
 		payload = payload.replace("$hostname", hostname);
+		payload = payload.replace("$username", user);
+		payload = payload.replace("$password", password);
+
+		return payload;
+	}
+
+	private String getSmtpServicePayloadWithUri(String serviceName, String hostname, int port,
+										 String user, String password) {
+		String payload = readTestDataFile("test-smtp-info-uri.json");
+		payload = payload.replace("$serviceName", serviceName);
+		payload = payload.replace("$hostname", hostname);
+		payload = payload.replace("$port", String.valueOf(port));
 		payload = payload.replace("$username", user);
 		payload = payload.replace("$password", password);
 

@@ -19,7 +19,6 @@ public class SmtpServiceConnectorCreatorTest {
 	private static final String TEST_USERNAME = "myuser";
 	private static final String TEST_PASSWORD = "mypass";
 
-	
 	private MailSenderCreator testCreator = new MailSenderCreator();
 
 	@Test
