@@ -30,8 +30,7 @@ public class StandardUriInfoFactory implements UriInfoFactory {
 		String password = uriDecode(userInfo[1]);
 
 		return new UriInfo(tmpUri.getScheme(), tmpUri.getHost(), tmpUri.getPort(),
-				userName, password,
-				parsePath(tmpUri), tmpUri.getRawQuery());
+				userName, password, parsePath(tmpUri), tmpUri.getRawQuery(), uriString);
 	}
 
 	private URI createTmpUri(String uriString) {

@@ -15,10 +15,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Base class for close-to-integration tests that use a stub {@link CloudConnector} to avoid the need for a real cloud environment.
  *
  * @author Ramnivas Laddad
- *
+ * @author Chris Schaefer
  */
 abstract public class StubCloudConnectorTest {
-
 	private static final String MOCK_CLOUD_BEAN_NAME = "mockCloud";
 
 	protected ApplicationContext getTestApplicationContext(String fileName, ServiceInfo... serviceInfos) {
@@ -63,7 +62,11 @@ abstract public class StubCloudConnectorTest {
 	protected MongoServiceInfo createMongoService(String id) {
 		return new MongoServiceInfo(id, "10.20.30.40", 1234, "username", "password", "db");
 	}
-	
+
+	protected MongoServiceInfo createMongoServiceWithMultipleHostsByUri(String id) {
+		return new MongoServiceInfo(id, "mongo://username:password@10.20.30.40,10.20.30.41,10.20.30.42:1234/db");
+	}
+
 	protected AmqpServiceInfo createRabbitService(String id) {
 		return new AmqpServiceInfo(id, "10.20.30.40", 1234, "username", "password", "vh");
 	}
