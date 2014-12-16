@@ -35,6 +35,8 @@ ext {
 
 	junitVersion = "4.11"
 	mockitoVersion = "1.9.5"
+	eurekaClientVersion = "1.1.135"
+	hadoopCommonVersion = "2.2.0"
 
 	javadocLinks = [
 		'http://docs.oracle.com/javase/7/docs/api/',

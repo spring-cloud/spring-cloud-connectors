@@ -1,1 +1,2 @@
 org.springframework.cloud.pcf.phd.PhdServiceInfoCreator
+org.springframework.cloud.pcf.eureka.EurekaServiceInfoCreator

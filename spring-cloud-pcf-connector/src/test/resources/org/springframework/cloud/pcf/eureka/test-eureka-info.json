@@ -1,0 +1,11 @@
+{  
+   "name":"$serviceName",
+   "label":"p-eureka",
+   "plan":"standard",
+   "tags":[  
+      "eureka"
+   ],
+   "credentials":{  
+      "uri":"http://$username:$password@$hostname:$port/"
+   }
+}

@@ -1,9 +1,11 @@
 description = 'Spring-Cloud Support for Pivotal CF'
 
 dependencies {
+  compile project(':spring-cloud-core')
   compile project(':spring-cloud-cloudfoundry-connector')
   compile project(':spring-cloud-spring-service-connector')
-  optional("org.apache.hadoop:hadoop-common:2.2.0")
-  
+  optional("org.apache.hadoop:hadoop-common:$hadoopCommonVersion")
+  optional("com.netflix.eureka:eureka-client:$eurekaClientVersion")
+
   testCompile project(path: ':spring-cloud-cloudfoundry-connector', configuration: 'tests')
 }
