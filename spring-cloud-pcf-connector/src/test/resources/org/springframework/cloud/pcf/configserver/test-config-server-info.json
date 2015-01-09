@@ -1,0 +1,11 @@
+{
+   "name":"$serviceName",
+   "label":"p-config",
+   "plan":"standard",
+   "tags":[
+      "configuration"
+   ],
+   "credentials":{
+      "uri":"http://$username:$password@$hostname:$port/"
+   }
+}
