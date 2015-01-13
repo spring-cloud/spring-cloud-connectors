@@ -1,5 +1,7 @@
 package org.springframework.cloud.cloudfoundry;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,7 @@ import org.springframework.cloud.service.ServiceInfo;
 
 /**
  * @author Ramnivas Laddad
+ * @author Scott Frederick
  */
 public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> implements ServiceInfoCreator<SI, Map<String, Object>> {
 
@@ -20,7 +23,8 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 	}
 
 	public boolean accept(Map<String, Object> serviceData) {
-		return tagsMatch(serviceData) || labelStartsWithTag(serviceData) || uriMatchesScheme(serviceData);
+		return tagsMatch(serviceData) || labelStartsWithTag(serviceData) ||
+				uriMatchesScheme(serviceData) || uriKeyMatchesScheme(serviceData);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -50,13 +54,39 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 		return false;
 	}
 
+	protected boolean uriKeyMatchesScheme(Map<String, Object> serviceData) {
+		if (uriSchemes == null) {
+			return false;
+		}
+
+		Map<String, Object> credentials = getCredentials(serviceData);
+
+		for (String uriScheme : uriSchemes) {
+			if (credentials.containsKey(uriScheme + "Uri") || credentials.containsKey(uriScheme + "uri") ||
+					credentials.containsKey(uriScheme + "Url") || credentials.containsKey(uriScheme + "url")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	@SuppressWarnings("unchecked")
 	protected Map<String, Object> getCredentials(Map<String, Object> serviceData) {
 		return (Map<String, Object>) serviceData.get("credentials");
 	}
 
 	protected String getUriFromCredentials(Map<String, Object> credentials) {
-		return getStringFromCredentials(credentials, "uri", "url");
+		List<String> keys = new ArrayList<String>();
+		keys.addAll(Arrays.asList("uri", "url"));
+
+		for (String uriScheme : uriSchemes) {
+			keys.add(uriScheme + "Uri");
+			keys.add(uriScheme + "uri");
+			keys.add(uriScheme + "Url");
+			keys.add(uriScheme + "url");
+		}
+
+		return getStringFromCredentials(credentials, keys.toArray(new String[keys.size()]));
 	}
 
 	protected String getStringFromCredentials(Map<String, Object> credentials, String... keys) {
