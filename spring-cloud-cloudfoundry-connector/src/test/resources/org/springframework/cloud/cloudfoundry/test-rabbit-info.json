@@ -4,6 +4,7 @@
 	"plan":"free",
 	"tags":["amqp","rabbitmq"],
 	"credentials":{
-		"uri": "amqp://$username:$password@$hostname/$virtualHost"
+		"uri": "amqp://$username:$password@$hostname/$virtualHost",
+        "http_api_uri": "http://$user:$pass@$hostname/api"
 	}
 }
