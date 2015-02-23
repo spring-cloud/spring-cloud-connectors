@@ -30,33 +30,33 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 		assertServiceFoundOfType(serviceInfos, "rabbit-2", AmqpServiceInfo.class);
 	}
 
-    @Test
-    public void rabbitServiceCreationWithManagementUri() {
-        when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
-                .thenReturn(getServicesPayload(
-                        getRabbitServicePayloadWithTags("rabbit-1", hostname, port, username, password, "q-1", "vhost1")));
+	@Test
+	public void rabbitServiceCreationWithManagementUri() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getRabbitServicePayloadWithTags("rabbit-1", hostname, port, username, password, "q-1", "vhost1")));
 
-        String expectedManagementUri = "http://" + username + ":" + password + "@" + hostname + "/api";
+		String expectedManagementUri = "http://" + username + ":" + password + "@" + hostname + "/api";
 
-        List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-        assertServiceFoundOfType(serviceInfos, "rabbit-1", AmqpServiceInfo.class);
-        AmqpServiceInfo amqpServiceInfo = (AmqpServiceInfo) serviceInfos.get(0);
-        assertEquals(amqpServiceInfo.getManagementUri(), expectedManagementUri);
-    }
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertServiceFoundOfType(serviceInfos, "rabbit-1", AmqpServiceInfo.class);
+		AmqpServiceInfo amqpServiceInfo = (AmqpServiceInfo) serviceInfos.get(0);
+		assertEquals(amqpServiceInfo.getManagementUri(), expectedManagementUri);
+	}
 
-    @Test
-    public void rabbitServiceCreationWithoutManagementUri() {
-        when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
-                .thenReturn(getServicesPayload(
-                        getRabbitServicePayloadNoLabelNoTags("rabbit-1", hostname, port, username, password, "q-1", "vhost1")));
+	@Test
+	public void rabbitServiceCreationWithoutManagementUri() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getRabbitServicePayloadNoLabelNoTags("rabbit-1", hostname, port, username, password, "q-1", "vhost1")));
 
-        List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-        assertServiceFoundOfType(serviceInfos, "rabbit-1", AmqpServiceInfo.class);
-        AmqpServiceInfo amqpServiceInfo = (AmqpServiceInfo) serviceInfos.get(0);
-        assertNull(amqpServiceInfo.getManagementUri());
-    }
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertServiceFoundOfType(serviceInfos, "rabbit-1", AmqpServiceInfo.class);
+		AmqpServiceInfo amqpServiceInfo = (AmqpServiceInfo) serviceInfos.get(0);
+		assertNull(amqpServiceInfo.getManagementUri());
+	}
 
-    @Test
+	@Test
 	public void rabbitServiceCreationWithoutTags() {
 		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 				.thenReturn(getServicesPayload(
