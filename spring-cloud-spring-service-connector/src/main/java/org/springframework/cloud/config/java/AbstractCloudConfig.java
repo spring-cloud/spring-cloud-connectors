@@ -14,6 +14,7 @@ import org.springframework.cloud.Cloud;
 import org.springframework.cloud.CloudException;
 import org.springframework.cloud.CloudFactory;
 import org.springframework.cloud.service.PooledServiceConnectorConfig;
+import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.document.MongoDbFactoryConfig;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryConfig;
 import org.springframework.cloud.service.relational.DataSourceConfig;
@@ -418,6 +419,10 @@ public abstract class AbstractCloudConfig implements BeanFactoryAware {
          */
         public <T> T service(String serviceId, Class<T> serviceConnectorType) {
             return cloud.getServiceConnector(serviceId, serviceConnectorType, null);
+        }
+        
+        public <T> T service(String serviceId, Class<T> serviceConnectorType, ServiceConnectorConfig serviceConnectorConfig){
+        	return cloud.getServiceConnector(serviceId, serviceConnectorType, serviceConnectorConfig);
         }
     }
 }
