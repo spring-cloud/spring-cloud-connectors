@@ -18,18 +18,33 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 	public static final String AMQP_SCHEME = "amqp";
 	public static final String AMQPS_SCHEME = "amqps";
 
+	private String managementUri;
+
 	public AmqpServiceInfo(String id, String host, int port, String username, String password, String virtualHost) {
+		this(id, host, port, username, password, virtualHost, null);
+	}
+
+	public AmqpServiceInfo(String id, String host, int port, String username, String password, String virtualHost, String managementUri) {
 		super(id, AMQP_SCHEME, host, port, username, password, virtualHost);
+		this.managementUri = managementUri;
 	}
 
 	public AmqpServiceInfo(String id, String uri) throws CloudException {
+		this(id, uri, null);
+	}
+
+	public AmqpServiceInfo(String id, String uri, String managementUri) throws CloudException {
 		super(id, uri);
+		this.managementUri = managementUri;
 	}
 
 	@ServiceProperty(category="connection")
 	public String getVirtualHost() {
 		return getUriInfo().getPath();
 	}
+
+	@ServiceProperty(category="connection")
+	public String getManagementUri() { return managementUri; }
 
 	@Override
 	protected UriInfo validateAndCleanUriInfo(UriInfo uriInfo) {
