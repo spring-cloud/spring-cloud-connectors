@@ -34,10 +34,8 @@ public class HikariCpPooledDataSourceCreator<SI extends RelationalServiceInfo> i
 		if (serviceConnectorConfig == null) {
 			// choose sensible values so that we set max connection pool size to what
 			// free tier services on Cloud Foundry and Heroku allow
-			target.setPropertyValue("maximumPoolSize", 10);
-			target.setPropertyValue("connectionTimeout", 30000);
-			target.setPropertyValue("idleTimeout", 30000);
-			target.setPropertyValue("maxLifetime", 55000);
+			//target.setPropertyValue("maximumPoolSize", 4);
+			//target.setPropertyValue("idleTimeout", 55000);
 		}
 		configurer.configure(basicDataSource, (DataSourceConfig)serviceConnectorConfig);
 	}
