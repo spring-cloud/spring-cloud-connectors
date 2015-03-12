@@ -8,3 +8,5 @@ Servers
 .gradle
 _site
 /bin
+.idea
+*.iml

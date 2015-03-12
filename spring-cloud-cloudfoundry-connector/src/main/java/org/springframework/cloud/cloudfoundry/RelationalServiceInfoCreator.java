@@ -12,30 +12,28 @@ import org.springframework.cloud.util.UriInfo;
  */
 public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceInfo> extends CloudFoundryServiceInfoCreator<SI> {
 
-	public RelationalServiceInfoCreator(Tags tags, String uriScheme) {
-		super(tags, uriScheme);
+	public RelationalServiceInfoCreator(Tags tags, String... uriSchemes) {
+		super(tags, uriSchemes);
 	}
 
 	public abstract SI createServiceInfo(String id, String uri);
 
-	public SI createServiceInfo(Map<String,Object> serviceData) {
-		@SuppressWarnings("unchecked")
-		Map<String,Object> credentials = (Map<String, Object>) serviceData.get("credentials");
-
+	public SI createServiceInfo(Map<String, Object> serviceData) {
 		String id = (String) serviceData.get("name");
 
-		String uri = getStringFromCredentials(credentials, "uri", "url");
+		Map<String,Object> credentials = getCredentials(serviceData);
+		String uri = getUriFromCredentials(credentials);
 
 		if (uri == null) {
 			String host = getStringFromCredentials(credentials, "hostname", "host");
-			int port = Integer.parseInt(credentials.get("port").toString()); // allows the port attribute to be quoted or plain
+			int port = getIntFromCredentials(credentials, "port");
 
 			String username = getStringFromCredentials(credentials, "user", "username");
 			String password = (String) credentials.get("password");
 
 			String database = (String) credentials.get("name");
 			
-			uri = new UriInfo(getUriScheme(), host, port, username, password, database).toString();
+			uri = new UriInfo(getDefaultUriScheme(), host, port, username, password, database).toString();
 		}
 
 		return createServiceInfo(id, uri);

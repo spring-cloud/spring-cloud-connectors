@@ -1,12 +1,12 @@
 package org.springframework.cloud.cloudfoundry;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.common.MonitoringServiceInfo;
 
 /**
  * 
@@ -21,7 +21,7 @@ public class CloudFoundryConnectorMonitoringServiceTest extends AbstractCloudFou
 			.thenReturn(getServicesPayload(getMonitoringServicePayload("monitoring-1")));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		assertNotNull(getServiceInfo(serviceInfos, "monitoring-1"));
+		assertServiceFoundOfType(serviceInfos, "monitoring-1", MonitoringServiceInfo.class);
 	}
 	
 	private String getMonitoringServicePayload(String serviceName) {

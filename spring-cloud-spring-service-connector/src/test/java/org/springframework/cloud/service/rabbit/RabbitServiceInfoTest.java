@@ -13,7 +13,7 @@ import org.springframework.cloud.service.common.AmqpServiceInfo;
 public class RabbitServiceInfoTest {
 	@Test
 	public void uriBasedParsing() {
-		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id",  "amqp://myuser:mypass@myhost:12345/myvhost");
+		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id", "amqp://myuser:mypass@myhost:12345/myvhost");
 		
 		assertEquals("myhost", serviceInfo.getHost());
 		assertEquals(12345, serviceInfo.getPort());
@@ -21,21 +21,21 @@ public class RabbitServiceInfoTest {
 		assertEquals("mypass", serviceInfo.getPassword());
 		assertEquals("myvhost", serviceInfo.getVirtualHost());
 	}
-	
+
 	@Test(expected=IllegalArgumentException.class)
-	public void badProtocol() {
-		new AmqpServiceInfo("id",  "XX://myuser:mypass@myhost:12345/myvhost");
+	public void missingScheme() {
+		new AmqpServiceInfo("id",  "://myuser:mypass@:12345/myvhost");
+	}
+
+	@Test
+	public void amqpsSchemeAccepted() {
+		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id",  "amqps://myuser:mypass@myhost:12345/myvhost");
+		assertEquals("amqps", serviceInfo.getScheme());
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void missingHost() {
 		new AmqpServiceInfo("id",  "amqp://myuser:mypass@:12345/myvhost");
-	}
-
-	@Test
-	public void missingPort() {
-		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id",  "amqp://myuser:mypass@myhost/myvhost");
-		assertEquals(5672, serviceInfo.getPort()); // the default port is 5672
 	}
 
 	@Test(expected=IllegalArgumentException.class)
@@ -48,10 +48,9 @@ public class RabbitServiceInfoTest {
 		new AmqpServiceInfo("id",  "amqp://myhost:12345/myvhost");
 	}
 
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void missingVirtualHost() {
-		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id",  "amqp://myuser:mypass@myhost:12345");
-		assertEquals("/", serviceInfo.getVirtualHost());
+		new AmqpServiceInfo("id",  "amqp://myuser:mypass@myhost:12345");
 	}
 	
 	@Test(expected=IllegalArgumentException.class)

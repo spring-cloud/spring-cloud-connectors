@@ -25,12 +25,12 @@ import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.cloud.service.relational.MysqlDataSourceCreator;
 
 /**
- * 
- * @author Ramnivas Laddad
+ * Test cases for service properties
  *
+ * @author Ramnivas Laddad
+ * @author Chris Schaefer
  */
 public class CloudTest extends StubCloudConnectorTest {
-
 	private List<ServiceConnectorCreator<?, ? extends ServiceInfo>> serviceCreators;
 	
 	@Before
@@ -74,7 +74,6 @@ public class CloudTest extends StubCloudConnectorTest {
 		assertNull(cloudProperties.get("cloud.services.mysql.connection.host"));
 	}
 
-	
 	@Test
 	public void servicePropsOneServiceOfTheSameLabel() {
 		MysqlServiceInfo mysqlServiceInfo = createMysqlService("my-mysql");
@@ -101,7 +100,7 @@ public class CloudTest extends StubCloudConnectorTest {
 		assertBasicProps("cloud.services.my-redis", redisServiceInfo, cloudProperties);
 		assertBasicProps("cloud.services.redis", redisServiceInfo, cloudProperties);
 	}
-	
+
 	@Test
 	public void servicePropsRabbit() {
 		String serviceId = "my-rabbit";
@@ -112,6 +111,28 @@ public class CloudTest extends StubCloudConnectorTest {
 		Properties cloudProperties = testCloud.getCloudProperties();
 		assertRabbitProps("cloud.services.my-rabbit", rabbitServiceInfo, cloudProperties);
 		assertRabbitProps("cloud.services.rabbitmq", rabbitServiceInfo, cloudProperties);
+	}
+
+	@Test
+	public void servicePropsMongoMultipleHostsUriString() {
+		String serviceId = "my-mongo-multiple-hosts-uri";
+		MongoServiceInfo mongoServiceInfo = createMongoServiceWithMultipleHostsByUri(serviceId);
+		CloudConnector stubCloudConnector = getTestCloudConnector(mongoServiceInfo);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceCreators);
+
+		Properties cloudProperties = testCloud.getCloudProperties();
+		assertMongoPropsWithMultipleHostsByUri("cloud.services.my-mongo-multiple-hosts-uri", mongoServiceInfo, cloudProperties);
+		assertMongoPropsWithMultipleHostsByUri("cloud.services.mongo", mongoServiceInfo, cloudProperties);
+	}
+
+	private void assertMongoPropsWithMultipleHostsByUri(String leadKey, MongoServiceInfo serviceInfo, Properties cloudProperties) {
+		assertEquals(serviceInfo.getId(), cloudProperties.get(leadKey + ".id"));
+		assertEquals(serviceInfo.getUri(), cloudProperties.get(leadKey + ".connection.uri"));
+		assertEquals(-1, cloudProperties.get(leadKey + ".connection.port"));
+
+		assertNull(cloudProperties.get(leadKey + ".connection.host"));
+		assertNull(cloudProperties.get(leadKey + ".connection.username"));
+		assertNull(cloudProperties.get(leadKey + ".connection.password"));
 	}
 	
 	private void assertBasicProps(String leadKey, UriBasedServiceInfo serviceInfo, Properties cloudProperties) {

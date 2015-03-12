@@ -1,0 +1,6 @@
+{
+	"name": "$serviceName",
+	"credentials": {
+		"uri": "smtp://$username:$password@$hostname:$port"
+	}
+}

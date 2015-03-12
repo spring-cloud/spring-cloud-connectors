@@ -1,12 +1,12 @@
 package org.springframework.cloud.cloudfoundry;
 
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.common.RedisServiceInfo;
 
 /**
  * 
@@ -22,8 +22,8 @@ public class CloudFoundryConnectorRedisServiceTest extends AbstractCloudFoundryC
 					getRedisServicePayload("redis-2", hostname, port, password, "redis-db")));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		assertNotNull(getServiceInfo(serviceInfos, "redis-1"));
-		assertNotNull(getServiceInfo(serviceInfos, "redis-2"));
+		assertServiceFoundOfType(serviceInfos, "redis-1", RedisServiceInfo.class);
+		assertServiceFoundOfType(serviceInfos, "redis-2", RedisServiceInfo.class);
 	}
 
 	@Test
@@ -34,8 +34,8 @@ public class CloudFoundryConnectorRedisServiceTest extends AbstractCloudFoundryC
 						getRedisServicePayloadNoLabelNoTags("redis-2", hostname, port, password, "redis-db")));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		assertNotNull(getServiceInfo(serviceInfos, "redis-1"));
-		assertNotNull(getServiceInfo(serviceInfos, "redis-2"));
+		assertServiceFoundOfType(serviceInfos, "redis-1", RedisServiceInfo.class);
+		assertServiceFoundOfType(serviceInfos, "redis-2", RedisServiceInfo.class);
 	}
 
 	private String getRedisServicePayload(String serviceName,

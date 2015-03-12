@@ -10,7 +10,7 @@ import org.springframework.cloud.service.common.AmqpServiceInfo;
 public class AmqpServiceInfoCreator extends LocalConfigServiceInfoCreator<AmqpServiceInfo>{
 
     public AmqpServiceInfoCreator() {
-        super(AmqpServiceInfo.URI_SCHEME);
+        super(AmqpServiceInfo.AMQP_SCHEME, AmqpServiceInfo.AMQPS_SCHEME);
     }
 
     @Override

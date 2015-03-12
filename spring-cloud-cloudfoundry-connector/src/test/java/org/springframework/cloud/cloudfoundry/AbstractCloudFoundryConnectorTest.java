@@ -11,10 +11,14 @@ import java.util.Scanner;
 import org.junit.Before;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.matchers.InstanceOf;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.util.EnvironmentAccessor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 /**
  * Base test class that provides setup and utility methods to generate test payload
@@ -120,5 +124,14 @@ public abstract class AbstractCloudFoundryConnectorTest {
 	private static String quote(String str) {
 		return "\"" + str + "\"";
 	}
-	
+
+	protected static void assertServiceFoundOfType(ServiceInfo serviceInfo, Class<? extends ServiceInfo> type) {
+		assertNotNull(serviceInfo);
+		assertThat(serviceInfo, new InstanceOf(type));
+	}
+
+	protected static void assertServiceFoundOfType(List<ServiceInfo> serviceInfos, String serviceId, Class<? extends ServiceInfo> type) {
+		ServiceInfo serviceInfo = getServiceInfo(serviceInfos, serviceId);
+		assertServiceFoundOfType(serviceInfo, type);
+	}
 }

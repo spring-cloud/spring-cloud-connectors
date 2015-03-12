@@ -11,91 +11,103 @@ import org.springframework.cloud.util.UriInfoFactory;
  *
  */
 public abstract class UriBasedServiceInfo extends BaseServiceInfo {
-    private UriInfo uriInfo;
+	private UriInfo uriInfo;
 
-    private static UriInfoFactory uriFactory = new StandardUriInfoFactory();
+	private static UriInfoFactory uriFactory = new StandardUriInfoFactory();
 
-    public UriBasedServiceInfo(String id, String scheme, String host, int port, String username, String password, String path) {
-        super(id);
-        this.uriInfo = getUriInfoFactory().createUri(scheme, host, port, username, password, path);
-        this.uriInfo = validateAndCleanUriInfo(uriInfo);
-    }
+	public UriBasedServiceInfo(String id, String scheme, String host, int port, String username, String password, String path) {
+		super(id);
+		this.uriInfo = getUriInfoFactory().createUri(scheme, host, port, username, password, path);
+		this.uriInfo = validateAndCleanUriInfo(uriInfo);
+	}
 
-    public UriBasedServiceInfo(String id, String uriString) {
-        super(id);
-        this.uriInfo = getUriInfoFactory().createUri(uriString);
-        this.uriInfo = validateAndCleanUriInfo(uriInfo);
-    }
+	public UriBasedServiceInfo(String id, String uriString) {
+		super(id);
+		this.uriInfo = getUriInfoFactory().createUri(uriString);
+		this.uriInfo = validateAndCleanUriInfo(uriInfo);
+	}
 
-    /**
-     * For URI-based (@link ServiceInfo}s which don't conform to the standard URI
-     * format, override this method in your own ServiceInfo class to return a {@link UriInfoFactory} which will create the
-     * appropriate URIs.
-     *
-     * @return your special UriInfoFactory
-     */
-    public UriInfoFactory getUriInfoFactory() {
-        return uriFactory;
-    }
+	/**
+	 * For URI-based (@link ServiceInfo}s which don't conform to the standard URI
+	 * format, override this method in your own ServiceInfo class to return a {@link UriInfoFactory} which will create the
+	 * appropriate URIs.
+	 *
+	 * @return your special UriInfoFactory
+	 */
+	public UriInfoFactory getUriInfoFactory() {
+		return uriFactory;
+	}
 
-    @ServiceProperty(category = "connection")
-    public String getUri() {
-        return uriInfo.getUri().toString();
-    }
+	@ServiceProperty(category = "connection")
+	public String getUri() {
+		// converting a URI string that contains multiple hosts, ports, etc won't parse correctly.
+		// first attempt to use the parsed URI from the UriInfo, otherwise return the raw URI string
+		// that will be passed to the underlying driver / properties.
+		//
+		// TODO: either simply use URI strings or provide better support for URI's containing multiple hosts, etc.
+		//
+		if (uriInfo.getHost() != null) {
+			return uriInfo.getUri().toString();
+		}
 
-    @ServiceProperty(category = "connection")
-    public String getUserName() {
-        return uriInfo.getUserName();
-    }
+		return uriInfo.getRawUriString();
+	}
 
-    @ServiceProperty(category = "connection")
-    public String getPassword() {
-        return uriInfo.getPassword();
-    }
+	@ServiceProperty(category = "connection")
+	public String getUserName() {
+		return uriInfo.getUserName();
+	}
 
-    @ServiceProperty(category = "connection")
-    public String getHost() {
-        return uriInfo.getHost();
-    }
+	@ServiceProperty(category = "connection")
+	public String getPassword() {
+		return uriInfo.getPassword();
+	}
 
-    @ServiceProperty(category = "connection")
-    public int getPort() {
-        return uriInfo.getPort();
-    }
+	@ServiceProperty(category = "connection")
+	public String getHost() {
+		return uriInfo.getHost();
+	}
 
-    @ServiceProperty(category = "connection")
-    public String getPath() {
-        return uriInfo.getPath();
-    }
+	@ServiceProperty(category = "connection")
+	public int getPort() {
+		return uriInfo.getPort();
+	}
 
-    @ServiceProperty(category = "connection")
-    public String getQuery() {
-        return uriInfo.getQuery();
-    }
+	@ServiceProperty(category = "connection")
+	public String getPath() {
+		return uriInfo.getPath();
+	}
 
-    @ServiceProperty(category = "connection")
-    public String getScheme() {
-        return uriInfo.getScheme();
-    }
+	@ServiceProperty(category = "connection")
+	public String getQuery() {
+		return uriInfo.getQuery();
+	}
 
-    /**
-     * Validate the URI and clean it up by using defaults for any missing information, if possible.
-     *
-     * @param uriInfo
-     *            uri info based on parsed payload
-     * @return cleaned up uri info
-     */
-    protected UriInfo validateAndCleanUriInfo(UriInfo uriInfo) {
-        return uriInfo;
-    }
+	@ServiceProperty(category = "connection")
+	public String getScheme() {
+		return uriInfo.getScheme();
+	}
 
-    protected UriInfo getUriInfo() {
-        return uriInfo;
-    }
+	/**
+	 * Validate the URI and clean it up by using defaults for any missing information, if possible.
+	 *
+	 * @param uriInfo
+	 *            uri info based on parsed payload
+	 * @return cleaned up uri info
+	 */
+	protected UriInfo validateAndCleanUriInfo(UriInfo uriInfo) {
+		return uriInfo;
+	}
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() + "[" + getScheme() + "://" + getUserName() + ":****@" + getHost() + ":" + getPort()
-            + "/" + getPath() + "]";
-    }
+	protected UriInfo getUriInfo() {
+		return uriInfo;
+	}
+
+	@Override
+	public String toString() {
+		// TODO: when using a simple URI string (see comments in getUri), the result of uriInfo.getRawUriString()
+		//       would display the password which does not seem ideal.
+		return getClass().getSimpleName() + "[" + getScheme() + "://" + getUserName() + ":****@" + getHost() + ":" + getPort()
+			+ "/" + getPath() + "]";
+	}
 }

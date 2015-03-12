@@ -10,7 +10,7 @@ import org.springframework.cloud.service.common.MongoServiceInfo;
 public class MongoServiceInfoCreator extends LocalConfigServiceInfoCreator<MongoServiceInfo>{
 
     public MongoServiceInfoCreator() {
-        super(MongoServiceInfo.URI_SCHEME);
+        super(MongoServiceInfo.MONGODB_SCHEME);
     }
 
     @Override

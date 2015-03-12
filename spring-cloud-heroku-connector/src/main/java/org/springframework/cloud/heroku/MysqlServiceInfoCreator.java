@@ -10,7 +10,7 @@ import org.springframework.cloud.service.common.MysqlServiceInfo;
 public class MysqlServiceInfoCreator extends RelationalServiceInfoCreator<MysqlServiceInfo> {
 
 	public MysqlServiceInfoCreator() {
-		super(MysqlServiceInfo.URI_SCHEME);
+		super(MysqlServiceInfo.MYSQL_SCHEME);
 	}
 
 	@Override

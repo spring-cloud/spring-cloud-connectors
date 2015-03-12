@@ -1,0 +1,6 @@
+{
+	"name":"$serviceName",
+	"credentials":{
+		"uri": "amqps://$username:$password@$hostname/$virtualHost"
+	}
+}

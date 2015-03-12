@@ -8,6 +8,7 @@ import org.springframework.cloud.util.UriInfo;
 /**
  *
  * @author Ramnivas Laddad
+ * @author Scott Frederick
  *
  */
 public class SmtpServiceInfoCreator extends CloudFoundryServiceInfoCreator<SmtpServiceInfo> {
@@ -15,26 +16,29 @@ public class SmtpServiceInfoCreator extends CloudFoundryServiceInfoCreator<SmtpS
 	private static final int DEFAULT_SMTP_PORT = 587;
 
 	public SmtpServiceInfoCreator() {
-        // the literal in the tag is CloudFoundry-specific
-		super(new Tags("smtp"), SmtpServiceInfo.URI_SCHEME);
+		super(new Tags("smtp"), SmtpServiceInfo.SMTP_SCHEME);
 	}
 
-	public SmtpServiceInfo createServiceInfo(Map<String,Object> serviceData) {
+	public SmtpServiceInfo createServiceInfo(Map<String, Object> serviceData) {
 		String id = (String) serviceData.get("name");
 
-		@SuppressWarnings("unchecked")
-		Map<String,Object> credentials = (Map<String, Object>) serviceData.get("credentials");
-		String host = (String) credentials.get("hostname");
+		Map<String, Object> credentials = getCredentials(serviceData);
 
-		int port = DEFAULT_SMTP_PORT;
-		if (credentials.containsKey("port")) {
-			port = Integer.parseInt(credentials.get("port").toString());
+		String uri = getUriFromCredentials(credentials);
+
+		if (uri == null) {
+			String host = getStringFromCredentials(credentials, "host", "hostname");
+
+			int port = getIntFromCredentials(credentials, "port");
+			if (port == -1) {
+				port = DEFAULT_SMTP_PORT;
+			}
+
+			String username = getStringFromCredentials(credentials, "user", "username");
+			String password = getStringFromCredentials(credentials, "password");
+
+			uri = new UriInfo(SmtpServiceInfo.SMTP_SCHEME, host, port, username, password).toString();
 		}
-
-		String username = (String) credentials.get("username");
-		String password = (String) credentials.get("password");
-
-		String uri = new UriInfo(SmtpServiceInfo.URI_SCHEME, host, port, username, password).toString();
 
 		return new SmtpServiceInfo(id, uri);
 	}

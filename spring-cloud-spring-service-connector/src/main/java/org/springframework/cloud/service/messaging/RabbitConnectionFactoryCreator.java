@@ -12,22 +12,24 @@ import org.springframework.cloud.service.common.AmqpServiceInfo;
  * @author Ramnivas Laddad
  * @author Dave Syer
  * @author Thomas Risberg
- * 
+ * @author Mark Fisher
  */
-
 public class RabbitConnectionFactoryCreator extends	AbstractServiceConnectorCreator<ConnectionFactory, AmqpServiceInfo> {
+
 	@Override
 	public ConnectionFactory create(AmqpServiceInfo serviceInfo, ServiceConnectorConfig serviceConnectorConfiguration) {
-		CachingConnectionFactory connectionFactory = new CachingConnectionFactory(serviceInfo.getHost());
-		connectionFactory.setVirtualHost(serviceInfo.getVirtualHost());
-		connectionFactory.setUsername(serviceInfo.getUserName());
-		connectionFactory.setPassword(serviceInfo.getPassword());
-		connectionFactory.setPort(serviceInfo.getPort());
-		
-		if (serviceConnectorConfiguration != null) {
-			connectionFactory.setChannelCacheSize(((RabbitConnectionFactoryConfig)serviceConnectorConfiguration).getChannelCacheSize());
+		com.rabbitmq.client.ConnectionFactory connectionFactory = new com.rabbitmq.client.ConnectionFactory();
+		try {
+			connectionFactory.setUri(serviceInfo.getUri());
 		}
-		
-		return connectionFactory;
+		catch (Exception e) {
+			throw new IllegalArgumentException("failed to create ConnectionFactory", e);
+		}
+		CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(connectionFactory);
+		if (serviceConnectorConfiguration != null) {
+			cachingConnectionFactory.setChannelCacheSize(((RabbitConnectionFactoryConfig)serviceConnectorConfiguration).getChannelCacheSize());
+		}
+		return cachingConnectionFactory;
 	}
+
 }

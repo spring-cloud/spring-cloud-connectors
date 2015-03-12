@@ -27,7 +27,7 @@ public class CloudFoundryConnectorOracleServiceTest extends AbstractUserProvided
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 
 		OracleServiceInfo info = (OracleServiceInfo) getServiceInfo(serviceInfos, SERVICE_NAME);
-		assertNotNull(info);
+		assertServiceFoundOfType(info, OracleServiceInfo.class);
 		assertEquals(getOracleJdbcUrl(INSTANCE_NAME), info.getJdbcUrl());
 	}
 

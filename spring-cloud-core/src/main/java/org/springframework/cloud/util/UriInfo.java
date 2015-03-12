@@ -18,16 +18,20 @@ public class UriInfo {
 	private String path;
 	private URI uri;
 	private String query;
+	private String rawUriString;
 
 	public UriInfo(String scheme, String host, int port, String username, String password) {
-		this(scheme, host, port, username, password, "");
+		this(scheme, host, port, username, password,
+				String.format("%s://%s:%s@%s:%s/", scheme, username, password, host, port));
 	}
 
 	public UriInfo(String scheme, String host, int port, String username, String password, String path) {
-		this(scheme, host, port, username, password, path, null);
+		this(scheme, host, port, username, password, path, null,
+				String.format("%s://%s:%s@%s:%s/%s", scheme, username, password, host, port, path));
 	}
 
-	public UriInfo(String scheme, String host, int port, String username, String password, String path, String query) {
+	public UriInfo(String scheme, String host, int port, String username, String password, String path,
+				   String query, String rawUriString) {
 		this.scheme = scheme;
 		this.host = host;
 		this.port = port;
@@ -35,6 +39,7 @@ public class UriInfo {
 		this.password = password;
 		this.path = path;
 		this.query = query;
+		this.rawUriString = rawUriString;
 
 		this.uri = buildUri();
 	}
@@ -69,6 +74,10 @@ public class UriInfo {
 
 	public URI getUri() {
 		return uri;
+	}
+
+	public String getRawUriString() {
+		return rawUriString;
 	}
 
 	private URI buildUri() {
