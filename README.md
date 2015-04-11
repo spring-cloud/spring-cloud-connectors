@@ -1,12 +1,12 @@
-# Spring Cloud [![Build Status](https://build.spring.io/plugins/servlet/buildStatusImage/CLOUD-NIGHTLY "Optional title")](https://build.spring.io/browse/CLOUD-NIGHTLY)
+# Spring Cloud Connectors [![Build Status](https://build.spring.io/plugins/servlet/buildStatusImage/CLOUD-NIGHTLY "Optional title")](https://build.spring.io/browse/CLOUD-NIGHTLY)
 
-Spring Cloud provides a simple abstraction for JVM-based applications running on cloud platforms
+Spring Cloud Connectors provides a simple abstraction for JVM-based applications running on cloud platforms
 to discover bound services and deployment information at runtime and provides support for registering
 discovered services as Spring beans. It is based on a plugin model so that the identical
 compiled application can be deployed locally or on multiple clouds, and it supports custom service
 definitions through Java SPI.
 
-Spring Cloud provides out-of-the-box support for discovering common services on Heroku and
+Spring Cloud Connectors provides out-of-the-box support for discovering common services on Heroku and
 Cloud Foundry clouds as well as a properties-based configuration for development and testing.
 
 The core concepts used in this project are:
@@ -51,7 +51,7 @@ connectors is perfectly fine; each connector will determine whether it should be
 particular environment.
 
 ````xml
-<!-- to use Spring Cloud for development -->
+<!-- to use Spring Cloud Connectors for development -->
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-localconfig-connector</artifactId>
@@ -115,5 +115,5 @@ the `<cloud>` namespace](spring-cloud-spring-service-connector).
 The [`spring-cloud-core`](core) dependency is included by each cloud connector,
 so simply include the connectors for the platforms you want.
 
-Then follow the [instructions](spring-cloud-core) on using the Spring Cloud API.
+Then follow the [instructions](spring-cloud-core) on using the Spring Cloud Connectors API.
 
