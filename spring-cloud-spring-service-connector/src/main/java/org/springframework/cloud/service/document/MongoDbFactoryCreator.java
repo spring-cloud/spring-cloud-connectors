@@ -7,7 +7,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
+import com.mongodb.MongoClientOptions.Builder;
+import com.mongodb.MongoCredential;
+import com.mongodb.MongoException;
+import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
+
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreationException;
@@ -17,13 +25,6 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
-
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientOptions.Builder;
-import com.mongodb.MongoException;
-import com.mongodb.ServerAddress;
-import com.mongodb.WriteConcern;
 
 /**
  * Simplified access to creating MongoDB service objects.
@@ -42,8 +43,10 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 			List<ServerAddress> serverAddressList = getServerAddresses(mongoClientURI);
 
 			MongoClient mongo = new MongoClient(serverAddressList, mongoOptionsToUse);
-			UserCredentials credentials = new UserCredentials(mongoClientURI.getUsername(), new String(mongoClientURI.getPassword()));
-			SimpleMongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase(), credentials);
+			MongoCredential mongoCredential =  mongoClientURI.getCredentials();
+			UserCredentials credentials = new UserCredentials(mongoCredential.getUserName(), new String(mongoCredential.getPassword()));
+
+			SimpleMongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase(), credentials, mongoCredential.getSource());
 
 			return configure(mongoDbFactory, (MongoDbFactoryConfig) config);
 		} catch (UnknownHostException e) {

@@ -3,11 +3,11 @@ package org.springframework.cloud.config;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import com.mongodb.MongoClient;
+import com.mongodb.WriteConcern;
+
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.mongodb.Mongo;
-import com.mongodb.WriteConcern;
 
 /**
  * 
@@ -31,9 +31,9 @@ public class MongoDbFactoryCloudConfigTestHelper {
 			assertEquals(writeConcernW.intValue(), writeConcern.getW());
 		}
 		
-		Mongo mongo = (Mongo) ReflectionTestUtils.getField(connector, "mongo");
-		assertEquals(connectionsPerHost.intValue(), mongo.getMongoOptions().connectionsPerHost);
-		assertEquals(maxWaitTime.intValue(), mongo.getMongoOptions().maxWaitTime);
+		MongoClient mongoClient = (MongoClient) ReflectionTestUtils.getField(connector, "mongo");
+		assertEquals(connectionsPerHost.intValue(), mongoClient.getMongoClientOptions().getConnectionsPerHost());
+		assertEquals(maxWaitTime.intValue(), mongoClient.getMongoClientOptions().getMaxWaitTime());
 	}
 
 }
