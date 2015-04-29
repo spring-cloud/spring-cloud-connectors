@@ -42,8 +42,14 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 			List<ServerAddress> serverAddressList = getServerAddresses(mongoClientURI);
 
 			MongoClient mongo = new MongoClient(serverAddressList, mongoOptionsToUse);
-			UserCredentials credentials = new UserCredentials(mongoClientURI.getUsername(), new String(mongoClientURI.getPassword()));
-			SimpleMongoDbFactory mongoDbFactory = new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase(), credentials);
+
+			SimpleMongoDbFactory mongoDbFactory;
+			if (mongoClientURI.getUsername() != null && mongoClientURI.getPassword() != null) {
+				UserCredentials credentials = new UserCredentials(mongoClientURI.getUsername(), new String(mongoClientURI.getPassword()));
+				mongoDbFactory = new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase(), credentials);
+			} else {
+				mongoDbFactory = new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase());
+			}
 
 			return configure(mongoDbFactory, (MongoDbFactoryConfig) config);
 		} catch (UnknownHostException e) {
