@@ -90,19 +90,23 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 	}
 
 	protected String getStringFromCredentials(Map<String, Object> credentials, String... keys) {
-		for (String key : keys) {
-			if (credentials.containsKey(key)) {
-				return (String) credentials.get(key);
+		if (credentials != null) {
+			for (String key : keys) {
+				if (credentials.containsKey(key)) {
+					return (String) credentials.get(key);
+				}
 			}
 		}
 		return null;
 	}
 
 	protected int getIntFromCredentials(Map<String, Object> credentials, String... keys) {
-		for (String key : keys) {
-			if (credentials.containsKey(key)) {
-				// allows the value to be quoted as a String or native integer type
-				return Integer.parseInt(credentials.get(key).toString());
+		if (credentials != null) {
+			for (String key : keys) {
+				if (credentials.containsKey(key)) {
+					// allows the value to be quoted as a String or native integer type
+					return Integer.parseInt(credentials.get(key).toString());
+				}
 			}
 		}
 		return -1;
