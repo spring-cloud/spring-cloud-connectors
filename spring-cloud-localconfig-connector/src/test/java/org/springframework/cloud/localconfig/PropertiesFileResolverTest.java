@@ -1,5 +1,6 @@
 package org.springframework.cloud.localconfig;
 
+import static java.io.File.separator;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -12,7 +13,7 @@ public class PropertiesFileResolverTest {
 
     private PropertiesFileResolver resolver;
 
-    private String PROPERTIES_FILE_NAME = "/foo/bar.properties";
+    private String PROPERTIES_FILE_NAME = separator + "foo" + separator + "bar.properties";
 
     @Before
     public void setDefaults() {
