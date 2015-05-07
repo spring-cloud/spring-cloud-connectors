@@ -46,106 +46,106 @@ import org.springframework.cloud.service.ServiceInfo;
  *
  */
 public class CloudScanHelper {
-    private static final String CLOUD_FACTORY_BEAN_NAME = "__cloud_factory__";
-    private static Logger logger = Logger.getLogger(CloudScanHelper.class.getName());
-    
-    private Cloud cloud;
+	private static final String CLOUD_FACTORY_BEAN_NAME = "__cloud_factory__";
+	private static Logger logger = Logger.getLogger(CloudScanHelper.class.getName());
 
-    public void registerServiceBeans(BeanDefinitionRegistry registry) {
-        initializeCloud(registry);
-        List<ServiceInfo> serviceInfos = cloud.getServiceInfos();
-        
-        for(ServiceInfo serviceInfo: serviceInfos) {
-            registerServiceBean(registry, serviceInfo);
-        }
-    }
-    
-    public void registerApplicationInstanceBean(BeanDefinitionRegistry registry) {
-        initializeCloud(registry);
-        
-        BeanDefinitionBuilder definitionBuilder = 
-                BeanDefinitionBuilder.genericBeanDefinition(ApplicationInstanceInfoWrapper.class);
-        definitionBuilder.addConstructorArgValue(cloud);
-        definitionBuilder.getRawBeanDefinition().setAttribute(
-                                  "factoryBeanObjectType", ApplicationInstanceInfo.class);
-        registry.registerBeanDefinition("spring.cloud.appplicationInstanceInfo", definitionBuilder.getBeanDefinition());
-    }
+	private Cloud cloud;
 
-    private void initializeCloud(BeanDefinitionRegistry registry) {
-        if (cloud != null) {
-            return;
-        }
-        
-        ConfigurableListableBeanFactory beanFactory = (ConfigurableListableBeanFactory) registry;
-        
-        if(beanFactory.getBeansOfType(CloudFactory.class).isEmpty()) {
-            beanFactory.registerSingleton(CLOUD_FACTORY_BEAN_NAME, new CloudFactory());
-        }
-        CloudFactory cloudFactory = beanFactory.getBeansOfType(CloudFactory.class).values().iterator().next();
-        cloud = cloudFactory.getCloud();
-    }
-    
-    private void registerServiceBean(BeanDefinitionRegistry registry, ServiceInfo serviceInfo) {
-        try {
-            GenericCloudServiceConnectorFactory serviceFactory = 
-                    new GenericCloudServiceConnectorFactory(serviceInfo.getId(), null);
-            serviceFactory.setBeanFactory((BeanFactory) registry);
-            serviceFactory.afterPropertiesSet();            
-            BeanDefinitionBuilder definitionBuilder = 
-                    BeanDefinitionBuilder.genericBeanDefinition(ScannedServiceWrapper.class);
-            definitionBuilder.addConstructorArgValue(serviceFactory);
-            definitionBuilder.getRawBeanDefinition().setAttribute(
-                                      "factoryBeanObjectType", serviceFactory.getObjectType());
-            registry.registerBeanDefinition(serviceInfo.getId(), definitionBuilder.getBeanDefinition());
-        } catch (Exception ex) {
-            logger.warning("Unable to create service for " + serviceInfo.getId() + " during service scanning. Skiping.");
-        }
-    }
+	public void registerServiceBeans(BeanDefinitionRegistry registry) {
+		initializeCloud(registry);
+		List<ServiceInfo> serviceInfos = cloud.getServiceInfos();
 
-    public static class ScannedServiceWrapper implements FactoryBean<Object> {
-        private GenericCloudServiceConnectorFactory cloudServiceConnectorFactory;
-        
-        public ScannedServiceWrapper(GenericCloudServiceConnectorFactory cloudServiceConnectorFactory) {
-            this.cloudServiceConnectorFactory = cloudServiceConnectorFactory;
-        }
-        
-        @Override
-        public Object getObject() throws Exception {
-            return cloudServiceConnectorFactory.getObject();
-        }
+		for(ServiceInfo serviceInfo: serviceInfos) {
+			registerServiceBean(registry, serviceInfo);
+		}
+	}
 
-        @Override
-        public Class<?> getObjectType() {
-            return cloudServiceConnectorFactory.getObjectType();
-        }
+	public void registerApplicationInstanceBean(BeanDefinitionRegistry registry) {
+		initializeCloud(registry);
 
-        @Override
-        public boolean isSingleton() {
-            return true;
-        }
-    }
+		BeanDefinitionBuilder definitionBuilder =
+				BeanDefinitionBuilder.genericBeanDefinition(ApplicationInstanceInfoWrapper.class);
+		definitionBuilder.addConstructorArgValue(cloud);
+		definitionBuilder.getRawBeanDefinition().setAttribute(
+								  "factoryBeanObjectType", ApplicationInstanceInfo.class);
+		registry.registerBeanDefinition("spring.cloud.appplicationInstanceInfo", definitionBuilder.getBeanDefinition());
+	}
 
-    public static class ApplicationInstanceInfoWrapper implements FactoryBean<ApplicationInstanceInfo> {
-        private Cloud cloud;
-        
-        public ApplicationInstanceInfoWrapper(Cloud cloud) {
-            this.cloud = cloud;
-        }
-        
-        @Override
-        public ApplicationInstanceInfo getObject() throws Exception {
-            return cloud.getApplicationInstanceInfo();
-        }
+	private void initializeCloud(BeanDefinitionRegistry registry) {
+		if (cloud != null) {
+			return;
+		}
 
-        @Override
-        public Class<?> getObjectType() {
-            return ApplicationInstanceInfo.class;
-        }
+		ConfigurableListableBeanFactory beanFactory = (ConfigurableListableBeanFactory) registry;
 
-        @Override
-        public boolean isSingleton() {
-            return true;
-        }
-        
-    }
+		if(beanFactory.getBeansOfType(CloudFactory.class).isEmpty()) {
+			beanFactory.registerSingleton(CLOUD_FACTORY_BEAN_NAME, new CloudFactory());
+		}
+		CloudFactory cloudFactory = beanFactory.getBeansOfType(CloudFactory.class).values().iterator().next();
+		cloud = cloudFactory.getCloud();
+	}
+
+	private void registerServiceBean(BeanDefinitionRegistry registry, ServiceInfo serviceInfo) {
+		try {
+			GenericCloudServiceConnectorFactory serviceFactory =
+					new GenericCloudServiceConnectorFactory(serviceInfo.getId(), null);
+			serviceFactory.setBeanFactory((BeanFactory) registry);
+			serviceFactory.afterPropertiesSet();
+			BeanDefinitionBuilder definitionBuilder =
+					BeanDefinitionBuilder.genericBeanDefinition(ScannedServiceWrapper.class);
+			definitionBuilder.addConstructorArgValue(serviceFactory);
+			definitionBuilder.getRawBeanDefinition().setAttribute(
+									  "factoryBeanObjectType", serviceFactory.getObjectType());
+			registry.registerBeanDefinition(serviceInfo.getId(), definitionBuilder.getBeanDefinition());
+		} catch (Exception ex) {
+			logger.warning("Unable to create service for " + serviceInfo.getId() + " during service scanning. Skiping.");
+		}
+	}
+
+	public static class ScannedServiceWrapper implements FactoryBean<Object> {
+		private GenericCloudServiceConnectorFactory cloudServiceConnectorFactory;
+
+		public ScannedServiceWrapper(GenericCloudServiceConnectorFactory cloudServiceConnectorFactory) {
+			this.cloudServiceConnectorFactory = cloudServiceConnectorFactory;
+		}
+
+		@Override
+		public Object getObject() throws Exception {
+			return cloudServiceConnectorFactory.getObject();
+		}
+
+		@Override
+		public Class<?> getObjectType() {
+			return cloudServiceConnectorFactory.getObjectType();
+		}
+
+		@Override
+		public boolean isSingleton() {
+			return true;
+		}
+	}
+
+	public static class ApplicationInstanceInfoWrapper implements FactoryBean<ApplicationInstanceInfo> {
+		private Cloud cloud;
+
+		public ApplicationInstanceInfoWrapper(Cloud cloud) {
+			this.cloud = cloud;
+		}
+
+		@Override
+		public ApplicationInstanceInfo getObject() throws Exception {
+			return cloud.getApplicationInstanceInfo();
+		}
+
+		@Override
+		public Class<?> getObjectType() {
+			return ApplicationInstanceInfo.class;
+		}
+
+		@Override
+		public boolean isSingleton() {
+			return true;
+		}
+
+	}
 }

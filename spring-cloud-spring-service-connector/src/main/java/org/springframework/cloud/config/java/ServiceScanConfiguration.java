@@ -15,10 +15,10 @@ import org.springframework.core.type.AnnotationMetadata;
  */
 @Configuration
 public class ServiceScanConfiguration implements ImportBeanDefinitionRegistrar {
-    private CloudScanHelper helper = new CloudScanHelper();
-    
-    @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) throws BeansException {
-        helper.registerServiceBeans(registry);
-    }
+	private CloudScanHelper helper = new CloudScanHelper();
+
+	@Override
+	public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) throws BeansException {
+		helper.registerServiceBeans(registry);
+	}
 }

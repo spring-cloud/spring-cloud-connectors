@@ -24,116 +24,116 @@ import org.springframework.util.StringUtils;
  *            The service type
  */
 public abstract class AbstractCloudServiceConnectorFactory<S> extends AbstractFactoryBean<S> implements
-    CloudServiceConnectorFactory<S> {
+	CloudServiceConnectorFactory<S> {
 
-    private static final String CLOUD_FACTORY_BEAN_NAME = "__cloud_factory__";
+	private static final String CLOUD_FACTORY_BEAN_NAME = "__cloud_factory__";
 
-    private Cloud cloud;
+	private Cloud cloud;
 
-    protected String serviceId;
-    private Class<? extends S> serviceConnectorType;
-    private ServiceConnectorConfig serviceConnectorConfiguration;
+	protected String serviceId;
+	private Class<? extends S> serviceConnectorType;
+	private ServiceConnectorConfig serviceConnectorConfiguration;
 
-    private S serviceInstance;
+	private S serviceInstance;
 
-    /**
-     *
-     * @param serviceId
-     *            Optional service name property. If this property is null, a unique service of the expected type
-     *            (redis, for example) needs to be bound to the application.
-     * @param serviceConnectorType
-     *            the class of the service connector that will be returned
-     * @param serviceConnectorConfiguration
-     *            configuration to be applied to the service connector
-     */
-    public AbstractCloudServiceConnectorFactory(String serviceId, Class<S> serviceConnectorType,
-        ServiceConnectorConfig serviceConnectorConfiguration) {
-        this.serviceId = serviceId;
-        this.serviceConnectorType = serviceConnectorType;
-        this.serviceConnectorConfiguration = serviceConnectorConfiguration;
-    }
+	/**
+	 *
+	 * @param serviceId
+	 *            Optional service name property. If this property is null, a unique service of the expected type
+	 *            (redis, for example) needs to be bound to the application.
+	 * @param serviceConnectorType
+	 *            the class of the service connector that will be returned
+	 * @param serviceConnectorConfiguration
+	 *            configuration to be applied to the service connector
+	 */
+	public AbstractCloudServiceConnectorFactory(String serviceId, Class<S> serviceConnectorType,
+		ServiceConnectorConfig serviceConnectorConfiguration) {
+		this.serviceId = serviceId;
+		this.serviceConnectorType = serviceConnectorType;
+		this.serviceConnectorConfiguration = serviceConnectorConfiguration;
+	}
 
-    public AbstractCloudServiceConnectorFactory(Class<S> serviceConnectorType, ServiceConnectorConfig serviceConnectorConfiguration) {
-        this(null, serviceConnectorType, serviceConnectorConfiguration);
-    }
+	public AbstractCloudServiceConnectorFactory(Class<S> serviceConnectorType, ServiceConnectorConfig serviceConnectorConfiguration) {
+		this(null, serviceConnectorType, serviceConnectorConfiguration);
+	}
 
-    /**
-     * Set the cloud, for internal testing purpose only.
-     *
-     * <p>
-     * For normal usage, the {@link InitializingBean} approach will create (if needed) a {@link CloudFactory} and obtain a
-     * {@link Cloud} from it.
-     *
-     * @param cloud
-     *            the {@link Cloud} instance describing the discovered runtime environment
-     */
-    public void setCloud(Cloud cloud) {
-        this.cloud = cloud;
-    }
+	/**
+	 * Set the cloud, for internal testing purpose only.
+	 *
+	 * <p>
+	 * For normal usage, the {@link InitializingBean} approach will create (if needed) a {@link CloudFactory} and obtain a
+	 * {@link Cloud} from it.
+	 *
+	 * @param cloud
+	 *            the {@link Cloud} instance describing the discovered runtime environment
+	 */
+	public void setCloud(Cloud cloud) {
+		this.cloud = cloud;
+	}
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        ConfigurableListableBeanFactory beanFactory = (ConfigurableListableBeanFactory) getBeanFactory();
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		ConfigurableListableBeanFactory beanFactory = (ConfigurableListableBeanFactory) getBeanFactory();
 
-        if (cloud == null) {
-            if (beanFactory.getBeansOfType(CloudFactory.class).isEmpty()) {
-                beanFactory.registerSingleton(CLOUD_FACTORY_BEAN_NAME, new CloudFactory());
-            }
-            CloudFactory cloudFactory = beanFactory.getBeansOfType(CloudFactory.class).values().iterator().next();
-            cloud = cloudFactory.getCloud();
-        }
-        if (!StringUtils.hasText(serviceId)) {
-            List<? extends ServiceInfo> infos = cloud.getServiceInfos(serviceConnectorType);
-            if (infos.size() != 1) {
-                throw new CloudException("Expected 1 service matching " + serviceConnectorType.getName() + " type, but found "
-                    + infos.size());
-            }
-            serviceId = infos.get(0).getId();
-        }
+		if (cloud == null) {
+			if (beanFactory.getBeansOfType(CloudFactory.class).isEmpty()) {
+				beanFactory.registerSingleton(CLOUD_FACTORY_BEAN_NAME, new CloudFactory());
+			}
+			CloudFactory cloudFactory = beanFactory.getBeansOfType(CloudFactory.class).values().iterator().next();
+			cloud = cloudFactory.getCloud();
+		}
+		if (!StringUtils.hasText(serviceId)) {
+			List<? extends ServiceInfo> infos = cloud.getServiceInfos(serviceConnectorType);
+			if (infos.size() != 1) {
+				throw new CloudException("Expected 1 service matching " + serviceConnectorType.getName() + " type, but found "
+					+ infos.size());
+			}
+			serviceId = infos.get(0).getId();
+		}
 
-        super.afterPropertiesSet();
-    }
+		super.afterPropertiesSet();
+	}
 
-    @Override
-    protected S createInstance() throws Exception {
-        return createService();
-    }
+	@Override
+	protected S createInstance() throws Exception {
+		return createService();
+	}
 
-    @SuppressWarnings("unchecked")
-    public S createService() {
-        if (serviceInstance == null && cloud != null) {
-            serviceInstance = cloud.getServiceConnector(serviceId, serviceConnectorType, serviceConnectorConfiguration);
-            if (serviceInstance != null && FactoryBean.class.isAssignableFrom(serviceInstance.getClass())) {
-                try {
-                    serviceInstance = (S) ((FactoryBean) serviceInstance).getObject();
-                } catch (Exception e) {
-                    return null;
-                }
-            }
-        }
-        return serviceInstance;
-    }
+	@SuppressWarnings("unchecked")
+	public S createService() {
+		if (serviceInstance == null && cloud != null) {
+			serviceInstance = cloud.getServiceConnector(serviceId, serviceConnectorType, serviceConnectorConfiguration);
+			if (serviceInstance != null && FactoryBean.class.isAssignableFrom(serviceInstance.getClass())) {
+				try {
+					serviceInstance = (S) ((FactoryBean) serviceInstance).getObject();
+				} catch (Exception e) {
+					return null;
+				}
+			}
+		}
+		return serviceInstance;
+	}
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public Class<?> getObjectType() {
-        if (serviceConnectorType == null) {
-            try {
-                serviceConnectorType = (Class<? extends S>) createService().getClass();
-            } catch (Exception e) {
-                return null;
-            }
-        }
-        return serviceConnectorType;
-    }
+	@Override
+	@SuppressWarnings("unchecked")
+	public Class<?> getObjectType() {
+		if (serviceConnectorType == null) {
+			try {
+				serviceConnectorType = (Class<? extends S>) createService().getClass();
+			} catch (Exception e) {
+				return null;
+			}
+		}
+		return serviceConnectorType;
+	}
 
-    public String getServiceId() {
-        return serviceId;
-    }
+	public String getServiceId() {
+		return serviceId;
+	}
 
-    public void setServiceConnectorType(Class<? extends S> serviceConnectorType) {
-        if (serviceConnectorType != null) {
-            this.serviceConnectorType = serviceConnectorType;
-        }
-    }
+	public void setServiceConnectorType(Class<? extends S> serviceConnectorType) {
+		if (serviceConnectorType != null) {
+			this.serviceConnectorType = serviceConnectorType;
+		}
+	}
 }
