@@ -7,7 +7,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientURI;
+import com.mongodb.MongoClientOptions.Builder;
+import com.mongodb.MongoCredential;
+import com.mongodb.MongoException;
+import com.mongodb.ServerAddress;
+import com.mongodb.WriteConcern;
+
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreationException;
@@ -17,13 +25,6 @@ import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
-
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientOptions.Builder;
-import com.mongodb.MongoException;
-import com.mongodb.ServerAddress;
-import com.mongodb.WriteConcern;
 
 /**
  * Simplified access to creating MongoDB service objects.
@@ -38,18 +39,7 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 		try {
 			MongoClientOptions mongoOptionsToUse = getMongoOptions((MongoDbFactoryConfig) config);
 
-			MongoClientURI mongoClientURI = new MongoClientURI(serviceInfo.getUri());
-			List<ServerAddress> serverAddressList = getServerAddresses(mongoClientURI);
-
-			MongoClient mongo = new MongoClient(serverAddressList, mongoOptionsToUse);
-
-			SimpleMongoDbFactory mongoDbFactory;
-			if (mongoClientURI.getUsername() != null && mongoClientURI.getPassword() != null) {
-				UserCredentials credentials = new UserCredentials(mongoClientURI.getUsername(), new String(mongoClientURI.getPassword()));
-				mongoDbFactory = new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase(), credentials);
-			} else {
-				mongoDbFactory = new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase());
-			}
+			SimpleMongoDbFactory mongoDbFactory = createMongoDbFactory(serviceInfo, mongoOptionsToUse);
 
 			return configure(mongoDbFactory, (MongoDbFactoryConfig) config);
 		} catch (UnknownHostException e) {
@@ -57,6 +47,21 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 		} catch (MongoException e) {
 			throw new ServiceConnectorCreationException(e);
 		}
+	}
+
+	private SimpleMongoDbFactory createMongoDbFactory(MongoServiceInfo serviceInfo, MongoClientOptions mongoOptionsToUse) throws UnknownHostException {
+		MongoClientURI mongoClientURI = new MongoClientURI(serviceInfo.getUri());
+		List<ServerAddress> serverAddressList = getServerAddresses(mongoClientURI);
+
+		MongoClient mongo = new MongoClient(serverAddressList, mongoOptionsToUse);
+		MongoCredential mongoCredential =  mongoClientURI.getCredentials();
+
+		if (mongoCredential.getUserName() != null && mongoCredential.getPassword() != null) {
+			UserCredentials credentials = new UserCredentials(mongoCredential.getUserName(), new String(mongoCredential.getPassword()));
+			return new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase(), credentials, mongoCredential.getSource());
+		}
+
+		return new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase());
 	}
 
 	private List<ServerAddress> getServerAddresses(MongoClientURI mongoClientURI) throws UnknownHostException {
