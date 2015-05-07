@@ -2,6 +2,7 @@ package org.springframework.cloud.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -98,15 +99,23 @@ public abstract class AbstractCloudServiceConnectorFactory<S> extends AbstractFa
         return createService();
     }
 
+    @SuppressWarnings("unchecked")
     public S createService() {
         if (serviceInstance == null && cloud != null) {
             serviceInstance = cloud.getServiceConnector(serviceId, serviceConnectorType, serviceConnectorConfiguration);
+            if (serviceInstance != null && FactoryBean.class.isAssignableFrom(serviceInstance.getClass())) {
+                try {
+                    serviceInstance = (S) ((FactoryBean) serviceInstance).getObject();
+                } catch (Exception e) {
+                    return null;
+                }
+            }
         }
         return serviceInstance;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
+    @SuppressWarnings("unchecked")
     public Class<?> getObjectType() {
         if (serviceConnectorType == null) {
             try {
