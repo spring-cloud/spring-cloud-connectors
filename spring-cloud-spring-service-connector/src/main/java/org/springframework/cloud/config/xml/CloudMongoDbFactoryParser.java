@@ -7,15 +7,15 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.cloud.service.document.MongoDbFactoryFactory;
 import org.springframework.util.StringUtils;
+import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Parser for the {@code <cloud:mongo-db-factory>} namespace element
  *
  * @author Thomas Risberg
  * @author Ramnivas Laddad
+ * @author Scott Frederick
  */
 public class CloudMongoDbFactoryParser extends AbstractNestedElementCloudServiceFactoryParser {
 
@@ -34,7 +34,7 @@ public class CloudMongoDbFactoryParser extends AbstractNestedElementCloudService
 
 		Map<String, String> attributeMap = new HashMap<String, String>();
 		parseWriteConcern(element, attributeMap);
-		parseMongoOptionsElement(element, parserContext, attributeMap);
+		parseMongoOptionsElement(element, attributeMap);
 
 		BeanDefinitionBuilder cloudMongoConfigurationBeanBuilder =
 				BeanDefinitionBuilder.genericBeanDefinition("org.springframework.cloud.service.document.MongoDbFactoryConfig");
@@ -53,21 +53,16 @@ public class CloudMongoDbFactoryParser extends AbstractNestedElementCloudService
 		}
 	}
 
-	private void parseMongoOptionsElement(Element element, ParserContext parserContext, Map<String, String> attributeMap) {
-		NodeList childNodes = element.getChildNodes();
-
-		for (int i = 0; i < childNodes.getLength(); i++) {
-			Node child = childNodes.item(i);
-			if (isElement(child, parserContext, ELEMENT_MONGO_OPTIONS)) {
-				Element optionElement = (Element) child;
-				String connectionsPerHost = optionElement.getAttribute(CONNECTIONS_PER_HOST);
-				if (StringUtils.hasText(connectionsPerHost)) {
-					attributeMap.put(CONNECTIONS_PER_HOST, connectionsPerHost);
-				}
-				String maxWaitTime = optionElement.getAttribute(MAX_WAIT_TIME);
-				if (StringUtils.hasText(maxWaitTime)) {
-					attributeMap.put(MAX_WAIT_TIME, maxWaitTime);
-				}
+	private void parseMongoOptionsElement(Element element, Map<String, String> attributeMap) {
+		Element optionsElement = DomUtils.getChildElementByTagName(element, ELEMENT_MONGO_OPTIONS);
+		if (optionsElement != null) {
+			String connectionsPerHost = optionsElement.getAttribute(CONNECTIONS_PER_HOST);
+			if (StringUtils.hasText(connectionsPerHost)) {
+				attributeMap.put(CONNECTIONS_PER_HOST, connectionsPerHost);
+			}
+			String maxWaitTime = optionsElement.getAttribute(MAX_WAIT_TIME);
+			if (StringUtils.hasText(maxWaitTime)) {
+				attributeMap.put(MAX_WAIT_TIME, maxWaitTime);
 			}
 		}
 	}

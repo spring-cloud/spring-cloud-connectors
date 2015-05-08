@@ -4,10 +4,13 @@
 	xmlns:cloud="http://www.springframework.org/schema/cloud"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd">
-	
-		 
+
 	<cloud:rabbit-connection-factory id="service-channelCacheSize200" service-name="my-service">
-	    <cloud:rabbit-options channel-cache-size="200"/>
+	    <cloud:rabbit-options channel-cache-size="200">
+			<cloud:connection-properties>
+				<entry key="requestedHeartbeat" value="5"/>
+				<entry key="connectionTimeout" value="10"/>
+			</cloud:connection-properties>
+		</cloud:rabbit-options>
 	</cloud:rabbit-connection-factory>
-				
 </beans>

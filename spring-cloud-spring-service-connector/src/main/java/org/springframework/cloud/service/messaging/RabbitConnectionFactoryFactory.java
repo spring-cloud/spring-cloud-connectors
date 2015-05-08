@@ -5,7 +5,7 @@ import org.springframework.cloud.service.AbstractCloudServiceConnectorFactory;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 
 /**
- * Spring factory bean for redis service.
+ * Spring factory bean for RabbitMQ service.
  *
  * @author Ramnivas Laddad
  *

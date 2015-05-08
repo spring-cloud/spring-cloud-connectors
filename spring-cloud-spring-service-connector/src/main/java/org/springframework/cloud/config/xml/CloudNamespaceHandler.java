@@ -26,6 +26,8 @@ public class CloudNamespaceHandler extends NamespaceHandlerSupport {
 		registerBeanDefinitionParser("mongo-db-factory", new CloudMongoDbFactoryParser());
 		registerBeanDefinitionParser("data-source", new CloudDataSourceFactoryParser());
 
+		registerBeanDefinitionParser("connection-properties", new ConnectionPropertiesParser());
+
 		this.registerBeanDefinitionParser("properties", new AbstractSimpleBeanDefinitionParser() {
 			@Override
 			protected Class<?> getBeanClass(Element element) {

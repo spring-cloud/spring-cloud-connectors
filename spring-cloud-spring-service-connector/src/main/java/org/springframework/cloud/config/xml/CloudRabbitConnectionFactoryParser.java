@@ -4,19 +4,23 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryFactory;
+import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+
+import java.util.Map;
 
 /**
  * Parser for the {@code <cloud:rabbit-connection-factory>} namespace element
  *
  * @author Thomas Risberg
  * @author Ramnivas Laddad
+ * @author Scott Frederick
  */
 public class CloudRabbitConnectionFactoryParser extends AbstractNestedElementCloudServiceFactoryParser {
 
-	private static final String ELEMENT_RABBIT_OPTIONS = "rabbit-options";
+	private static final String RABBIT_OPTIONS = "rabbit-options";
+	private static final String CONNECTION_PROPERTIES = "connection-properties";
+	private static final String CHANNEL_CACHE_SIZE = "channel-cache-size";
 
 	public CloudRabbitConnectionFactoryParser() {
 		super(RabbitConnectionFactoryFactory.class);
@@ -25,25 +29,29 @@ public class CloudRabbitConnectionFactoryParser extends AbstractNestedElementClo
 	@Override
 	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
 		super.doParse(element, parserContext, builder);
+
 		BeanDefinition cloudRabbitConfiguration = null;
-		NodeList childNodes = element.getChildNodes();
-		for (int i = 0; i < childNodes.getLength(); i++) {
-			Node child = childNodes.item(i);
-			if (isElement(child, parserContext, ELEMENT_RABBIT_OPTIONS)) {
-				cloudRabbitConfiguration = parseRabbitOptionsElement((Element) child);
-			}
+		Element rabbitOptionsElement = DomUtils.getChildElementByTagName(element, RABBIT_OPTIONS);
+		if (rabbitOptionsElement != null) {
+			cloudRabbitConfiguration = parseRabbitOptionsElement(rabbitOptionsElement, parserContext);
 		}
 
 		builder.addConstructorArgValue(cloudRabbitConfiguration);
 	}
 
-	private BeanDefinition parseRabbitOptionsElement(Element element) {
-		BeanDefinitionBuilder cloudRabbitConfigurationBeanBuilder =
+	private BeanDefinition parseRabbitOptionsElement(Element element, ParserContext parserContext) {
+		BeanDefinitionBuilder configBeanBuilder =
 				BeanDefinitionBuilder.genericBeanDefinition("org.springframework.cloud.service.messaging.RabbitConnectionFactoryConfig");
-		String channelCacheSize = element.getAttribute("channel-cache-size");
 
-		cloudRabbitConfigurationBeanBuilder.addConstructorArgValue(channelCacheSize);
+		Element propertiesElement = DomUtils.getChildElementByTagName(element, CONNECTION_PROPERTIES);
+		if (propertiesElement != null) {
+			Map<?, ?> map = parserContext.getDelegate().parseMapElement(propertiesElement, configBeanBuilder.getRawBeanDefinition());
+			configBeanBuilder.addConstructorArgValue(map);
+		}
 
-		return cloudRabbitConfigurationBeanBuilder.getBeanDefinition();
+		String channelCacheSize = element.getAttribute(CHANNEL_CACHE_SIZE);
+		configBeanBuilder.addConstructorArgValue(channelCacheSize);
+
+		return configBeanBuilder.getBeanDefinition();
 	}
 }

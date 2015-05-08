@@ -30,11 +30,11 @@ public class RabbitConnectionFactoryXmlConfigTest extends AbstractServiceXmlConf
 	}
 	
 	@Test
-	public void cloudRabbitConnectionFactoryWithChannelCacheSize() {
+	public void cloudRabbitConnectionFactoryWithConfiguration() {
 		ApplicationContext testContext = getTestApplicationContext("cloud-rabbit-with-config.xml", createService("my-service"));
 		
 		ConnectionFactory connector = testContext.getBean("service-channelCacheSize200", getConnectorType());
-		RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties(connector, 200);
+		RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties(connector, 200, 5, 10);
 	}
 	
 }

@@ -282,13 +282,43 @@
 				Element defining optional Rabbit configuration settings.
 			]]></xsd:documentation>
 		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element ref="connection-properties" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
 		<xsd:attribute name="channel-cache-size" type="xsd:string" use="optional">
 			<xsd:annotation>
 				<xsd:documentation><![CDATA[
-					The size of the channel cache.
-				]]></xsd:documentation>
+						The size of the channel cache.
+					]]></xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:element name="connection-properties" type="mapType">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+			Additional connection configuration properties.
+			]]></xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+
+	<xsd:complexType name="mapType">
+		<xsd:complexContent>
+			<xsd:extension base="beans:mapType">
+				<xsd:attribute name="ref" use="optional">
+					<xsd:annotation>
+						<xsd:documentation source="java:java.util.Map"><![CDATA[
+						The bean name of the Map to pass as configuration options.
+						]]></xsd:documentation>
+						<xsd:appinfo>
+							<tool:annotation kind="ref">
+								<tool:expected-type type="java.util.Map" />
+							</tool:annotation>
+						</xsd:appinfo>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 
 </xsd:schema>
