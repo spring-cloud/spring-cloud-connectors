@@ -13,6 +13,7 @@ import org.springframework.test.util.ReflectionTestUtils;
  *
  */
 public class RabbitConnectionFactoryCloudConfigTestHelper {
+	public static final int DEFAULT_CHANNEL_CACHE_SIZE = 1;
 	
 	public static void assertConfigProperties(ConnectionFactory connector, Integer channelCacheSize,
 											  Integer requestedHeartbeat, Integer connectionTimeout) {

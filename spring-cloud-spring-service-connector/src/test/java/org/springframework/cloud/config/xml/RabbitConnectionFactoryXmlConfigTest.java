@@ -6,6 +6,8 @@ import org.springframework.cloud.config.RabbitConnectionFactoryCloudConfigTestHe
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.context.ApplicationContext;
 
+import static org.springframework.cloud.config.RabbitConnectionFactoryCloudConfigTestHelper.DEFAULT_CHANNEL_CACHE_SIZE;
+
 /**
  * 
  * @author Ramnivas Laddad
@@ -34,7 +36,22 @@ public class RabbitConnectionFactoryXmlConfigTest extends AbstractServiceXmlConf
 		ApplicationContext testContext = getTestApplicationContext("cloud-rabbit-with-config.xml", createService("my-service"));
 		
 		ConnectionFactory connector = testContext.getBean("service-channelCacheSize200", getConnectorType());
-		RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties(connector, 200, 5, 10);
+		RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties(connector, 200, 0, 0);
 	}
 	
+	@Test
+	public void cloudRabbitConnectionFactoryWithProperties() {
+		ApplicationContext testContext = getTestApplicationContext("cloud-rabbit-with-config.xml", createService("my-service"));
+
+		ConnectionFactory connector = testContext.getBean("service-properties", getConnectorType());
+		RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties(connector, DEFAULT_CHANNEL_CACHE_SIZE, 5, 10);
+	}
+
+	@Test
+	public void cloudRabbitConnectionFactoryWithConfigurationAndProperties() {
+		ApplicationContext testContext = getTestApplicationContext("cloud-rabbit-with-config.xml", createService("my-service"));
+
+		ConnectionFactory connector = testContext.getBean("service-channelCacheSize200-properties", getConnectorType());
+		RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties(connector, 200, 5, 10);
+	}
 }

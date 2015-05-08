@@ -3,6 +3,7 @@ package org.springframework.cloud.config.xml;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.ParserContext;
+import org.springframework.cloud.service.messaging.RabbitConnectionFactoryConfig;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryFactory;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
@@ -30,28 +31,30 @@ public class CloudRabbitConnectionFactoryParser extends AbstractNestedElementClo
 	protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
 		super.doParse(element, parserContext, builder);
 
-		BeanDefinition cloudRabbitConfiguration = null;
-		Element rabbitOptionsElement = DomUtils.getChildElementByTagName(element, RABBIT_OPTIONS);
-		if (rabbitOptionsElement != null) {
-			cloudRabbitConfiguration = parseRabbitOptionsElement(rabbitOptionsElement, parserContext);
-		}
+		BeanDefinition cloudRabbitConfiguration = parseRabbitOptionsElement(element, parserContext);
 
 		builder.addConstructorArgValue(cloudRabbitConfiguration);
 	}
 
 	private BeanDefinition parseRabbitOptionsElement(Element element, ParserContext parserContext) {
 		BeanDefinitionBuilder configBeanBuilder =
-				BeanDefinitionBuilder.genericBeanDefinition("org.springframework.cloud.service.messaging.RabbitConnectionFactoryConfig");
+				BeanDefinitionBuilder.genericBeanDefinition(RabbitConnectionFactoryConfig.class.getName());
 
 		Element propertiesElement = DomUtils.getChildElementByTagName(element, CONNECTION_PROPERTIES);
 		if (propertiesElement != null) {
-			Map<?, ?> map = parserContext.getDelegate().parseMapElement(propertiesElement, configBeanBuilder.getRawBeanDefinition());
-			configBeanBuilder.addConstructorArgValue(map);
+			Map<?, ?> properties = parserContext.getDelegate().parseMapElement(propertiesElement, configBeanBuilder.getRawBeanDefinition());
+			configBeanBuilder.addConstructorArgValue(properties);
 		}
 
-		String channelCacheSize = element.getAttribute(CHANNEL_CACHE_SIZE);
-		configBeanBuilder.addConstructorArgValue(channelCacheSize);
+		Element rabbitOptionsElement = DomUtils.getChildElementByTagName(element, RABBIT_OPTIONS);
+		if (rabbitOptionsElement != null) {
+			String channelCacheSize = rabbitOptionsElement.getAttribute(CHANNEL_CACHE_SIZE);
+			configBeanBuilder.addConstructorArgValue(channelCacheSize);
+		}
 
+		if (propertiesElement == null && rabbitOptionsElement == null) {
+			return null;
+		}
 		return configBeanBuilder.getBeanDefinition();
 	}
 }

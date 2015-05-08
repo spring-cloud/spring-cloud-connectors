@@ -32,7 +32,10 @@ public class RabbitConnectionFactoryCreator extends	AbstractServiceConnectorCrea
 		CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(connectionFactory);
 
 		if (serviceConnectorConfiguration != null) {
-			cachingConnectionFactory.setChannelCacheSize(((RabbitConnectionFactoryConfig)serviceConnectorConfiguration).getChannelCacheSize());
+			Integer channelCacheSize = ((RabbitConnectionFactoryConfig) serviceConnectorConfiguration).getChannelCacheSize();
+			if (channelCacheSize != null) {
+				cachingConnectionFactory.setChannelCacheSize(channelCacheSize);
+			}
 		}
 
 		return cachingConnectionFactory;

@@ -15,12 +15,11 @@ public class RabbitConnectionFactoryConfig extends MapServiceConnectorConfig {
 	private Integer channelCacheSize;
 
 	public RabbitConnectionFactoryConfig(Map<String, Object> properties) {
-		super(properties);
+		this(properties, null);
 	}
 
 	public RabbitConnectionFactoryConfig(Integer channelCacheSize) {
-		super(null);
-		this.channelCacheSize = channelCacheSize;
+		this(null, channelCacheSize);
 	}
 	
 	public RabbitConnectionFactoryConfig(Map<String, Object> properties, Integer channelCacheSize) {

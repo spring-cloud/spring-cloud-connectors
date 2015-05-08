@@ -87,6 +87,7 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="rabbit-options" type="rabbitOptionsType" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="connection-properties" minOccurs="0" maxOccurs="1"/>
 			</xsd:sequence>
 			<xsd:attribute name="id" type="xsd:string" use="optional">
 				<xsd:annotation>
@@ -115,6 +116,7 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="pool" type="poolType" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="connection-properties" minOccurs="0" maxOccurs="1"/>
 			</xsd:sequence>
 			<xsd:attribute name="id" type="xsd:string" use="optional">
 				<xsd:annotation>
@@ -282,9 +284,6 @@
 				Element defining optional Rabbit configuration settings.
 			]]></xsd:documentation>
 		</xsd:annotation>
-		<xsd:sequence>
-			<xsd:element ref="connection-properties" minOccurs="0" maxOccurs="1"/>
-		</xsd:sequence>
 		<xsd:attribute name="channel-cache-size" type="xsd:string" use="optional">
 			<xsd:annotation>
 				<xsd:documentation><![CDATA[

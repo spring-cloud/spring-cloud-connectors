@@ -31,7 +31,11 @@ public class RedisConnectionFactoryCreator extends AbstractServiceConnectorCreat
 			connectionFactory.setHostName(serviceInfo.getHost());
 			connectionFactory.setPort(serviceInfo.getPort());
 			connectionFactory.setPassword(serviceInfo.getPassword());
-			configurer.configure(connectionFactory, (PooledServiceConnectorConfig) serviceConnectorConfig);
+			if (serviceConnectorConfig instanceof RedisConnectionFactoryConfig) {
+				configurer.configure(connectionFactory, (RedisConnectionFactoryConfig) serviceConnectorConfig);
+			} else {
+				configurer.configure(connectionFactory, (PooledServiceConnectorConfig) serviceConnectorConfig);
+			}
 			connectionFactory.afterPropertiesSet();
 			return connectionFactory;
 		} else {

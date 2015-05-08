@@ -6,11 +6,21 @@
 	http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd">
 
 	<cloud:rabbit-connection-factory id="service-channelCacheSize200" service-name="my-service">
-	    <cloud:rabbit-options channel-cache-size="200">
-			<cloud:connection-properties>
-				<entry key="requestedHeartbeat" value="5"/>
-				<entry key="connectionTimeout" value="10"/>
-			</cloud:connection-properties>
-		</cloud:rabbit-options>
+		<cloud:rabbit-options channel-cache-size="200"/>
+	</cloud:rabbit-connection-factory>
+
+	<cloud:rabbit-connection-factory id="service-channelCacheSize200-properties" service-name="my-service">
+		<cloud:rabbit-options channel-cache-size="200"/>
+		<cloud:connection-properties>
+			<entry key="requestedHeartbeat" value="5"/>
+			<entry key="connectionTimeout" value="10"/>
+		</cloud:connection-properties>
+	</cloud:rabbit-connection-factory>
+
+	<cloud:rabbit-connection-factory id="service-properties" service-name="my-service">
+		<cloud:connection-properties>
+			<entry key="requestedHeartbeat" value="5"/>
+			<entry key="connectionTimeout" value="10"/>
+		</cloud:connection-properties>
 	</cloud:rabbit-connection-factory>
 </beans>
