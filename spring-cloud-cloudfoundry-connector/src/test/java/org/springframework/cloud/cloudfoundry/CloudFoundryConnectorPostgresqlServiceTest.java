@@ -2,6 +2,7 @@ package org.springframework.cloud.cloudfoundry;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+import static org.springframework.cloud.service.common.RelationalServiceInfo.JDBC_PREFIX;
 
 import java.util.List;
 
@@ -52,6 +53,25 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
 		assertEquals(getJdbcUrl("postgres", name2), info2.getJdbcUrl());
 	}
 
+	@Test
+	public void postgresqlServiceCreationWithJdbcUrl() {
+		String name1 = "database-1";
+		String name2 = "database-2";
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getPostgresqlServicePayloadWithJdbcUrl("postgresql-1", hostname, port, username, password, name1),
+						getPostgresqlServicePayloadWithJdbcUrl("postgresql-2", hostname, port, username, password, name2)));
+
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		PostgresqlServiceInfo info1 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-1");
+		PostgresqlServiceInfo info2 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-2");
+
+		assertServiceFoundOfType(info1, PostgresqlServiceInfo.class);
+		assertServiceFoundOfType(info2, PostgresqlServiceInfo.class);
+		assertEquals(JDBC_PREFIX + "postgres://rawjdbcurl", info1.getJdbcUrl());
+		assertEquals(JDBC_PREFIX + "postgres://rawjdbcurl", info2.getJdbcUrl());
+	}
+
 	private String getPostgresqlServicePayload(String serviceName,
 											   String hostname, int port,
 											   String user, String password, String name) {
@@ -63,6 +83,13 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
 															String hostname, int port,
 															String user, String password, String name) {
 		return getRelationalPayload("test-postgresql-info-no-label-no-tags.json", serviceName,
+				hostname, port, user, password, name);
+	}
+
+	private String getPostgresqlServicePayloadWithJdbcUrl(String serviceName,
+															String hostname, int port,
+															String user, String password, String name) {
+		return getRelationalPayload("test-postgresql-info-jdbc-url.json", serviceName,
 				hostname, port, user, password, name);
 	}
 

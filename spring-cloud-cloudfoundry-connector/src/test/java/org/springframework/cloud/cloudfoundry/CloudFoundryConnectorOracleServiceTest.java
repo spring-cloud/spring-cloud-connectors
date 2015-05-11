@@ -5,6 +5,7 @@ import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 import org.springframework.cloud.service.common.OracleServiceInfo;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
 
 import java.util.List;
 
@@ -41,6 +42,25 @@ public class CloudFoundryConnectorOracleServiceTest extends AbstractUserProvided
 		BaseServiceInfo info = (BaseServiceInfo) getServiceInfo(serviceInfos, SERVICE_NAME);
 		assertFalse(MysqlServiceInfo.class.isAssignableFrom(info.getClass()));  // service was not detected as MySQL
 		assertNotNull(info);
+	}
+
+	@Test
+	public void oracleServiceCreationWithJdbcUrl() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getOracleServicePayloadWithJdbcurl(SERVICE_NAME, hostname, port, username, password, INSTANCE_NAME, ORACLE_SCHEME)));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+
+		OracleServiceInfo info = (OracleServiceInfo) getServiceInfo(serviceInfos, SERVICE_NAME);
+		assertServiceFoundOfType(info, OracleServiceInfo.class);
+		assertEquals(RelationalServiceInfo.JDBC_PREFIX + "oracle:rawjdbcurl", info.getJdbcUrl());
+	}
+
+	protected String getOracleServicePayloadWithJdbcurl(String serviceName, String hostname, int port,
+														String user, String password, String name, String scheme) {
+		String payload = getRelationalPayload("test-oracle-info-jdbc-url.json", serviceName,
+				hostname, port, user, password, name);
+		return payload.replace("$scheme", scheme);
 	}
 
 	private String getOracleJdbcUrl(String name) {

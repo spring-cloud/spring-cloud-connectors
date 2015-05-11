@@ -44,6 +44,10 @@ public class UriInfo {
 		this.uri = buildUri();
 	}
 
+	public UriInfo(String rawUriString) {
+		this.rawUriString = rawUriString;
+	}
+
 	public String getScheme() {
 		return scheme;
 	}

@@ -1,11 +1,18 @@
 package org.springframework.cloud.service.common;
 
 import org.springframework.cloud.service.UriBasedServiceInfo;
+import org.springframework.cloud.util.StandardUriInfoFactory;
+import org.springframework.cloud.util.UriInfo;
+import org.springframework.cloud.util.UriInfoFactory;
 
 /**
  * @author Ramnivas Laddad
+ * @author Scott Frederick
  */
 public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
+
+	public static final String JDBC_PREFIX = "jdbc:";
+	private static JdbcUriInfoFactory jdbcUriInfoFactory = new JdbcUriInfoFactory();
 
 	protected final String jdbcUrlDatabaseType;
 
@@ -14,9 +21,18 @@ public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 		this.jdbcUrlDatabaseType = jdbcUrlDatabaseType;
 	}
 
+	@Override
+	public UriInfoFactory getUriInfoFactory() {
+		return jdbcUriInfoFactory;
+	}
+
 	@ServiceProperty(category = "connection")
 	public String getJdbcUrl() {
-		return String.format("jdbc:%s://%s%s/%s%s%s", jdbcUrlDatabaseType, getHost(), formatPort(),
+		if (getUriInfo().getRawUriString().startsWith(JDBC_PREFIX)) {
+			return getUriInfo().getRawUriString();
+		}
+
+		return String.format("%s%s://%s%s/%s%s%s", JDBC_PREFIX, jdbcUrlDatabaseType, getHost(), formatPort(),
 				getPath(), formatUserinfo(), formatQuery());
 	}
 
@@ -46,5 +62,21 @@ public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 			}
 		}
 		return "";
+	}
+
+	public static class JdbcUriInfoFactory extends StandardUriInfoFactory {
+		@Override
+		public UriInfo createUri(String uriString) {
+			if (uriString.startsWith(JDBC_PREFIX)) {
+				return new JdbcUriInfo(uriString);
+			}
+			return super.createUri(uriString);
+		}
+	}
+
+	public static class JdbcUriInfo extends UriInfo {
+		public JdbcUriInfo(String rawUriString) {
+			super(rawUriString);
+		}
 	}
 }

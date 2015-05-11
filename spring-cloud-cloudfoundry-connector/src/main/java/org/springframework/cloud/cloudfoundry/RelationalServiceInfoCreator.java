@@ -5,6 +5,8 @@ import java.util.Map;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.cloud.util.UriInfo;
 
+import static org.springframework.cloud.service.common.RelationalServiceInfo.JDBC_PREFIX;
+
 /**
  * 
  * @author Ramnivas Laddad
@@ -16,13 +18,42 @@ public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceI
 		super(tags, uriSchemes);
 	}
 
+	@Override
+	public boolean accept(Map<String, Object> serviceData) {
+		return jdbcUrlMatchesScheme(serviceData) || super.accept(serviceData);
+	}
+
+	protected boolean jdbcUrlMatchesScheme(Map<String, Object> serviceData) {
+		if (getUriSchemes() == null) {
+			return false;
+		}
+
+		Map<String, Object> credentials = getCredentials(serviceData);
+		String jdbcUrl = getStringFromCredentials(credentials, "jdbcUrl");
+
+		if (jdbcUrl != null) {
+			for (String uriScheme : getUriSchemes()) {
+				if (jdbcUrl.startsWith(JDBC_PREFIX + uriScheme + ":")) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public abstract SI createServiceInfo(String id, String uri);
 
 	public SI createServiceInfo(Map<String, Object> serviceData) {
 		String id = (String) serviceData.get("name");
 
 		Map<String,Object> credentials = getCredentials(serviceData);
-		String uri = getUriFromCredentials(credentials);
+
+		String uri = getStringFromCredentials(credentials, "jdbcUrl");
+
+		if (uri == null) {
+			uri = getUriFromCredentials(credentials);
+		}
 
 		if (uri == null) {
 			String host = getStringFromCredentials(credentials, "hostname", "host");

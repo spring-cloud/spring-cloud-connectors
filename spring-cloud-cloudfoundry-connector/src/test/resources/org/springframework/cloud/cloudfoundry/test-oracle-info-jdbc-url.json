@@ -1,0 +1,7 @@
+{
+	"name": "$serviceName",
+	"credentials": {
+		"jdbcUrl": "jdbc:oracle:rawjdbcurl",
+		"uri": "oracle://$user:$password@$hostname:$port/$name"
+	}
+}

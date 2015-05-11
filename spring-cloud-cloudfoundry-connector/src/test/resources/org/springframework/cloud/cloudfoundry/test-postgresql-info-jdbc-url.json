@@ -1,0 +1,7 @@
+{
+	"name": "$serviceName",
+	"credentials": {
+		"jdbcUrl": "jdbc:postgres://rawjdbcurl",
+		"uri": "postgres://$user:$password@$hostname:$port/$name"
+	}
+}

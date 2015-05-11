@@ -32,15 +32,6 @@ public class StandardUriInfoFactoryTest {
 	}
 
 	@Test
-	public void createWithJdbcUri() {
-		String uri = "mysql://joe:joes_password@localhost:1527/big_db";
-		UriInfo result = factory.createUri("jdbc:" + uri);
-
-		assertUriInfoEquals(result, "localhost", 1527, "joe", "joes_password", "big_db", null);
-		assertEquals(uri, result.getUri().toString());
-	}
-
-	@Test
 	public void createNoUsernamePassword() {
 		String uri = "mysql://localhost:1527/big_db";
 		UriInfo result = factory.createUri(uri);

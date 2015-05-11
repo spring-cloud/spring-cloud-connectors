@@ -7,11 +7,9 @@ import java.net.URLDecoder;
 /**
  * Factory for standard Cloud Foundry URIs, which all conform to the format:
  * <p>
- * {@code [jdbc:]scheme://[user:pass]@authority[:port]/path}
+ * {@code scheme://[user:pass]@authority[:port]/path}
  */
 public class StandardUriInfoFactory implements UriInfoFactory {
-
-	public static final String JDBC_PREFIX = "jdbc:";
 
 	@Override
 	public UriInfo createUri(String scheme, String host, int port, String username, String password, String path) {
@@ -20,10 +18,7 @@ public class StandardUriInfoFactory implements UriInfoFactory {
 
 	@Override
 	public UriInfo createUri(String uriString) {
-
-		uriString = trimJdbcScheme(uriString);
-
-		URI tmpUri = createTmpUri(uriString);
+		URI tmpUri = uriFromString(uriString);
 
 		String[] userInfo = parseUserinfo(tmpUri);
 		String userName = uriDecode(userInfo[0]);
@@ -33,19 +28,12 @@ public class StandardUriInfoFactory implements UriInfoFactory {
 				userName, password, parsePath(tmpUri), tmpUri.getRawQuery(), uriString);
 	}
 
-	private URI createTmpUri(String uriString) {
+	private URI uriFromString(String uriString) {
 		try {
 			return new URI(uriString);
 		} catch (URISyntaxException e) {
-			throw new IllegalArgumentException(e);
+			throw new IllegalArgumentException("Invalid URI " + uriString, e);
 		}
-	}
-
-	private String trimJdbcScheme(String uriString) {
-		if (uriString.startsWith(JDBC_PREFIX)) {
-			uriString = uriString.substring(JDBC_PREFIX.length());
-		}
-		return uriString;
 	}
 
 	private String[] parseUserinfo(URI uri) {

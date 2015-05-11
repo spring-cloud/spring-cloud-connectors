@@ -15,6 +15,10 @@ public class OracleServiceInfo extends RelationalServiceInfo {
 
 	@Override
 	public String getJdbcUrl() {
+		if (getUriInfo().getRawUriString().startsWith(JDBC_PREFIX)) {
+			return getUriInfo().getRawUriString();
+		}
+
 		return String.format("jdbc:%s:thin:%s/%s@%s:%d/%s",
 				jdbcUrlDatabaseType, getUserName(), getPassword(),
 				getHost(), getPort(), getPath());
