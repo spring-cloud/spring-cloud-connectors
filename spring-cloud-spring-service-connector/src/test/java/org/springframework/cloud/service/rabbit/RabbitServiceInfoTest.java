@@ -1,6 +1,7 @@
 package org.springframework.cloud.service.rabbit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 import org.springframework.cloud.service.common.AmqpServiceInfo;
@@ -20,6 +21,17 @@ public class RabbitServiceInfoTest {
 		assertEquals("myuser", serviceInfo.getUserName());
 		assertEquals("mypass", serviceInfo.getPassword());
 		assertEquals("myvhost", serviceInfo.getVirtualHost());
+	}
+
+	@Test
+	public void uriBasedParsingDefaultVhost() {
+		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id", "amqp://myuser:mypass@myhost:12345/");
+
+		assertEquals("myhost", serviceInfo.getHost());
+		assertEquals(12345, serviceInfo.getPort());
+		assertEquals("myuser", serviceInfo.getUserName());
+		assertEquals("mypass", serviceInfo.getPassword());
+		assertNull(serviceInfo.getVirtualHost());
 	}
 
 	@Test(expected=IllegalArgumentException.class)
@@ -48,11 +60,6 @@ public class RabbitServiceInfoTest {
 		new AmqpServiceInfo("id",  "amqp://myhost:12345/myvhost");
 	}
 
-	@Test(expected=IllegalArgumentException.class)
-	public void missingVirtualHost() {
-		new AmqpServiceInfo("id",  "amqp://myuser:mypass@myhost:12345");
-	}
-	
 	@Test(expected=IllegalArgumentException.class)
 	public void badVirtualHost() {
 		new AmqpServiceInfo("id",  "amqp://myuser:mypass@myhost:12345/a/b");

@@ -61,15 +61,14 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 		}
 
 		String path = uriInfo.getPath();
-		if (path == null) {
-			throw new IllegalArgumentException("Missing virtual host in amqp URI: " + uriInfo);
-		} else {
+		if (path != null) {
 			// Check that the path only has a single segment.  As we have an authority component
 			// in the URI, paths always begin with a slash.
 			if (path.indexOf('/') != -1) {
 				throw new IllegalArgumentException("Multiple segments in path of amqp URI: " + uriInfo);
 			}
 		}
+
 		return uriInfo;
 	}
 }
