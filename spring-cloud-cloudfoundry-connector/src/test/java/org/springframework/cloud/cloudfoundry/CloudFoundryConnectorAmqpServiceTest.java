@@ -2,13 +2,13 @@ package org.springframework.cloud.cloudfoundry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.isNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import java.util.List;
 
 import org.junit.Test;
-import org.mockito.internal.matchers.InstanceOf;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.AmqpServiceInfo;
 
@@ -92,11 +92,29 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 		assertServiceFoundOfType(serviceInfos, "rabbit-2", AmqpServiceInfo.class);
 	}
 
+	@Test
+	public void qpidServiceCreationNoLabelNoTags() throws Exception {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+			.thenReturn(getServicesPayload(
+					getQpidServicePayloadNoLabelNoTags("qpid-1", hostname, port, username, password, "q-1", "vhost1"),
+					getQpidServicePayloadNoLabelNoTags("qpid-2", hostname, port, username, password, "q-2", "vhost2")));
+
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertServiceFoundOfType(serviceInfos, "qpid-1", AmqpServiceInfo.class);
+		assertServiceFoundOfType(serviceInfos, "qpid-2", AmqpServiceInfo.class);
+		AmqpServiceInfo serviceInfo = (AmqpServiceInfo) getServiceInfo(serviceInfos, "qpid-1");
+		assertEquals(username, serviceInfo.getUserName());
+		assertEquals(password, serviceInfo.getPassword());
+		assertEquals("vhost1", serviceInfo.getVirtualHost());
+		URI uri = new URI(serviceInfo.getUri());
+		assertTrue(uri.getQuery().contains("tcp://" + hostname + ":" + port));
+	}
+
 	private String getRabbitServicePayloadWithoutTags(String serviceName,
 													  String hostname, int port,
 													  String user, String password, String name,
 													  String vHost) {
-		return getRabbitServicePayload("test-rabbit-info-with-label-no-tags.json", serviceName,
+		return getAmqpServicePayload("test-rabbit-info-with-label-no-tags.json", serviceName,
 				hostname, port, user, password, name, vHost);
 	}
 
@@ -104,7 +122,7 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 														String hostname, int port,
 														String user, String password, String name,
 														String vHost) {
-		return getRabbitServicePayload("test-rabbit-info-no-label-no-tags.json", serviceName,
+		return getAmqpServicePayload("test-rabbit-info-no-label-no-tags.json", serviceName,
 				hostname, port, user, password, name, vHost);
 	}
 
@@ -112,7 +130,7 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 														String hostname, int port,
 														String user, String password, String name,
 														String vHost) {
-		return getRabbitServicePayload("test-rabbit-info-no-label-no-tags-secure.json", serviceName,
+		return getAmqpServicePayload("test-rabbit-info-no-label-no-tags-secure.json", serviceName,
 				hostname, port, user, password, name, vHost);
 	}
 
@@ -120,11 +138,19 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 												   String hostname, int port,
 												   String user, String password, String name,
 												   String vHost) {
-		return getRabbitServicePayload("test-rabbit-info.json", serviceName,
+		return getAmqpServicePayload("test-rabbit-info.json", serviceName,
 				hostname, port, user, password, name, vHost);
 	}
 
-	private String getRabbitServicePayload(String filename, String serviceName,
+	private String getQpidServicePayloadNoLabelNoTags(String serviceName,
+												   String hostname, int port,
+												   String user, String password, String name,
+												   String vHost) {
+		return getAmqpServicePayload("test-qpid-info.json", serviceName,
+				hostname, port, user, password, name, vHost);
+	}
+
+	private String getAmqpServicePayload(String filename, String serviceName,
 										   String hostname, int port,
 										   String user, String password, String name,
 										   String vHost) {

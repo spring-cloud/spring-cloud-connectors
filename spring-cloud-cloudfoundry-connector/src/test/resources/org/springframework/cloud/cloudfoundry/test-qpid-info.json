@@ -1,0 +1,6 @@
+{
+	"name":"$serviceName",
+	"credentials":{
+		"uri": "amqp://$user:$pass@clientid/$virtualHost?brokerlist='tcp://$hostname:$port'"
+	}
+}
