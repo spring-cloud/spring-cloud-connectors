@@ -28,8 +28,8 @@ public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 
 	@ServiceProperty(category = "connection")
 	public String getJdbcUrl() {
-		if (getUriInfo().getRawUriString().startsWith(JDBC_PREFIX)) {
-			return getUriInfo().getRawUriString();
+		if (getUriInfo().getUriString().startsWith(JDBC_PREFIX)) {
+			return getUriInfo().getUriString();
 		}
 
 		return String.format("%s%s://%s%s/%s%s%s", JDBC_PREFIX, jdbcUrlDatabaseType, getHost(), formatPort(),

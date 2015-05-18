@@ -40,17 +40,7 @@ public abstract class UriBasedServiceInfo extends BaseServiceInfo {
 
 	@ServiceProperty(category = "connection")
 	public String getUri() {
-		// converting a URI string that contains multiple hosts, ports, etc won't parse correctly.
-		// first attempt to use the parsed URI from the UriInfo, otherwise return the raw URI string
-		// that will be passed to the underlying driver / properties.
-		//
-		// TODO: either simply use URI strings or provide better support for URI's containing multiple hosts, etc.
-		//
-		if (uriInfo.getHost() != null) {
-			return uriInfo.getUri().toString();
-		}
-
-		return uriInfo.getRawUriString();
+		return uriInfo.getUriString();
 	}
 
 	@ServiceProperty(category = "connection")
@@ -105,7 +95,7 @@ public abstract class UriBasedServiceInfo extends BaseServiceInfo {
 
 	@Override
 	public String toString() {
-		// TODO: when using a simple URI string (see comments in getUri), the result of uriInfo.getRawUriString()
+		// TODO: when using a simple URI string (see comments in getUri), the result of uriInfo.getUriString()
 		//       would display the password which does not seem ideal.
 		return getClass().getSimpleName() + "[" + getScheme() + "://" + getUserName() + ":****@" + getHost() + ":" + getPort()
 			+ "/" + getPath() + "]";

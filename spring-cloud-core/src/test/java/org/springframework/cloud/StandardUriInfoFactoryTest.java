@@ -19,7 +19,7 @@ public class StandardUriInfoFactoryTest {
 		UriInfo result = factory.createUri(uri);
 
 		assertUriInfoEquals(result, "localhost", 1527, "joe", "joes_password", "big_db", null);
-		assertEquals(uri, result.getUri().toString());
+		assertEquals(uri, result.getUriString());
 	}
 
 	@Test
@@ -28,7 +28,7 @@ public class StandardUriInfoFactoryTest {
 		UriInfo result = factory.createUri(uri);
 
 		assertUriInfoEquals(result, "localhost", 1527, "joe", "joes_password", "big_db", "p1=v1&p2=v2");
-		assertEquals(uri, result.getUri().toString());
+		assertEquals(uri, result.getUriString());
 	}
 
 	@Test
@@ -37,7 +37,7 @@ public class StandardUriInfoFactoryTest {
 		UriInfo result = factory.createUri(uri);
 
 		assertUriInfoEquals(result, "localhost", 1527, null, null, "big_db", null);
-		assertEquals(uri, result.getUri().toString());
+		assertEquals(uri, result.getUriString());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -52,7 +52,7 @@ public class StandardUriInfoFactoryTest {
 		UriInfo result = factory.createUri("mysql", "localhost", 1527, "joe", "joes_password", "big_db");
 
 		assertUriInfoEquals(result, "localhost", 1527, "joe", "joes_password", "big_db", null);
-		assertEquals(uri, result.getUri().toString());
+		assertEquals(uri, result.getUriString());
 	}
 
 	private void assertUriInfoEquals(UriInfo result, String host, int port,

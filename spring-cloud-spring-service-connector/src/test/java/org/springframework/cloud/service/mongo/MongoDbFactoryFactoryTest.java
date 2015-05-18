@@ -29,6 +29,6 @@ public class MongoDbFactoryFactoryTest extends AbstractCloudServiceConnectorFact
 	}
 	
 	public MongoServiceInfo getTestServiceInfo(String id) {
-		return new MongoServiceInfo(id, new UriInfo("mongodb", "host", 0, "username", "password", "db").getUri().toString());
+		return new MongoServiceInfo(id, new UriInfo("mongodb", "host", 0, "username", "password", "db").getUriString());
 	}
 }
