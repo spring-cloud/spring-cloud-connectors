@@ -1,6 +1,7 @@
 package org.springframework.cloud.cloudfoundry;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -18,6 +19,8 @@ import org.springframework.cloud.service.common.AmqpServiceInfo;
  *
  */
 public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryConnectorTest {
+	protected static final String hostname2 = "11.21.31.41";
+
 	@Test
 	public void rabbitServiceCreationWithTags() {
 		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
@@ -69,6 +72,34 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 	}
 
 	@Test
+	public void rabbitServiceCreationMultipleUris() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+			.thenReturn(getServicesPayload(
+					getRabbitServicePayloadMultipleUris("rabbit-1", hostname, hostname2, port, username, password, "q-1", "vhost1"),
+					getRabbitServicePayloadMultipleUris("rabbit-2", hostname, hostname2, port, username, password, "q-2", "vhost2")));
+
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertServiceFoundOfType(serviceInfos, "rabbit-1", AmqpServiceInfo.class);
+		assertServiceFoundOfType(serviceInfos, "rabbit-2", AmqpServiceInfo.class);
+
+		AmqpServiceInfo amqpServiceInfo = (AmqpServiceInfo) serviceInfos.get(0);
+		assertNotNull(amqpServiceInfo.getUri());
+		assertTrue(amqpServiceInfo.getUri().contains(hostname));
+		assertNotNull(amqpServiceInfo.getManagementUri());
+		assertTrue(amqpServiceInfo.getManagementUri().contains(hostname));
+
+		assertNotNull(amqpServiceInfo.getUris());
+		assertEquals(2, amqpServiceInfo.getUris().size());
+		assertTrue(amqpServiceInfo.getUris().get(0).contains(hostname));
+		assertTrue(amqpServiceInfo.getUris().get(1).contains(hostname2));
+
+		assertNotNull(amqpServiceInfo.getManagementUris());
+		assertEquals(2, amqpServiceInfo.getManagementUris().size());
+		assertTrue(amqpServiceInfo.getManagementUris().get(0).contains(hostname));
+		assertTrue(amqpServiceInfo.getManagementUris().get(1).contains(hostname2));
+	}
+
+	@Test
 	public void rabbitServiceCreationNoLabelNoTags() {
 		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 			.thenReturn(getServicesPayload(
@@ -103,6 +134,7 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 		assertServiceFoundOfType(serviceInfos, "qpid-1", AmqpServiceInfo.class);
 		assertServiceFoundOfType(serviceInfos, "qpid-2", AmqpServiceInfo.class);
 		AmqpServiceInfo serviceInfo = (AmqpServiceInfo) getServiceInfo(serviceInfos, "qpid-1");
+		assertNotNull(serviceInfo);
 		assertEquals(username, serviceInfo.getUserName());
 		assertEquals(password, serviceInfo.getPassword());
 		assertEquals("vhost1", serviceInfo.getVirtualHost());
@@ -140,6 +172,17 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 												   String vHost) {
 		return getAmqpServicePayload("test-rabbit-info.json", serviceName,
 				hostname, port, user, password, name, vHost);
+	}
+
+	private String getRabbitServicePayloadMultipleUris(String serviceName,
+												   String hostname, String hostname2, int port,
+												   String user, String password, String name,
+												   String vHost) {
+		String payload = getAmqpServicePayload("test-rabbit-info-multiple-uris.json", serviceName,
+				hostname, port, user, password, name, vHost);
+		payload = payload.replace("$host1", hostname);
+		payload = payload.replace("$host2", hostname2);
+		return payload;
 	}
 
 	private String getQpidServicePayloadNoLabelNoTags(String serviceName,

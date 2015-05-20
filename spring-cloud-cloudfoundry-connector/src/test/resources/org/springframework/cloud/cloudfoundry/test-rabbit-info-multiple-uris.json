@@ -1,0 +1,12 @@
+{
+	"name":"$serviceName",
+	"label":"rabbitmq",
+	"plan":"free",
+	"tags":["amqp","rabbitmq"],
+	"credentials":{
+		"uri": "amqp://$username:$password@$hostname/$virtualHost",
+		"http_api_uri": "http://$user:$pass@$hostname/api",
+		"uris": [ "amqp://$username:$password@$host1/$virtualHost", "amqp://$username:$password@$host2/$virtualHost" ],
+		"http_api_uris": [ "http://$user:$pass@$host1/api", "http://$user:$pass@$host2/api" ]
+	}
+}
