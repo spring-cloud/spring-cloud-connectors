@@ -22,6 +22,7 @@ dependencies {
     exclude(group: 'commons-logging', module: 'commons-logging')
   }
   optional("commons-dbcp:commons-dbcp:$commonDbcpVersion")
+  optional("com.zaxxer:HikariCP-java6:2.1.0")
   optional("org.springframework.amqp:spring-rabbit:$springAmqpVersion")
   optional("org.springframework.data:spring-data-redis:$springDataRedisVersion") {
     exclude(group: 'org.springframework', module: 'spring-context-support')
