@@ -22,8 +22,8 @@ public class HikariCpPooledDataSourceCreator<SI extends RelationalServiceInfo> i
 	private DataSourceConfigurer configurer = new DataSourceConfigurer();
 
 	protected void setBasicDataSourceProperties(DataSource basicDataSource, RelationalServiceInfo serviceInfo,
-											   ServiceConnectorConfig serviceConnectorConfig,
-												 String driverClassName, String validationQuery) {
+												ServiceConnectorConfig serviceConnectorConfig,
+												String driverClassName, String validationQuery) {
 		BeanWrapper target = new BeanWrapperImpl(basicDataSource);
 		target.setPropertyValue("driverClassName", driverClassName);
 		target.setPropertyValue("jdbcUrl", serviceInfo.getJdbcUrl());
@@ -31,12 +31,6 @@ public class HikariCpPooledDataSourceCreator<SI extends RelationalServiceInfo> i
 			target.setPropertyValue("connectionTestQuery", validationQuery);
 		}
 
-		if (serviceConnectorConfig == null) {
-			// choose sensible values so that we set max connection pool size to what
-			// free tier services on Cloud Foundry and Heroku allow
-			//target.setPropertyValue("maximumPoolSize", 4);
-			//target.setPropertyValue("idleTimeout", 55000);
-		}
 		configurer.configure(basicDataSource, (DataSourceConfig)serviceConnectorConfig);
 	}
 
