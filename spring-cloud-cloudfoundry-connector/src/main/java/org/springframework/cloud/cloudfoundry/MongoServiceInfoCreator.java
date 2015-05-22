@@ -17,7 +17,7 @@ public class MongoServiceInfoCreator extends CloudFoundryServiceInfoCreator<Mong
 	}
 
 	public MongoServiceInfo createServiceInfo(Map<String,Object> serviceData) {
-		String id = (String) serviceData.get("name");
+		String id = getId(serviceData);
 
 		String uri = getUriFromCredentials(getCredentials(serviceData));
 

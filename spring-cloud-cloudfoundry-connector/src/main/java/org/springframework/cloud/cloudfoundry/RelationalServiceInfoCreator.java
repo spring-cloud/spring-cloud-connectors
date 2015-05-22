@@ -45,7 +45,7 @@ public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceI
 	public abstract SI createServiceInfo(String id, String uri);
 
 	public SI createServiceInfo(Map<String, Object> serviceData) {
-		String id = (String) serviceData.get("name");
+		String id = getId(serviceData);
 
 		Map<String,Object> credentials = getCredentials(serviceData);
 

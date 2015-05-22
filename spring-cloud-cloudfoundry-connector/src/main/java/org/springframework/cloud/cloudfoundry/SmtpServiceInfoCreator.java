@@ -20,7 +20,7 @@ public class SmtpServiceInfoCreator extends CloudFoundryServiceInfoCreator<SmtpS
 	}
 
 	public SmtpServiceInfo createServiceInfo(Map<String, Object> serviceData) {
-		String id = (String) serviceData.get("name");
+		String id = getId(serviceData);
 
 		Map<String, Object> credentials = getCredentials(serviceData);
 

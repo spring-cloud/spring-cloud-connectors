@@ -20,7 +20,7 @@ public class MonitoringServiceInfoCreator extends CloudFoundryServiceInfoCreator
 
 	@Override
 	public MonitoringServiceInfo createServiceInfo(Map<String, Object> serviceData) {
-		String id = (String) serviceData.get("name");
+		String id = getId(serviceData);
 		return new MonitoringServiceInfo(id);
 	}
 }

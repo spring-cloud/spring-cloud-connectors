@@ -70,6 +70,10 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 		return false;
 	}
 
+	protected String getId(Map<String, Object> serviceData) {
+		return (String) serviceData.get("name");
+	}
+
 	@SuppressWarnings("unchecked")
 	protected Map<String, Object> getCredentials(Map<String, Object> serviceData) {
 		return (Map<String, Object>) serviceData.get("credentials");

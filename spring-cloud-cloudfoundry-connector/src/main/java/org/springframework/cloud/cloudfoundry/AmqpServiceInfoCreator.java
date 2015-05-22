@@ -20,7 +20,7 @@ public class AmqpServiceInfoCreator extends CloudFoundryServiceInfoCreator<AmqpS
 	public AmqpServiceInfo createServiceInfo(Map<String,Object> serviceData) {
 		Map<String,Object> credentials = getCredentials(serviceData);
 
-		String id = (String) serviceData.get("name");
+		String id = getId(serviceData);
 
 		String uri = getUriFromCredentials(credentials);
 		String managementUri = getStringFromCredentials(credentials, "http_api_uri");

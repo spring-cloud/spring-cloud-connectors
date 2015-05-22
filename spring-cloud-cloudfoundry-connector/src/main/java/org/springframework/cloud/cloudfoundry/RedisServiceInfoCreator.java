@@ -17,7 +17,7 @@ public class RedisServiceInfoCreator extends CloudFoundryServiceInfoCreator<Redi
 	}
 
 	public RedisServiceInfo createServiceInfo(Map<String,Object> serviceData) {
-		String id = (String) serviceData.get("name");
+		String id = getId(serviceData);
 
 		Map<String, Object> credentials = getCredentials(serviceData);
 		String uri = getUriFromCredentials(credentials);
