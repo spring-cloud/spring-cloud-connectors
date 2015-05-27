@@ -28,78 +28,78 @@ import org.springframework.cloud.util.ServiceLoaderWithExceptionControl;
  *
  */
 public class CloudFactory {
-    private List<CloudConnector> cloudConnectors = new ArrayList<CloudConnector>();
-    private List<ServiceConnectorCreator<?, ? extends ServiceInfo>> serviceCreators = new ArrayList<ServiceConnectorCreator<?, ? extends ServiceInfo>>();
+	private List<CloudConnector> cloudConnectors = new ArrayList<CloudConnector>();
+	private List<ServiceConnectorCreator<?, ? extends ServiceInfo>> serviceCreators = new ArrayList<ServiceConnectorCreator<?, ? extends ServiceInfo>>();
 
-    public CloudFactory() {
-        scanCloudConnectors();
-        scanServiceConnectorCreators();
-    }
+	public CloudFactory() {
+		scanCloudConnectors();
+		scanServiceConnectorCreators();
+	}
 
-    /**
-     *
-     * @return a cloud suitable for the current environment
-     * @throws CloudException
-     *             if no suitable cloud found
-     */
-    public Cloud getCloud() {
-        CloudConnector suitableCloudConnector = null;
-        for (CloudConnector cloudConnector : cloudConnectors) {
-            if (cloudConnector.isInMatchingCloud()) {
-                suitableCloudConnector = cloudConnector;
-                break;
-            }
-        }
+	/**
+	 *
+	 * @return a cloud suitable for the current environment
+	 * @throws CloudException
+	 *             if no suitable cloud found
+	 */
+	public Cloud getCloud() {
+		CloudConnector suitableCloudConnector = null;
+		for (CloudConnector cloudConnector : cloudConnectors) {
+			if (cloudConnector.isInMatchingCloud()) {
+				suitableCloudConnector = cloudConnector;
+				break;
+			}
+		}
 
-        if (suitableCloudConnector == null) {
-            throw new CloudException("No suitable cloud connector found");
-        }
+		if (suitableCloudConnector == null) {
+			throw new CloudException("No suitable cloud connector found");
+		}
 
-        return new Cloud(suitableCloudConnector, serviceCreators);
-    }
+		return new Cloud(suitableCloudConnector, serviceCreators);
+	}
 
-    /**
-     * Register a cloud connector.
-     *
-     * <p>
-     * CloudConnector developers should prefer the declarative mechanism described in README.MD instead of calling this method.
-     * </p>
-     *
-     * @param cloudConnector
-     *            the cloud connector to register for discovery
-     */
-    public void registerCloudConnector(CloudConnector cloudConnector) {
-        cloudConnectors.add(cloudConnector);
-    }
+	/**
+	 * Register a cloud connector.
+	 *
+	 * <p>
+	 * CloudConnector developers should prefer the declarative mechanism described in README.MD instead of calling this method.
+	 * </p>
+	 *
+	 * @param cloudConnector
+	 *            the cloud connector to register for discovery
+	 */
+	public void registerCloudConnector(CloudConnector cloudConnector) {
+		cloudConnectors.add(cloudConnector);
+	}
 
-    /* package access for testing */
-    List<CloudConnector> getCloudConnectors() {
-        return cloudConnectors;
-    }
+	/* package access for testing */
+	List<CloudConnector> getCloudConnectors() {
+		return cloudConnectors;
+	}
 
-    /* package access for testing */
-    List<ServiceConnectorCreator<?, ? extends ServiceInfo>> getServiceCreators() {
-        return serviceCreators;
-    }
+	/* package access for testing */
+	List<ServiceConnectorCreator<?, ? extends ServiceInfo>> getServiceCreators() {
+		return serviceCreators;
+	}
 
-    private void registerServiceCreator(ServiceConnectorCreator<?, ? extends ServiceInfo> serviceConnectorCreator) {
-        serviceCreators.add(serviceConnectorCreator);
-    }
+	private void registerServiceCreator(ServiceConnectorCreator<?, ? extends ServiceInfo> serviceConnectorCreator) {
+		serviceCreators.add(serviceConnectorCreator);
+	}
 
-    private void scanCloudConnectors() {
-        Iterable<CloudConnector> loader = ServiceLoader.load(CloudConnector.class);
-        for (CloudConnector cloudConnector : loader) {
-            registerCloudConnector(cloudConnector);
-        }
-    }
+	private void scanCloudConnectors() {
+		Iterable<CloudConnector> loader = ServiceLoader.load(CloudConnector.class);
+		for (CloudConnector cloudConnector : loader) {
+			registerCloudConnector(cloudConnector);
+		}
+	}
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private void scanServiceConnectorCreators() {
-        Iterable<ServiceConnectorCreator> loader = ServiceLoaderWithExceptionControl.load(ServiceConnectorCreator.class);
-        for (ServiceConnectorCreator serviceConnectorCreator : loader) {
-            if (serviceConnectorCreator != null) {
-                registerServiceCreator(serviceConnectorCreator);
-            }
-        }
-    }
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void scanServiceConnectorCreators() {
+		Iterable<ServiceConnectorCreator> loader = ServiceLoaderWithExceptionControl.load(ServiceConnectorCreator.class);
+		for (ServiceConnectorCreator serviceConnectorCreator : loader) {
+			if (serviceConnectorCreator != null) {
+				registerServiceCreator(serviceConnectorCreator);
+			}
+		}
+	}
 }

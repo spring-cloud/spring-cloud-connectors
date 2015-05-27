@@ -18,8 +18,8 @@ public class AmqpServiceInfoCreator extends HerokuServiceInfoCreator<AmqpService
 		return new AmqpServiceInfo(HerokuUtil.computeServiceName(id), uri);
 	}
 
-    @Override
-    public String[] getEnvPrefixes() {
-        return new String[]{ "CLOUDAMQP_URL" };
-    }
+	@Override
+	public String[] getEnvPrefixes() {
+		return new String[]{ "CLOUDAMQP_URL" };
+	}
 }

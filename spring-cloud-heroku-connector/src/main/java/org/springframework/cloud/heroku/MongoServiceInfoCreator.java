@@ -18,8 +18,8 @@ public class MongoServiceInfoCreator extends HerokuServiceInfoCreator<MongoServi
 		return new MongoServiceInfo(HerokuUtil.computeServiceName(id), uri);
 	}
 
-    @Override
-    public String[] getEnvPrefixes() {
-        return new String[]{ "MONGOLAB_URI", "MONGOHQ_URL", "MONGOSOUP_URL" };
-    }
+	@Override
+	public String[] getEnvPrefixes() {
+		return new String[]{ "MONGOLAB_URI", "MONGOHQ_URL", "MONGOSOUP_URL" };
+	}
 }

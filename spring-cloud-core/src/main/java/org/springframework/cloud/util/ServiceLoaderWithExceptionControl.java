@@ -20,56 +20,55 @@ import org.springframework.cloud.service.ServiceConnectorCreator;
  *
  * @author Ramnivas Laddad
  *
- * @param <T>
- *            the type of the service being loaded
+ * @param <T> the type of the service being loaded
  */
 public class ServiceLoaderWithExceptionControl<T> implements Iterable<T> {
-    private Iterable<T> underlying;
+	private Iterable<T> underlying;
 
-    private static Logger logger = Logger.getLogger(ServiceLoaderWithExceptionControl.class.getName());
+	private static Logger logger = Logger.getLogger(ServiceLoaderWithExceptionControl.class.getName());
 
-    public static <T> Iterable<T> load(Class<T> serviceType) {
-        ServiceLoader<T> loader = ServiceLoader.load(serviceType);
-        return new ServiceLoaderWithExceptionControl<T>(loader);
-    }
+	public static <T> Iterable<T> load(Class<T> serviceType) {
+		ServiceLoader<T> loader = ServiceLoader.load(serviceType);
+		return new ServiceLoaderWithExceptionControl<T>(loader);
+	}
 
-    private ServiceLoaderWithExceptionControl(Iterable<T> underlying) {
-        this.underlying = underlying;
-    }
+	private ServiceLoaderWithExceptionControl(Iterable<T> underlying) {
+		this.underlying = underlying;
+	}
 
-    @Override
-    public Iterator<T> iterator() {
-        return new ServiceLoaderIterator(underlying.iterator());
-    }
+	@Override
+	public Iterator<T> iterator() {
+		return new ServiceLoaderIterator(underlying.iterator());
+	}
 
-    private class ServiceLoaderIterator implements Iterator<T> {
-        private Iterator<T> underlying;
+	private class ServiceLoaderIterator implements Iterator<T> {
+		private Iterator<T> underlying;
 
-        public ServiceLoaderIterator(Iterator<T> underlying) {
-            this.underlying = underlying;
-        }
+		public ServiceLoaderIterator(Iterator<T> underlying) {
+			this.underlying = underlying;
+		}
 
-        @Override
-        public boolean hasNext() {
-            return underlying.hasNext();
-        }
+		@Override
+		public boolean hasNext() {
+			return underlying.hasNext();
+		}
 
-        @Override
-        public T next() {
-            try {
-                return underlying.next();
-            } catch (ServiceConfigurationError e) {
-                logger.log(Level.CONFIG, "Failed to load " + e);
-                if (hasNext()) {
-                    return next();
-                }
-            }
-            return null;
-        }
+		@Override
+		public T next() {
+			try {
+				return underlying.next();
+			} catch (ServiceConfigurationError e) {
+				logger.log(Level.CONFIG, "Failed to load " + e);
+				if (hasNext()) {
+					return next();
+				}
+			}
+			return null;
+		}
 
-        @Override
-        public void remove() {
-            underlying.remove();
-        }
-    }
+		@Override
+		public void remove() {
+			underlying.remove();
+		}
+	}
 }

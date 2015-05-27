@@ -9,17 +9,17 @@ import org.junit.Before;
  *
  */
 public class MysqlServiceCreatorWithMysqlDriverTest extends MysqlServiceCreatorTest {
-    private static final String MYSQL_DRIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
-    
+	private static final String MYSQL_DRIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
+
 	@Before
 	public void setup() {
 		super.setup();
-        System.setProperty("spring-cloud.mysql.driver", MYSQL_DRIVER_CLASS_NAME);
+		System.setProperty("spring-cloud.mysql.driver", MYSQL_DRIVER_CLASS_NAME);
 	}
 	
 	@After
 	public void tearDown() {
-	    System.setProperty("spring-cloud.mysql.driver", "");
+		System.setProperty("spring-cloud.mysql.driver", "");
 	}
 
 	@Override

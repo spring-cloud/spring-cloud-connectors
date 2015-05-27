@@ -12,11 +12,11 @@ import org.springframework.cloud.util.EnvironmentAccessor;
  * Base test class that provides setup and utility methods to generate test payload
  *
  * @author Ramnivas Laddad
- *
  */
 public abstract class AbstractHerokuConnectorTest {
 	protected HerokuConnector testCloudConnector = new HerokuConnector();
-	@Mock protected EnvironmentAccessor mockEnvironment;
+	@Mock
+	protected EnvironmentAccessor mockEnvironment;
 
 	protected static final String hostname = "10.20.30.40";
 	protected static final int port = 1234;

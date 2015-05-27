@@ -18,8 +18,8 @@ public class PostgresqlServiceInfoCreator extends RelationalServiceInfoCreator<P
 		return new PostgresqlServiceInfo(HerokuUtil.computeServiceName(id), uri);
 	}
 
-    @Override
-    public String[] getEnvPrefixes() {
-        return new String[]{"HEROKU_POSTGRESQL_"};
-    }
+	@Override
+	public String[] getEnvPrefixes() {
+		return new String[]{"HEROKU_POSTGRESQL_"};
+	}
 }

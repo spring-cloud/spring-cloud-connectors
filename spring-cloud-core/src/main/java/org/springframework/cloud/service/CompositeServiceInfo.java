@@ -19,6 +19,6 @@ import org.springframework.cloud.Cloud;
  */
 public interface CompositeServiceInfo extends ServiceInfo {
 
-    List<ServiceInfo> getServiceInfos();
-    
+	List<ServiceInfo> getServiceInfos();
+
 }

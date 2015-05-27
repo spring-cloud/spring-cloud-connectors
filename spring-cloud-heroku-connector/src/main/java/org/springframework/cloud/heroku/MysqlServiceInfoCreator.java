@@ -18,8 +18,8 @@ public class MysqlServiceInfoCreator extends RelationalServiceInfoCreator<MysqlS
 		return new MysqlServiceInfo(HerokuUtil.computeServiceName(id), uri);
 	}
 
-    @Override
-    public String[] getEnvPrefixes() {
-        return new String[]{"CLEARDB_DATABASE_URL"};
-    }
+	@Override
+	public String[] getEnvPrefixes() {
+		return new String[]{"CLEARDB_DATABASE_URL"};
+	}
 }

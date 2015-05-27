@@ -18,8 +18,8 @@ public class RedisServiceInfoCreator extends HerokuServiceInfoCreator<RedisServi
 		return new RedisServiceInfo(HerokuUtil.computeServiceName(id), uri);
 	}
 
-    @Override
-    public String[] getEnvPrefixes() {
-        return new String[]{ "REDISTOGO_URL", "REDISCLOUD_URL", "OPENREDIS_URL", "REDISGREEN_URL" };
-    }
+	@Override
+	public String[] getEnvPrefixes() {
+		return new String[]{ "REDISTOGO_URL", "REDISCLOUD_URL", "OPENREDIS_URL", "REDISGREEN_URL" };
+	}
 }

@@ -10,16 +10,16 @@ import java.util.List;
  *
  */
 public class BaseCompositeServiceInfo extends BaseServiceInfo implements CompositeServiceInfo {
-    
-    private List<ServiceInfo> constituents;
 
-    public BaseCompositeServiceInfo(String id, ServiceInfo... constituents) {
-        super(id);
-        this.constituents = Arrays.asList(constituents);
-    }
+	private List<ServiceInfo> constituents;
 
-    @Override
-    public List<ServiceInfo> getServiceInfos() {
-        return constituents;
-    }
+	public BaseCompositeServiceInfo(String id, ServiceInfo... constituents) {
+		super(id);
+		this.constituents = Arrays.asList(constituents);
+	}
+
+	@Override
+	public List<ServiceInfo> getServiceInfos() {
+		return constituents;
+	}
 }

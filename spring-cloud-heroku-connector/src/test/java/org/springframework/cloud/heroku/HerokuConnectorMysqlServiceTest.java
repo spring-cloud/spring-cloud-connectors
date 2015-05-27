@@ -13,26 +13,24 @@ import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 
 /**
- *
  * @author Ramnivas Laddad
- *
  */
 public class HerokuConnectorMysqlServiceTest extends AbstractHerokuConnectorRelationalServiceTest {
-    public HerokuConnectorMysqlServiceTest() {
-        super(MysqlServiceInfo.MYSQL_SCHEME);
-    }
+	public HerokuConnectorMysqlServiceTest() {
+		super(MysqlServiceInfo.MYSQL_SCHEME);
+	}
 
-    @Test
-    public void mysqlServiceCreation() {
-        Map<String, String> env = new HashMap<String, String>();
-        String mysqlUrl = getRelationalServiceUrl("db");
-        env.put("CLEARDB_DATABASE_URL", mysqlUrl);
-        when(mockEnvironment.getEnv()).thenReturn(env);
+	@Test
+	public void mysqlServiceCreation() {
+		Map<String, String> env = new HashMap<String, String>();
+		String mysqlUrl = getRelationalServiceUrl("db");
+		env.put("CLEARDB_DATABASE_URL", mysqlUrl);
+		when(mockEnvironment.getEnv()).thenReturn(env);
 
-        List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-        ServiceInfo serviceInfo = getServiceInfo(serviceInfos, "CLEARDB_DATABASE");
-        assertNotNull(serviceInfo);
-        assertTrue(serviceInfo instanceof MysqlServiceInfo);
-        assertReleationServiceInfo((MysqlServiceInfo)serviceInfo, "db");
-    }
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		ServiceInfo serviceInfo = getServiceInfo(serviceInfos, "CLEARDB_DATABASE");
+		assertNotNull(serviceInfo);
+		assertTrue(serviceInfo instanceof MysqlServiceInfo);
+		assertReleationServiceInfo((MysqlServiceInfo) serviceInfo, "db");
+	}
 }

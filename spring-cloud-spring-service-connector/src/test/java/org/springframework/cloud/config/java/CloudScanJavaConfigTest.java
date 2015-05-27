@@ -21,11 +21,11 @@ public class CloudScanJavaConfigTest extends AbstractCloudConfigServiceScanTest 
 	}
 	
 	@Test
-    public void cloudScanIntroducesApplicationInstanceInfo() {
-        ApplicationContext testContext = getTestApplicationContext();
-        
-        assertNotNull(testContext.getBean(ApplicationInstanceInfo.class));
-    }
+	public void cloudScanIntroducesApplicationInstanceInfo() {
+		ApplicationContext testContext = getTestApplicationContext();
+
+		assertNotNull(testContext.getBean(ApplicationInstanceInfo.class));
+	}
 }
 
 @Configuration

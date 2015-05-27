@@ -11,20 +11,17 @@ import org.springframework.cloud.service.ServiceInfo;
  * for it isn't placed properly to be picked up by scanning. By having a fallback mechanism, we can
  * extract as much info from the service data as possible (minimally, the service id) and issue a warning.
  *
+ * @param <SI> the type of {@link ServiceInfo} that this fallback creator will return
+ * @param <SD> the type of service definition data that this creator will consume
  * @author Ramnivas Laddad
- *
- * @param <SI>
- *            the type of {@link ServiceInfo} that this fallback creator will return
- * @param <SD>
- *            the type of service definition data that this creator will consume
  */
 public abstract class FallbackServiceInfoCreator<SI extends ServiceInfo, SD> implements ServiceInfoCreator<SI, SD> {
 
-    /*
-     * Override to ensure that it accepts all service data
-     */
-    @Override
-    public final boolean accept(SD serviceData) {
-        return true;
-    }
+	/*
+	 * Override to ensure that it accepts all service data
+	 */
+	@Override
+	public final boolean accept(SD serviceData) {
+		return true;
+	}
 }
