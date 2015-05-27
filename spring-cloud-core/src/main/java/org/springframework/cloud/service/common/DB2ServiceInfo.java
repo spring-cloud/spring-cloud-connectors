@@ -19,9 +19,9 @@ public class DB2ServiceInfo extends RelationalServiceInfo {
 			return getUriInfo().getUriString();
 		}
 		                    
-		return String.format("jdbc:%s://%s:%d/%s",
+		return String.format("jdbc:%s://%s:%d/%s:user=%s;password=%s;",
 				jdbcUrlDatabaseType, 
-				getHost(), getPort(), getPath());
+				getHost(), getPort(), getPath(), getUserName(), getPassword());
 	}
 
 }
