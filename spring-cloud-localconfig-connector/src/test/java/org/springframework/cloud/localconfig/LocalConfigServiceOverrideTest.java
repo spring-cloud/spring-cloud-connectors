@@ -12,16 +12,16 @@ import org.springframework.cloud.service.common.MongoServiceInfo;
 
 public class LocalConfigServiceOverrideTest extends AbstractLocalConfigConnectorWithUrisTest {
 
-    @Test
-    public void serviceOverride() {
-        env.setSystemProperty("spring.cloud.candygram", "mongodb://youruser:yourpass@40.30.20.10:4321/dbname");
+	@Test
+	public void serviceOverride() {
+		env.setSystemProperty("spring.cloud.candygram", "mongodb://youruser:yourpass@40.30.20.10:4321/dbname");
 
-        List<ServiceInfo> services = connector.getServiceInfos();
-        ServiceInfo service = getServiceInfo(services, "candygram");
-        assertNotNull(service);
-        assertTrue(service instanceof MongoServiceInfo);
-        MongoServiceInfo mongo = (MongoServiceInfo) service;
-        assertEquals("youruser", mongo.getUserName());
-        assertEquals(4321, mongo.getPort());
-    }
+		List<ServiceInfo> services = connector.getServiceInfos();
+		ServiceInfo service = getServiceInfo(services, "candygram");
+		assertNotNull(service);
+		assertTrue(service instanceof MongoServiceInfo);
+		MongoServiceInfo mongo = (MongoServiceInfo) service;
+		assertEquals("youruser", mongo.getUserName());
+		assertEquals(4321, mongo.getPort());
+	}
 }

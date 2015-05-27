@@ -11,13 +11,13 @@ import org.springframework.cloud.service.common.MysqlServiceInfo;
 
 public class LocalConfigConnectorMysqlServiceTest extends AbstractLocalConfigConnectorWithUrisTest {
 
-    @Test
-    public void serviceCreation() {
-        List<ServiceInfo> services = connector.getServiceInfos();
-        ServiceInfo service = getServiceInfo(services, "maria");
-        assertNotNull(service);
-        assertTrue(service instanceof MysqlServiceInfo);
-        assertUriParameters((MysqlServiceInfo) service);
-    }
+	@Test
+	public void serviceCreation() {
+		List<ServiceInfo> services = connector.getServiceInfos();
+		ServiceInfo service = getServiceInfo(services, "maria");
+		assertNotNull(service);
+		assertTrue(service instanceof MysqlServiceInfo);
+		assertUriParameters((MysqlServiceInfo) service);
+	}
 
 }

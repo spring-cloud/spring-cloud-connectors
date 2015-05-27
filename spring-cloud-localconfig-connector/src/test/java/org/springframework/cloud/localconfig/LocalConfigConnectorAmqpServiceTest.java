@@ -11,13 +11,13 @@ import org.springframework.cloud.service.common.AmqpServiceInfo;
 
 public class LocalConfigConnectorAmqpServiceTest extends AbstractLocalConfigConnectorWithUrisTest {
 
-    @Test
-    public void serviceCreation() {
-        List<ServiceInfo> services = connector.getServiceInfos();
-        ServiceInfo service = getServiceInfo(services, "rabbit");
-        assertNotNull(service);
-        assertTrue(service instanceof AmqpServiceInfo);
-        assertUriParameters((AmqpServiceInfo) service);
-    }
+	@Test
+	public void serviceCreation() {
+		List<ServiceInfo> services = connector.getServiceInfos();
+		ServiceInfo service = getServiceInfo(services, "rabbit");
+		assertNotNull(service);
+		assertTrue(service instanceof AmqpServiceInfo);
+		assertUriParameters((AmqpServiceInfo) service);
+	}
 
 }

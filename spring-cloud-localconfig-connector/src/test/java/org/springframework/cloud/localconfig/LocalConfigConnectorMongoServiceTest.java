@@ -11,13 +11,13 @@ import org.springframework.cloud.service.common.MongoServiceInfo;
 
 public class LocalConfigConnectorMongoServiceTest extends AbstractLocalConfigConnectorWithUrisTest {
 
-    @Test
-    public void serviceCreation() {
-        List<ServiceInfo> services = connector.getServiceInfos();
-        ServiceInfo service = getServiceInfo(services, "candygram");
-        assertNotNull(service);
-        assertTrue(service instanceof MongoServiceInfo);
-        assertUriParameters((MongoServiceInfo) service);
-    }
+	@Test
+	public void serviceCreation() {
+		List<ServiceInfo> services = connector.getServiceInfos();
+		ServiceInfo service = getServiceInfo(services, "candygram");
+		assertNotNull(service);
+		assertTrue(service instanceof MongoServiceInfo);
+		assertUriParameters((MongoServiceInfo) service);
+	}
 
 }

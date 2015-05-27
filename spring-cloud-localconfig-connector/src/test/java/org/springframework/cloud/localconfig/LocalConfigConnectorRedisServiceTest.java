@@ -11,13 +11,13 @@ import org.springframework.cloud.service.common.RedisServiceInfo;
 
 public class LocalConfigConnectorRedisServiceTest extends AbstractLocalConfigConnectorWithUrisTest {
 
-    @Test
-    public void serviceCreation() {
-        List<ServiceInfo> services = connector.getServiceInfos();
-        ServiceInfo service = getServiceInfo(services, "blue");
-        assertNotNull(service);
-        assertTrue(service instanceof RedisServiceInfo);
-        assertUriParameters((RedisServiceInfo) service);
-    }
+	@Test
+	public void serviceCreation() {
+		List<ServiceInfo> services = connector.getServiceInfos();
+		ServiceInfo service = getServiceInfo(services, "blue");
+		assertNotNull(service);
+		assertTrue(service instanceof RedisServiceInfo);
+		assertUriParameters((RedisServiceInfo) service);
+	}
 
 }
