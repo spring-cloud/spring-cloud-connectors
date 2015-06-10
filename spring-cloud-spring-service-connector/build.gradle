@@ -28,6 +28,9 @@ dependencies {
     exclude(group: 'org.springframework', module: 'spring-context-support')
   }
   optional("redis.clients:jedis:$jedisVersion")
+  optional("com.datastax.cassandra:cassandra-driver-core:$cassandraDriverVersion")
+  optional("com.datastax.cassandra:cassandra-driver-mapping:$cassandraDriverVersion")
+  optional("org.cassandraunit:cassandra-unit:$cassandraUnitVersion")
 
   optional("org.springframework.data:spring-data-mongodb:$springDataMongoVersion") {
     exclude(group: 'org.springframework', module: 'spring-beans')
