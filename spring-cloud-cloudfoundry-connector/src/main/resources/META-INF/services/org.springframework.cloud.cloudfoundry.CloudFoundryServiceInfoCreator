@@ -6,3 +6,4 @@ org.springframework.cloud.cloudfoundry.AmqpServiceInfoCreator
 org.springframework.cloud.cloudfoundry.MonitoringServiceInfoCreator
 org.springframework.cloud.cloudfoundry.SmtpServiceInfoCreator
 org.springframework.cloud.cloudfoundry.OracleServiceInfoCreator
+org.springframework.cloud.cloudfoundry.CassandraServiceInfoCreator

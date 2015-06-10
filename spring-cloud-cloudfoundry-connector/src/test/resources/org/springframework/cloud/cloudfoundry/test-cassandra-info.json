@@ -1,0 +1,21 @@
+{
+  "p-cassandra": [
+    {
+      "name": "time-series-db",
+      "label": "p-cassandra",
+      "tags": [
+        "pivotal",
+        "cassandra"
+      ],
+      "plan": "multi-tenant",
+      "credentials": {
+        "username" : "guybrush",
+        "password" : "threepwood",
+        "node_ips": ["10.20.30.40","10.20.30.41"],
+        "thrift_port": 9160,
+        "cql_port": 9042,
+        "keyspace_name": "weather"
+      }
+    }
+  ]
+}
