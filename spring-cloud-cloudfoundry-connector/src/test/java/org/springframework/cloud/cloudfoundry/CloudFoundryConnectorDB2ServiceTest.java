@@ -64,6 +64,6 @@ public class CloudFoundryConnectorDB2ServiceTest extends AbstractUserProvidedSer
 	}
 
 	private String getDB2JdbcUrl(String name) {
-		return "jdbc:db2://" + hostname + ":" + port + "/" + name;
+		return String.format("jdbc:db2://%s:%d/%s:user=%s;password=%s;", hostname, port, name, username, password);
 	}
 }
