@@ -1,0 +1,7 @@
+{
+	"name": "$serviceName",
+	"credentials": {
+		"jdbcUrl": "jdbc:db2:rawjdbcurl",
+		"uri": "db2://$user:$password@$hostname:$port/$name"
+	}
+}
