@@ -1,6 +1,6 @@
 package org.springframework.cloud.cloudfoundry;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.CassandraClusterServiceInfo;
