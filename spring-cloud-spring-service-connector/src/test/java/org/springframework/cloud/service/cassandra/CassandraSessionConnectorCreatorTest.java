@@ -23,7 +23,6 @@ public class CassandraSessionConnectorCreatorTest {
 
     @Test
     public void withoutKeyspace() throws Exception{
-        EmbeddedCassandraServerHelper.startEmbeddedCassandra();
 
 
         CassandraClusterServiceInfo info = new CassandraClusterServiceInfo("local", Collections.singletonList("127.0.0.1"),null,null,null,9142);
@@ -32,7 +31,6 @@ public class CassandraSessionConnectorCreatorTest {
 
         Assert.assertNull(session.getLoggedKeyspace());
 
-        EmbeddedCassandraServerHelper.cleanEmbeddedCassandra();
     }
 
     @Test

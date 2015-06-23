@@ -18,12 +18,13 @@ public class CassandraSessionCreator extends AbstractServiceConnectorCreator<Ses
     @Override
     public Session create(CassandraClusterServiceInfo serviceInfo, ServiceConnectorConfig serviceConnectorConfig) {
         Cluster cluster = createClusterConnection(serviceInfo,(CassandraConnectorConfig)serviceConnectorConfig);
-        Session session = (StringUtils.isEmpty(serviceInfo.getKeyspace())) ? cluster.connect() : cluster.connect(serviceInfo.getKeyspace());
+
+        Session session = (StringUtils.isEmpty(serviceInfo.getKeyspace())) ? cluster.newSession() : cluster.connect(serviceInfo.getKeyspace());
 
         return session;
     }
 
-    private Cluster createClusterConnection(CassandraClusterServiceInfo serviceInfo, CassandraConnectorConfig config){
+    protected Cluster createClusterConnection(CassandraClusterServiceInfo serviceInfo, CassandraConnectorConfig config){
         Cluster.Builder builder = Cluster.builder();
 
         builder.addContactPoints(serviceInfo.getNodes().toArray(new String[]{})).withPort(serviceInfo.getCqlPort());
@@ -40,8 +41,8 @@ public class CassandraSessionCreator extends AbstractServiceConnectorCreator<Ses
             builder.withLoadBalancingPolicy(config.getLoadBalancingPolicy());
         }
 
-        if(config != null && config.getPoolingOptions() != null){
-            builder.withPoolingOptions(config.getPoolingOptions());
+        if(config != null && config.getSocketOptions() != null){
+            builder.withSocketOptions(config.getSocketOptions());
         }
 
         if(config != null && config.getReconnectionPolicy() != null){

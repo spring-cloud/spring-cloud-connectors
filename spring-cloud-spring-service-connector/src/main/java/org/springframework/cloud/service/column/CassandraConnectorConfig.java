@@ -17,12 +17,20 @@ public class CassandraConnectorConfig implements ServiceConnectorConfig{
     private RetryPolicy retryPolicy;
     private ReconnectionPolicy reconnectionPolicy;
     private LoadBalancingPolicy loadBalancingPolicy;
-    private PoolingOptions poolingOptions;
     private ProtocolOptions.Compression compression;
     private SocketOptions socketOptions;
-
     public RetryPolicy getRetryPolicy() {
         return retryPolicy;
+    }
+
+    public CassandraConnectorConfig(){}
+
+    public CassandraConnectorConfig(RetryPolicy retryPolicy, ReconnectionPolicy reconnectionPolicy, LoadBalancingPolicy loadBalancingPolicy, ProtocolOptions.Compression compression, SocketOptions socketOptions) {
+        this.retryPolicy = retryPolicy;
+        this.reconnectionPolicy = reconnectionPolicy;
+        this.loadBalancingPolicy = loadBalancingPolicy;
+        this.compression = compression;
+        this.socketOptions = socketOptions;
     }
 
     public void setRetryPolicy(RetryPolicy retryPolicy) {
@@ -43,14 +51,6 @@ public class CassandraConnectorConfig implements ServiceConnectorConfig{
 
     public void setLoadBalancingPolicy(LoadBalancingPolicy loadBalancingPolicy) {
         this.loadBalancingPolicy = loadBalancingPolicy;
-    }
-
-    public PoolingOptions getPoolingOptions() {
-        return poolingOptions;
-    }
-
-    public void setPoolingOptions(PoolingOptions poolingOptions) {
-        this.poolingOptions = poolingOptions;
     }
 
     public ProtocolOptions.Compression getCompression() {

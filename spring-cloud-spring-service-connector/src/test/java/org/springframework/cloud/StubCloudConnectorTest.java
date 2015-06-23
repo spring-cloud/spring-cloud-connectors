@@ -2,14 +2,12 @@ package org.springframework.cloud;
 
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.cloud.service.ServiceInfo;
-import org.springframework.cloud.service.common.MongoServiceInfo;
-import org.springframework.cloud.service.common.MysqlServiceInfo;
-import org.springframework.cloud.service.common.PostgresqlServiceInfo;
-import org.springframework.cloud.service.common.AmqpServiceInfo;
-import org.springframework.cloud.service.common.RedisServiceInfo;
+import org.springframework.cloud.service.common.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.Collections;
 
 /**
  * Base class for close-to-integration tests that use a stub {@link CloudConnector} to avoid the need for a real cloud environment.
@@ -73,5 +71,10 @@ abstract public class StubCloudConnectorTest {
 	
 	protected RedisServiceInfo createRedisService(String id) {
 		return new RedisServiceInfo(id, "host", 1234, "password");
+	}
+
+	//We can't use keyspaces to test cassandra as it expects to connect to the cluster. Other test scenarios use mocks to test it
+	protected CassandraClusterServiceInfo createCassandraService(String id){
+		return new CassandraClusterServiceInfo(id, Collections.singletonList("10.20.30.40"),"username","password","",9042);
 	}
 }
