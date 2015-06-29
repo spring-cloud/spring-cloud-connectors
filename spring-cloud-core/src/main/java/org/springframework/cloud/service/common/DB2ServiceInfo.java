@@ -9,10 +9,11 @@ public class DB2ServiceInfo extends RelationalServiceInfo {
 
     public static final String DB2_SCHEME = JDBC_URL_TYPE;
 
-	public DB2ServiceInfo(String id, String url) {
+    public DB2ServiceInfo(String id, String url) {
 		super(id, url, JDBC_URL_TYPE);
 	}
 
+	@ServiceProperty(category = "connection")
 	@Override
 	public String getJdbcUrl() {
 		if (getUriInfo().getUriString().startsWith(JDBC_PREFIX)) {
@@ -23,5 +24,5 @@ public class DB2ServiceInfo extends RelationalServiceInfo {
 				jdbcUrlDatabaseType, 
 				getHost(), getPort(), getPath(), getUserName(), getPassword());
 	}
-
+	
 }
