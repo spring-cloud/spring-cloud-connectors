@@ -8,13 +8,13 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.cloud.service.document.MongoDbFactoryCreator;
-import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.mongodb.Mongo;
-import com.mongodb.ServerAddress;
 import org.springframework.util.StringUtils;
+
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 
 /**
  * Test cases for Mongo service connector creators.
@@ -44,9 +44,10 @@ public class MongoServiceConnectorCreatorTest {
 
 		assertNotNull(mongoDbFactory);
 
-		Mongo mongo = (Mongo) ReflectionTestUtils.getField(mongoDbFactory, "mongo");
-		UserCredentials credentials = (UserCredentials) ReflectionTestUtils.getField(mongoDbFactory, "credentials");
+		MongoClient mongo = (MongoClient) ReflectionTestUtils.getField(mongoDbFactory, "mongo");
 		assertNotNull(mongo);
+
+		MongoCredential credentials = mongo.getCredentialsList().get(0);
 
 		List<ServerAddress> addresses = mongo.getAllAddress();
 		assertEquals(1, addresses.size());
@@ -55,8 +56,8 @@ public class MongoServiceConnectorCreatorTest {
 
 		assertEquals(serviceInfo.getHost(), address.getHost());
 		assertEquals(serviceInfo.getPort(), address.getPort());
-		assertEquals(serviceInfo.getUserName(), ReflectionTestUtils.getField(credentials, "username"));
-		assertEquals(serviceInfo.getPassword(), ReflectionTestUtils.getField(credentials, "password"));
+		assertEquals(serviceInfo.getUserName(), credentials.getUserName());
+		assertNotNull(credentials.getPassword());
 
 		// Don't do connector.getDatabase().getName() as that will try to initiate the connection
 		assertEquals(serviceInfo.getDatabase(), ReflectionTestUtils.getField(mongoDbFactory, "databaseName"));
@@ -73,15 +74,15 @@ public class MongoServiceConnectorCreatorTest {
 
 		assertNotNull(mongoDbFactory);
 
-		Mongo mongo = (Mongo) ReflectionTestUtils.getField(mongoDbFactory, "mongo");
-		UserCredentials credentials = (UserCredentials) ReflectionTestUtils.getField(mongoDbFactory, "credentials");
+		MongoClient mongo = (MongoClient) ReflectionTestUtils.getField(mongoDbFactory, "mongo");
 		assertNotNull(mongo);
 
 		List<ServerAddress> addresses = mongo.getAllAddress();
 		assertEquals(3, addresses.size());
 
-		assertEquals(TEST_USERNAME, ReflectionTestUtils.getField(credentials, "username"));
-		assertEquals(TEST_PASSWORD, ReflectionTestUtils.getField(credentials, "password"));
+		MongoCredential credentials = mongo.getCredentialsList().get(0);
+		assertEquals(TEST_USERNAME, credentials.getUserName());
+		assertNotNull(credentials.getPassword());
 
 		// Don't do connector.getDatabase().getName() as that will try to initiate the connection
 		assertEquals(TEST_DB, ReflectionTestUtils.getField(mongoDbFactory, "databaseName"));
