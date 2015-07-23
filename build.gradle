@@ -4,7 +4,7 @@ description = "Spring Cloud"
 
 buildscript {
 	repositories {
-		maven { url 'http://repo.springsource.org/plugins-release' }
+		maven { url 'https://repo.spring.io/plugins-release' }
 	}
 	dependencies {
 		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
@@ -107,12 +107,7 @@ subprojects {
 	}
 
 	repositories {
-		mavenLocal()
-
-		maven { url "http://repo.spring.io/snapshot" }
-		maven { url "http://repo.spring.io/milestone" }
-		maven { url "http://repo.spring.io/libs-milestone" }
-		maven { url "http://repo.maven.apache.org/maven2" }
+		maven { url "https://repo.spring.io/libs-milestone" }
 	}
 }
 
