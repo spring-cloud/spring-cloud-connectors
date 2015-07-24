@@ -190,7 +190,9 @@ ext {
 		"amqp12"         : [springAmqpVersion: "1.2.2.RELEASE"],
 		"amqp13"         : [springAmqpVersion: "1.3.6.RELEASE"],
 		"spring32"       : [springVersion: "3.2.9.RELEASE"],
-		"spring40"       : [springVersion: "4.0.5.RELEASE"]
+		"spring40"       : [springVersion: "4.0.5.RELEASE"],
+		"tomcat7"        : [tomcatVersion: "7.0.53"],
+		"tomcat8"        : [tomcatVersion: "8.0.24"],
 	]
 }
 
