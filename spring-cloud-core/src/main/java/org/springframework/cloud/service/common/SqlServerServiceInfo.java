@@ -11,12 +11,15 @@ public class SqlServerServiceInfo extends RelationalServiceInfo {
 	public SqlServerServiceInfo(String id, String url) {
 		super(id, url, JDBC_URL_TYPE);
 	}
-	
-	@Override  
-	 public String getJdbcUrl()   
-	 {  
-		return String.format("jdbc:%s://%s:%d;database=%s;user=%s;password=%s;",
-				jdbcUrlDatabaseType, 
+
+	@Override
+	public String getJdbcUrl() {
+		if (getUriInfo().getUriString().startsWith(JDBC_PREFIX)) {
+			return getUriInfo().getUriString();
+		}
+
+		return String.format("jdbc:%s://%s:%d;database=%s;user=%s;password=%s",
+				jdbcUrlDatabaseType,
 				getHost(), getPort(), getPath(), getUserName(), getPassword());
-	 }  
+	}
 }
