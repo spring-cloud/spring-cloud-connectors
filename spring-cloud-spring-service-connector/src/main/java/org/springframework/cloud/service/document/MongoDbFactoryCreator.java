@@ -4,27 +4,22 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoClientURI;
-import com.mongodb.MongoClientOptions.Builder;
-import com.mongodb.MongoCredential;
-import com.mongodb.MongoException;
-import com.mongodb.ServerAddress;
-import com.mongodb.WriteConcern;
 
 import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreationException;
 import org.springframework.cloud.service.common.MongoServiceInfo;
-import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
+
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoClientOptions.Builder;
+import com.mongodb.MongoClientURI;
+import com.mongodb.MongoException;
+import com.mongodb.WriteConcern;
 
 /**
  * Simplified access to creating MongoDB service objects.
@@ -37,7 +32,7 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 	@Override
 	public MongoDbFactory create(MongoServiceInfo serviceInfo, ServiceConnectorConfig config) {
 		try {
-			MongoClientOptions mongoOptionsToUse = getMongoOptions((MongoDbFactoryConfig) config);
+			MongoClientOptions.Builder mongoOptionsToUse = getMongoOptions((MongoDbFactoryConfig) config);
 
 			SimpleMongoDbFactory mongoDbFactory = createMongoDbFactory(serviceInfo, mongoOptionsToUse);
 
@@ -49,33 +44,13 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 		}
 	}
 
-	private SimpleMongoDbFactory createMongoDbFactory(MongoServiceInfo serviceInfo, MongoClientOptions mongoOptionsToUse) throws UnknownHostException {
-		MongoClientURI mongoClientURI = new MongoClientURI(serviceInfo.getUri());
-		List<ServerAddress> serverAddressList = getServerAddresses(mongoClientURI);
-
-		MongoClient mongo = new MongoClient(serverAddressList, mongoOptionsToUse);
-		MongoCredential mongoCredential =  mongoClientURI.getCredentials();
-
-		if (mongoCredential.getUserName() != null && mongoCredential.getPassword() != null) {
-			UserCredentials credentials = new UserCredentials(mongoCredential.getUserName(), new String(mongoCredential.getPassword()));
-			return new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase(), credentials, mongoCredential.getSource());
-		}
-
+	private SimpleMongoDbFactory createMongoDbFactory(MongoServiceInfo serviceInfo, MongoClientOptions.Builder mongoOptionsToUse) throws UnknownHostException {
+		MongoClientURI mongoClientURI = new MongoClientURI(serviceInfo.getUri(), mongoOptionsToUse);
+		MongoClient mongo = new MongoClient(mongoClientURI);
 		return new SimpleMongoDbFactory(mongo, mongoClientURI.getDatabase());
 	}
 
-	private List<ServerAddress> getServerAddresses(MongoClientURI mongoClientURI) throws UnknownHostException {
-		List<String> servers = mongoClientURI.getHosts();
-		List<ServerAddress> serverAddressList = new ArrayList<ServerAddress>();
-
-		for(String server : servers) {
-			serverAddressList.add(new ServerAddress(server));
-		}
-
-		return serverAddressList;
-	}
-
-	private MongoClientOptions getMongoOptions(MongoDbFactoryConfig config) {
+	private MongoClientOptions.Builder getMongoOptions(MongoDbFactoryConfig config) {
 		MongoClientOptions.Builder builder;
 		
 		Method builderMethod = ClassUtils.getMethodIfAvailable(MongoClientOptions.class, "builder");
@@ -108,7 +83,7 @@ public class MongoDbFactoryCreator extends AbstractServiceConnectorCreator<Mongo
 			}
 		}
 
-		return builder.build();
+		return builder;
 	}
 
 	public SimpleMongoDbFactory configure(SimpleMongoDbFactory mongoDbFactory, MongoDbFactoryConfig config) {
