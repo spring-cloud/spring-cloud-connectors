@@ -511,40 +511,48 @@ table.CodeRay td.code>pre{padding:0}
 <p>Spring Cloud Connectors provides a simple abstraction for JVM-based applications running on cloud platforms to discover bound services and deployment information at runtime, and provides support for registering discovered services as Spring beans. It is based on a plugin model so that the identical compiled application can be deployed locally or on any of multiple cloud platforms, and it supports custom service definitions through Java SPI.</p>
 </div>
 <div class="paragraph">
-<p>Spring Cloud Connectors provides out-of-the-box support for discovering common services on Heroku and Cloud Foundry clouds as well as a properties-based configuration for development and testing.</p>
+<p>Spring Cloud Connectors provides out-of-the-box support for discovering common services on Heroku and Cloud Foundry clouds, as well as a properties-based connector that can supply configuration for development and testing.</p>
 </div>
 <div class="paragraph">
-<p>The core concepts used in this project are:</p>
+<p>The core Connectors concepts are:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Cloud Connector</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A platform-specific interface that identifies the presence of the platform and discovers any services bound to the application deployment.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Service Connector</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An object that represents a runtime connection to a service (for example, a <code>javax.sql.DataSource</code>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Service Information</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Information about the underlying service (such as host, port, and credentials).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Application Information</strong></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Information about the application and the particular running instance.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The project contains three major submodules.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Cloud connector</strong>: An interface specific to a cloud platform that identifies the presence of the platform and discovers any services bound to the application deployment.</p>
+<p><a href="spring-cloud-core.html"><strong>core</strong></a>: The core library, which is both cloud-agnostic and Spring-agnostic. It provides a programmatic entry point for developers who prefer to access cloud services and application information manually. It also provides basic service definitions for several common services (databases, message queues) and an SPI-based extension mechanism for contributing cloud and service connectors.</p>
 </li>
 <li>
-<p><strong>Service connector</strong>: An object, such as a <code>javax.sql.DataSource</code>, that represents a runtime connection to a service.</p>
+<p><a href="spring-cloud-spring-service-connector.html"><strong>spring-service-connector</strong></a>: A Spring library that exposes application information, cloud information, and discovered services as Spring beans of the appropriate type. For example, an SQL service will be exposed as a <code>javax.sql.DataSource</code>, with optional connection pooling.</p>
 </li>
 <li>
-<p><strong>Service information</strong>: Information about the underlying service such as host, port, and credentials.</p>
-</li>
-<li>
-<p><strong>Application information</strong>: Information about the application and the particular running instance.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The project contains three major submodules:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="spring-cloud-core.html"><strong>core</strong></a>: The core library, cloud- and Spring-agnostic, that provides a programmatic entry point for developers who prefer to access cloud services and application information manually. It also provides basic service definitions for several common services (databases, message queues) and an SPI-based extension mechanism to contribute cloud and service connectors.</p>
-</li>
-<li>
-<p><a href="spring-cloud-spring-service-connector.html"><strong>spring-service-connector</strong></a>: A Spring Library that exposes application and cloud information and discovered services as Spring beans of the appropriate type. For example, SQL services will be exposed as <code>javax.sql.DataSource</code> s with optional connection pooling.</p>
-</li>
-<li>
-<p>Cloud connectors:</p>
+<p>The cloud connectors:</p>
 <div class="ulist">
 <ul>
 <li>
@@ -554,7 +562,7 @@ table.CodeRay td.code>pre{padding:0}
 <p><a href="heroku-connector.html"><strong>heroku-connector</strong></a>: Connector for Heroku.</p>
 </li>
 <li>
-<p><a href="localconfig-connector.html"><strong>localconfig-connector</strong></a>: Properties-based connector for manually providing configuration information for development or testing. Allows the use of the same Spring Cloud configuration wiring in all stages of application deployment.</p>
+<p><a href="localconfig-connector.html"><strong>localconfig-connector</strong></a>: Properties-based connector for manually providing configuration information during development or testing. Allows use of the same Spring Cloud configuration wiring in all stages of application deployment.</p>
 </li>
 </ul>
 </div>
@@ -567,7 +575,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_getting_started">Getting Started</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>See below for examples of how to include the appropriate dependencies for your build system.</p>
+<p>See below for examples of how to include the appropriate dependencies using your build system.</p>
 </div>
 <div class="sect2">
 <h3 id="_including_cloud_connectors">Including cloud connectors</h3>
@@ -668,7 +676,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-30 16:08:02 CDT
+Last updated 2015-07-30 16:42:07 CDT
 </div>
 </div>
 </body>
