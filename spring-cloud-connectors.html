@@ -508,7 +508,7 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div id="spring-cloud-connectors-install" class="paragraph">
-<p>Spring Cloud Connectors provides a simple abstraction for JVM-based applications running on cloud platforms to discover bound services and deployment information at runtime and provides support for registering discovered services as Spring beans. It is based on a plugin model so that the identical compiled application can be deployed locally or on multiple clouds, and it supports custom service definitions through Java SPI.</p>
+<p>Spring Cloud Connectors provides a simple abstraction for JVM-based applications running on cloud platforms to discover bound services and deployment information at runtime, and provides support for registering discovered services as Spring beans. It is based on a plugin model so that the identical compiled application can be deployed locally or on any of multiple cloud platforms, and it supports custom service definitions through Java SPI.</p>
 </div>
 <div class="paragraph">
 <p>Spring Cloud Connectors provides out-of-the-box support for discovering common services on Heroku and Cloud Foundry clouds as well as a properties-based configuration for development and testing.</p>
@@ -567,12 +567,15 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_getting_started">Getting Started</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The following examples are written for Maven; simply include the appropriate dependencies for your build system.</p>
+<p>See below for examples of how to include the appropriate dependencies for your build system.</p>
 </div>
 <div class="sect2">
 <h3 id="_including_cloud_connectors">Including cloud connectors</h3>
 <div class="paragraph">
 <p>Include the connector for each cloud platform you want to be discoverable. Including multiple connectors is perfectly fine; each connector will determine whether it should be active in a particular environment.</p>
+</div>
+<div class="paragraph">
+<p>In Maven, replacing <code>${VERSION}</code> with the desired artifact version:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -580,58 +583,71 @@ table.CodeRay td.code>pre{padding:0}
 <span class="tag">&lt;dependency&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>spring-cloud-localconfig-connector<span class="tag">&lt;/artifactId&gt;</span>
-    <span class="tag">&lt;version&gt;</span>1.1.1.RELEASE<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${VERSION}<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span>
 
 <span class="comment">&lt;!-- If you intend to deploy the app to Cloud Foundry --&gt;</span>
 <span class="tag">&lt;dependency&gt;</span>
     <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
     <span class="tag">&lt;artifactId&gt;</span>spring-cloud-cloudfoundry-connector<span class="tag">&lt;/artifactId&gt;</span>
-    <span class="tag">&lt;version&gt;</span>1.1.1.RELEASE<span class="tag">&lt;/version&gt;</span>
+    <span class="tag">&lt;version&gt;</span>${VERSION}<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span>
 
 <span class="comment">&lt;!-- If you intend to deploy the app to Heroku --&gt;</span>
 <span class="tag">&lt;dependency&gt;</span>
   <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
   <span class="tag">&lt;artifactId&gt;</span>spring-cloud-heroku-connector<span class="tag">&lt;/artifactId&gt;</span>
-  <span class="tag">&lt;version&gt;</span>1.1.1.RELEASE<span class="tag">&lt;/version&gt;</span>
+  <span class="tag">&lt;version&gt;</span>${VERSION}<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In Gradle, replacing <code>${VERSION}</code> with the desired version:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
+
+    <span class="comment">// to use Spring Cloud Connectors for development</span>
+    compile <span class="string"><span class="delimiter">'</span><span class="content">org.springframework.cloud:spring-cloud-localconfig-connector:${VERSION}</span><span class="delimiter">'</span></span>
+
+    <span class="comment">// If you intend to deploy the app to Cloud Foundry</span>
+    compile <span class="string"><span class="delimiter">'</span><span class="content">org.springframework.cloud:spring-cloud-cloudfoundry-connector:${VERSION}</span><span class="delimiter">'</span></span>
+
+    <span class="comment">// If you intend to deploy the app to Heroku</span>
+    compile <span class="string"><span class="delimiter">'</span><span class="content">org.springframework.cloud:spring-cloud-heroku-connector:${VERSION}</span><span class="delimiter">'</span></span>
+
+}</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_spring_applications">Spring applications</h3>
 <div class="paragraph">
-<p>Add the spring-service-connector in addition to your cloud connectors:</p>
+<p>If you&#8217;re writing a Spring application, include the <code>spring-service-connector</code> in addition to your cloud connectors.</p>
+</div>
+<div class="paragraph">
+<p>In Maven:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;dependency&gt;</span>
   <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
   <span class="tag">&lt;artifactId&gt;</span>spring-cloud-spring-service-connector<span class="tag">&lt;/artifactId&gt;</span>
-  <span class="tag">&lt;version&gt;</span>1.1.1.RELEASE<span class="tag">&lt;/version&gt;</span>
-<span class="tag">&lt;/dependency&gt;</span>
-
-<span class="comment">&lt;!-- to use Spring Cloud for development --&gt;</span>
-<span class="tag">&lt;dependency&gt;</span>
-    <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
-    <span class="tag">&lt;artifactId&gt;</span>spring-cloud-localconfig-connector<span class="tag">&lt;/artifactId&gt;</span>
-    <span class="tag">&lt;version&gt;</span>1.1.1.RELEASE<span class="tag">&lt;/version&gt;</span>
-<span class="tag">&lt;/dependency&gt;</span>
-
-<span class="comment">&lt;!-- If you intend to deploy the app to Cloud Foundry --&gt;</span>
-<span class="tag">&lt;dependency&gt;</span>
-    <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
-    <span class="tag">&lt;artifactId&gt;</span>spring-cloud-cloudfoundry-connector<span class="tag">&lt;/artifactId&gt;</span>
-    <span class="tag">&lt;version&gt;</span>1.1.1.RELEASE<span class="tag">&lt;/version&gt;</span>
-<span class="tag">&lt;/dependency&gt;</span>
-
-<span class="comment">&lt;!-- If you intend to deploy the app to Heroku --&gt;</span>
-<span class="tag">&lt;dependency&gt;</span>
-  <span class="tag">&lt;groupId&gt;</span>org.springframework.cloud<span class="tag">&lt;/groupId&gt;</span>
-  <span class="tag">&lt;artifactId&gt;</span>spring-cloud-heroku-connector<span class="tag">&lt;/artifactId&gt;</span>
-  <span class="tag">&lt;version&gt;</span>1.1.1.RELEASE<span class="tag">&lt;/version&gt;</span>
+  <span class="tag">&lt;version&gt;</span>${VERSION}<span class="tag">&lt;/version&gt;</span>
 <span class="tag">&lt;/dependency&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In Gradle:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
+
+    compile <span class="string"><span class="delimiter">'</span><span class="content">org.springframework.cloud:spring-cloud-spring-service-connector:${VERSION}</span><span class="delimiter">'</span></span>
+
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -652,7 +668,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-30 08:59:19 CDT
+Last updated 2015-07-30 16:08:02 CDT
 </div>
 </div>
 </body>
