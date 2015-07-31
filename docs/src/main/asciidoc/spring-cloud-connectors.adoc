@@ -1,0 +1,123 @@
+:github-tag: master
+:github-repo: spring-cloud/spring-cloud-connectors
+:github-raw: http://raw.github.com/{github-repo}/{github-tag}
+:github-code: http://github.com/{github-repo}/tree/{github-tag}
+:toc:
+
+= Spring Cloud Connectors
+
+[[spring-cloud-connectors-install]]
+
+== Introduction
+
+Spring Cloud Connectors provides a simple abstraction for JVM-based applications running on cloud platforms to discover bound services and deployment information at runtime, and provides support for registering discovered services as Spring beans. It is based on a plugin model so that the identical compiled application can be deployed locally or on any of multiple cloud platforms, and it supports custom service definitions through Java SPI. The Connectors project provides out-of-the-box support for discovering common services on Heroku and Cloud Foundry clouds, as well as a properties-based connector that can supply configuration for development and testing.
+
+For details on specific submodules and connectors, see <<Submodules>>.
+
+=== Concepts
+
+The core Connectors concepts are described below.
+
+[width="100%"]
+|===========================================================================================================================================================================
+|**Cloud Connector** |A platform-specific interface that identifies the presence of the platform and discovers any services bound to the application deployment.
+|**Service Connector** |An object that represents a runtime connection to a service (for example, a `javax.sql.DataSource`).
+|**Service Information** |Information about the underlying service (such as host, port, and credentials).
+|**Application Information** |Information about the application and the particular running instance.
+|===========================================================================================================================================================================
+
+=== Submodules
+
+The project contains three major submodules.
+
+* <<spring-cloud-core.adoc#,**Spring Cloud Connectors Core**>>: The core library, which is both cloud-agnostic and Spring-agnostic. It provides a programmatic entry point for developers who prefer to access cloud services and application information manually. It also provides basic service definitions for several common services (databases, message queues) and an SPI-based extension mechanism for contributing cloud and service connectors.
+* <<spring-cloud-spring-service-connector.adoc#,**Spring Cloud Spring Service Connector**>>: A Spring library that exposes application information, cloud information, and discovered services as Spring beans of the appropriate type. For example, an SQL service will be exposed as a `javax.sql.DataSource`, with optional connection pooling.
+* The cloud connectors:
+ ** <<cloudfoundry-connector.adoc#,**Spring Cloud Cloud Foundry Connector**>>: Connector for link:http://cloudfoundry.org/[Cloud Foundry].
+ ** <<heroku-connector.adoc#,**Spring Cloud Heroku Connector**>>: Connector for link:https://www.heroku.com/[Heroku].
+ ** <<localconfig-connector.adoc#,**Spring Cloud local-configuration Connector**>>: Properties-based connector for manually providing configuration information during development or testing. Allows use of the same Spring Cloud configuration wiring in all stages of application deployment.
+
+== Getting Started
+
+See below for examples of how to include the appropriate dependencies using your build system.
+
+=== Including Cloud Connectors
+
+Include the connector for each cloud platform you want to be discoverable. Including multiple connectors is perfectly fine; each connector will determine whether it should be active in a particular environment.
+
+In Maven, replacing `${VERSION}` with the desired artifact version:
+
+[source,xml]
+----
+<!-- to use Spring Cloud Connectors for development -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-localconfig-connector</artifactId>
+    <version>${VERSION}</version>
+</dependency>
+
+<!-- If you intend to deploy the app to Cloud Foundry -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
+    <version>${VERSION}</version>
+</dependency>
+
+<!-- If you intend to deploy the app to Heroku -->
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-heroku-connector</artifactId>
+  <version>${VERSION}</version>
+</dependency>
+----
+
+In Gradle, replacing `${VERSION}` with the desired version:
+
+[source,groovy]
+----
+dependencies {
+
+    // to use Spring Cloud Connectors for development
+    compile 'org.springframework.cloud:spring-cloud-localconfig-connector:${VERSION}'
+    
+    // If you intend to deploy the app to Cloud Foundry
+    compile 'org.springframework.cloud:spring-cloud-cloudfoundry-connector:${VERSION}'
+
+    // If you intend to deploy the app to Heroku
+    compile 'org.springframework.cloud:spring-cloud-heroku-connector:${VERSION}'
+
+}
+----
+
+=== Spring Applications
+
+If you're writing a Spring application, include the <<spring-cloud-spring-service-connector.adoc#,Spring Cloud Spring Service Connector>> dependency in addition to your cloud connector dependencies.
+
+In Maven:
+
+[source,xml]
+----
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-spring-service-connector</artifactId>
+  <version>${VERSION}</version>
+</dependency>
+----
+
+In Gradle:
+
+[source,groovy]
+----
+dependencies {
+
+    compile 'org.springframework.cloud:spring-cloud-spring-service-connector:${VERSION}'
+
+}
+----
+
+Then follow the instructions in the <<spring-cloud-spring-service-connector.adoc#,Spring Cloud Spring Service Connector>> documentation on Spring configuration <<spring-cloud-spring-service-connector.adoc#_the_java_config,using Java configuration>> or the <<spring-cloud-spring-service-connector.adoc#_the_code_cloud_code_namespace,`<cloud>` namespace>>.
+
+=== Non-Spring Applications
+
+The `spring-cloud-core` dependency is included by each cloud connector, so simply include the connectors for the platforms you want. Then follow the <<spring-cloud-core.adoc#,instructions on using the Spring Cloud Connectors API>>.
+
