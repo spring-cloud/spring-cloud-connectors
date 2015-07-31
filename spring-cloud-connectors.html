@@ -580,10 +580,10 @@ table.CodeRay td.code>pre{padding:0}
 <div class="ulist">
 <ul>
 <li>
-<p><a href="cloudfoundry-connector.html"><strong>Spring Cloud Cloud Foundry Connector</strong></a>: Connector for Cloud Foundry.</p>
+<p><a href="cloudfoundry-connector.html"><strong>Spring Cloud Cloud Foundry Connector</strong></a>: Connector for <a href="http://cloudfoundry.org/">Cloud Foundry</a>.</p>
 </li>
 <li>
-<p><a href="heroku-connector.html"><strong>Spring Cloud Heroku Connector</strong></a>: Connector for Heroku.</p>
+<p><a href="heroku-connector.html"><strong>Spring Cloud Heroku Connector</strong></a>: Connector for <a href="https://www.heroku.com/">Heroku</a>.</p>
 </li>
 <li>
 <p><a href="localconfig-connector.html"><strong>Spring Cloud local-configuration Connector</strong></a>: Properties-based connector for manually providing configuration information during development or testing. Allows use of the same Spring Cloud configuration wiring in all stages of application deployment.</p>
@@ -657,7 +657,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect2">
 <h3 id="_spring_applications">Spring Applications</h3>
 <div class="paragraph">
-<p>If you&#8217;re writing a Spring application, include the <code>spring-service-connector</code> in addition to your cloud connectors.</p>
+<p>If you&#8217;re writing a Spring application, include the <a href="spring-cloud-spring-service-connector.html">Spring Cloud Spring Service Connector</a> dependency in addition to your cloud connector dependencies.</p>
 </div>
 <div class="paragraph">
 <p>In Maven:</p>
@@ -684,16 +684,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="paragraph">
-<p>Then follow the instructions in <a href="spring-cloud-spring-service-connector.html">Spring Cloud Spring Service Connector</a> on Spring configuration <a href="spring-cloud-spring-service-connector.html#_the_java_config">using Java configuration</a> or the <a href="spring-cloud-spring-service-connector.html#_the_code_cloud_code_namespace"><code>&lt;cloud&gt;</code> namespace</a>.</p>
+<p>Then follow the instructions in the <a href="spring-cloud-spring-service-connector.html">Spring Cloud Spring Service Connector</a> documentation on Spring configuration <a href="spring-cloud-spring-service-connector.html#_the_java_config">using Java configuration</a> or the <a href="spring-cloud-spring-service-connector.html#_the_code_cloud_code_namespace"><code>&lt;cloud&gt;</code> namespace</a>.</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_non_spring_applications">Non-Spring Applications</h3>
 <div class="paragraph">
-<p>The <code>spring-cloud-core</code> dependency is included by each cloud connector, so simply include the connectors for the platforms you want.</p>
-</div>
-<div class="paragraph">
-<p>Then follow the instructions on using the Spring Cloud Connectors API.</p>
+<p>The <code>spring-cloud-core</code> dependency is included by each cloud connector, so simply include the connectors for the platforms you want. Then follow the <a href="spring-cloud-core.html">instructions on using the Spring Cloud Connectors API</a>.</p>
 </div>
 </div>
 </div>
@@ -701,7 +698,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-31 11:16:35 CDT
+Last updated 2015-07-31 11:36:59 CDT
 </div>
 </div>
 </body>
