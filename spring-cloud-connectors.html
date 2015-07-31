@@ -527,15 +527,15 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="spring-cloud-connectors-install">Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Spring Cloud Connectors provides a simple abstraction for JVM-based applications running on cloud platforms to discover bound services and deployment information at runtime, and provides support for registering discovered services as Spring beans. It is based on a plugin model so that the identical compiled application can be deployed locally or on any of multiple cloud platforms, and it supports custom service definitions through Java SPI.</p>
+<p>Spring Cloud Connectors provides a simple abstraction for JVM-based applications running on cloud platforms to discover bound services and deployment information at runtime, and provides support for registering discovered services as Spring beans. It is based on a plugin model so that the identical compiled application can be deployed locally or on any of multiple cloud platforms, and it supports custom service definitions through Java SPI. The Connectors project provides out-of-the-box support for discovering common services on Heroku and Cloud Foundry clouds and a properties-based connector that can supply configuration for development and testing.</p>
 </div>
 <div class="paragraph">
-<p>Spring Cloud Connectors provides out-of-the-box support for discovering common services on Heroku and Cloud Foundry clouds, as well as a properties-based connector that can supply configuration for development and testing.</p>
+<p>For details on specific submodules and connectors, see <a href="#_submodules">Submodules</a>.</p>
 </div>
 <div class="sect2">
 <h3 id="_concepts">Concepts</h3>
 <div class="paragraph">
-<p>The core Connectors concepts are:</p>
+<p>The core Connectors concepts are described below.</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -570,23 +570,23 @@ table.CodeRay td.code>pre{padding:0}
 <div class="ulist">
 <ul>
 <li>
-<p><a href="spring-cloud-core.html"><strong>core</strong></a>: The core library, which is both cloud-agnostic and Spring-agnostic. It provides a programmatic entry point for developers who prefer to access cloud services and application information manually. It also provides basic service definitions for several common services (databases, message queues) and an SPI-based extension mechanism for contributing cloud and service connectors.</p>
+<p><a href="spring-cloud-core.html"><strong>Spring Cloud Connectors Core</strong></a>: The core library, which is both cloud-agnostic and Spring-agnostic. It provides a programmatic entry point for developers who prefer to access cloud services and application information manually. It also provides basic service definitions for several common services (databases, message queues) and an SPI-based extension mechanism for contributing cloud and service connectors.</p>
 </li>
 <li>
-<p><a href="spring-cloud-spring-service-connector.html"><strong>spring-service-connector</strong></a>: A Spring library that exposes application information, cloud information, and discovered services as Spring beans of the appropriate type. For example, an SQL service will be exposed as a <code>javax.sql.DataSource</code>, with optional connection pooling.</p>
+<p><a href="spring-cloud-spring-service-connector.html"><strong>Spring Cloud Spring Service Connector</strong></a>: A Spring library that exposes application information, cloud information, and discovered services as Spring beans of the appropriate type. For example, an SQL service will be exposed as a <code>javax.sql.DataSource</code>, with optional connection pooling.</p>
 </li>
 <li>
 <p>The cloud connectors:</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="cloudfoundry-connector.html"><strong>cloudfoundry-connector</strong></a>: Connector for Cloud Foundry.</p>
+<p><a href="cloudfoundry-connector.html"><strong>Spring Cloud Cloud Foundry Connector</strong></a>: Connector for Cloud Foundry.</p>
 </li>
 <li>
-<p><a href="heroku-connector.html"><strong>heroku-connector</strong></a>: Connector for Heroku.</p>
+<p><a href="heroku-connector.html"><strong>Spring Cloud Heroku Connector</strong></a>: Connector for Heroku.</p>
 </li>
 <li>
-<p><a href="localconfig-connector.html"><strong>localconfig-connector</strong></a>: Properties-based connector for manually providing configuration information during development or testing. Allows use of the same Spring Cloud configuration wiring in all stages of application deployment.</p>
+<p><a href="localconfig-connector.html"><strong>Spring Cloud local-configuration Connector</strong></a>: Properties-based connector for manually providing configuration information during development or testing. Allows use of the same Spring Cloud configuration wiring in all stages of application deployment.</p>
 </li>
 </ul>
 </div>
@@ -701,7 +701,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-30 17:42:29 CDT
+Last updated 2015-07-31 11:03:28 CDT
 </div>
 </div>
 </body>
