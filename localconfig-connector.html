@@ -503,6 +503,22 @@ table.CodeRay td.code>pre{padding:0}
 <body class="book">
 <div id="header">
 <h1>Spring Cloud local-configuration Connector</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_quick_start">Quick start</a></li>
+<li><a href="#_property_sources">Property sources</a>
+<ul class="sectlevel2">
+<li><a href="#_providing_a_bootstrap_properties_file">Providing a bootstrap properties file</a></li>
+<li><a href="#_property_precedence">Property precedence</a></li>
+</ul>
+</li>
+<li><a href="#_activating_the_connector">Activating the connector</a></li>
+<li><a href="#_service_definitions">Service definitions</a></li>
+<li><a href="#_supporting_additional_services">Supporting additional services</a></li>
+<li><a href="#_instance_id">Instance ID</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div id="preamble">
@@ -563,7 +579,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="sect2">
 <h3 id="_providing_a_bootstrap_properties_file">Providing a bootstrap properties file</h3>
 <div class="paragraph">
-<p>To avoid having to manually configure run configurations or test runners with the path to the configuration properties file, the connector supports reading a templated filename out of the runtime classpath. This file must be named <code>spring-cloud-bootstrap.properties</code> and located at the classpath root, and for security the connector will not attempt to read any service URIs out of it. If the connector does find the file, it will read the property <code>spring.cloud.propertiesFile</code> and substitute the pattern <code>${system.property}</code> with the appropriate value from the system properties. The most useful option is generally <code>${user.home}</code>.</p>
+<p>To avoid having to manually configure run configurations or test runners with the path to the configuration properties file, the connector supports reading a templated filename out of the runtime classpath. This file must be named <code>spring-cloud-bootstrap.properties</code> and located at the classpath root, and for security the connector will not attempt to read any service URIs out of it. If the connector does find the file, it will read the property <code>spring.cloud.propertiesFile</code> and <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/index.html?org/apache/commons/lang3/text/StrSubstitutor.html">substitute the pattern <code>${system.property}</code></a> with the appropriate value from the system properties. The most useful option is generally <code>${user.home}</code>.</p>
 </div>
 <div class="paragraph">
 <p>A configuration properties file specified in the system properties will override any bootstrap file that may be available on the classpath.</p>
@@ -597,7 +613,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <h2 id="_supporting_additional_services">Supporting additional services</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Extend <code>LocalConfigServiceInfoCreator</code> with a creator for your service&#8217;s <code>ServiceInfo</code> class.</p>
+<p>Extend <code>LocalConfigServiceInfoCreator</code> with a creator for <a href="spring-cloud-core.html#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
 </div>
 <div class="paragraph">
 <p>Add the fully-qualified class name for your creator to</p>
@@ -620,7 +636,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-30 08:54:03 CDT
+Last updated 2015-07-31 12:15:05 CDT
 </div>
 </div>
 </body>

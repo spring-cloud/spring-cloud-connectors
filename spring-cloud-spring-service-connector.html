@@ -541,7 +541,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_the_java_config">The Java Config</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Typical use of Java config involves extending the <code>AbstractCloudConfig</code> class and adding methods with the <code>@Bean</code> annotation to create beans for services. Apps migrating from auto-reconfguration might first try the service-scanning approach until they need more explicit control.  Java config also offers a way to expose application and service properties, should you choose to take a lower level access in creating service connectors yourself (or for debugging purposes, etc.).</p>
+<p>Typical use of Java config involves extending the <code>AbstractCloudConfig</code> class and adding methods with the <code>@Bean</code> annotation to create beans for services. Apps migrating from <a href="https://spring.io/blog/2011/11/04/using-cloud-foundry-services-with-spring-part-2-auto-reconfiguration/">auto-reconfiguration</a> might first try the <a href="spring-cloud-spring-service-connector.html#_scanning_for_services">service-scanning approach</a> until they need more explicit control.  Java config also offers a way to expose application and service properties, should you choose to take a lower level access in creating service connectors yourself (or for debugging purposes, etc.).</p>
 </div>
 <div class="sect2">
 <h3 id="_creating_service_beans">Creating Service Beans</h3>
@@ -727,7 +727,7 @@ When the <code>id</code> attribute is not specified, the service name is used as
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-31 11:09:43 CDT
+Last updated 2015-07-31 12:07:41 CDT
 </div>
 </div>
 </body>

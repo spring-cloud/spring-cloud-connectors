@@ -503,6 +503,15 @@ table.CodeRay td.code>pre{padding:0}
 <body class="book">
 <div id="header">
 <h1>Spring Cloud Connectors Core</h1>
+<div id="toc" class="toc">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_connecting_to_a_cloud">Connecting to a cloud</a></li>
+<li><a href="#_adding_cloud_connectors">Adding cloud connectors</a></li>
+<li><a href="#_adding_service_discovery">Adding service discovery</a></li>
+<li><a href="#_adding_service_connectors">Adding service connectors</a></li>
+</ul>
+</div>
 </div>
 <div id="content">
 <div id="preamble">
@@ -529,7 +538,7 @@ table.CodeRay td.code>pre{padding:0}
 </td>
 <td class="content">
 <div class="paragraph">
-<p>If you are using Spring Cloud in a Spring application, you should consider automatically injecting Spring beans instead.</p>
+<p>If you are using Spring Cloud in a Spring application, you should consider <a href="spring-cloud-spring-service-connector.html">automatically injecting Spring beans</a> instead.</p>
 </div>
 </td>
 </tr>
@@ -538,7 +547,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="ulist">
 <ul>
 <li>
-<p>Include the desired cloud connectors on the runtime classpath as described in the main documentation.</p>
+<p>Include the desired cloud connectors on the runtime classpath <a href="spring-cloud-connectors.html">as described in the main documentation</a>.</p>
 </li>
 <li>
 <p>Create a <code>CloudFactory</code> instance. Creation of a <code>CloudFactory</code> instance is a bit expensive, so using a singleton instance is recommended.  If you are using a dependency injection framework such as Spring, create a bean for the <code>CloudFactory</code>.</p>
@@ -560,7 +569,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="paragraph">
-<p>Note that you must have a <code>CloudConnector</code> suitable for your deployment environment on your classpath.  For example, if you are deploying the application to Cloud Foundry, you must add cloudfoundry-connector to your classpath. If no suitable <code>CloudConnctor</code> is found, the <code>getCloud()</code> method will throw a <code>CloudException</code>.</p>
+<p>Note that you must have a <code>CloudConnector</code> suitable for your deployment environment on your classpath.  For example, if you are deploying the application to Cloud Foundry, you must add the <a href="cloudfoundry-connector.html">Cloud Foundry Connector</a> to your classpath. If no suitable <code>CloudConnector</code> is found, the <code>getCloud()</code> method will throw a <code>CloudException</code>.</p>
 </div>
 </li>
 <li>
@@ -596,7 +605,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>A cloud provider may extend Spring Cloud by adding a new <code>CloudConnector</code> to make Spring Cloud work with a new cloud platform. The connector is responsible for telling whether the application is running in the specific cloud, identifying application information (such as the name and instance ID of the particular running instance), and mapping bound services (such as URIs exposed in environment variables) as <code>ServiceInfo</code> objects.</p>
 </div>
 <div class="paragraph">
-<p>See the Cloud Foundry and Heroku connectors for examples.</p>
+<p>See the <a href="cloudfoundry-connector.html">Cloud Foundry Connector</a> and <a href="heroku-connector.html">Heroku Connector</a> for examples.</p>
 </div>
 <div class="paragraph">
 <p>Spring Cloud uses the Java SPI to discover available connectors. New cloud connectors should list the fully-qualified class name in the provider-configuration file at</p>
@@ -654,7 +663,7 @@ table.CodeRay td.code>pre{padding:0}
 <p>A service connector consumes a <code>ServiceInfo</code> discovered by the cloud connector and converts it into the appropriate service object, such as a <code>DataSource</code> for a service definition representing a SQL database.</p>
 </div>
 <div class="paragraph">
-<p>Service connectors may be tightly bound to the framework whose service objects they are creating; for example, some connectors in the Spring service connector create connection factories defined by Spring Data, for use in building Spring Data templates.</p>
+<p>Service connectors may be tightly bound to the framework whose service objects they are creating; for example, some connectors in the <a href="spring-cloud-spring-service-connector.html">Spring service connector</a> create connection factories defined by Spring Data, for use in building Spring Data templates.</p>
 </div>
 <div class="paragraph">
 <p>To add new service connectors, implement <code>ServiceConnectorCreator</code> in your connector classes and list the fully-qualified class names in the provider-configuration file at</p>
@@ -669,7 +678,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-30 17:55:01 CDT
+Last updated 2015-07-31 11:58:31 CDT
 </div>
 </div>
 </body>
