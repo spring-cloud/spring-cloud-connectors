@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.0">
-<title>Spring Cloud Cloud Foundry Connector</title>
+<title>Untitled</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -502,73 +502,17 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="book">
 <div id="header">
-<h1>Spring Cloud Cloud Foundry Connector</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_supporting_new_service_types">Supporting new service types</a></li>
-</ul>
+
 </div>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div id="spring-cloud-connectors-install" class="paragraph">
-<p>This connector will discover services bound to an application running in Cloud Foundry.  It currently knows about:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>PostgreSQL</p>
-</li>
-<li>
-<p>MySQL</p>
-</li>
-<li>
-<p>Oracle</p>
-</li>
-<li>
-<p>Redis</p>
-</li>
-<li>
-<p>MongoDB</p>
-</li>
-<li>
-<p>RabbitMQ</p>
-</li>
-<li>
-<p>SMTP gateway</p>
-</li>
-<li>
-<p>application monitoring (New Relic)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does not care which service provider is providing it.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_supporting_new_service_types">Supporting new service types</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Extend <code>CloudFoundryServiceInfoCreator</code> with a creator for <a href="spring-cloud-core.html#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
-</div>
-<div class="paragraph">
-<p>Add the fully-qualified class name for your creator to</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator</pre>
-</div>
-</div>
-</div>
-</div>
+
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-31 13:55:44 CDT
+Last updated 2015-08-03 12:01:05 CDT
 </div>
 </div>
 </body>

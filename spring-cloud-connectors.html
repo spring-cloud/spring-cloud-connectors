@@ -510,13 +510,43 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_concepts">Concepts</a></li>
 <li><a href="#_submodules">Submodules</a></li>
+<li><a href="#_getting_started">Getting Started</a></li>
 </ul>
 </li>
-<li><a href="#_getting_started">Getting Started</a>
+<li><a href="#_spring_cloud_connectors_core">Spring Cloud Connectors Core</a>
 <ul class="sectlevel2">
-<li><a href="#_including_cloud_connectors">Including Cloud Connectors</a></li>
-<li><a href="#_spring_applications">Spring Applications</a></li>
-<li><a href="#_non_spring_applications">Non-Spring Applications</a></li>
+<li><a href="#_connecting_to_a_cloud">Connecting to a cloud</a></li>
+<li><a href="#_adding_cloud_connectors">Adding cloud connectors</a></li>
+<li><a href="#_adding_service_discovery">Adding service discovery</a></li>
+<li><a href="#_adding_service_connectors">Adding service connectors</a></li>
+</ul>
+</li>
+<li><a href="#_spring_cloud_spring_service_connector">Spring Cloud Spring Service Connector</a>
+<ul class="sectlevel2">
+<li><a href="#_the_java_configuration">The Java Configuration</a></li>
+<li><a href="#_the_code_cloud_code_namespace">The <code>&lt;cloud&gt;</code> Namespace</a></li>
+</ul>
+</li>
+<li><a href="#_spring_cloud_cloud_foundry_connector">Spring Cloud Cloud Foundry Connector</a>
+<ul class="sectlevel2">
+<li><a href="#_supporting_new_service_types">Supporting new service types</a></li>
+</ul>
+</li>
+<li><a href="#_spring_cloud_heroku_connector">Spring Cloud Heroku Connector</a>
+<ul class="sectlevel2">
+<li><a href="#_supporting_additional_providers_for_existing_service_types">Supporting additional providers for existing service types</a></li>
+<li><a href="#_supporting_new_service_types_2">Supporting new service types</a></li>
+<li><a href="#_limitations">Limitations</a></li>
+</ul>
+</li>
+<li><a href="#_spring_cloud_local_configuration_connector">Spring Cloud local-configuration Connector</a>
+<ul class="sectlevel2">
+<li><a href="#_quick_start">Quick start</a></li>
+<li><a href="#_property_sources">Property sources</a></li>
+<li><a href="#_activating_the_connector">Activating the connector</a></li>
+<li><a href="#_service_definitions">Service definitions</a></li>
+<li><a href="#_supporting_additional_services">Supporting additional services</a></li>
+<li><a href="#_instance_id">Instance ID</a></li>
 </ul>
 </li>
 </ul>
@@ -594,16 +624,13 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_getting_started">Getting Started</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_getting_started">Getting Started</h3>
 <div class="paragraph">
 <p>See below for examples of how to include the appropriate dependencies using your build system.</p>
 </div>
-<div class="sect2">
-<h3 id="_including_cloud_connectors">Including Cloud Connectors</h3>
+<div class="sect3">
+<h4 id="_including_cloud_connectors">Including Cloud Connectors</h4>
 <div class="paragraph">
 <p>Include the connector for each cloud platform you want to be discoverable. Including multiple connectors is perfectly fine; each connector will determine whether it should be active in a particular environment.</p>
 </div>
@@ -654,8 +681,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_spring_applications">Spring Applications</h3>
+<div class="sect3">
+<h4 id="_spring_applications">Spring Applications</h4>
 <div class="paragraph">
 <p>If you&#8217;re writing a Spring application, include the <a href="spring-cloud-spring-service-connector.html">Spring Cloud Spring Service Connector</a> dependency in addition to your cloud connector dependencies.</p>
 </div>
@@ -687,8 +714,8 @@ table.CodeRay td.code>pre{padding:0}
 <p>Then follow the instructions in the <a href="spring-cloud-spring-service-connector.html">Spring Cloud Spring Service Connector</a> documentation on Spring configuration <a href="spring-cloud-spring-service-connector.html#_the_java_config">using Java configuration</a> or the <a href="spring-cloud-spring-service-connector.html#_the_code_cloud_code_namespace"><code>&lt;cloud&gt;</code> namespace</a>.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_non_spring_applications">Non-Spring Applications</h3>
+<div class="sect3">
+<h4 id="_non_spring_applications">Non-Spring Applications</h4>
 <div class="paragraph">
 <p>The <code>spring-cloud-core</code> dependency is included by each cloud connector, so simply include the connectors for the platforms you want. Then follow the <a href="spring-cloud-core.html">instructions on using the Spring Cloud Connectors API</a>.</p>
 </div>
@@ -696,9 +723,589 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_spring_cloud_connectors_core">Spring Cloud Connectors Core</h2>
+<div class="sectionbody">
+<div id="spring-cloud-connectors-install" class="paragraph">
+<p>This core library provides programmatic access to application and service information. This library has no Spring dependencies and may be used in non-Spring applications.</p>
+</div>
+<div class="paragraph">
+<p>This library requires Java 6 or newer.</p>
+</div>
+<div class="paragraph">
+<p>This library is cloud-agnostic. Using Java SPI, it supports pluggable cloud and service connectors; support for Cloud Foundry and Heroku is available out-of-the-box, in addition to locally-provided configuration for development and testing.</p>
+</div>
+<div class="sect2">
+<h3 id="_connecting_to_a_cloud">Connecting to a cloud</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you are using Spring Cloud in a Spring application, you should consider <a href="spring-cloud-spring-service-connector.html">automatically injecting Spring beans</a> instead.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Include the desired cloud connectors on the runtime classpath <a href="#">as described in the main documentation</a>.</p>
+</li>
+<li>
+<p>Create a <code>CloudFactory</code> instance. Creation of a <code>CloudFactory</code> instance is a bit expensive, so using a singleton instance is recommended.  If you are using a dependency injection framework such as Spring, create a bean for the <code>CloudFactory</code>.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">CloudFactory cloudFactory = <span class="keyword">new</span> CloudFactory();</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Obtain the <code>Cloud</code> object for the environment in which the application is running.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">Cloud cloud = cloudFactory.getCloud();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that you must have a <code>CloudConnector</code> suitable for your deployment environment on your classpath.  For example, if you are deploying the application to Cloud Foundry, you must add the <a href="cloudfoundry-connector.html">Cloud Foundry Connector</a> to your classpath. If no suitable <code>CloudConnector</code> is found, the <code>getCloud()</code> method will throw a <code>CloudException</code>.</p>
+</div>
+</li>
+<li>
+<p>Use the <code>Cloud</code> instance to access application and service information and to create service connectors.</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// ServiceInfo has all the information necessary to connect to the underlying service</span>
+<span class="predefined-type">List</span>&lt;ServiceInfo&gt; serviceInfos = cloud.getServiceInfos();</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// find the `ServiceInfo` definitions suitable for connecting to a particular service type</span>
+<span class="predefined-type">List</span>&lt;ServiceInfo&gt; databaseInfos = cloud.getServiceInfos(<span class="predefined-type">DataSource</span>.class);</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// Alternately, let Spring Cloud create a service connector for you</span>
+<span class="predefined-type">String</span> serviceId = <span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db</span><span class="delimiter">&quot;</span></span>;
+<span class="predefined-type">DataSource</span> ds = cloud.getServiceConnector(serviceId, <span class="predefined-type">DataSource</span>.class, <span class="predefined-constant">null</span> <span class="comment">/* default config */</span>);</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_cloud_connectors">Adding cloud connectors</h3>
+<div class="paragraph">
+<p>A cloud provider may extend Spring Cloud by adding a new <code>CloudConnector</code> to make Spring Cloud work with a new cloud platform. The connector is responsible for telling whether the application is running in the specific cloud, identifying application information (such as the name and instance ID of the particular running instance), and mapping bound services (such as URIs exposed in environment variables) as <code>ServiceInfo</code> objects.</p>
+</div>
+<div class="paragraph">
+<p>See the <a href="cloudfoundry-connector.html">Cloud Foundry Connector</a> and <a href="heroku-connector.html">Heroku Connector</a> for examples.</p>
+</div>
+<div class="paragraph">
+<p>Spring Cloud uses the Java SPI to discover available connectors. New cloud connectors should list the fully-qualified class name in the provider-configuration file at</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>META-INF/services/org.springframework.cloud.CloudConnector</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_service_discovery">Adding service discovery</h3>
+<div class="paragraph">
+<p>To allow Spring Cloud to discover a new type of service (<code>HelloWorldService</code>), create a <code>ServiceInfo</code> class containing the information necessary to connect to your service. If your service can be specified via a URI, extend <code>UriBasedServiceInfo</code> and provide the URI scheme in a call to the <code>super</code> constructor.</p>
+</div>
+<div class="paragraph">
+<p>This class will expose information for a service available at</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>helloworld://username:password@host:port/Bonjour</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="type">class</span> <span class="class">HelloWorldServiceInfo</span> <span class="directive">extends</span> UriBasedServiceInfo {
+    <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> URI_SCHEME = <span class="string"><span class="delimiter">&quot;</span><span class="content">helloworld</span><span class="delimiter">&quot;</span></span>;
+
+  <span class="comment">// needed to support structured service definitions like Cloud Foundry</span>
+    <span class="directive">public</span> HelloWorldServiceInfo(<span class="predefined-type">String</span> id, <span class="predefined-type">String</span> host, <span class="type">int</span> port, <span class="predefined-type">String</span> username, <span class="predefined-type">String</span> password, <span class="predefined-type">String</span> greeting) {
+    <span class="local-variable">super</span>(id, URI_SCHEME, host, port, username, password, greeting);
+    }
+
+    <span class="comment">// needed to support URI-based service definitions like Heroku</span>
+    <span class="directive">public</span> HelloWorldServiceInfo(<span class="predefined-type">String</span> id, <span class="predefined-type">String</span> uri) {
+        <span class="local-variable">super</span>(id, uri);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then you will need to create a <code>ServiceInfoCreator</code> for each cloud platform you want to support.  You will probably want to extend the appropriate creator base class(es), such as <code>HerokuServiceInfoCreator</code>. This is often as simple as writing a method that instantiates a new <code>HelloWorldServiceInfo</code>.</p>
+</div>
+<div class="paragraph">
+<p>Register your <code>ServiceInfoCreator</code> classes in the appropriate provider-configuration file for your cloud&#8217;s <code>ServiceInfoCreator</code> base class.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_service_connectors">Adding service connectors</h3>
+<div class="paragraph">
+<p>A service connector consumes a <code>ServiceInfo</code> discovered by the cloud connector and converts it into the appropriate service object, such as a <code>DataSource</code> for a service definition representing a SQL database.</p>
+</div>
+<div class="paragraph">
+<p>Service connectors may be tightly bound to the framework whose service objects they are creating; for example, some connectors in the <a href="spring-cloud-spring-service-connector.html">Spring service connector</a> create connection factories defined by Spring Data, for use in building Spring Data templates.</p>
+</div>
+<div class="paragraph">
+<p>To add new service connectors, implement <code>ServiceConnectorCreator</code> in your connector classes and list the fully-qualified class names in the provider-configuration file at</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>META-INF/services/org.springframework.cloud.service.ServiceConnectorCreator</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_spring_cloud_spring_service_connector">Spring Cloud Spring Service Connector</h2>
+<div class="sectionbody">
+<div id="spring-cloud-connectors-install" class="paragraph">
+<p>This library provides <code>ServiceConnectorCreator</code> implementations for <code>javax.sql.DataSource</code> and various <a href="http://projects.spring.io/spring-data/">Spring Data</a> connector factories. It also provides Java configuration and XML namespace support for connecting to cloud services, accessing cloud services, and accessing application properties.</p>
+</div>
+<div class="sect2">
+<h3 id="_the_java_configuration">The Java Configuration</h3>
+<div class="paragraph">
+<p>Typical use of the Java configuration involves extending the <code>AbstractCloudConfig</code> class and creating beans for services by annotating methods with the <code>@Bean</code> annotation. If you are migrating an application that uses <a href="https://spring.io/blog/2011/11/04/using-cloud-foundry-services-with-spring-part-2-auto-reconfiguration/">auto-reconfiguration</a>, you might first try the <a href="spring-cloud-spring-service-connector.html#_scanning_for_services">service-scanning approach</a> until you need more explicit control.  The Spring Service Connector Java configuration also offers a way to expose application and service properties in case you want lower-level access when creating your own service connectors (or for debugging purposes, etc.).</p>
+</div>
+<div class="sect3">
+<h4 id="_creating_service_beans">Creating Service Beans</h4>
+<div class="paragraph">
+<p>The configuration shown in the following example creates a <code>DataSource</code> bean that connects to the only relational database service bound to the application (it will fail if there is no such unique service).  It also creates a <code>MongoDbFactory</code> bean, which again connects to the only MongoDB service bound to the application. (For ways to connect to other services, see the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/config/java/AbstractCloudConfig.html">Javadoc for <code>AbstractCloudConfig</code></a>.)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">CloudConfig</span> <span class="directive">extends</span> AbstractCloudConfig {
+    <span class="annotation">@Bean</span>
+        <span class="directive">public</span> <span class="predefined-type">DataSource</span> inventoryDataSource() {
+            <span class="keyword">return</span> connectionFactory().dataSource();
+        }
+
+    <span class="annotation">@Bean</span>
+    <span class="directive">public</span> MongoDbFactory documentMongoDbFactory() {
+        <span class="keyword">return</span> connectionFactory().mongoDbFactory();
+    }
+
+    <span class="comment">//... more beans to obtain service connectors</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can specify a bean name by providing a value in the <code>@Bean</code> annotation.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Bean</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-service</span><span class="delimiter">&quot;</span></span>)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Otherwise, bean names will match the method names. (This works in the same way as does Spring&#8217;s Java configuration.)</p>
+</div>
+<div class="paragraph">
+<p>If you have more than one service of a type bound to the application or want explicit control over the services to which a bean is bound, you can pass the service names to methods such as <code>dataSource()</code> and <code>mongoDbFactory()</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">CloudConfig</span> <span class="directive">extends</span> AbstractCloudConfig {
+    <span class="annotation">@Bean</span>
+    <span class="directive">public</span> <span class="predefined-type">DataSource</span> inventoryDataSource() {
+        <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db-service</span><span class="delimiter">&quot;</span></span>);
+    }
+
+    <span class="annotation">@Bean</span>
+    <span class="directive">public</span> MongoDbFactory documentMongoDbFactory() {
+        <span class="keyword">return</span> connectionFactory().mongoDbFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">document-service</span><span class="delimiter">&quot;</span></span>);
+    }
+
+    <span class="comment">// (More beans to obtain service connectors)</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Methods such as <code>dataSource()</code> come in additional overloaded variants which let you specify configuration options (such as pooling parameters). See the relevant Javadocs for more information.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_connecting_to_generic_services">Connecting to Generic Services</h4>
+<div class="paragraph">
+<p>The Java configuration supports access to generic services (services which don&#8217;t have a directly mapped method; this is typical for a newly-introduced service or when connecting to a private service in a private PaaS) through the <code>service()</code> method. It follows the same pattern as <code>dataSource()</code> etc. except that it allows you to supply the connector type as an additional parameter.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scanning_for_services">Scanning for Services</h4>
+<div class="paragraph">
+<p>You can scan for each bound service using the <code>@ServiceScan</code> annotation. (This is conceptually similar to Spring&#8217;s <code>@ComponentScan</code> annotation.)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Configuration</span>
+<span class="annotation">@ServiceScan</span>
+<span class="type">class</span> <span class="class">CloudConfig</span> {
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the above example, the configuration will create one bean of the appropriate type (such as a <code>DataSource</code> in the case of a relational database service). Each bean will have an <code>id</code> matching the corresponding service name.</p>
+</div>
+<div class="paragraph">
+<p>You can inject such beans using autowiring.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Autowired</span> <span class="predefined-type">DataSource</span> inventoryDb;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the application is bound to more than one service of a given type, you can use the <code>@Qualifier</code> annotation, providing it with the name of the appropriate service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Autowired</span> <span class="annotation">@Qualifier</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db</span><span class="delimiter">&quot;</span></span>) <span class="predefined-type">DataSource</span> inventoryDb;
+<span class="annotation">@Autowired</span> <span class="annotation">@Qualifier</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">shipping-db</span><span class="delimiter">&quot;</span></span>) <span class="predefined-type">DataSource</span> shippingDb;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_accessing_service_properties">Accessing Service Properties</h4>
+<div class="paragraph">
+<p>You can expose raw properties for all services and for the application through a bean.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">CloudPropertiesConfig</span> <span class="directive">extends</span> AbstractCloudConfig {
+    <span class="annotation">@Bean</span>
+    <span class="directive">public</span> <span class="predefined-type">Properties</span> cloudProperties() {
+        <span class="keyword">return</span> properties();
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_code_cloud_code_namespace">The <code>&lt;cloud&gt;</code> Namespace</h3>
+<div class="sect3">
+<h4 id="_setting_up">Setting Up</h4>
+<div class="paragraph">
+<p>The <code>&lt;cloud&gt;</code> namespace offers a simple way for a Spring application to connect to cloud services.</p>
+</div>
+<div class="paragraph">
+<p>To use this namespace, add a declaration for it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="tag">&lt;beans</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans</span><span class="delimiter">&quot;</span></span>
+           <span class="attribute-name">xmlns:xsi</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.w3.org/2001/XMLSchema-instance</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xmlns:cloud</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/cloud</span><span class="delimiter">&quot;</span></span>
+       <span class="attribute-name">xsi:schemaLocation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span>
+       <span class="content">http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+
+<span class="comment">&lt;!-- &lt;cloud&gt; namespace usage here --&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_creating_service_beans_2">Creating Service Beans</h4>
+<div class="paragraph">
+<p>A namespace element which creates a service bean conforms to the following pattern (in this example, the bean is being created for a relational database service).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;cloud:connection</span> <span class="attribute-name">properties</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">sessionVariables=sql_mode='ANSI';characterEncoding=UTF-8</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;cloud:pool</span> <span class="attribute-name">pool-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">20</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-wait-time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">200</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/cloud&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The above example creates a <code>javax.sql.DataSource</code> bean with the id <code>inventory-db</code>. The bean is bound to the <code>inventory-db-service</code> and is configured with the <code>connection</code> and <code>pool</code> properties specified in the nested <code>&lt;cloud:connection&gt;</code> and <code>&lt;cloud:pool&gt;</code> elements.</p>
+</div>
+<div class="paragraph">
+<p>If no <code>id</code> attribute is specified, the <code>id</code> is set to the service name. If no <code>service-name</code> is specified, the bean is bound to the only service in the corresponding category (in this case, a relational database). If no unique service is found, a runtime exception will be thrown.</p>
+</div>
+<div class="paragraph">
+<p>Other namespace elements which create service connectors include:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;cloud:mongo-db-factory</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span><span class="tag">/&gt;</span>
+<span class="tag">&lt;cloud:rabbit-connection-factory</span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_connecting_to_generic_services_2">Connecting to Generic Services</h4>
+<div class="paragraph">
+<p>Spring Service Connector also supports a generic <code>&lt;cloud:service&gt;</code> namespace for connecting to a service with no directly-mapped element (this is typical for a newly-introduced service or when connecting to a private service in a private PaaS). You must specify either the <code>connector-type</code> attribute (for locating a unique service by type) or the <code>service-name</code> attribute.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"> <span class="tag">&lt;cloud:service</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">email</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">email-service</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">connector-type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">com.something.EmailConnectory/</span></span><span class="error">&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_scanning_for_services_2">Scanning for Services</h4>
+<div class="paragraph">
+<p>Besides these elements (which create only one bean per element), Spring Service Connector provides a <code>&lt;cloud:service-scan&gt;</code> element, in the same spirit as the <code>&lt;context:component-scan&gt;</code> element. It scans for all services bound to the application and creates a bean for each service. Each bean has an <code>id</code> matching the service name; this means that you can use the <code>@Qualifier</code> annotation along with <code>@Autowired</code> when there is more than one bean of the same type.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_accessing_service_properties_2">Accessing Service Properties</h4>
+<div class="paragraph">
+<p>Lastly, Spring Service Connector provides a <code>&lt;cloud:properties&gt;</code> element, which exposes properties for the application and for services.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_spring_cloud_cloud_foundry_connector">Spring Cloud Cloud Foundry Connector</h2>
+<div class="sectionbody">
+<div id="spring-cloud-connectors-install" class="paragraph">
+<p>This connector will discover services bound to an application running in Cloud Foundry.  It currently knows about:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>PostgreSQL</p>
+</li>
+<li>
+<p>MySQL</p>
+</li>
+<li>
+<p>Oracle</p>
+</li>
+<li>
+<p>Redis</p>
+</li>
+<li>
+<p>MongoDB</p>
+</li>
+<li>
+<p>RabbitMQ</p>
+</li>
+<li>
+<p>SMTP gateway</p>
+</li>
+<li>
+<p>application monitoring (New Relic)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does not care which service provider is providing it.</p>
+</div>
+<div class="sect2">
+<h3 id="_supporting_new_service_types">Supporting new service types</h3>
+<div class="paragraph">
+<p>Extend <code>CloudFoundryServiceInfoCreator</code> with a creator for <a href="spring-cloud-core.html#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
+</div>
+<div class="paragraph">
+<p>Add the fully-qualified class name for your creator to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_spring_cloud_heroku_connector">Spring Cloud Heroku Connector</h2>
+<div class="sectionbody">
+<div id="spring-cloud-connectors-install" class="paragraph">
+<p>This connector will discover services bound to an application running in Heroku. It currently knows about:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>PostgreSQL (Heroku)</p>
+</li>
+<li>
+<p>MySQL (ClearDB)</p>
+</li>
+<li>
+<p>Redis (RedisToGo, Redis Cloud, RedisGreen, openredis)</p>
+</li>
+<li>
+<p>MongoDB (MongoLab, MongoHQ, MongoSoup)</p>
+</li>
+<li>
+<p>RabbitMQ (CloudAMQP)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Pull requests for adding additional services are welcome.</p>
+</div>
+<div class="sect2">
+<h3 id="_supporting_additional_providers_for_existing_service_types">Supporting additional providers for existing service types</h3>
+<div class="paragraph">
+<p>To add support for discovering a new provider for a service already listed above, add the provider&#8217;s environment prefix to the list in <code>getEnvPrefixes()</code> on the <code>ServiceInfoCreator</code> class.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_supporting_new_service_types_2">Supporting new service types</h3>
+<div class="paragraph">
+<p>Extend <code>HerokuServiceInfoCreator</code> with a creator for <a href="spring-cloud-core.html#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
+</div>
+<div class="paragraph">
+<p>Add the fully-qualified class name for your creator to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>META-INF/service/org.springframework.cloud.heroku.HerokuServiceInfoCreator</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_limitations">Limitations</h3>
+<div class="paragraph">
+<p>Unlike CloudFoundry, Heroku exposes very little information about the app that is retrievable from within a running instance. For example, there is no good way to find the name of the application. Therefore, if an app desires such info, it needs to make it available through environment variables.</p>
+</div>
+<div class="paragraph">
+<p>To have sensible app name available through <code>ApplicationInstanceInfo</code>, set the <code>SPRING_CLOUD_APP_NAME</code> environment variable</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>heroku config:add SPRING_CLOUD_APP_NAME=myappname --app myappname</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If this env variable is not set, the app name will be set to <code>&lt;unknown&gt;</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_spring_cloud_local_configuration_connector">Spring Cloud local-configuration Connector</h2>
+<div class="sectionbody">
+<div id="spring-cloud-connectors-install" class="paragraph">
+<p>This connector provides the ability to configure Spring Cloud services locally for development or testing. The current implementation reads from Java properties only. Pull requests for also inspecting environment variables are welcome.</p>
+</div>
+<div class="sect2">
+<h3 id="_quick_start">Quick start</h3>
+<div class="paragraph">
+<p>Since service URIs contain passwords and should not be stored in code, this connector does not attempt to read service definitions out of the classpath. You can provide service definitions as system properties</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>java -Dspring.cloud.database='mysql://user:pass@host:1234/dbname' -jar my-app.jar</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and from a configuration properties file either by setting the <code>spring.cloud.propertiesFile</code> system property</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>java -Dspring.cloud.propertiesFile=/path/to/spring-cloud.properties -jar my-app.jar</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or by providing a <strong>bootstrap</strong> properties file on the runtime classpath named <code>spring-cloud-bootstrap.properties</code>. This file will be inspected for only the property named <code>spring.cloud.propertiesFile</code>, and its value will be interpolated from the system properties.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="properties">spring.cloud.propertiesFile: ${user.home}/.config/myApp/spring-cloud.properties</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The system properties or the configuration properties file should contain an application ID and the desired services in this format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="properties">spring.cloud.appId:    myApp
+; spring.cloud.{id}:   URI
+spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Service type is determined by the URI scheme. The connector will activate if it finds a property (in the system properties or the configuration properties file) named <code>spring.cloud.appId</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_property_sources">Property sources</h3>
+<div class="paragraph">
+<p>This connector first attempts to read the system properties generally and a system property named <code>spring.cloud.propertiesFile</code> specifically. If the system properties are not readable (the security manager denies <code>checkPropertiesAccess</code>), then they will be treated as empty.  If a system property named <code>spring.cloud.propertiesFile</code> is found, that file will be loaded as a property list.</p>
+</div>
+<div class="sect3">
+<h4 id="_providing_a_bootstrap_properties_file">Providing a bootstrap properties file</h4>
+<div class="paragraph">
+<p>To avoid having to manually configure run configurations or test runners with the path to the configuration properties file, the connector supports reading a templated filename out of the runtime classpath. This file must be named <code>spring-cloud-bootstrap.properties</code> and located at the classpath root, and for security the connector will not attempt to read any service URIs out of it. If the connector does find the file, it will read the property <code>spring.cloud.propertiesFile</code> and <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/index.html?org/apache/commons/lang3/text/StrSubstitutor.html">substitute the pattern <code>${system.property}</code></a> with the appropriate value from the system properties. The most useful option is generally <code>${user.home}</code>.</p>
+</div>
+<div class="paragraph">
+<p>A configuration properties file specified in the system properties will override any bootstrap file that may be available on the classpath.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_property_precedence">Property precedence</h4>
+<div class="paragraph">
+<p>To provide the maximum configuration flexibility, the connector will override any properties (both application ID and service definitions) specified in the file at <code>spring.cloud.propertiesFile</code> with system properties defined at runtime. The connector will log a message at <code>WARN</code> if you override a service ID.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_activating_the_connector">Activating the connector</h3>
+<div class="paragraph">
+<p>The Spring Cloud core expects exactly one cloud connector match the runtime environment.  This connector identifies the "local cloud" by the presence of a property named <code>spring.cloud.appId</code> in a configuration properties file or the system properties, which will be used in the <code>ApplicationInstanceInfo</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_service_definitions">Service definitions</h3>
+<div class="paragraph">
+<p>If the connector is activated, it will iterate through all the available properties for keys matching the pattern <code>spring.cloud.{serviceId}</code>. Each value is interpreted as a URI to the services, and the type of service is determined from the scheme. All of the standard `UriBasedServiceInfo`s are supported.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_supporting_additional_services">Supporting additional services</h3>
+<div class="paragraph">
+<p>Extend <code>LocalConfigServiceInfoCreator</code> with a creator for <a href="spring-cloud-core.html#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
+</div>
+<div class="paragraph">
+<p>Add the fully-qualified class name for your creator to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>META-INF/service/org.springframework.cloud.localconfig.LocalConfigServiceInfoCreator</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_instance_id">Instance ID</h3>
+<div class="paragraph">
+<p>This connector will create a UUID for use as the instance ID, as Java does not provide any portable mechanism for reliably determining hostnames or PIDs.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-31 13:55:44 CDT
+Last updated 2015-08-03 12:09:28 CDT
 </div>
 </div>
 </body>

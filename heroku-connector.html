@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.0">
-<title>Spring Cloud Heroku Connector</title>
+<title>Untitled</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -502,93 +502,17 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="book">
 <div id="header">
-<h1>Spring Cloud Heroku Connector</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_supporting_additional_providers_for_existing_service_types">Supporting additional providers for existing service types</a></li>
-<li><a href="#_supporting_new_service_types">Supporting new service types</a></li>
-<li><a href="#_limitations">Limitations</a></li>
-</ul>
+
 </div>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div id="spring-cloud-connectors-install" class="paragraph">
-<p>This connector will discover services bound to an application running in Heroku. It currently knows about:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>PostgreSQL (Heroku)</p>
-</li>
-<li>
-<p>MySQL (ClearDB)</p>
-</li>
-<li>
-<p>Redis (RedisToGo, Redis Cloud, RedisGreen, openredis)</p>
-</li>
-<li>
-<p>MongoDB (MongoLab, MongoHQ, MongoSoup)</p>
-</li>
-<li>
-<p>RabbitMQ (CloudAMQP)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Pull requests for adding additional services are welcome.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_supporting_additional_providers_for_existing_service_types">Supporting additional providers for existing service types</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To add support for discovering a new provider for a service already listed above, add the provider&#8217;s environment prefix to the list in <code>getEnvPrefixes()</code> on the <code>ServiceInfoCreator</code> class.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_supporting_new_service_types">Supporting new service types</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Extend <code>HerokuServiceInfoCreator</code> with a creator for <a href="spring-cloud-core.html#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
-</div>
-<div class="paragraph">
-<p>Add the fully-qualified class name for your creator to</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>META-INF/service/org.springframework.cloud.heroku.HerokuServiceInfoCreator</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_limitations">Limitations</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Unlike CloudFoundry, Heroku exposes very little information about the app that is retrievable from within a running instance. For example, there is no good way to find the name of the application. Therefore, if an app desires such info, it needs to make it available through environment variables.</p>
-</div>
-<div class="paragraph">
-<p>To have sensible app name available through <code>ApplicationInstanceInfo</code>, set the <code>SPRING_CLOUD_APP_NAME</code> environment variable</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>heroku config:add SPRING_CLOUD_APP_NAME=myappname --app myappname</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If this env variable is not set, the app name will be set to <code>&lt;unknown&gt;</code>.</p>
-</div>
-</div>
-</div>
+
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-31 13:55:44 CDT
+Last updated 2015-08-03 12:01:16 CDT
 </div>
 </div>
 </body>

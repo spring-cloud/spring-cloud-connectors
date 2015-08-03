@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.0">
-<title>Spring Cloud Spring Service Connector</title>
+<title>Untitled</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -502,242 +502,17 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="book">
 <div id="header">
-<h1>Spring Cloud Spring Service Connector</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_the_java_configuration">The Java Configuration</a>
-<ul class="sectlevel2">
-<li><a href="#_creating_service_beans">Creating Service Beans</a></li>
-<li><a href="#_connecting_to_generic_services">Connecting to Generic Services</a></li>
-<li><a href="#_scanning_for_services">Scanning for Services</a></li>
-<li><a href="#_accessing_service_properties">Accessing Service Properties</a></li>
-</ul>
-</li>
-<li><a href="#_the_code_cloud_code_namespace">The <code>&lt;cloud&gt;</code> Namespace</a>
-<ul class="sectlevel2">
-<li><a href="#_setting_up">Setting Up</a></li>
-<li><a href="#_creating_service_beans_2">Creating Service Beans</a></li>
-<li><a href="#_connecting_to_generic_services_2">Connecting to Generic Services</a></li>
-<li><a href="#_scanning_for_services_2">Scanning for Services</a></li>
-<li><a href="#_accessing_service_properties_2">Accessing Service Properties</a></li>
-</ul>
-</li>
-</ul>
+
 </div>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div id="spring-cloud-connectors-install" class="paragraph">
-<p>This library provides <code>ServiceConnectorCreator</code> implementations for <code>javax.sql.DataSource</code> and various <a href="http://projects.spring.io/spring-data/">Spring Data</a> connector factories. It also provides Java configuration and XML namespace support for connecting to cloud services, accessing cloud services, and accessing application properties.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_the_java_configuration">The Java Configuration</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Typical use of the Java configuration involves extending the <code>AbstractCloudConfig</code> class and creating beans for services by annotating methods with the <code>@Bean</code> annotation. If you are migrating an application that uses <a href="https://spring.io/blog/2011/11/04/using-cloud-foundry-services-with-spring-part-2-auto-reconfiguration/">auto-reconfiguration</a>, you might first try the <a href="#_scanning_for_services">service-scanning approach</a> until you need more explicit control.  The Spring Service Connector Java configuration also offers a way to expose application and service properties in case you want lower-level access when creating your own service connectors (or for debugging purposes, etc.).</p>
-</div>
-<div class="sect2">
-<h3 id="_creating_service_beans">Creating Service Beans</h3>
-<div class="paragraph">
-<p>The configuration shown in the following example creates a <code>DataSource</code> bean that connects to the only relational database service bound to the application (it will fail if there is no such unique service).  It also creates a <code>MongoDbFactory</code> bean, which again connects to the only MongoDB service bound to the application. (For ways to connect to other services, see the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/config/java/AbstractCloudConfig.html">Javadoc for <code>AbstractCloudConfig</code></a>.)</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">CloudConfig</span> <span class="directive">extends</span> AbstractCloudConfig {
-    <span class="annotation">@Bean</span>
-        <span class="directive">public</span> <span class="predefined-type">DataSource</span> inventoryDataSource() {
-            <span class="keyword">return</span> connectionFactory().dataSource();
-        }
 
-    <span class="annotation">@Bean</span>
-    <span class="directive">public</span> MongoDbFactory documentMongoDbFactory() {
-        <span class="keyword">return</span> connectionFactory().mongoDbFactory();
-    }
-
-    <span class="comment">//... more beans to obtain service connectors</span>
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>You can specify a bean name by providing a value in the <code>@Bean</code> annotation.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Bean</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-service</span><span class="delimiter">&quot;</span></span>)</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Otherwise, bean names will match the method names. (This works in the same way as does Spring&#8217;s Java configuration.)</p>
-</div>
-<div class="paragraph">
-<p>If you have more than one service of a type bound to the application or want explicit control over the services to which a bean is bound, you can pass the service names to methods such as <code>dataSource()</code> and <code>mongoDbFactory()</code>.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">CloudConfig</span> <span class="directive">extends</span> AbstractCloudConfig {
-    <span class="annotation">@Bean</span>
-    <span class="directive">public</span> <span class="predefined-type">DataSource</span> inventoryDataSource() {
-        <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db-service</span><span class="delimiter">&quot;</span></span>);
-    }
-
-    <span class="annotation">@Bean</span>
-    <span class="directive">public</span> MongoDbFactory documentMongoDbFactory() {
-        <span class="keyword">return</span> connectionFactory().mongoDbFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">document-service</span><span class="delimiter">&quot;</span></span>);
-    }
-
-    <span class="comment">// (More beans to obtain service connectors)</span>
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Methods such as <code>dataSource()</code> come in additional overloaded variants which let you specify configuration options (such as pooling parameters). See the relevant Javadocs for more information.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_connecting_to_generic_services">Connecting to Generic Services</h3>
-<div class="paragraph">
-<p>The Java configuration supports access to generic services (services which don&#8217;t have a directly mapped method; this is typical for a newly-introduced service or when connecting to a private service in a private PaaS) through the <code>service()</code> method. It follows the same pattern as <code>dataSource()</code> etc. except that it allows you to supply the connector type as an additional parameter.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_scanning_for_services">Scanning for Services</h3>
-<div class="paragraph">
-<p>You can scan for each bound service using the <code>@ServiceScan</code> annotation. (This is conceptually similar to Spring&#8217;s <code>@ComponentScan</code> annotation.)</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Configuration</span>
-<span class="annotation">@ServiceScan</span>
-<span class="type">class</span> <span class="class">CloudConfig</span> {
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In the above example, the configuration will create one bean of the appropriate type (such as a <code>DataSource</code> in the case of a relational database service). Each bean will have an <code>id</code> matching the corresponding service name.</p>
-</div>
-<div class="paragraph">
-<p>You can inject such beans using autowiring.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Autowired</span> <span class="predefined-type">DataSource</span> inventoryDb;</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If the application is bound to more than one service of a given type, you can use the <code>@Qualifier</code> annotation, providing it with the name of the appropriate service.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Autowired</span> <span class="annotation">@Qualifier</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db</span><span class="delimiter">&quot;</span></span>) <span class="predefined-type">DataSource</span> inventoryDb;
-<span class="annotation">@Autowired</span> <span class="annotation">@Qualifier</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">shipping-db</span><span class="delimiter">&quot;</span></span>) <span class="predefined-type">DataSource</span> shippingDb;</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_accessing_service_properties">Accessing Service Properties</h3>
-<div class="paragraph">
-<p>You can expose raw properties for all services and for the application through a bean.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">CloudPropertiesConfig</span> <span class="directive">extends</span> AbstractCloudConfig {
-    <span class="annotation">@Bean</span>
-    <span class="directive">public</span> <span class="predefined-type">Properties</span> cloudProperties() {
-        <span class="keyword">return</span> properties();
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_the_code_cloud_code_namespace">The <code>&lt;cloud&gt;</code> Namespace</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_setting_up">Setting Up</h3>
-<div class="paragraph">
-<p>The <code>&lt;cloud&gt;</code> namespace offers a simple way for a Spring application to connect to cloud services.</p>
-</div>
-<div class="paragraph">
-<p>To use this namespace, add a declaration for it.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="tag">&lt;beans</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans</span><span class="delimiter">&quot;</span></span>
-           <span class="attribute-name">xmlns:xsi</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.w3.org/2001/XMLSchema-instance</span><span class="delimiter">&quot;</span></span>
-       <span class="attribute-name">xmlns:cloud</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/cloud</span><span class="delimiter">&quot;</span></span>
-       <span class="attribute-name">xsi:schemaLocation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span>
-       <span class="content">http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-
-<span class="comment">&lt;!-- &lt;cloud&gt; namespace usage here --&gt;</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_creating_service_beans_2">Creating Service Beans</h3>
-<div class="paragraph">
-<p>A namespace element which creates a service bean conforms to the following pattern (in this example, the bean is being created for a relational database service).</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    <span class="tag">&lt;cloud:connection</span> <span class="attribute-name">properties</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">sessionVariables=sql_mode='ANSI';characterEncoding=UTF-8</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-    <span class="tag">&lt;cloud:pool</span> <span class="attribute-name">pool-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">20</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-wait-time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">200</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-<span class="tag">&lt;/cloud&gt;</span></code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The above example creates a <code>javax.sql.DataSource</code> bean with the id <code>inventory-db</code>. The bean is bound to the <code>inventory-db-service</code> and is configured with the <code>connection</code> and <code>pool</code> properties specified in the nested <code>&lt;cloud:connection&gt;</code> and <code>&lt;cloud:pool&gt;</code> elements.</p>
-</div>
-<div class="paragraph">
-<p>If no <code>id</code> attribute is specified, the <code>id</code> is set to the service name. If no <code>service-name</code> is specified, the bean is bound to the only service in the corresponding category (in this case, a relational database). If no unique service is found, a runtime exception will be thrown.</p>
-</div>
-<div class="paragraph">
-<p>Other namespace elements which create service connectors include:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;cloud:mongo-db-factory</span><span class="tag">/&gt;</span>
-<span class="tag">&lt;cloud:redis-connection-factory</span><span class="tag">/&gt;</span>
-<span class="tag">&lt;cloud:rabbit-connection-factory</span><span class="tag">/&gt;</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_connecting_to_generic_services_2">Connecting to Generic Services</h3>
-<div class="paragraph">
-<p>Spring Service Connector also supports a generic <code>&lt;cloud:service&gt;</code> namespace for connecting to a service with no directly-mapped element (this is typical for a newly-introduced service or when connecting to a private service in a private PaaS). You must specify either the <code>connector-type</code> attribute (for locating a unique service by type) or the <code>service-name</code> attribute.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"> <span class="tag">&lt;cloud:service</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">email</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">email-service</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">connector-type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">com.something.EmailConnectory/</span></span><span class="error">&gt;</span></code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_scanning_for_services_2">Scanning for Services</h3>
-<div class="paragraph">
-<p>Besides these elements (which create only one bean per element), Spring Service Connector provides a <code>&lt;cloud:service-scan&gt;</code> element, in the same spirit as the <code>&lt;context:component-scan&gt;</code> element. It scans for all services bound to the application and creates a bean for each service. Each bean has an <code>id</code> matching the service name; this means that you can use the <code>@Qualifier</code> annotation along with <code>@Autowired</code> when there is more than one bean of the same type.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_accessing_service_properties_2">Accessing Service Properties</h3>
-<div class="paragraph">
-<p>Lastly, Spring Service Connector provides a <code>&lt;cloud:properties&gt;</code> element, which exposes properties for the application and for services.</p>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-07-31 16:18:51 CDT
+Last updated 2015-08-03 12:00:55 CDT
 </div>
 </div>
 </body>
