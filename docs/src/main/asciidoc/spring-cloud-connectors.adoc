@@ -13,8 +13,6 @@
 
 Spring Cloud Connectors provides a simple abstraction for JVM-based applications running on cloud platforms to discover bound services and deployment information at runtime, and provides support for registering discovered services as Spring beans. It is based on a plugin model so that the identical compiled application can be deployed locally or on any of multiple cloud platforms, and it supports custom service definitions through Java SPI. The Connectors project provides out-of-the-box support for discovering common services on Heroku and Cloud Foundry clouds, as well as a properties-based connector that can supply configuration for development and testing.
 
-For details on specific submodules and connectors, see <<Submodules>>.
-
 === Concepts
 
 The core Connectors concepts are described below.
