@@ -802,9 +802,6 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li>
 <p>Use the <code>Cloud</code> instance to access application and service information and to create service connectors.</p>
-</li>
-</ul>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">// ServiceInfo has all the information necessary to connect to the underlying service</span>
@@ -824,6 +821,9 @@ table.CodeRay td.code>pre{padding:0}
 <span class="predefined-type">DataSource</span> ds = cloud.getServiceConnector(serviceId, <span class="predefined-type">DataSource</span>.class,
                                             <span class="predefined-constant">null</span> <span class="comment">/* default config */</span>);</code></pre>
 </div>
+</div>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect2">
@@ -875,7 +875,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="paragraph">
-<p>Then you will need to create a <code>ServiceInfoCreator</code> for each cloud platform you want to support.  You will probably want to extend the appropriate creator base class(es), such as <code>HerokuServiceInfoCreator</code>. This is often as simple as writing a method that (in the case of the <code>HelloWorldService</code>) instantiates a new <code>HelloWorldServiceInfo</code>.</p>
+<p>After creating the <code>ServiceInfo</code> class, you will need to create a <code>ServiceInfoCreator</code> for each cloud platform you want to support.  You will probably want to extend the appropriate creator base class(es), such as <code>HerokuServiceInfoCreator</code>. This is often as simple as writing a method that (in the case of the <code>HelloWorldService</code>) instantiates a new <code>HelloWorldServiceInfo</code>.</p>
 </div>
 <div class="paragraph">
 <p>Register your <code>ServiceInfoCreator</code> classes in the appropriate provider-configuration file for your cloud&#8217;s <code>ServiceInfoCreator</code> base class.</p>
@@ -1305,7 +1305,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-04 12:06:21 CDT
+Last updated 2015-08-05 12:21:46 CDT
 </div>
 </div>
 </body>
