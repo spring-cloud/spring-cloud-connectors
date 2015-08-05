@@ -154,19 +154,19 @@ Cloud cloud = cloudFactory.getCloud();
 Note that you must have a `CloudConnector` suitable for your deployment environment on your classpath.  For example, if you are deploying the application to Cloud Foundry, you must add the <<_spring_cloud_cloud_foundry_connector,Cloud Foundry Connector>> to your classpath. If no suitable `CloudConnector` is found, the `getCloud()` method will throw a `CloudException`.
 
 * Use the `Cloud` instance to access application and service information and to create service connectors.
-
++
 [source,java]
 ----
 // ServiceInfo has all the information necessary to connect to the underlying service
 List<ServiceInfo> serviceInfos = cloud.getServiceInfos();
 ----
-
++
 [source,java]
 ----
 // Find the `ServiceInfo` definitions suitable for connecting to a particular service type
 List<ServiceInfo> databaseInfos = cloud.getServiceInfos(DataSource.class);
 ----
-
++
 [source,java]
 ----
 // Alternatively, let Spring Cloud create a service connector for you
@@ -209,7 +209,7 @@ public class HelloWorldServiceInfo extends UriBasedServiceInfo {
 }
 ----
 
-Then you will need to create a `ServiceInfoCreator` for each cloud platform you want to support.  You will probably want to extend the appropriate creator base class(es), such as `HerokuServiceInfoCreator`. This is often as simple as writing a method that (in the case of the `HelloWorldService`) instantiates a new `HelloWorldServiceInfo`.
+After creating the `ServiceInfo` class, you will need to create a `ServiceInfoCreator` for each cloud platform you want to support.  You will probably want to extend the appropriate creator base class(es), such as `HerokuServiceInfoCreator`. This is often as simple as writing a method that (in the case of the `HelloWorldService`) instantiates a new `HelloWorldServiceInfo`.
 
 Register your `ServiceInfoCreator` classes in the appropriate provider-configuration file for your cloud's `ServiceInfoCreator` base class.
 
