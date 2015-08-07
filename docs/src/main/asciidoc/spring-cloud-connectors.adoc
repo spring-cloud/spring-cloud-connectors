@@ -395,36 +395,7 @@ See <<spring-cloud-cloud-foundry-connector.adoc#,Spring Cloud Cloud Foundry Conn
 
 == Spring Cloud Heroku Connector
 
-This connector will discover services that are bound to an application running in Heroku. It currently knows about:
-
-* PostgreSQL (Heroku)
-* MySQL (ClearDB)
-* Redis (Redis To Go, Redis Cloud, RedisGreen, openredis)
-* MongoDB (MongoLab, MongoHQ, MongoSoup)
-* RabbitMQ (CloudAMQP)
-
-=== Supporting Additional Providers for Existing Service Types
-
-To add support for a new provider of a service already listed above, add the provider's environment prefix to the list in `getEnvPrefixes()` on the `ServiceInfoCreator` class.
-
-=== Supporting New Service Types
-
-Extend `HerokuServiceInfoCreator` with a creator for <<_adding_service_discovery,your service's `ServiceInfo` class>>.
-
-Add the fully-qualified class name for your creator to `META-INF/service/org.springframework.cloud.heroku.HerokuServiceInfoCreator`.
-
-=== Limitations
-
-Unlike Cloud Foundry, Heroku exposes very little application information that is retrievable from within a running instance (for example, there is no good way to find the name of the application). If your application requires access to such information, you must make the information available through environment variables.
-
-To have a sensible application name available through `ApplicationInstanceInfo`, set the `SPRING_CLOUD_APP_NAME` environment variable.
-
-[source,term]
-----
-heroku config:add SPRING_CLOUD_APP_NAME=myappname --app myappname
-----
-
-If this environment variable is not set, the application name will be set to `<unknown>`.
+See <<spring-cloud-heroku-connector.adoc#,Spring Cloud Heroku Connector>>.
 
 == Spring Cloud local-configuration Connector
 
