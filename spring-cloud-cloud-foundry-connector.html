@@ -505,9 +505,11 @@ table.CodeRay td.code>pre{padding:0}
 <h1>Spring Cloud Cloud Foundry Connector</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
-<ul class="sectlevel2">
+<ul class="sectlevel1">
 <li><a href="#_cloud_detection">Cloud Detection</a></li>
 <li><a href="#_service_detection">Service Detection</a>
+<ul class="sectlevel2">
+<li><a href="#_supported_services">Supported Services</a>
 <ul class="sectlevel3">
 <li><a href="#_rabbitmq">RabbitMQ</a></li>
 <li><a href="#_db2">DB2</a></li>
@@ -519,6 +521,8 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_redis">Redis</a></li>
 <li><a href="#_smtp">SMTP</a></li>
 <li><a href="#_sql_server">SQL Server</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_supporting_new_service_types">Supporting New Service Types</a></li>
@@ -536,14 +540,17 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_cloud_detection">Cloud Detection</h3>
+<div class="sect1">
+<h2 id="_cloud_detection">Cloud Detection</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>This connector checks for the presence of a <code>VCAP_APPLICATION</code> environment variable. This is a system-provided environment variable which is specific to Cloud Foundry. If the variable exists, the connector will be activated.</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_service_detection">Service Detection</h3>
+</div>
+<div class="sect1">
+<h2 id="_service_detection">Service Detection</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The connector inspects Cloud Foundry&#8217;s <code>VCAP_SERVICES</code> environment variable to detect available services. This variable stores connection and identification information for service instances that are bound to Cloud Foundry applications.</p>
 </div>
@@ -565,7 +572,7 @@ table.CodeRay td.code>pre{padding:0}
    ]
   },
   <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">p-rabbitmq</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">bob</span><span class="delimiter">&quot;</span></span>,
+  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">rabbit-bus</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">plan</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">standard</span><span class="delimiter">&quot;</span></span>,
   <span class="key"><span class="delimiter">&quot;</span><span class="content">tags</span><span class="delimiter">&quot;</span></span>: [
    <span class="string"><span class="delimiter">&quot;</span><span class="content">rabbitmq</span><span class="delimiter">&quot;</span></span>
@@ -579,8 +586,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
-<col style="width: 20%;">
-<col style="width: 80%;">
+<col style="width: 30%;">
+<col style="width: 70%;">
 </colgroup>
 <tbody>
 <tr>
@@ -589,7 +596,7 @@ table.CodeRay td.code>pre{padding:0}
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>label</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The service offering&#8217;s name (not to be confused with a service <em>instance&#8217;s</em> name).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>credentials.uri</code></p></td>
@@ -602,7 +609,28 @@ table.CodeRay td.code>pre{padding:0}
 </tbody>
 </table>
 <div class="paragraph">
-<p>The criteria by which it establishes availability of each service are described below.</p>
+<p>If they are present, it will also consider the following fields:</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>credentials.jdbcUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A JDBC connection string.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>credentials.${SCHEME}${URL}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A service URL&#8212;in the field name, <code>${SCHEME}</code> is a URI scheme used by the service and <code>${URL}</code> is the string <code>Url</code>, <code>url</code>, <code>Uri</code>, or <code>uri</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="sect2">
+<h3 id="_supported_services">Supported Services</h3>
+<div class="paragraph">
+<p>This connector comes with built-in support for a variety of service types and providers. The criteria by which it establishes availability of each service are described below.</p>
 </div>
 <div class="sect3">
 <h4 id="_rabbitmq">RabbitMQ</h4>
@@ -618,7 +646,10 @@ table.CodeRay td.code>pre{padding:0}
 <p><code>label</code> beginning with the <code>rabbitmq</code> tag</p>
 </li>
 <li>
-<p><code>uris</code> using the scheme <code>amqp</code> or <code>amqps</code></p>
+<p><code>uri</code> or <code>uris</code> using the scheme <code>amqp</code> or <code>amqps</code></p>
+</li>
+<li>
+<p><code>amqpUri</code>, <code>amqpuri</code>, <code>amqpsUri</code>, <code>amqpsuri</code>, <code>amqpUrl</code>, <code>amqpurl</code>, <code>amqpsUrl</code>, or <code>amqpsurl</code> fields in <code>credentials</code></p>
 </li>
 </ul>
 </div>
@@ -626,25 +657,89 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect3">
 <h4 id="_db2">DB2</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tags</code> including <code>sqldb</code>, <code>dashDB</code>, or <code>db2</code></p>
+</li>
+<li>
+<p><code>label</code> beginning with the <code>sqldb</code>, <code>dashDB</code>, or <code>db2</code> tags</p>
+</li>
+<li>
+<p><code>uri</code> or <code>uris</code> using the scheme <code>db2</code></p>
+</li>
+<li>
+<p><code>jdbcUrl</code> field in <code>credentials</code> using the scheme <code>db2</code></p>
+</li>
+<li>
+<p><code>db2Uri</code>, <code>db2uri</code>, <code>db2Url</code>, or <code>db2url</code> fields in <code>credentials</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_mongodb">MongoDB</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tags</code> including <code>mongodb</code></p>
+</li>
+<li>
+<p><code>label</code> beginning with the <code>mongodb</code> tag</p>
+</li>
+<li>
+<p><code>uri</code> or <code>uris</code> using the scheme <code>mongodb</code></p>
+</li>
+<li>
+<p><code>mongodbUri</code>, <code>mongodburi</code>, <code>mongodbUrl</code>, or <code>mongodburl</code> fields in <code>credentials</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_application_monitoring_new_relic">Application monitoring (New Relic)</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tags</code> including <code>monitoring</code> or <code>newrelic</code></p>
+</li>
+<li>
+<p><code>label</code> beginning with the <code>monitoring</code> or <code>newrelic</code> tags</p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_mysql">MySQL</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tags</code> including <code>mysql</code></p>
+</li>
+<li>
+<p><code>label</code> beginning with the <code>mysql</code> tag</p>
+</li>
+<li>
+<p><code>uri</code> or <code>uris</code> using the scheme <code>mysql</code></p>
+</li>
+<li>
+<p><code>jdbcUrl</code> field in <code>credentials</code> using the scheme <code>mysql</code></p>
+</li>
+<li>
+<p><code>mysqlUri</code>, <code>mysqluri</code>, <code>mysqlUrl</code>, or <code>mysqlurl</code> fields in <code>credentials</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -678,8 +773,11 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_supporting_new_service_types">Supporting New Service Types</h3>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_supporting_new_service_types">Supporting New Service Types</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Extend <code>CloudFoundryServiceInfoCreator</code> with a creator for <a href="#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
 </div>
@@ -688,9 +786,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
+</div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-07 11:50:01 CDT
+Last updated 2015-08-07 15:48:26 CDT
 </div>
 </div>
 </body>
