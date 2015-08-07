@@ -623,7 +623,7 @@ table.CodeRay td.code>pre{padding:0}
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>credentials.${SCHEME}${URL}</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A service URL&#8212;in the field name, <code>${SCHEME}</code> is a URI scheme used by the service and <code>${URL}</code> is the string <code>Url</code>, <code>url</code>, <code>Uri</code>, or <code>uri</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A service URL, where <code>${SCHEME}</code> is a URI scheme used by the service and <code>${URL}</code> is one of <code>Url</code>, <code>url</code>, <code>Uri</code>, and <code>uri</code>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -745,31 +745,108 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect3">
 <h4 id="_oracle">Oracle</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>uri</code> or <code>uris</code> using the scheme <code>oracle</code></p>
+</li>
+<li>
+<p><code>jdbcUrl</code> field in <code>credentials</code> using the scheme <code>oracle</code></p>
+</li>
+<li>
+<p><code>oracleUri</code>, <code>oracleuri</code>, <code>oracleUrl</code>, or <code>oracleurl</code> fields in <code>credentials</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_postgresql">PostgreSQL</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tags</code> including <code>postgresql</code></p>
+</li>
+<li>
+<p><code>label</code> beginning with the <code>postgresql</code> tag</p>
+</li>
+<li>
+<p><code>uri</code> or <code>uris</code> using the scheme <code>postgres</code></p>
+</li>
+<li>
+<p><code>jdbcUrl</code> field in <code>credentials</code> using the scheme <code>postgres</code></p>
+</li>
+<li>
+<p><code>postgresUri</code>, <code>postgresuri</code>, <code>postgresUrl</code>, or <code>postgresurl</code> fields in <code>credentials</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_redis">Redis</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tags</code> including <code>redis</code></p>
+</li>
+<li>
+<p><code>label</code> beginning with the <code>redis</code> tag</p>
+</li>
+<li>
+<p><code>uri</code> or <code>uris</code> using the scheme <code>redis</code></p>
+</li>
+<li>
+<p><code>redisUri</code>, <code>redisuri</code>, <code>redisUrl</code>, or <code>redisurl</code> fields in <code>credentials</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_smtp">SMTP</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tags</code> including <code>smtp</code></p>
+</li>
+<li>
+<p><code>label</code> beginning with the <code>smtp</code> tag</p>
+</li>
+<li>
+<p><code>uri</code> or <code>uris</code> using the scheme <code>smtp</code></p>
+</li>
+<li>
+<p><code>smtpUri</code>, <code>smtpuri</code>, <code>smtpUrl</code>, or <code>smtpurl</code> fields in <code>credentials</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_sql_server">SQL Server</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>uri</code> or <code>uris</code> using the scheme <code>sqlserver</code></p>
+</li>
+<li>
+<p><code>jdbcUrl</code> field in <code>credentials</code> using the scheme <code>oracle</code></p>
+</li>
+<li>
+<p><code>sqlserverUri</code>, <code>sqlserveruri</code>, <code>sqlserverUrl</code>, or <code>sqlserverurl</code> fields in <code>credentials</code></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -789,7 +866,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-07 15:48:26 CDT
+Last updated 2015-08-07 16:55:42 CDT
 </div>
 </div>
 </body>
