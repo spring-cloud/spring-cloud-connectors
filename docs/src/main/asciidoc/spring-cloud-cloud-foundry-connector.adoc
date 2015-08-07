@@ -11,11 +11,11 @@ The Cloud Foundry Connector is part of the <<spring-cloud-connectors.adoc#,Sprin
 
 This connector discovers services that are bound to an application running in Cloud Foundry. (Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does not care which service provider is providing it.)
 
-=== Cloud Detection
+== Cloud Detection
 
 This connector checks for the presence of a `VCAP_APPLICATION` environment variable. This is a system-provided environment variable which is specific to Cloud Foundry. If the variable exists, the connector will be activated.
 
-=== Service Detection
+== Service Detection
 
 The connector inspects Cloud Foundry&#8217;s `VCAP_SERVICES` environment variable to detect available services. This variable stores connection and identification information for service instances that are bound to Cloud Foundry applications.
 
@@ -36,7 +36,7 @@ Below is an example of a `VCAP_SERVICES` entry (edited for brevity).
    ]
   },
   "label": "p-rabbitmq",
-  "name": "bob",
+  "name": "rabbit-bus",
   "plan": "standard",
   "tags": [
    "rabbitmq"
@@ -47,15 +47,25 @@ Below is an example of a `VCAP_SERVICES` entry (edited for brevity).
 
 For each service, the connector will consider the following fields:
 
-[cols="2,8", width="100%"]
+[cols="3,7", width="100%"]
 |===========================================================================================================================================================================
 |`tags` |Attributes or names of backing technologies behind the service.
-|`label` |The name of the service.
+|`label` |The service offering&#8217;s name (not to be confused with a service _instance&#8217;s_ name).
 |`credentials.uri` |A URI pertaining to the service instance.
 |`credentials.uris` |URIs pertaining to the service instance.
 |===========================================================================================================================================================================
 
-The criteria by which it establishes availability of each service are described below.
+If they are present, it will also consider the following fields:
+
+[cols="3,7", width="100%"]
+|===========================================================================================================================================================================
+|`credentials.jdbcUrl` |A JDBC connection string.
+|`credentials.${SCHEME}${URL}` |A service URL&#8212;in the field name, `${SCHEME}` is a URI scheme used by the service and `${URL}` is the string `Url`, `url`, `Uri`, or `uri`.
+|===========================================================================================================================================================================
+
+=== Supported Services
+
+This connector comes with built-in support for a variety of service types and providers. The criteria by which it establishes availability of each service are described below.
 
 ==== RabbitMQ
 
@@ -63,23 +73,44 @@ The connector will check for:
 
 * `tags` including `rabbitmq`
 * `label` beginning with the `rabbitmq` tag
-* `uris` using the scheme `amqp` or `amqps`
+* `uri` or `uris` using the scheme `amqp` or `amqps`
+* `amqpUri`, `amqpuri`, `amqpsUri`, `amqpsuri`, `amqpUrl`, `amqpurl`, `amqpsUrl`, or `amqpsurl` fields in `credentials`
 
 ==== DB2
 
-Coming soon...
+The connector will check for:
+
+* `tags` including `sqldb`, `dashDB`, or `db2`
+* `label` beginning with the `sqldb`, `dashDB`, or `db2` tags
+* `uri` or `uris` using the scheme `db2`
+* `jdbcUrl` field in `credentials` using the scheme `db2`
+* `db2Uri`, `db2uri`, `db2Url`, or `db2url` fields in `credentials`
 
 ==== MongoDB
 
-Coming soon...
+The connector will check for:
+
+* `tags` including `mongodb`
+* `label` beginning with the `mongodb` tag
+* `uri` or `uris` using the scheme `mongodb`
+* `mongodbUri`, `mongodburi`, `mongodbUrl`, or `mongodburl` fields in `credentials`
 
 ==== Application monitoring (New Relic)
 
-Coming soon...
+The connector will check for:
+
+* `tags` including `monitoring` or `newrelic`
+* `label` beginning with the `monitoring` or `newrelic` tags
 
 ==== MySQL
 
-Coming soon...
+The connector will check for:
+
+* `tags` including `mysql`
+* `label` beginning with the `mysql` tag
+* `uri` or `uris` using the scheme `mysql`
+* `jdbcUrl` field in `credentials` using the scheme `mysql`
+* `mysqlUri`, `mysqluri`, `mysqlUrl`, or `mysqlurl` fields in `credentials`
 
 ==== Oracle
 
@@ -101,7 +132,7 @@ Coming soon...
 
 Coming soon...
 
-=== Supporting New Service Types
+== Supporting New Service Types
 
 Extend `CloudFoundryServiceInfoCreator` with a creator for <<_adding_service_discovery,your service's `ServiceInfo` class>>.
 
