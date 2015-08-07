@@ -1,0 +1,109 @@
+:github-tag: master
+:github-repo: spring-cloud/spring-cloud-connectors
+:github-raw: http://raw.github.com/{github-repo}/{github-tag}
+:github-code: http://github.com/{github-repo}/tree/{github-tag}
+:toc:
+:toclevels: 3
+
+= Spring Cloud Cloud Foundry Connector
+
+The Cloud Foundry Connector is part of the <<spring-cloud-connectors.adoc#,Spring Cloud Connectors>> project.
+
+This connector discovers services that are bound to an application running in Cloud Foundry. (Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does not care which service provider is providing it.)
+
+=== Cloud Detection
+
+This connector checks for the presence of a `VCAP_APPLICATION` environment variable. This is a system-provided environment variable which is specific to Cloud Foundry. If the variable exists, the connector will be activated.
+
+=== Service Detection
+
+The connector inspects Cloud Foundry&#8217;s `VCAP_SERVICES` environment variable to detect available services. This variable stores connection and identification information for service instances that are bound to Cloud Foundry applications.
+
+Below is an example of a `VCAP_SERVICES` entry (edited for brevity).
+
+[source,json]
+----
+"p-rabbitmq": [
+ {
+  "credentials": {
+   "http_api_uri": "http://ca30db57-a396:ddrnu58423q@12.34.567.89:12345/api",
+   "http_api_uris": [
+    "http://ca30db57-a396:ddrnu58423q@12.34.567.89:12345/api"
+   ],
+   "uri": "amqp://ca30db57-a396:ddrnu58423q@12.34.567.89/322e7782-eb1f",
+   "uris": [
+    "amqp://ca30db57-a396:ddrnu58423q@12.34.567.89/322e7782-eb1f"
+   ]
+  },
+  "label": "p-rabbitmq",
+  "name": "bob",
+  "plan": "standard",
+  "tags": [
+   "rabbitmq"
+  ]
+ }
+]
+----
+
+For each service, the connector will consider the following fields:
+
+[cols="2,8", width="100%"]
+|===========================================================================================================================================================================
+|`tags` |Attributes or names of backing technologies behind the service.
+|`label` |The name of the service.
+|`credentials.uri` |A URI pertaining to the service instance.
+|`credentials.uris` |URIs pertaining to the service instance.
+|===========================================================================================================================================================================
+
+The criteria by which it establishes availability of each service are described below.
+
+==== RabbitMQ
+
+The connector will check for:
+
+* `tags` including `rabbitmq`
+* `label` beginning with the `rabbitmq` tag
+* `uris` using the scheme `amqp` or `amqps`
+
+==== DB2
+
+Coming soon...
+
+==== MongoDB
+
+Coming soon...
+
+==== Application monitoring (New Relic)
+
+Coming soon...
+
+==== MySQL
+
+Coming soon...
+
+==== Oracle
+
+Coming soon...
+
+==== PostgreSQL
+
+Coming soon...
+
+==== Redis
+
+Coming soon...
+
+==== SMTP
+
+Coming soon...
+
+==== SQL Server
+
+Coming soon...
+
+=== Supporting New Service Types
+
+Extend `CloudFoundryServiceInfoCreator` with a creator for <<_adding_service_discovery,your service's `ServiceInfo` class>>.
+
+Add the fully-qualified class name for your creator to `META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator`.
+

@@ -391,24 +391,7 @@ Lastly, Spring Service Connector provides a `<cloud:properties>` element, which 
 
 == Spring Cloud Cloud Foundry Connector
 
-This connector will discover services that are bound to an application running in Cloud Foundry.  It currently knows about:
-
-* PostgreSQL
-* MySQL
-* Oracle
-* Redis
-* MongoDB
-* RabbitMQ
-* SMTP gateway
-* Application monitoring (New Relic)
-
-Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does not care which service provider is providing it.
-
-=== Supporting New Service Types
-
-Extend `CloudFoundryServiceInfoCreator` with a creator for <<_adding_service_discovery,your service's `ServiceInfo` class>>.
-
-Add the fully-qualified class name for your creator to `META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator`.
+See <<spring-cloud-cloud-foundry-connector.adoc#,Spring Cloud Cloud Foundry Connector>>.
 
 == Spring Cloud Heroku Connector
 
@@ -512,3 +495,8 @@ Add the fully-qualified class name for your creator to `META-INF/service/org.spr
 === Instance ID
 
 This connector creates a UUID for use as the instance ID, as Java does not provide any portable mechanism for reliably determining hostnames or PIDs.
+
+== Extending Spring Cloud Connectors
+
+Coming soon...
+
