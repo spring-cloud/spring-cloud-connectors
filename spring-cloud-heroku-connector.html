@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.0">
-<title>Spring Cloud Cloud Foundry Connector</title>
+<title>Spring Cloud Heroku Connector</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -502,7 +502,7 @@ table.CodeRay td.code>pre{padding:0}
 </head>
 <body class="book">
 <div id="header">
-<h1>Spring Cloud Cloud Foundry Connector</h1>
+<h1>Spring Cloud Heroku Connector</h1>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -511,21 +511,18 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_supported_services">Supported Services</a>
 <ul class="sectlevel3">
-<li><a href="#_rabbitmq">RabbitMQ</a></li>
-<li><a href="#_db2">DB2</a></li>
-<li><a href="#_mongodb">MongoDB</a></li>
-<li><a href="#_application_monitoring_new_relic">Application monitoring (New Relic)</a></li>
-<li><a href="#_mysql">MySQL</a></li>
-<li><a href="#_oracle">Oracle</a></li>
-<li><a href="#_postgresql">PostgreSQL</a></li>
-<li><a href="#_redis">Redis</a></li>
-<li><a href="#_smtp">SMTP</a></li>
-<li><a href="#_sql_server">SQL Server</a></li>
+<li><a href="#_postgresql_heroku">PostgreSQL (Heroku)</a></li>
+<li><a href="#_mysql_cleardb">MySQL (ClearDB)</a></li>
+<li><a href="#_redis_redis_to_go_redis_cloud_redisgreen_openredis">Redis (Redis To Go, Redis Cloud, RedisGreen, openredis)</a></li>
+<li><a href="#_mongodb_mongolab_mongohq_mongosoup">MongoDB (MongoLab, MongoHQ, MongoSoup)</a></li>
+<li><a href="#_rabbitmq_cloudamqp">RabbitMQ (CloudAMQP)</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li><a href="#_supporting_additional_providers_for_existing_service_types">Supporting Additional Providers for Existing Service Types</a></li>
 <li><a href="#_supporting_new_service_types">Supporting New Service Types</a></li>
+<li><a href="#_limitations">Limitations</a></li>
 </ul>
 </div>
 </div>
@@ -533,10 +530,10 @@ table.CodeRay td.code>pre{padding:0}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The Cloud Foundry Connector is part of the <a href="spring-cloud-connectors.html">Spring Cloud Connectors</a> project.</p>
+<p>The Heroku Connector is part of the <a href="spring-cloud-connectors.html">Spring Cloud Connectors</a> project.</p>
 </div>
 <div class="paragraph">
-<p>This connector discovers services that are bound to an application running in Cloud Foundry. (Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does not care which service provider is providing it.)</p>
+<p>This connector will discover services that are bound to an application running in Heroku.</p>
 </div>
 </div>
 </div>
@@ -544,7 +541,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_cloud_detection">Cloud Detection</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This connector checks for the presence of a <code>VCAP_APPLICATION</code> environment variable. This is a system-provided environment variable which is specific to Cloud Foundry. If the variable exists, the connector will be activated.</p>
+<p>Coming soon&#8230;&#8203;</p>
 </div>
 </div>
 </div>
@@ -552,303 +549,51 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_service_detection">Service Detection</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The connector inspects Cloud Foundry&#8217;s <code>VCAP_SERVICES</code> environment variable to detect available services. This variable stores connection and identification information for service instances that are bound to Cloud Foundry applications.</p>
+<p>Coming soon&#8230;&#8203;</p>
 </div>
-<div class="paragraph">
-<p>Below is an example of a <code>VCAP_SERVICES</code> entry (edited for brevity).</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="json"><span class="key"><span class="delimiter">&quot;</span><span class="content">p-rabbitmq</span><span class="delimiter">&quot;</span></span>: [
- {
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">credentials</span><span class="delimiter">&quot;</span></span>: {
-   <span class="key"><span class="delimiter">&quot;</span><span class="content">http_api_uri</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">http://ca30db57-a396:ddrnu58423q@12.34.567.89:12345/api</span><span class="delimiter">&quot;</span></span>,
-   <span class="key"><span class="delimiter">&quot;</span><span class="content">http_api_uris</span><span class="delimiter">&quot;</span></span>: [
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">http://ca30db57-a396:ddrnu58423q@12.34.567.89:12345/api</span><span class="delimiter">&quot;</span></span>
-   ],
-   <span class="key"><span class="delimiter">&quot;</span><span class="content">uri</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">amqp://ca30db57-a396:ddrnu58423q@12.34.567.89/322e7782-eb1f</span><span class="delimiter">&quot;</span></span>,
-   <span class="key"><span class="delimiter">&quot;</span><span class="content">uris</span><span class="delimiter">&quot;</span></span>: [
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">amqp://ca30db57-a396:ddrnu58423q@12.34.567.89/322e7782-eb1f</span><span class="delimiter">&quot;</span></span>
-   ]
-  },
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">p-rabbitmq</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">rabbit-bus</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">plan</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">standard</span><span class="delimiter">&quot;</span></span>,
-  <span class="key"><span class="delimiter">&quot;</span><span class="content">tags</span><span class="delimiter">&quot;</span></span>: [
-   <span class="string"><span class="delimiter">&quot;</span><span class="content">rabbitmq</span><span class="delimiter">&quot;</span></span>
-  ]
- }
-]</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>For each service, the connector will consider the following fields:</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>tags</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Attributes or names of backing technologies behind the service.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>label</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The service offering&#8217;s name (not to be confused with a service <em>instance&#8217;s</em> name).</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>credentials.uri</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A URI pertaining to the service instance.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>credentials.uris</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URIs pertaining to the service instance.</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>If they are present, it will also consider the following fields:</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<colgroup>
-<col style="width: 30%;">
-<col style="width: 70%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>credentials.jdbcUrl</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A JDBC connection string.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>credentials.${SCHEME}${URL}</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A service URL, where <code>${SCHEME}</code> is a URI scheme used by the service and <code>${URL}</code> is one of <code>Url</code>, <code>url</code>, <code>Uri</code>, and <code>uri</code>.</p></td>
-</tr>
-</tbody>
-</table>
 <div class="sect2">
 <h3 id="_supported_services">Supported Services</h3>
 <div class="paragraph">
-<p>This connector comes with built-in support for a variety of service types and providers. The criteria by which it establishes availability of each service are described below.</p>
+<p>Coming soon&#8230;&#8203;</p>
 </div>
 <div class="sect3">
-<h4 id="_rabbitmq">RabbitMQ</h4>
+<h4 id="_postgresql_heroku">PostgreSQL (Heroku)</h4>
 <div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>tags</code> including <code>rabbitmq</code></p>
-</li>
-<li>
-<p><code>label</code> beginning with the <code>rabbitmq</code> tag</p>
-</li>
-<li>
-<p><code>uri</code> or <code>uris</code> using the scheme <code>amqp</code> or <code>amqps</code></p>
-</li>
-<li>
-<p><code>amqpUri</code>, <code>amqpuri</code>, <code>amqpsUri</code>, <code>amqpsuri</code>, <code>amqpUrl</code>, <code>amqpurl</code>, <code>amqpsUrl</code>, or <code>amqpsurl</code> fields in <code>credentials</code></p>
-</li>
-</ul>
+<p>Coming soon&#8230;&#8203;</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_db2">DB2</h4>
+<h4 id="_mysql_cleardb">MySQL (ClearDB)</h4>
 <div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>tags</code> including <code>sqldb</code>, <code>dashDB</code>, or <code>db2</code></p>
-</li>
-<li>
-<p><code>label</code> beginning with the <code>sqldb</code>, <code>dashDB</code>, or <code>db2</code> tags</p>
-</li>
-<li>
-<p><code>uri</code> or <code>uris</code> using the scheme <code>db2</code></p>
-</li>
-<li>
-<p><code>jdbcUrl</code> field in <code>credentials</code> using the scheme <code>db2</code></p>
-</li>
-<li>
-<p><code>db2Uri</code>, <code>db2uri</code>, <code>db2Url</code>, or <code>db2url</code> fields in <code>credentials</code></p>
-</li>
-</ul>
+<p>Coming soon&#8230;&#8203;</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_mongodb">MongoDB</h4>
+<h4 id="_redis_redis_to_go_redis_cloud_redisgreen_openredis">Redis (Redis To Go, Redis Cloud, RedisGreen, openredis)</h4>
 <div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>tags</code> including <code>mongodb</code></p>
-</li>
-<li>
-<p><code>label</code> beginning with the <code>mongodb</code> tag</p>
-</li>
-<li>
-<p><code>uri</code> or <code>uris</code> using the scheme <code>mongodb</code></p>
-</li>
-<li>
-<p><code>mongodbUri</code>, <code>mongodburi</code>, <code>mongodbUrl</code>, or <code>mongodburl</code> fields in <code>credentials</code></p>
-</li>
-</ul>
+<p>Coming soon&#8230;&#8203;</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_application_monitoring_new_relic">Application monitoring (New Relic)</h4>
+<h4 id="_mongodb_mongolab_mongohq_mongosoup">MongoDB (MongoLab, MongoHQ, MongoSoup)</h4>
 <div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>tags</code> including <code>monitoring</code> or <code>newrelic</code></p>
-</li>
-<li>
-<p><code>label</code> beginning with the <code>monitoring</code> or <code>newrelic</code> tags</p>
-</li>
-</ul>
+<p>Coming soon&#8230;&#8203;</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_mysql">MySQL</h4>
+<h4 id="_rabbitmq_cloudamqp">RabbitMQ (CloudAMQP)</h4>
 <div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>tags</code> including <code>mysql</code></p>
-</li>
-<li>
-<p><code>label</code> beginning with the <code>mysql</code> tag</p>
-</li>
-<li>
-<p><code>uri</code> or <code>uris</code> using the scheme <code>mysql</code></p>
-</li>
-<li>
-<p><code>jdbcUrl</code> field in <code>credentials</code> using the scheme <code>mysql</code></p>
-</li>
-<li>
-<p><code>mysqlUri</code>, <code>mysqluri</code>, <code>mysqlUrl</code>, or <code>mysqlurl</code> fields in <code>credentials</code></p>
-</li>
-</ul>
+<p>Coming soon&#8230;&#8203;</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_oracle">Oracle</h4>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_supporting_additional_providers_for_existing_service_types">Supporting Additional Providers for Existing Service Types</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>uri</code> or <code>uris</code> using the scheme <code>oracle</code></p>
-</li>
-<li>
-<p><code>jdbcUrl</code> field in <code>credentials</code> using the scheme <code>oracle</code></p>
-</li>
-<li>
-<p><code>oracleUri</code>, <code>oracleuri</code>, <code>oracleUrl</code>, or <code>oracleurl</code> fields in <code>credentials</code></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_postgresql">PostgreSQL</h4>
-<div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>tags</code> including <code>postgresql</code></p>
-</li>
-<li>
-<p><code>label</code> beginning with the <code>postgresql</code> tag</p>
-</li>
-<li>
-<p><code>uri</code> or <code>uris</code> using the scheme <code>postgres</code></p>
-</li>
-<li>
-<p><code>jdbcUrl</code> field in <code>credentials</code> using the scheme <code>postgres</code></p>
-</li>
-<li>
-<p><code>postgresUri</code>, <code>postgresuri</code>, <code>postgresUrl</code>, or <code>postgresurl</code> fields in <code>credentials</code></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_redis">Redis</h4>
-<div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>tags</code> including <code>redis</code></p>
-</li>
-<li>
-<p><code>label</code> beginning with the <code>redis</code> tag</p>
-</li>
-<li>
-<p><code>uri</code> or <code>uris</code> using the scheme <code>redis</code></p>
-</li>
-<li>
-<p><code>redisUri</code>, <code>redisuri</code>, <code>redisUrl</code>, or <code>redisurl</code> fields in <code>credentials</code></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_smtp">SMTP</h4>
-<div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>tags</code> including <code>smtp</code></p>
-</li>
-<li>
-<p><code>label</code> beginning with the <code>smtp</code> tag</p>
-</li>
-<li>
-<p><code>uri</code> or <code>uris</code> using the scheme <code>smtp</code></p>
-</li>
-<li>
-<p><code>smtpUri</code>, <code>smtpuri</code>, <code>smtpUrl</code>, or <code>smtpurl</code> fields in <code>credentials</code></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_sql_server">SQL Server</h4>
-<div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>uri</code> or <code>uris</code> using the scheme <code>sqlserver</code></p>
-</li>
-<li>
-<p><code>jdbcUrl</code> field in <code>credentials</code> using the scheme <code>sqlserver</code></p>
-</li>
-<li>
-<p><code>sqlserverUri</code>, <code>sqlserveruri</code>, <code>sqlserverUrl</code>, or <code>sqlserverurl</code> fields in <code>credentials</code></p>
-</li>
-</ul>
-</div>
-</div>
+<p>To add support for a new provider of a service already listed above, add the provider&#8217;s environment prefix to the list in <code>getEnvPrefixes()</code> on the <code>ServiceInfoCreator</code> class.</p>
 </div>
 </div>
 </div>
@@ -856,17 +601,36 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_supporting_new_service_types">Supporting New Service Types</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Extend <code>CloudFoundryServiceInfoCreator</code> with a creator for <a href="#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
+<p>Extend <code>HerokuServiceInfoCreator</code> with a creator for <a href="#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
 </div>
 <div class="paragraph">
-<p>Add the fully-qualified class name for your creator to <code>META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator</code>.</p>
+<p>Add the fully-qualified class name for your creator to <code>META-INF/service/org.springframework.cloud.heroku.HerokuServiceInfoCreator</code>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_limitations">Limitations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Unlike Cloud Foundry, Heroku exposes very little application information that is retrievable from within a running instance (for example, there is no good way to find the name of the application). If your application requires access to such information, you must make the information available through environment variables.</p>
+</div>
+<div class="paragraph">
+<p>To have a sensible application name available through <code>ApplicationInstanceInfo</code>, set the <code>SPRING_CLOUD_APP_NAME</code> environment variable.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="term">heroku config:add SPRING_CLOUD_APP_NAME=myappname --app myappname</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If this environment variable is not set, the application name will be set to <code>&lt;unknown&gt;</code>.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-07 17:02:15 CDT
+Last updated 2015-08-07 17:11:08 CDT
 </div>
 </div>
 </body>
