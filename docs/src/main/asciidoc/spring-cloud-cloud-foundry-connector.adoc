@@ -153,7 +153,7 @@ The connector will check for:
 The connector will check for:
 
 * `uri` or `uris` using the scheme `sqlserver`
-* `jdbcUrl` field in `credentials` using the scheme `oracle`
+* `jdbcUrl` field in `credentials` using the scheme `sqlserver`
 * `sqlserverUri`, `sqlserveruri`, `sqlserverUrl`, or `sqlserverurl` fields in `credentials`
 
 == Supporting New Service Types
