@@ -548,15 +548,11 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
-<li><a href="#_spring_cloud_cloud_foundry_connector">Spring Cloud Cloud Foundry Connector</a>
-<ul class="sectlevel2">
-<li><a href="#_supporting_new_service_types">Supporting New Service Types</a></li>
-</ul>
-</li>
+<li><a href="#_spring_cloud_cloud_foundry_connector">Spring Cloud Cloud Foundry Connector</a></li>
 <li><a href="#_spring_cloud_heroku_connector">Spring Cloud Heroku Connector</a>
 <ul class="sectlevel2">
 <li><a href="#_supporting_additional_providers_for_existing_service_types">Supporting Additional Providers for Existing Service Types</a></li>
-<li><a href="#_supporting_new_service_types_2">Supporting New Service Types</a></li>
+<li><a href="#_supporting_new_service_types">Supporting New Service Types</a></li>
 <li><a href="#_limitations">Limitations</a></li>
 </ul>
 </li>
@@ -575,6 +571,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_instance_id">Instance ID</a></li>
 </ul>
 </li>
+<li><a href="#_extending_spring_cloud_connectors">Extending Spring Cloud Connectors</a></li>
 </ul>
 </div>
 </div>
@@ -1103,47 +1100,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_spring_cloud_cloud_foundry_connector">Spring Cloud Cloud Foundry Connector</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This connector will discover services that are bound to an application running in Cloud Foundry.  It currently knows about:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>PostgreSQL</p>
-</li>
-<li>
-<p>MySQL</p>
-</li>
-<li>
-<p>Oracle</p>
-</li>
-<li>
-<p>Redis</p>
-</li>
-<li>
-<p>MongoDB</p>
-</li>
-<li>
-<p>RabbitMQ</p>
-</li>
-<li>
-<p>SMTP gateway</p>
-</li>
-<li>
-<p>Application monitoring (New Relic)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does not care which service provider is providing it.</p>
-</div>
-<div class="sect2">
-<h3 id="_supporting_new_service_types">Supporting New Service Types</h3>
-<div class="paragraph">
-<p>Extend <code>CloudFoundryServiceInfoCreator</code> with a creator for <a href="#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
-</div>
-<div class="paragraph">
-<p>Add the fully-qualified class name for your creator to <code>META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator</code>.</p>
-</div>
+<p>See <a href="spring-cloud-cloud-foundry-connector.html">Spring Cloud Cloud Foundry Connector</a>.</p>
 </div>
 </div>
 </div>
@@ -1179,7 +1136,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect2">
-<h3 id="_supporting_new_service_types_2">Supporting New Service Types</h3>
+<h3 id="_supporting_new_service_types">Supporting New Service Types</h3>
 <div class="paragraph">
 <p>Extend <code>HerokuServiceInfoCreator</code> with a creator for <a href="#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
 </div>
@@ -1302,10 +1259,18 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_extending_spring_cloud_connectors">Extending Spring Cloud Connectors</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Coming soon&#8230;&#8203;</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-05 12:34:54 CDT
+Last updated 2015-08-07 11:44:16 CDT
 </div>
 </div>
 </body>
