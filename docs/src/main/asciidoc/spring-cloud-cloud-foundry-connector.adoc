@@ -48,20 +48,20 @@ Below is an example of a `VCAP_SERVICES` entry (edited for brevity).
 For each service, the connector will consider the following fields:
 
 [cols="3,7", width="100%"]
-|===========================================================================================================================================================================
+|================================================================================================================================================================================
 |`tags` |Attributes or names of backing technologies behind the service.
 |`label` |The service offering&#8217;s name (not to be confused with a service _instance&#8217;s_ name).
 |`credentials.uri` |A URI pertaining to the service instance.
 |`credentials.uris` |URIs pertaining to the service instance.
-|===========================================================================================================================================================================
+|================================================================================================================================================================================
 
 If they are present, it will also consider the following fields:
 
 [cols="3,7", width="100%"]
-|===========================================================================================================================================================================
+|================================================================================================================================================================================
 |`credentials.jdbcUrl` |A JDBC connection string.
-|`credentials.${SCHEME}${URL}` |A service URL&#8212;in the field name, `${SCHEME}` is a URI scheme used by the service and `${URL}` is the string `Url`, `url`, `Uri`, or `uri`.
-|===========================================================================================================================================================================
+|`credentials.${SCHEME}${URL}` |A service URL, where `${SCHEME}` is a URI scheme used by the service and `${URL}` is one of `Url`, `url`, `Uri`, and `uri`.
+|================================================================================================================================================================================
 
 === Supported Services
 
@@ -114,23 +114,47 @@ The connector will check for:
 
 ==== Oracle
 
-Coming soon...
+The connector will check for:
+
+* `uri` or `uris` using the scheme `oracle`
+* `jdbcUrl` field in `credentials` using the scheme `oracle`
+* `oracleUri`, `oracleuri`, `oracleUrl`, or `oracleurl` fields in `credentials`
 
 ==== PostgreSQL
 
-Coming soon...
+The connector will check for:
+
+* `tags` including `postgresql`
+* `label` beginning with the `postgresql` tag
+* `uri` or `uris` using the scheme `postgres`
+* `jdbcUrl` field in `credentials` using the scheme `postgres`
+* `postgresUri`, `postgresuri`, `postgresUrl`, or `postgresurl` fields in `credentials`
 
 ==== Redis
 
-Coming soon...
+The connector will check for:
+
+* `tags` including `redis`
+* `label` beginning with the `redis` tag
+* `uri` or `uris` using the scheme `redis`
+* `redisUri`, `redisuri`, `redisUrl`, or `redisurl` fields in `credentials`
 
 ==== SMTP
 
-Coming soon...
+The connector will check for:
+
+* `tags` including `smtp`
+* `label` beginning with the `smtp` tag
+* `uri` or `uris` using the scheme `smtp`
+* `smtpUri`, `smtpuri`, `smtpUrl`, or `smtpurl` fields in `credentials`
 
 ==== SQL Server
 
-Coming soon...
+The connector will check for:
+
+* `uri` or `uris` using the scheme `sqlserver`
+* `jdbcUrl` field in `credentials` using the scheme `oracle`
+* `sqlserverUri`, `sqlserveruri`, `sqlserverUrl`, or `sqlserverurl` fields in `credentials`
 
 == Supporting New Service Types
 
