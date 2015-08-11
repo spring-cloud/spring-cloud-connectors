@@ -1,0 +1,164 @@
+:github-tag: master
+:github-repo: spring-cloud/spring-cloud-connectors
+:github-raw: http://raw.github.com/{github-repo}/{github-tag}
+:github-code: http://github.com/{github-repo}/tree/{github-tag}
+:toc:
+:toclevels: 3
+
+= Spring Cloud Cloud Foundry Connector
+
+The Cloud Foundry Connector is part of the <<spring-cloud-connectors.adoc#,Spring Cloud Connectors>> project.
+
+This connector discovers services that are bound to an application running in Cloud Foundry. (Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does not care which service provider is providing it.)
+
+== Cloud Detection
+
+This connector checks for the presence of a `VCAP_APPLICATION` environment variable. This is a system-provided environment variable which is specific to Cloud Foundry. If the variable exists, the connector will be activated.
+
+== Service Detection
+
+The connector inspects Cloud Foundry&#8217;s `VCAP_SERVICES` environment variable to detect available services. This variable stores connection and identification information for service instances that are bound to Cloud Foundry applications.
+
+Below is an example of a `VCAP_SERVICES` entry (edited for brevity).
+
+[source,json]
+----
+"p-rabbitmq": [
+ {
+  "credentials": {
+   "http_api_uri": "http://ca30db57-a396:ddrnu58423q@12.34.567.89:12345/api",
+   "http_api_uris": [
+    "http://ca30db57-a396:ddrnu58423q@12.34.567.89:12345/api"
+   ],
+   "uri": "amqp://ca30db57-a396:ddrnu58423q@12.34.567.89/322e7782-eb1f",
+   "uris": [
+    "amqp://ca30db57-a396:ddrnu58423q@12.34.567.89/322e7782-eb1f"
+   ]
+  },
+  "label": "p-rabbitmq",
+  "name": "rabbit-bus",
+  "plan": "standard",
+  "tags": [
+   "rabbitmq"
+  ]
+ }
+]
+----
+
+For each service, the connector will consider the following fields:
+
+[cols="3,7", width="100%"]
+|================================================================================================================================================================================
+|`tags` |Attributes or names of backing technologies behind the service.
+|`label` |The service offering&#8217;s name (not to be confused with a service _instance&#8217;s_ name).
+|`credentials.uri` |A URI pertaining to the service instance.
+|`credentials.uris` |URIs pertaining to the service instance.
+|================================================================================================================================================================================
+
+If they are present, it will also consider the following fields:
+
+[cols="3,7", width="100%"]
+|================================================================================================================================================================================
+|`credentials.jdbcUrl` |A JDBC connection string.
+|`credentials.${SCHEME}${URL}` |A service URL, where `${SCHEME}` is a URI scheme used by the service and `${URL}` is one of `Url`, `url`, `Uri`, and `uri`.
+|================================================================================================================================================================================
+
+=== Supported Services
+
+This connector comes with built-in support for a variety of service types and providers. The criteria by which it establishes availability of each service are described below.
+
+==== Application monitoring (New Relic)
+
+The connector will check for:
+
+* `tags` including `monitoring` or `newrelic`
+* `label` beginning with the `monitoring` or `newrelic` tags
+
+==== DB2
+
+The connector will check for:
+
+* `tags` including `sqldb`, `dashDB`, or `db2`
+* `label` beginning with the `sqldb`, `dashDB`, or `db2` tags
+* `uri` or `uris` using the scheme `db2`
+* `jdbcUrl` field in `credentials` using the scheme `db2`
+* `db2Uri`, `db2uri`, `db2Url`, or `db2url` fields in `credentials`
+
+==== MongoDB
+
+The connector will check for:
+
+* `tags` including `mongodb`
+* `label` beginning with the `mongodb` tag
+* `uri` or `uris` using the scheme `mongodb`
+* `mongodbUri`, `mongodburi`, `mongodbUrl`, or `mongodburl` fields in `credentials`
+
+==== MySQL
+
+The connector will check for:
+
+* `tags` including `mysql`
+* `label` beginning with the `mysql` tag
+* `uri` or `uris` using the scheme `mysql`
+* `jdbcUrl` field in `credentials` using the scheme `mysql`
+* `mysqlUri`, `mysqluri`, `mysqlUrl`, or `mysqlurl` fields in `credentials`
+
+==== Oracle
+
+The connector will check for:
+
+* `uri` or `uris` using the scheme `oracle`
+* `jdbcUrl` field in `credentials` using the scheme `oracle`
+* `oracleUri`, `oracleuri`, `oracleUrl`, or `oracleurl` fields in `credentials`
+
+==== PostgreSQL
+
+The connector will check for:
+
+* `tags` including `postgresql`
+* `label` beginning with the `postgresql` tag
+* `uri` or `uris` using the scheme `postgres`
+* `jdbcUrl` field in `credentials` using the scheme `postgres`
+* `postgresUri`, `postgresuri`, `postgresUrl`, or `postgresurl` fields in `credentials`
+
+==== RabbitMQ
+
+The connector will check for:
+
+* `tags` including `rabbitmq`
+* `label` beginning with the `rabbitmq` tag
+* `uri` or `uris` using the scheme `amqp` or `amqps`
+* `amqpUri`, `amqpuri`, `amqpsUri`, `amqpsuri`, `amqpUrl`, `amqpurl`, `amqpsUrl`, or `amqpsurl` fields in `credentials`
+
+==== Redis
+
+The connector will check for:
+
+* `tags` including `redis`
+* `label` beginning with the `redis` tag
+* `uri` or `uris` using the scheme `redis`
+* `redisUri`, `redisuri`, `redisUrl`, or `redisurl` fields in `credentials`
+
+==== SMTP
+
+The connector will check for:
+
+* `tags` including `smtp`
+* `label` beginning with the `smtp` tag
+* `uri` or `uris` using the scheme `smtp`
+* `smtpUri`, `smtpuri`, `smtpUrl`, or `smtpurl` fields in `credentials`
+
+==== SQL Server
+
+The connector will check for:
+
+* `uri` or `uris` using the scheme `sqlserver`
+* `jdbcUrl` field in `credentials` using the scheme `sqlserver`
+* `sqlserverUri`, `sqlserveruri`, `sqlserverUrl`, or `sqlserverurl` fields in `credentials`
+
+== Supporting New Service Types
+
+Extend `CloudFoundryServiceInfoCreator` with a creator for <<_adding_service_discovery,your service's `ServiceInfo` class>>.
+
+Add the fully-qualified class name for your creator to `META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator`.
+

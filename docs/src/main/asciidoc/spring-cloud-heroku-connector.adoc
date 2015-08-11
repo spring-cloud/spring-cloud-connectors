@@ -1,0 +1,93 @@
+:github-tag: master
+:github-repo: spring-cloud/spring-cloud-connectors
+:github-raw: http://raw.github.com/{github-repo}/{github-tag}
+:github-code: http://github.com/{github-repo}/tree/{github-tag}
+:toc:
+:toclevels: 3
+
+= Spring Cloud Heroku Connector
+
+The Heroku Connector is part of the <<spring-cloud-connectors.adoc#,Spring Cloud Connectors>> project.
+
+This connector will discover services that are bound to an application running in Heroku.
+
+== Cloud Detection
+
+This connector checks for the presence of a `DYNO` environment variable. This variable is specific to and provided by Heroku; it is set to the identifier of an application&#8217;s dyno. If the variable exists, the connector will be activated.
+
+== Service Detection
+
+Heroku exposes the URL of a service instance (add-on) as a _config var_, which is made available to an application as an environment variable. The Spring Cloud Heroku Connector checks for environment variables which contain URLs used by add-ons and uses their presence to detect the relevant services.
+
+As an example, consider a RabbitMQ service provided by CloudAMQP. After adding the CloudAMQP add-on to a Heroku application, you can run `heroku config` to see a new `CLOUDAMQP_URL` config var.
+
+[source,term]
+----
+$ heroku config
+=== frozen-oasis-1234 Config Vars
+CLOUDAMQP_URL:         amqp://sfdkjdj:6eknfh-4xlw1u6fec3@foo.bar.cloudamqp.com/lyfkue
+...
+----
+
+=== Supported Services
+
+This connector comes with built-in support for several service types and providers. The variables and URI schemes with which it establishes availability of each service are described below.
+
+==== PostgreSQL (Heroku)
+
+The connector will check for:
+
+* a `HEROKU_POSTGRESQL_` config var with value using the scheme `postgres`
+
+==== MySQL (ClearDB)
+
+The connector will check for:
+
+* a `CLEARDB_DATABASE_URL` config var with value using the scheme `mysql`
+
+==== Redis (Redis To Go, Redis Cloud, RedisGreen, openredis)
+
+The connector will check for:
+
+* a `REDISTOGO_URL` config var with value using the scheme `redis`
+* a `REDISCLOUD_URL` config var with value using the scheme `redis`
+* an `OPENREDIS_URL` config var with value using the scheme `redis`
+* a `REDISGREEN_URL` config var with value using the scheme `redis`
+
+==== MongoDB (MongoLab, MongoHQ, MongoSoup)
+
+The connector will check for:
+
+* a `MONGOLAB_URI` config var with value using the scheme `mongodb`
+* a `MONGOHQ_URL` config var with value using the scheme `mongodb`
+* a `MONGOSOUP_URL` config var with value using the scheme `mongodb`
+
+==== RabbitMQ (CloudAMQP)
+
+The connector will check for:
+
+* a `CLOUDAMQP_URL` config var with value using the scheme `amqp` or `amqps`
+
+== Supporting Additional Providers for Existing Service Types
+
+To add support for a new provider of a service already listed above, add the provider's environment prefix to the list in `getEnvPrefixes()` on the `ServiceInfoCreator` class.
+
+== Supporting New Service Types
+
+Extend `HerokuServiceInfoCreator` with a creator for <<_adding_service_discovery,your service's `ServiceInfo` class>>.
+
+Add the fully-qualified class name for your creator to `META-INF/service/org.springframework.cloud.heroku.HerokuServiceInfoCreator`.
+
+== Limitations
+
+Unlike Cloud Foundry, Heroku exposes very little application information that is retrievable from within a running instance (for example, there is no good way to find the name of the application). If your application requires access to such information, you must make the information available through environment variables.
+
+To have a sensible application name available through `ApplicationInstanceInfo`, set the `SPRING_CLOUD_APP_NAME` environment variable.
+
+[source,term]
+----
+heroku config:add SPRING_CLOUD_APP_NAME=myappname --app myappname
+----
+
+If this environment variable is not set, the application name will be set to `<unknown>`.
+
