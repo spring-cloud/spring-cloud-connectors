@@ -13,11 +13,21 @@ This connector will discover services that are bound to an application running i
 
 == Cloud Detection
 
-Coming soon... 
+This connector checks for the presence of a `DYNO` environment variable. This variable is specific to and provided by Heroku; it is set to the identifier of an application&#8217;s dyno. If the variable exists, the connector will be activated.
 
 == Service Detection
 
-Coming soon...
+Heroku exposes the URL of a service instance (add-on) as a _config var_, which is made available to an application as an environment variable. The Spring Cloud Heroku Connector checks for environment variables which contain URLs used by add-ons and uses their presence to detect the relevant services.
+
+As an example, consider a RabbitMQ service provided by CloudAMQP. After adding the CloudAMQP add-on to a Heroku application, you can run `heroku config` to see a new `CLOUDAMQP_URL` config var.
+
+[source,term]
+----
+$ heroku config
+=== frozen-oasis-1234 Config Vars
+CLOUDAMQP_URL:         amqp://sfdkjdj:6eknfh-4xlw1u6fec3@foo.bar.cloudamqp.com/lyfkue
+...
+----
 
 === Supported Services
 
