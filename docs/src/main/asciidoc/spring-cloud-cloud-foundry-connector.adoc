@@ -67,14 +67,12 @@ If they are present, it will also consider the following fields:
 
 This connector comes with built-in support for a variety of service types and providers. The criteria by which it establishes availability of each service are described below.
 
-==== RabbitMQ
+==== Application monitoring (New Relic)
 
 The connector will check for:
 
-* `tags` including `rabbitmq`
-* `label` beginning with the `rabbitmq` tag
-* `uri` or `uris` using the scheme `amqp` or `amqps`
-* `amqpUri`, `amqpuri`, `amqpsUri`, `amqpsuri`, `amqpUrl`, `amqpurl`, `amqpsUrl`, or `amqpsurl` fields in `credentials`
+* `tags` including `monitoring` or `newrelic`
+* `label` beginning with the `monitoring` or `newrelic` tags
 
 ==== DB2
 
@@ -94,13 +92,6 @@ The connector will check for:
 * `label` beginning with the `mongodb` tag
 * `uri` or `uris` using the scheme `mongodb`
 * `mongodbUri`, `mongodburi`, `mongodbUrl`, or `mongodburl` fields in `credentials`
-
-==== Application monitoring (New Relic)
-
-The connector will check for:
-
-* `tags` including `monitoring` or `newrelic`
-* `label` beginning with the `monitoring` or `newrelic` tags
 
 ==== MySQL
 
@@ -129,6 +120,15 @@ The connector will check for:
 * `uri` or `uris` using the scheme `postgres`
 * `jdbcUrl` field in `credentials` using the scheme `postgres`
 * `postgresUri`, `postgresuri`, `postgresUrl`, or `postgresurl` fields in `credentials`
+
+==== RabbitMQ
+
+The connector will check for:
+
+* `tags` including `rabbitmq`
+* `label` beginning with the `rabbitmq` tag
+* `uri` or `uris` using the scheme `amqp` or `amqps`
+* `amqpUri`, `amqpuri`, `amqpsUri`, `amqpsuri`, `amqpUrl`, `amqpurl`, `amqpsUrl`, or `amqpsurl` fields in `credentials`
 
 ==== Redis
 
