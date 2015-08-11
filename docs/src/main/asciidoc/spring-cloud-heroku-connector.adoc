@@ -35,15 +35,24 @@ This connector comes with built-in support for several service types and provide
 
 ==== PostgreSQL (Heroku)
 
-Coming soon...
+The connector will check for:
+
+* a `HEROKU_POSTGRESQL_` config var with value using the scheme `postgres`
 
 ==== MySQL (ClearDB)
 
-Coming soon...
+The connector will check for:
+
+* a `CLEARDB_DATABASE_URL` config var with value using the scheme `mysql`
 
 ==== Redis (Redis To Go, Redis Cloud, RedisGreen, openredis)
 
-Coming soon...
+The connector will check for:
+
+* a `REDISTOGO_URL` config var with value using the scheme `redis`
+* a `REDISCLOUD_URL` config var with value using the scheme `redis`
+* an `OPENREDIS_URL` config var with value using the scheme `redis`
+* a `REDISGREEN_URL` config var with value using the scheme `redis`
 
 ==== MongoDB (MongoLab, MongoHQ, MongoSoup)
 
@@ -55,7 +64,9 @@ The connector will check for:
 
 ==== RabbitMQ (CloudAMQP)
 
-Coming soon...
+The connector will check for:
+
+* a `CLOUDAMQP_URL` config var with value using the scheme `amqp` or `amqps`
 
 == Supporting Additional Providers for Existing Service Types
 
