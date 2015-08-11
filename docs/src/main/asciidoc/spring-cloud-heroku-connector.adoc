@@ -31,7 +31,7 @@ CLOUDAMQP_URL:         amqp://sfdkjdj:6eknfh-4xlw1u6fec3@foo.bar.cloudamqp.com/l
 
 === Supported Services
 
-Coming soon...
+This connector comes with built-in support for several service types and providers. The variables and URI schemes with which it establishes availability of each service are described below.
 
 ==== PostgreSQL (Heroku)
 
@@ -47,7 +47,11 @@ Coming soon...
 
 ==== MongoDB (MongoLab, MongoHQ, MongoSoup)
 
-Coming soon...
+The connector will check for:
+
+* a `MONGOLAB_URI` config var with value using the scheme `mongodb`
+* a `MONGOHQ_URL` config var with value using the scheme `mongodb`
+* a `MONGOSOUP_URL` config var with value using the scheme `mongodb`
 
 ==== RabbitMQ (CloudAMQP)
 
