@@ -541,7 +541,7 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_cloud_detection">Cloud Detection</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>This connector checks for the presence of a <code>DYNO</code> environment variable. This variable is specific to and provided by Heroku; it is set to the identifier of an application&#8217;s dyno. If the variable exists, the connector will be activated.</p>
 </div>
 </div>
 </div>
@@ -549,12 +549,23 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_service_detection">Service Detection</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>Heroku exposes the URL of a service instance (add-on) as a <em>config var</em>, which is made available to an application as an environment variable. The Spring Cloud Heroku Connector checks for environment variables which contain URLs used by add-ons and uses their presence to detect the relevant services.</p>
+</div>
+<div class="paragraph">
+<p>As an example, consider a RabbitMQ service provided by CloudAMQP. After adding the CloudAMQP add-on to a Heroku application, you can run <code>heroku config</code> to see a new <code>CLOUDAMQP_URL</code> config var.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="term">$ heroku config
+=== frozen-oasis-1234 Config Vars
+CLOUDAMQP_URL:         amqp://sfdkjdj:6eknfh-4xlw1u6fec3@foo.bar.cloudamqp.com/lyfkue
+...</code></pre>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_supported_services">Supported Services</h3>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>This connector comes with built-in support for several service types and providers. The variables and URI schemes with which it establishes availability of each service are described below.</p>
 </div>
 <div class="sect3">
 <h4 id="_postgresql_heroku">PostgreSQL (Heroku)</h4>
@@ -577,7 +588,20 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect3">
 <h4 id="_mongodb_mongolab_mongohq_mongosoup">MongoDB (MongoLab, MongoHQ, MongoSoup)</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a <code>MONGOLAB_URI</code> config var with value using the scheme <code>mongodb</code></p>
+</li>
+<li>
+<p>a <code>MONGOHQ_URL</code> config var with value using the scheme <code>mongodb</code></p>
+</li>
+<li>
+<p>a <code>MONGOSOUP_URL</code> config var with value using the scheme <code>mongodb</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -630,7 +654,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-07 17:17:07 CDT
+Last updated 2015-08-10 17:34:27 CDT
 </div>
 </div>
 </body>
