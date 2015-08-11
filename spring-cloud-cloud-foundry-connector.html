@@ -511,13 +511,13 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel2">
 <li><a href="#_supported_services">Supported Services</a>
 <ul class="sectlevel3">
-<li><a href="#_rabbitmq">RabbitMQ</a></li>
+<li><a href="#_application_monitoring_new_relic">Application monitoring (New Relic)</a></li>
 <li><a href="#_db2">DB2</a></li>
 <li><a href="#_mongodb">MongoDB</a></li>
-<li><a href="#_application_monitoring_new_relic">Application monitoring (New Relic)</a></li>
 <li><a href="#_mysql">MySQL</a></li>
 <li><a href="#_oracle">Oracle</a></li>
 <li><a href="#_postgresql">PostgreSQL</a></li>
+<li><a href="#_rabbitmq">RabbitMQ</a></li>
 <li><a href="#_redis">Redis</a></li>
 <li><a href="#_smtp">SMTP</a></li>
 <li><a href="#_sql_server">SQL Server</a></li>
@@ -633,23 +633,17 @@ table.CodeRay td.code>pre{padding:0}
 <p>This connector comes with built-in support for a variety of service types and providers. The criteria by which it establishes availability of each service are described below.</p>
 </div>
 <div class="sect3">
-<h4 id="_rabbitmq">RabbitMQ</h4>
+<h4 id="_application_monitoring_new_relic">Application monitoring (New Relic)</h4>
 <div class="paragraph">
 <p>The connector will check for:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><code>tags</code> including <code>rabbitmq</code></p>
+<p><code>tags</code> including <code>monitoring</code> or <code>newrelic</code></p>
 </li>
 <li>
-<p><code>label</code> beginning with the <code>rabbitmq</code> tag</p>
-</li>
-<li>
-<p><code>uri</code> or <code>uris</code> using the scheme <code>amqp</code> or <code>amqps</code></p>
-</li>
-<li>
-<p><code>amqpUri</code>, <code>amqpuri</code>, <code>amqpsUri</code>, <code>amqpsuri</code>, <code>amqpUrl</code>, <code>amqpurl</code>, <code>amqpsUrl</code>, or <code>amqpsurl</code> fields in <code>credentials</code></p>
+<p><code>label</code> beginning with the <code>monitoring</code> or <code>newrelic</code> tags</p>
 </li>
 </ul>
 </div>
@@ -697,22 +691,6 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li>
 <p><code>mongodbUri</code>, <code>mongodburi</code>, <code>mongodbUrl</code>, or <code>mongodburl</code> fields in <code>credentials</code></p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_application_monitoring_new_relic">Application monitoring (New Relic)</h4>
-<div class="paragraph">
-<p>The connector will check for:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><code>tags</code> including <code>monitoring</code> or <code>newrelic</code></p>
-</li>
-<li>
-<p><code>label</code> beginning with the <code>monitoring</code> or <code>newrelic</code> tags</p>
 </li>
 </ul>
 </div>
@@ -782,6 +760,28 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 <li>
 <p><code>postgresUri</code>, <code>postgresuri</code>, <code>postgresUrl</code>, or <code>postgresurl</code> fields in <code>credentials</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_rabbitmq">RabbitMQ</h4>
+<div class="paragraph">
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>tags</code> including <code>rabbitmq</code></p>
+</li>
+<li>
+<p><code>label</code> beginning with the <code>rabbitmq</code> tag</p>
+</li>
+<li>
+<p><code>uri</code> or <code>uris</code> using the scheme <code>amqp</code> or <code>amqps</code></p>
+</li>
+<li>
+<p><code>amqpUri</code>, <code>amqpuri</code>, <code>amqpsUri</code>, <code>amqpsuri</code>, <code>amqpUrl</code>, <code>amqpurl</code>, <code>amqpsUrl</code>, or <code>amqpsurl</code> fields in <code>credentials</code></p>
 </li>
 </ul>
 </div>
@@ -866,7 +866,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-07 17:53:54 CDT
+Last updated 2015-08-10 19:38:40 CDT
 </div>
 </div>
 </body>

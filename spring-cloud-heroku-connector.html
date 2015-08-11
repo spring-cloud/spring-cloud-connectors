@@ -570,19 +570,49 @@ CLOUDAMQP_URL:         amqp://sfdkjdj:6eknfh-4xlw1u6fec3@foo.bar.cloudamqp.com/l
 <div class="sect3">
 <h4 id="_postgresql_heroku">PostgreSQL (Heroku)</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a <code>HEROKU_POSTGRESQL_</code> config var with value using the scheme <code>postgres</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_mysql_cleardb">MySQL (ClearDB)</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a <code>CLEARDB_DATABASE_URL</code> config var with value using the scheme <code>mysql</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_redis_redis_to_go_redis_cloud_redisgreen_openredis">Redis (Redis To Go, Redis Cloud, RedisGreen, openredis)</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a <code>REDISTOGO_URL</code> config var with value using the scheme <code>redis</code></p>
+</li>
+<li>
+<p>a <code>REDISCLOUD_URL</code> config var with value using the scheme <code>redis</code></p>
+</li>
+<li>
+<p>an <code>OPENREDIS_URL</code> config var with value using the scheme <code>redis</code></p>
+</li>
+<li>
+<p>a <code>REDISGREEN_URL</code> config var with value using the scheme <code>redis</code></p>
+</li>
+</ul>
 </div>
 </div>
 <div class="sect3">
@@ -607,7 +637,14 @@ CLOUDAMQP_URL:         amqp://sfdkjdj:6eknfh-4xlw1u6fec3@foo.bar.cloudamqp.com/l
 <div class="sect3">
 <h4 id="_rabbitmq_cloudamqp">RabbitMQ (CloudAMQP)</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>The connector will check for:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a <code>CLOUDAMQP_URL</code> config var with value using the scheme <code>amqp</code> or <code>amqps</code></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -654,7 +691,7 @@ CLOUDAMQP_URL:         amqp://sfdkjdj:6eknfh-4xlw1u6fec3@foo.bar.cloudamqp.com/l
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-10 17:34:27 CDT
+Last updated 2015-08-10 19:56:06 CDT
 </div>
 </div>
 </body>
