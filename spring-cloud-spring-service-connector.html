@@ -513,7 +513,6 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_rabbitmq">RabbitMQ</a></li>
 <li><a href="#_relational_database_db2_mysql_oracle_postgresql_sql_server">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</a></li>
 <li><a href="#_mongodb">MongoDB</a></li>
-<li><a href="#_application_monitoring_new_relic">Application monitoring (New Relic)</a></li>
 <li><a href="#_redis">Redis</a></li>
 <li><a href="#_smtp">SMTP</a></li>
 </ul>
@@ -628,7 +627,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect3">
 <h4 id="_rabbitmq">RabbitMQ</h4>
 <div class="paragraph">
-<p>To connect to a unique RabbitMQ service, create a service bean using <code>rabbitConnectionFactory()</code>. The following example connects to the only RabbitMQ service bound to the application.</p>
+<p>To connect to a unique RabbitMQ service, you can create a service bean using <code>rabbitConnectionFactory()</code>. The following example connects to the only RabbitMQ service bound to the application.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -685,7 +684,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect3">
 <h4 id="_relational_database_db2_mysql_oracle_postgresql_sql_server">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</h4>
 <div class="paragraph">
-<p>To connect to a unique relational database service, create a service bean using <code>dataSource()</code>. The following example connects to the only relational database service bound to the application.</p>
+<p>To connect to a unique relational database service, you can create a service bean using <code>dataSource()</code>. The following example connects to the only relational database service bound to the application.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -741,13 +740,54 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect3">
 <h4 id="_mongodb">MongoDB</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>To connect to a unique MongoDB service, you can create a service bean using <code>mongoDbFactory()</code>. The following example connects to the only MongoDB service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> MongoDbFactory mongoFactory() {
+    <span class="keyword">return</span> connectionFactory().mongoDbFactory();
+}</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_application_monitoring_new_relic">Application monitoring (New Relic)</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>To provide configuration for a unique MongoDB service, you can use an overloaded <code>mongoDbFactory()</code> variant. The following example connects to the only MongoDB service bound to the application and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html"><code>MongoDbFactoryConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service, supplying configuration</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+    MongoDbFactoryConfig mongoConfig = <span class="keyword">new</span> MongoDbFactoryConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>, <span class="integer">50</span>, <span class="integer">200</span>);
+    <span class="keyword">return</span> connectionFactory().mongoDbFactory(mongoConfig);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific MongoDB service, you can use an overloaded variant of <code>mongoDbFactory()</code>. The following example connects specifically to the <code>mongo-service</code> MongoDB service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'mongo-service' MongoDB service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> MongoDbFactory mongoFactory() {
+    <span class="keyword">return</span> connectionFactory().mongoDbFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span>);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific MongoDB service and provide configuration, you can use an overloaded <code>mongoDbFactory()</code> variant. The following example connects to the <code>mongo-service</code> MongoDB service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html"><code>MongoDbFactoryConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service, supplying configuration</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+    MongoDbFactoryConfig mongoConfig = <span class="keyword">new</span> MongoDbFactoryConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>, <span class="integer">50</span>, <span class="integer">200</span>);
+    <span class="keyword">return</span> connectionFactory().mongoDbFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span>, mongoConfig);
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -903,7 +943,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-14 12:25:05 CDT
+Last updated 2015-08-14 14:52:21 CDT
 </div>
 </div>
 </body>
