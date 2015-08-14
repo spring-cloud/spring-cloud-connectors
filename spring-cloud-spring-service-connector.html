@@ -508,7 +508,16 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel1">
 <li><a href="#_the_java_configuration">The Java Configuration</a>
 <ul class="sectlevel2">
-<li><a href="#_creating_service_beans">Creating Service Beans</a></li>
+<li><a href="#_creating_service_beans">Creating Service Beans</a>
+<ul class="sectlevel3">
+<li><a href="#_rabbitmq">RabbitMQ</a></li>
+<li><a href="#_relational_database_db2_mysql_oracle_postgresql_sql_server">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</a></li>
+<li><a href="#_mongodb">MongoDB</a></li>
+<li><a href="#_application_monitoring_new_relic">Application monitoring (New Relic)</a></li>
+<li><a href="#_redis">Redis</a></li>
+<li><a href="#_smtp">SMTP</a></li>
+</ul>
+</li>
 <li><a href="#_connecting_to_generic_services">Connecting to Generic Services</a></li>
 <li><a href="#_scanning_for_services">Scanning for Services</a></li>
 <li><a href="#_accessing_service_properties">Accessing Service Properties</a></li>
@@ -541,7 +550,24 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_the_java_configuration">The Java Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Typical use of the Java configuration involves extending the <code>AbstractCloudConfig</code> class and creating beans for services by annotating methods with the <code>@Bean</code> annotation. (If you are migrating an application that uses <a href="https://spring.io/blog/2011/11/04/using-cloud-foundry-services-with-spring-part-2-auto-reconfiguration/">auto-reconfiguration</a>, you might first try the <a href="#_scanning_for_services">service-scanning approach</a> until you need more explicit control.) The Spring Service Connector Java configuration also offers a way to expose application and service properties in case you want lower-level access when creating your own service connectors (or for debugging purposes, etc.).</p>
+<p>Typical use of the Java configuration involves extending the <code>AbstractCloudConfig</code> class and creating beans for services by annotating methods with the <code>@Bean</code> annotation.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you are migrating an application that uses <a href="https://spring.io/blog/2011/11/04/using-cloud-foundry-services-with-spring-part-2-auto-reconfiguration/">auto-reconfiguration</a>, you might first try the <a href="#_scanning_for_services">service-scanning approach</a> until you need more explicit control.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The Spring Service Connector Java configuration also offers a way to expose application and service properties in case you want lower-level access when creating your own service connectors (or for debugging purposes, etc.).</p>
 </div>
 <div class="sect2">
 <h3 id="_creating_service_beans">Creating Service Beans</h3>
@@ -597,7 +623,144 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="paragraph">
-<p>Methods such as <code>dataSource()</code> come in additional overloaded variants that let you specify configuration options (such as pooling parameters). See the relevant Javadocs for more information.</p>
+<p>Out of the box, the Spring Service Connector provides methods for connecting to a variety of services. For information on creating connections to supported services, see below.</p>
+</div>
+<div class="sect3">
+<h4 id="_rabbitmq">RabbitMQ</h4>
+<div class="paragraph">
+<p>To connect to a unique RabbitMQ service, create a service bean using <code>rabbitConnectionFactory()</code>. The following example connects to the only RabbitMQ service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available RabbitMQ service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
+    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific RabbitMQ service, you can use an overloaded variant of <code>rabbitConnectionFactory()</code>. The following example connects specifically to the <code>bunnymq</code> RabbitMQ service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'bunnymq' RabbitMQ service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
+    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span>);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To provide configuration for a RabbitMQ service, you can use an overloaded <code>rabbitConnectionFactory()</code> variant. The following example connects to the <code>bunnymq</code> RabbitMQ service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html"><code>RabbitConnectionFactoryConfig</code></a>, which is initialized with a <code>channelCacheSize</code> of 10.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'bunnymq' RabbitMQ service, supplying configuration</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
+    RabbitConnectionFactoryConfig rabbitConfig = <span class="keyword">new</span> RabbitConnectionFactoryConfig(<span class="integer">10</span>);
+    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span>, rabbitConfig);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set properties on a RabbitMQ service, you can use an overloaded variant of <code>rabbitConnectionFactory()</code>. The following example connects to the <code>bunnymq</code> RabbitMQ service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html"><code>RabbitConnectionFactoryConfig</code></a>, which is initialized with a <code>HashMap</code> of property keys and values.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'bunnymq' RabbitMQ service, setting properties</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
+    <span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt; properties = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt;();
+    properties.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">requestedHeartbeat</span><span class="delimiter">&quot;</span></span>, <span class="integer">5</span>);
+    properties.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">connectionTimeout</span><span class="delimiter">&quot;</span></span>, <span class="integer">10</span>);
+
+    RabbitConnectionFactoryConfig rabbitConfig = <span class="keyword">new</span> RabbitConnectionFactoryConfig(properties);
+    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span>, rabbitConfig);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_relational_database_db2_mysql_oracle_postgresql_sql_server">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</h4>
+<div class="paragraph">
+<p>To connect to a unique relational database service, create a service bean using <code>dataSource()</code>. The following example connects to the only relational database service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available relational database service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+    <span class="keyword">return</span> connectionFactory().dataSource();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific relational database service, you can use an overloaded variant of <code>dataSource()</code>. The following example connects specifically to the <code>my-own-personal-sql</code> MySQL service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'my-own-personal-sql' relational database service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To provide configuration for a relational database service, you can use an overloaded <code>dataSource()</code> variant. The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>, which is initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> that sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'my-own-personal-sql' relational database service, supplying configuration</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+    PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
+    DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(poolConfig, <span class="predefined-constant">null</span>);
+    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set properties on a relational database service, you can use an overloaded variant of <code>dataSource()</code>. The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>. The <code>DataSourceConfig</code> is initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> (which sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000) and a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.ConnectionConfig.html"><code>ConnectionConfig</code></a> (which sets the <code>useUnicode</code> and <code>characterEncoding</code> properties).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'my-own-personal-sql' relational database service, setting properties</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+    PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
+    ConnectionConfig connConfig = <span class="keyword">new</span> ConnectionConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">useUnicode=yes;characterEncoding=UTF-8</span><span class="delimiter">&quot;</span></span>);
+    DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(poolConfig, connConfig);
+    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mongodb">MongoDB</h4>
+<div class="paragraph">
+<p>Coming soon&#8230;&#8203;</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_application_monitoring_new_relic">Application monitoring (New Relic)</h4>
+<div class="paragraph">
+<p>Coming soon&#8230;&#8203;</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_redis">Redis</h4>
+<div class="paragraph">
+<p>Coming soon&#8230;&#8203;</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_smtp">SMTP</h4>
+<div class="paragraph">
+<p>Coming soon&#8230;&#8203;</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -740,7 +903,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-10 19:32:34 CDT
+Last updated 2015-08-14 12:25:05 CDT
 </div>
 </div>
 </body>
