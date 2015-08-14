@@ -758,7 +758,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service, supplying configuration</span>
 <span class="annotation">@Bean</span>
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+<span class="directive">public</span> MongoDbFactory mongoFactory() {
     MongoDbFactoryConfig mongoConfig = <span class="keyword">new</span> MongoDbFactoryConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>, <span class="integer">50</span>, <span class="integer">200</span>);
     <span class="keyword">return</span> connectionFactory().mongoDbFactory(mongoConfig);
 }</code></pre>
@@ -783,7 +783,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service, supplying configuration</span>
 <span class="annotation">@Bean</span>
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+<span class="directive">public</span> MongoDbFactory mongoFactory() {
     MongoDbFactoryConfig mongoConfig = <span class="keyword">new</span> MongoDbFactoryConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>, <span class="integer">50</span>, <span class="integer">200</span>);
     <span class="keyword">return</span> connectionFactory().mongoDbFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span>, mongoConfig);
 }</code></pre>
@@ -943,7 +943,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-14 14:52:21 CDT
+Last updated 2015-08-14 14:56:49 CDT
 </div>
 </div>
 </body>
