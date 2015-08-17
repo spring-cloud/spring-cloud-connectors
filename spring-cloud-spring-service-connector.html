@@ -1032,7 +1032,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="paragraph">
-<p>To set properties on a RabbitMQ service, you can use the <code>&lt;cloud:rabbit-options&gt;</code> element. The following example connects specifically to the <code>bunnymq</code> RabbitMQ service with a bean given the id <code>rabbitmq</code> and uses the <code>&lt;cloud:rabbit-options&gt;</code> element to set the size of the channel cache to 200.</p>
+<p>To set properties on a RabbitMQ service, you can use the <code>&lt;cloud:rabbit-options&gt;</code> nested element. The following example connects specifically to the <code>bunnymq</code> RabbitMQ service with a bean given the id <code>rabbitmq</code> and uses the <code>&lt;cloud:rabbit-options&gt;</code> element to set the size of the channel cache to 200.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1043,7 +1043,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="paragraph">
-<p>To set connection properties on a RabbitMQ service, you can use the <code>&lt;cloud:connection-properties&gt;</code> element. The following example connects specifically to the <code>bunnymq</code> RabbitMQ service with a bean given the id <code>rabbitmq</code>. It uses the <code>&lt;cloud:rabbit-options&gt;</code> element to set the size of the channel cache to 200, and it uses the <code>&lt;cloud:connection-properties&gt;</code> element to set a heartbeat timeout of 5 seconds and a connection timeout of 10 milliseconds.</p>
+<p>To set connection properties on a RabbitMQ service, you can use the <code>&lt;cloud:connection-properties&gt;</code> nested element. The following example connects specifically to the <code>bunnymq</code> RabbitMQ service with a bean given the id <code>rabbitmq</code>. It uses the <code>&lt;cloud:rabbit-options&gt;</code> element to set the size of the channel cache to 200, and it uses the <code>&lt;cloud:connection-properties&gt;</code> element to set a heartbeat timeout of 5 seconds and a connection timeout of 10 milliseconds.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1061,19 +1061,148 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect3">
 <h4 id="_relational_database_db2_mysql_oracle_postgresql_sql_server_2">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>To connect to a relational database service, you can use the <code>&lt;cloud:data-source&gt;</code> element. The following example connects to the only relational database service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available relational database service --&gt;</span>
+<span class="tag">&lt;cloud:data-source</span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific relational database service, you can use the <code>service-name</code> attribute. The following example connects specifically to the <code>my-own-personal-sql</code> MySQL service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service --&gt;</span>
+<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To specify an id for the relational database connection bean, you can use the <code>id</code> attribute. The following example connects specifically to the <code>my-own-personal-sql</code> MySQL service with a bean given the id <code>mysql</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service, with a bean of id 'mysql' --&gt;</span>
+<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set connection properties on a relational database service, you can use the <code>&lt;cloud:connection&gt;</code> nested element. The following example connects specifically to the <code>my-own-personal-sql</code> MySQL service with a bean given the id <code>mysql</code> and uses the <code>&lt;cloud:connection&gt;</code> element to set the <code>useUnicode</code> and <code>characterEncoding</code> properties.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', setting connection properties --&gt;</span>
+<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;cloud:connection</span> <span class="attribute-name">properties</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">useUnicode=yes;characterEncoding=UTF-8</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/cloud:data-source&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To configure pool settings on a relational database service, you can use the <code>&lt;cloud:pool&gt;</code> nested element. The following example connects specifically to the <code>my-own-personal-sql</code> MySQL service with a bean given the id <code>mysql</code>. It uses the <code>&lt;cloud:pool&gt;</code> element to set a <code>pool-size</code> of 5&#8211;30 and a <code>max-wait-time</code> of 3000 milliseconds.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', configuring pool settings --&gt;</span>
+<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;cloud:pool</span> <span class="attribute-name">pool-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5-30</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-wait-time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3000</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/cloud:data-source&gt;</span></code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_mongodb_2">MongoDB</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>To connect to a MongoDB service, you can use the <code>&lt;cloud:mongo-db-factory/&gt;</code> element. The following example connects to the only MongoDB service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available MongoDB service --&gt;</span>
+<span class="tag">&lt;cloud:mongo-db-factory</span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific MongoDB service, you can use the <code>service-name</code> attribute. The following example connects specifically to the <code>mongo-service</code> MongoDB service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'mongo-service' MongoDB service --&gt;</span>
+<span class="tag">&lt;cloud:mongo-db-factory</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To specify an id for the MongoDB connection bean, you can use the <code>id</code> attribute. The following example connects specifically to the <code>mongo-service</code> MongoDB service with a bean given the id <code>mongo</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'mongo-service' MongoDB service with a bean of id 'mongo' --&gt;</span>
+<span class="tag">&lt;cloud:mongo-db-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set properties on a MongoDB service, you can use the <code>&lt;cloud:mongo-options&gt;</code> nested element. The following example connects specifically to the <code>mongo-service</code> MongoDB service with a bean given the id <code>mongo</code> and uses the <code>&lt;cloud:mongo-options&gt;</code> element to allow 50 connections per host.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'mongo-service' MongoDB service with a bean of id 'mongo', setting connections per host --&gt;</span>
+<span class="tag">&lt;cloud:mongo-db-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;cloud:mongo-options</span> <span class="attribute-name">connections-per-host</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">50</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/cloud:mongo-db-factory&gt;</span></code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_redis_2">Redis</h4>
 <div class="paragraph">
-<p>Coming soon&#8230;&#8203;</p>
+<p>To connect to a Redis service, you can use the <code>&lt;cloud:redis-connection-factory/&gt;</code> element. The following example connects to the only Redis service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available Redis service --&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific Redis service, you can use the <code>service-name</code> attribute. The following example connects specifically to the <code>redis-service</code> Redis service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service --&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To specify an id for the Redis connection bean, you can use the <code>id</code> attribute. The following example connects specifically to the <code>redis-service</code> Redis service with a bean given the id <code>redis</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis' --&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set connection properties on a Redis service, you can use the <code>&lt;cloud:connection-properties&gt;</code> nested element. The following example connects specifically to the <code>redis-service</code> Redis service with a bean given the id <code>redis</code> and uses the <code>&lt;cloud:connection-properties&gt;</code> element to set a <code>timeout</code> of <code>10</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis', setting a connection property --&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;cloud:connection-properties&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">timeout</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;/cloud:connection-properties&gt;</span>
+<span class="tag">&lt;/cloud:redis-connection-factory&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To configure pool settings on a Redis service, you can use the <code>&lt;cloud:pool&gt;</code> nested element. The following example connects specifically to the <code>redis-service</code> Redis service with a bean given the id <code>redis</code>. It uses the <code>&lt;cloud:pool&gt;</code> element to set a <code>pool-size</code> of 5&#8211;30 and a <code>max-wait-time</code> of 3000 milliseconds.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis', configuring pool settings --&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;cloud:pool</span> <span class="attribute-name">pool-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5-30</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-wait-time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3000</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/cloud:redis-connection-factory&gt;</span></code></pre>
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -1111,7 +1240,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-17 15:54:44 PDT
+Last updated 2015-08-17 16:41:34 PDT
 </div>
 </div>
 </body>
