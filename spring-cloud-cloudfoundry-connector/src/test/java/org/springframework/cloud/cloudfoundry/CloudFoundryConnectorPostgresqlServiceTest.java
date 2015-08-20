@@ -1,8 +1,7 @@
 package org.springframework.cloud.cloudfoundry;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.cloud.service.common.RelationalServiceInfo.JDBC_PREFIX;
+import static org.springframework.cloud.service.common.PostgresqlServiceInfo.POSTGRES_SCHEME;
 
 import java.util.List;
 
@@ -25,13 +24,17 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
 						getPostgresqlServicePayload("postgresql-2", hostname, port, username, password, name2)));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		PostgresqlServiceInfo info1 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-1");
-		PostgresqlServiceInfo info2 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-2");
+		ServiceInfo info1 = getServiceInfo(serviceInfos, "postgresql-1");
+		ServiceInfo info2 = getServiceInfo(serviceInfos, "postgresql-2");
 
 		assertServiceFoundOfType(info1, PostgresqlServiceInfo.class);
 		assertServiceFoundOfType(info2, PostgresqlServiceInfo.class);
-		assertEquals(getJdbcUrl("postgres", name1), info1.getJdbcUrl());
-		assertEquals(getJdbcUrl("postgres", name2), info2.getJdbcUrl());
+
+		assertJdbcUrlEqual(info1, POSTGRES_SCHEME, name1);
+		assertJdbcUrlEqual(info2, POSTGRES_SCHEME, name2);
+
+		assertUriBasedServiceInfoFields(info1, POSTGRES_SCHEME, hostname, port, username, password, name1);
+		assertUriBasedServiceInfoFields(info2, POSTGRES_SCHEME, hostname, port, username, password, name2);
 	}
 
 	@Test
@@ -44,13 +47,17 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
 						getPostgresqlServicePayloadNoLabelNoTags("postgresql-2", hostname, port, username, password, name2)));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		PostgresqlServiceInfo info1 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-1");
-		PostgresqlServiceInfo info2 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-2");
+		ServiceInfo info1 = getServiceInfo(serviceInfos, "postgresql-1");
+		ServiceInfo info2 = getServiceInfo(serviceInfos, "postgresql-2");
 
 		assertServiceFoundOfType(info1, PostgresqlServiceInfo.class);
 		assertServiceFoundOfType(info2, PostgresqlServiceInfo.class);
-		assertEquals(getJdbcUrl("postgres", name1), info1.getJdbcUrl());
-		assertEquals(getJdbcUrl("postgres", name2), info2.getJdbcUrl());
+
+		assertJdbcUrlEqual(info1, POSTGRES_SCHEME, name1);
+		assertJdbcUrlEqual(info2, POSTGRES_SCHEME, name2);
+
+		assertUriBasedServiceInfoFields(info1, POSTGRES_SCHEME, hostname, port, username, password, name1);
+		assertUriBasedServiceInfoFields(info2, POSTGRES_SCHEME, hostname, port, username, password, name2);
 	}
 
 	@Test
@@ -63,13 +70,17 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
 						getPostgresqlServicePayloadWithJdbcUrl("postgresql-2", hostname, port, username, password, name2)));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		PostgresqlServiceInfo info1 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-1");
-		PostgresqlServiceInfo info2 = (PostgresqlServiceInfo) getServiceInfo(serviceInfos, "postgresql-2");
+		ServiceInfo info1 = getServiceInfo(serviceInfos, "postgresql-1");
+		ServiceInfo info2 = getServiceInfo(serviceInfos, "postgresql-2");
 
 		assertServiceFoundOfType(info1, PostgresqlServiceInfo.class);
 		assertServiceFoundOfType(info2, PostgresqlServiceInfo.class);
-		assertEquals(JDBC_PREFIX + "postgres://rawjdbcurl", info1.getJdbcUrl());
-		assertEquals(JDBC_PREFIX + "postgres://rawjdbcurl", info2.getJdbcUrl());
+
+		assertJdbcUrlEqual(info1, POSTGRES_SCHEME, name1);
+		assertJdbcUrlEqual(info2, POSTGRES_SCHEME, name2);
+
+		assertUriBasedServiceInfoFields(info1, POSTGRES_SCHEME, hostname, port, username, password, name1);
+		assertUriBasedServiceInfoFields(info2, POSTGRES_SCHEME, hostname, port, username, password, name2);
 	}
 
 	private String getPostgresqlServicePayload(String serviceName,

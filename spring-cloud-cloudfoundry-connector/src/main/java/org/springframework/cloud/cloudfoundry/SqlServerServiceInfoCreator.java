@@ -9,7 +9,7 @@ public class SqlServerServiceInfoCreator extends RelationalServiceInfoCreator<Sq
 	}
 
 	@Override
-	public SqlServerServiceInfo createServiceInfo(String id, String url) {
-		return new SqlServerServiceInfo(id, url);
+	public SqlServerServiceInfo createServiceInfo(String id, String url, String jdbcUrl) {
+		return new SqlServerServiceInfo(id, url, jdbcUrl);
 	}
 }

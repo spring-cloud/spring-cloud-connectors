@@ -7,6 +7,14 @@ import static org.junit.Assert.assertEquals;
 public class RelationalServiceInfoTest {
 
 	@Test
+	public void jdbcUrl() {
+		RelationalServiceInfo serviceInfo = createServiceInfoWithJdbcUrl("bad://bad:bad@bad:1234/bad",
+						"jdbc:jdbcdbtype://hostname:1234/database?user=username&password=password");
+
+		assertEquals("jdbc:jdbcdbtype://hostname:1234/database?user=username&password=password", serviceInfo.getJdbcUrl());
+	}
+
+	@Test
 	public void jdbcFullUrl() {
 		RelationalServiceInfo serviceInfo = createServiceInfo("dbtype://username:password@hostname:1234/database");
 
@@ -47,7 +55,12 @@ public class RelationalServiceInfoTest {
 	}
 
 	private RelationalServiceInfo createServiceInfo(final String uri) {
-		return new RelationalServiceInfo("test", uri, "jdbcdbtype") {
+		return new RelationalServiceInfo("test", uri, null, "jdbcdbtype") {
+		};
+	}
+
+	private RelationalServiceInfo createServiceInfoWithJdbcUrl(final String uri, final String jdbcUrl) {
+		return new RelationalServiceInfo("test", uri, jdbcUrl, "jdbcdbtype") {
 		};
 	}
 

@@ -15,7 +15,7 @@ public class MysqlServiceInfoCreator extends RelationalServiceInfoCreator<MysqlS
 	}
 
 	@Override
-	public MysqlServiceInfo createServiceInfo(String id, String url) {
-		return new MysqlServiceInfo(id, url);
+	public MysqlServiceInfo createServiceInfo(String id, String url, String jdbcUrl) {
+		return new MysqlServiceInfo(id, url, jdbcUrl);
 	}
 }

@@ -4,24 +4,20 @@ import org.springframework.cloud.service.ServiceInfo;
 
 @ServiceInfo.ServiceLabel("oracle")
 public class OracleServiceInfo extends RelationalServiceInfo {
-
-	private static final String JDBC_URL_TYPE = "oracle";
-
-	public static final String ORACLE_SCHEME = JDBC_URL_TYPE;
+	public static final String ORACLE_SCHEME = "oracle";
 
 	public OracleServiceInfo(String id, String url) {
-		super(id, url, JDBC_URL_TYPE);
+		this(id, url, null);
+	}
+
+	public OracleServiceInfo(String id, String url, String jdbcUrl) {
+		super(id, url, jdbcUrl, ORACLE_SCHEME);
 	}
 
 	@Override
-	public String getJdbcUrl() {
-		if (getUriInfo().getUriString().startsWith(JDBC_PREFIX)) {
-			return getUriInfo().getUriString();
-		}
-
+	protected String buildJdbcUrl() {
 		return String.format("jdbc:%s:thin:%s/%s@%s:%d/%s",
 				jdbcUrlDatabaseType, getUserName(), getPassword(),
 				getHost(), getPort(), getPath());
 	}
-
 }

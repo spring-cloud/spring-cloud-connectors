@@ -13,10 +13,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.matchers.InstanceOf;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.util.EnvironmentAccessor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
@@ -133,5 +135,20 @@ public abstract class AbstractCloudFoundryConnectorTest {
 	protected static void assertServiceFoundOfType(List<ServiceInfo> serviceInfos, String serviceId, Class<? extends ServiceInfo> type) {
 		ServiceInfo serviceInfo = getServiceInfo(serviceInfos, serviceId);
 		assertServiceFoundOfType(serviceInfo, type);
+	}
+
+	protected static void assertUriBasedServiceInfoFields(ServiceInfo serviceInfo,
+														  String scheme, String host, int port,
+														  String username, String password, String path) {
+		assertThat(serviceInfo, new InstanceOf(UriBasedServiceInfo.class));
+
+		UriBasedServiceInfo info = (UriBasedServiceInfo) serviceInfo;
+
+		assertEquals(scheme, info.getScheme());
+		assertEquals(host, info.getHost());
+		assertEquals(port, info.getPort());
+		assertEquals(username, info.getUserName());
+		assertEquals(password, info.getPassword());
+		assertEquals(path, info.getPath());
 	}
 }

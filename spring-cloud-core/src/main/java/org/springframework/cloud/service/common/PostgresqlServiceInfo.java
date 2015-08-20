@@ -2,7 +2,6 @@ package org.springframework.cloud.service.common;
 
 import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 
-
 /**
  *
  * @author Ramnivas Laddad
@@ -10,12 +9,14 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
  */
 @ServiceLabel("postgresql")
 public class PostgresqlServiceInfo extends RelationalServiceInfo {
-
-	private static final String JDBC_URL_TYPE = "postgresql";
-
 	public static final String POSTGRES_SCHEME = "postgres";
+	public static final String POSTGRES_JDBC_SCHEME = "postgresql";
 
 	public PostgresqlServiceInfo(String id, String url) {
-		super(id, url, JDBC_URL_TYPE);
+		this(id, url, null);
+	}
+
+	public PostgresqlServiceInfo(String id, String url, String jdbcUrl) {
+		super(id, url, jdbcUrl, POSTGRES_JDBC_SCHEME);
 	}
 }

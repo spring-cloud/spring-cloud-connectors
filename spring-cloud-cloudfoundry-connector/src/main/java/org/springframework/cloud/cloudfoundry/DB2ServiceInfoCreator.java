@@ -8,7 +8,7 @@ public class DB2ServiceInfoCreator extends RelationalServiceInfoCreator<DB2Servi
 	}
 
 	@Override
-	public DB2ServiceInfo createServiceInfo(String id, String url) {
-		return new DB2ServiceInfo(id, url);
+	public DB2ServiceInfo createServiceInfo(String id, String url, String jdbcUrl) {
+		return new DB2ServiceInfo(id, url, jdbcUrl);
 	}
 }
