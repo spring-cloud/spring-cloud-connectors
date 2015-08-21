@@ -39,7 +39,7 @@ public class RedisConnectionFactoryCreator extends AbstractServiceConnectorCreat
 			connectionFactory.afterPropertiesSet();
 			return connectionFactory;
 		} else {
-			throw new ServiceConnectorCreationException("Failed to created cloud Redis connection factory for "
+			throw new ServiceConnectorCreationException("Failed to create cloud Redis connection factory for "
 					+ serviceInfo.getId() + " service.  Jedis client implementation class ("
 					+ REDIS_CLIENT_CLASS_NAME + ") not found");
 		}
