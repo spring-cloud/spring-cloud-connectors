@@ -62,7 +62,13 @@ public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceI
 
 			String database = (String) credentials.get("name");
 
-			uri = new UriInfo(getDefaultUriScheme(), host, port, username, password, database).toString();
+			if (host != null) {
+				uri = new UriInfo(getDefaultUriScheme(), host, port, username, password, database).toString();
+			}
+		}
+
+		if (uri == null) {
+			uri = jdbcUrl;
 		}
 
 		return createServiceInfo(id, uri, jdbcUrl);

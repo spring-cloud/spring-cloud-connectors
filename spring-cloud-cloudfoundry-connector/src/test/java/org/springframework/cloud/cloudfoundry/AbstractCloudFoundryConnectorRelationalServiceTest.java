@@ -1,9 +1,9 @@
 package org.springframework.cloud.cloudfoundry;
 
-import org.mockito.internal.matchers.InstanceOf;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -27,8 +27,14 @@ public abstract class AbstractCloudFoundryConnectorRelationalServiceTest extends
 	}
 
 	protected void assertJdbcUrlEqual(ServiceInfo serviceInfo, String scheme, String name) {
-		assertThat(serviceInfo, new InstanceOf(RelationalServiceInfo.class));
+		assertThat(serviceInfo, instanceOf(RelationalServiceInfo.class));
 		assertEquals(getJdbcUrl(scheme, name), ((RelationalServiceInfo) serviceInfo).getJdbcUrl());
+	}
+
+	protected void assertJdbcShemeSpecificPartEqual(ServiceInfo serviceInfo, String scheme, String name) {
+		assertThat(serviceInfo, instanceOf(RelationalServiceInfo.class));
+		String jdbcUrl = getJdbcUrl(scheme, name);
+		assertEquals(jdbcUrl.substring(5), ((RelationalServiceInfo) serviceInfo).getSchemeSpecificPart());
 	}
 
 	protected String getJdbcUrl(String databaseType, String name) {

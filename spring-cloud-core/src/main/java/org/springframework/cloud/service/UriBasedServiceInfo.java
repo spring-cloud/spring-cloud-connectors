@@ -78,6 +78,11 @@ public abstract class UriBasedServiceInfo extends BaseServiceInfo {
 		return uriInfo.getScheme();
 	}
 
+	@ServiceProperty(category = "connection")
+	public String getSchemeSpecificPart() {
+		return uriInfo.getSchemeSpecificPart();
+	}
+
 	/**
 	 * Validate the URI and clean it up by using defaults for any missing information, if possible.
 	 *
