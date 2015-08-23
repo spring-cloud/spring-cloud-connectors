@@ -670,7 +670,7 @@ table.CodeRay td.code>pre{padding:0}
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="groovy">dependencies {
 
-    <span class="comment">// to use Spring Cloud Connectors for development</span>
+    <span class="comment">// To use Spring Cloud Connectors for development</span>
     compile <span class="string"><span class="delimiter">'</span><span class="content">org.springframework.cloud:spring-cloud-localconfig-connector:${VERSION}</span><span class="delimiter">'</span></span>
 
     <span class="comment">// If you intend to deploy the app to Cloud Foundry</span>
@@ -743,7 +743,7 @@ table.CodeRay td.code>pre{padding:0}
 </td>
 <td class="content">
 <div class="paragraph">
-<p>If you are using Spring Cloud in a Spring application, you should consider <a href="#_spring_cloud_spring_service_connector">automatically injecting Spring beans</a> instead.</p>
+<p>If you are using Spring Cloud in a Spring application, you should consider <a href="#_spring_service_connector">automatically injecting Spring beans</a> instead.</p>
 </div>
 </td>
 </tr>
@@ -770,7 +770,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="paragraph">
-<p>Note that you must have a <code>CloudConnector</code> suitable for your deployment environment on your classpath.  For example, if you are deploying the application to Cloud Foundry, you must add the <a href="#_spring_cloud_cloud_foundry_connector">Cloud Foundry Connector</a> to your classpath. If no suitable <code>CloudConnector</code> is found, the <code>getCloud()</code> method will throw a <code>CloudException</code>.</p>
+<p>Note that you must have a <code>CloudConnector</code> suitable for your deployment environment on your classpath.  For example, if you are deploying the application to Cloud Foundry, you must add the <a href="#_cloud_foundry_connector">Cloud Foundry Connector</a> to your classpath. If no suitable <code>CloudConnector</code> is found, the <code>getCloud()</code> method will throw a <code>CloudException</code>.</p>
 </div>
 </li>
 <li>
@@ -1073,7 +1073,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-22 22:37:39 PDT
+Last updated 2015-08-22 22:41:52 PDT
 </div>
 </div>
 </body>
