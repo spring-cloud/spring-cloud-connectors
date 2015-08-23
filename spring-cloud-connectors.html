@@ -525,7 +525,7 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#_spring_service_connector">Spring Service Connector</a></li>
-<li><a href="#_cloud_cloud_foundry_connector">Cloud Cloud Foundry Connector</a></li>
+<li><a href="#_cloud_foundry_connector">Cloud Foundry Connector</a></li>
 <li><a href="#_heroku_connector">Heroku Connector</a></li>
 <li><a href="#_local_configuration_connector">local-configuration Connector</a>
 <ul class="sectlevel2">
@@ -810,7 +810,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="sect1">
-<h2 id="_cloud_cloud_foundry_connector">Cloud Cloud Foundry Connector</h2>
+<h2 id="_cloud_foundry_connector">Cloud Foundry Connector</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>See <a href="spring-cloud-cloud-foundry-connector.html">Spring Cloud Cloud Foundry Connector</a>.</p>
@@ -960,7 +960,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="sect2">
 <h3 id="_adding_service_discovery">Adding Service Discovery</h3>
 <div class="paragraph">
-<p>To allow Spring Cloud to discover a new type of service (e.g. a <code>HelloWorldService</code>), create a <code>ServiceInfo</code> class containing the information necessary to connect to the service. If your service can be specified via a URI, extend <code>UriBasedServiceInfo</code> and provide the URI scheme in a call to the <code>super</code> constructor.</p>
+<p>To allow Spring Cloud to discover a new type of service (e.g. a <code>HelloWorldService</code>), create a <code>ServiceInfo</code> class containing the information necessary to connect to the service. If your service can be specified via a URI, extend <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/UriBasedServiceInfo.html"><code>UriBasedServiceInfo</code></a> and provide the URI scheme in a call to the <code>super</code> constructor.</p>
 </div>
 <div class="paragraph">
 <p>The following class will expose information for a service available at <code>helloworld://username:password@host:port/Bonjour</code>.</p>
@@ -1046,7 +1046,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <p>A service connector consumes a <code>ServiceInfo</code> discovered by the cloud connector and converts it into the appropriate service object (such as a <code>DataSource</code> in the case of a service definition that represents a SQL database).</p>
 </div>
 <div class="paragraph">
-<p>Service connectors may be tightly bound to the framework whose service objects they are creating. For example, some connectors in the <a href="#_spring_cloud_spring_service_connector">Spring Service Connector</a> create connection factories defined by Spring Data, for use in building Spring Data templates.</p>
+<p>Service connectors may be tightly bound to the framework whose service objects they are creating. For example, some connectors in the <a href="#_spring_service_connector">Spring Service Connector</a> create connection factories defined by Spring Data, for use in building Spring Data templates.</p>
 </div>
 <div class="paragraph">
 <p>To add new service connectors, your connector classes must implement <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html"><code>ServiceConnectorCreator</code></a>. It has three methods:</p>
@@ -1073,7 +1073,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-22 21:12:35 PDT
+Last updated 2015-08-22 21:21:40 PDT
 </div>
 </div>
 </body>
