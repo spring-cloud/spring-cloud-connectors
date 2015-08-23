@@ -1,3 +1,37 @@
+
+Three Axes of Extensibility
+
+1. Cloud Platform
+2. Cloud Services
+3. Framework Support
+
+Cloud Connector >> ServiceInfo >> ServiceConnectorCreator >> Service Connector
+
+
+Cloud Service Extensibility:
+
+The ServiceInfo interface has a
+
+public String getId()
+
+The ServiceInfoCreator interface:
+
+public interface ServiceInfoCreator<SI extends ServiceInfo, SD> {
+  public boolean accept(SD serviceData);
+  public SI createServiceInfo(SD serviceData);
+}
+
+Registering ServiceInfoCreators
+
+"Each Cloud Connector can choose any scheme it prefers"
+Check slide 37 from "Simplify... with Spring Cloud" talk.
+
+
+
+
+
+
+
 == Extending Spring Cloud Connectors
 
 === Adding Cloud Connectors
