@@ -918,7 +918,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="sect2">
 <h3 id="_adding_cloud_connectors">Adding Cloud Connectors</h3>
 <div class="paragraph">
-<p>A cloud provider may extend Spring Cloud to make it work with a new cloud platform by adding a new cloud connector. The connector is responsible for determining whether the application is running in the specific cloud, identifying application information (such as the name and instance ID of the particular running instance), and mapping bound services (such as URIs exposed in environment variables) as <code>ServiceInfo</code> objects.</p>
+<p>A cloud connector determins whether the application is running in the specific cloud, identifies application information (such as the name and instance ID of the particular running instance), and maps bound services (such as URIs exposed in environment variables) as <code>ServiceInfo</code> objects.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -938,7 +938,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <p>Spring Cloud uses the Java SPI to discover available connectors.</p>
 </div>
 <div class="paragraph">
-<p>New cloud connectors must implement the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html"><code>CloudConnector</code></a> interface. It includes three methods:</p>
+<p>To add new cloud connectors, your connector classes must implement the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html"><code>CloudConnector</code></a> interface. It includes three methods:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -960,10 +960,10 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="sect2">
 <h3 id="_adding_service_discovery">Adding Service Discovery</h3>
 <div class="paragraph">
-<p>To allow Spring Cloud to discover a new type of service (e.g. a <code>HelloWorldService</code>), create a <code>ServiceInfo</code> class containing the information necessary to connect to the service. If your service can be specified via a URI, extend <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/UriBasedServiceInfo.html"><code>UriBasedServiceInfo</code></a> and provide the URI scheme in a call to the <code>super</code> constructor.</p>
+<p>To allow Spring Cloud to discover a new type of service, create a <code>ServiceInfo</code> class containing the information necessary to connect to the service. If your service can be specified via a URI, extend <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/UriBasedServiceInfo.html"><code>UriBasedServiceInfo</code></a> and provide the URI scheme in a call to the <code>super</code> constructor.</p>
 </div>
 <div class="paragraph">
-<p>The following class will expose information for a service available at <code>helloworld://username:password@host:port/Bonjour</code>.</p>
+<p>The following class will expose information for a <code>HelloWorldService</code> available at <code>helloworld://username:password@host:port/Bonjour</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1006,7 +1006,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </tbody>
 </table>
 <div class="paragraph">
-<p>A <code>ServiceInfoCreator</code> often can be as simple as a method that (for example, in the case of the <code>HelloWorldService</code>) instantiates a new <code>HelloWorldServiceInfo</code>.</p>
+<p>A <code>ServiceInfoCreator</code> often can be as simple as a method that instantiates a new <code>ServiceInfo</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1049,7 +1049,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <p>Service connectors may be tightly bound to the framework whose service objects they are creating. For example, some connectors in the <a href="#_spring_service_connector">Spring Service Connector</a> create connection factories defined by Spring Data, for use in building Spring Data templates.</p>
 </div>
 <div class="paragraph">
-<p>To add new service connectors, your connector classes must implement <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html"><code>ServiceConnectorCreator</code></a>. It has three methods:</p>
+<p>To add new service connectors, your connector classes must implement the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html"><code>ServiceConnectorCreator</code></a> interface. It has three methods:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1073,7 +1073,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-22 22:41:52 PDT
+Last updated 2015-08-24 11:21:05 PDT
 </div>
 </div>
 </body>
