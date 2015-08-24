@@ -544,7 +544,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_extending_spring_cloud_connectors">Extending Spring Cloud Connectors</a>
 <ul class="sectlevel2">
 <li><a href="#_adding_cloud_connectors">Adding Cloud Connectors</a></li>
-<li><a href="#_adding_service_discovery">Adding Service Discovery</a></li>
+<li><a href="#_adding_service_support">Adding Service Support</a></li>
 <li><a href="#_adding_service_connectors">Adding Service Connectors</a></li>
 </ul>
 </li>
@@ -918,7 +918,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="sect2">
 <h3 id="_adding_cloud_connectors">Adding Cloud Connectors</h3>
 <div class="paragraph">
-<p>A cloud connector determins whether the application is running in the specific cloud, identifies application information (such as the name and instance ID of the particular running instance), and maps bound services (such as URIs exposed in environment variables) as <code>ServiceInfo</code> objects.</p>
+<p>A cloud connector determines whether the application is running in the specific cloud, identifies application information (such as the name and instance ID of the particular running instance), and maps bound services (such as URIs exposed in environment variables) as <code>ServiceInfo</code> objects.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -967,7 +967,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_adding_service_discovery">Adding Service Discovery</h3>
+<h3 id="_adding_service_support">Adding Service Support</h3>
 <div class="paragraph">
 <p>To allow Spring Cloud to discover a new type of service, create a <code>ServiceInfo</code> class containing the information necessary to connect to the service. If your service can be specified via a URI, extend <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/UriBasedServiceInfo.html"><code>UriBasedServiceInfo</code></a> and provide the URI scheme in a call to the <code>super</code> constructor.</p>
 </div>
@@ -1054,15 +1054,15 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="paragraph">
 <p>A service connector consumes a <code>ServiceInfo</code> discovered by the cloud connector and converts it into the appropriate service object (such as a <code>DataSource</code> in the case of a service definition that represents a SQL database).</p>
 </div>
-<div class="admonitionblock note">
+<div class="admonitionblock tip">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Note</div>
+<div class="title">Tip</div>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Service connectors may be tightly bound to the framework whose service objects they are creating. For example, some connectors in the <a href="#_spring_service_connector">Spring Service Connector</a> create connection factories defined by Spring Data, for use in building Spring Data templates.</p>
+<p>Service connectors can be tightly bound to the framework whose service objects they are creating. For example, some connectors in the <a href="#_spring_service_connector">Spring Service Connector</a> create connection factories defined by Spring Data, for use in building Spring Data templates.</p>
 </div>
 </td>
 </tr>
@@ -1085,7 +1085,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </ul>
 </div>
 <div class="paragraph">
-<p>List the fully-qualified class names in the provider-configuration file at <code>META-INF/services/org.springframework.cloud.service.ServiceConnectorCreator</code>.</p>
+<p>List the fully-qualified connector class names in the provider-configuration file at <code>META-INF/services/org.springframework.cloud.service.ServiceConnectorCreator</code>.</p>
 </div>
 </div>
 </div>
@@ -1093,7 +1093,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-24 12:35:10 PDT
+Last updated 2015-08-24 12:45:32 PDT
 </div>
 </div>
 </body>
