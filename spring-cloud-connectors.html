@@ -944,12 +944,21 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <ul>
 <li>
 <p><code>boolean isInMatchingCloud()</code>: Determines whether the connector is operating in the cloud for which it provides support.</p>
+<div class="paragraph">
+<p>Spring Cloud Connectors will call <code>isInMatchingCloud()</code> on each cloud connector included in an application. The first connector to respond <code>true</code> will be activated.</p>
+</div>
 </li>
 <li>
 <p><code>ApplicationInstanceInfo getApplicationInstanceInfo()</code>: Returns information about the running application instance.</p>
+<div class="paragraph">
+<p>An <code>ApplicationInstanceInfo</code> must provide the instance id (<code>String</code>) and application id (<code>String</code>). Other properties can be added as needed to a <code>Map</code> and be returned via <code>getProperties()</code>.</p>
+</div>
 </li>
 <li>
 <p><code>List&lt;ServiceInfo&gt; getServiceInfos()</code>: Returns a <code>ServiceInfo</code> object for each service bound to the application.</p>
+<div class="paragraph">
+<p><code>getServiceInfos()</code> can return an empty <code>List</code> if no services have been bound to the application.</p>
+</div>
 </li>
 </ul>
 </div>
@@ -1045,8 +1054,19 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="paragraph">
 <p>A service connector consumes a <code>ServiceInfo</code> discovered by the cloud connector and converts it into the appropriate service object (such as a <code>DataSource</code> in the case of a service definition that represents a SQL database).</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
 <div class="paragraph">
 <p>Service connectors may be tightly bound to the framework whose service objects they are creating. For example, some connectors in the <a href="#_spring_service_connector">Spring Service Connector</a> create connection factories defined by Spring Data, for use in building Spring Data templates.</p>
+</div>
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>To add new service connectors, your connector classes must implement the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html"><code>ServiceConnectorCreator</code></a> interface. It has three methods:</p>
@@ -1073,7 +1093,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-24 11:21:05 PDT
+Last updated 2015-08-24 12:32:34 PDT
 </div>
 </div>
 </body>
