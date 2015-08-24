@@ -921,7 +921,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="sect2">
 <h3 id="_adding_cloud_connectors">Adding Cloud Connectors</h3>
 <div class="paragraph">
-<p>A cloud connector determines whether the application is running in the specific cloud, identifies application information (such as the name and instance ID of the particular running instance), and maps bound services (such as URIs exposed in environment variables) as <code>ServiceInfo</code> objects.</p>
+<p>To allow Spring Cloud to detect a new cloud platform, add a cloud connector for the platform. A cloud connector determines whether the application is running in the specific cloud, identifies application information (such as the name and instance ID of the particular running instance), and maps bound services (such as URIs exposed in environment variables) as <code>ServiceInfo</code> objects.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1055,7 +1055,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="sect2">
 <h3 id="_adding_service_connectors">Adding Service Connectors</h3>
 <div class="paragraph">
-<p>A service connector consumes a <code>ServiceInfo</code> discovered by the cloud connector and converts it into the appropriate service object (such as a <code>DataSource</code> in the case of a service definition that represents a SQL database).</p>
+<p>To allow Spring Cloud to provide framework-specific service objects for supported cloud services, add a service connector for the framework. A service connector consumes a <code>ServiceInfo</code> discovered by the cloud connector and converts it into the appropriate service object (such as a <code>DataSource</code> in the case of a service definition that represents a SQL database).</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1096,7 +1096,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-24 12:57:44 PDT
+Last updated 2015-08-24 13:03:34 PDT
 </div>
 </div>
 </body>
