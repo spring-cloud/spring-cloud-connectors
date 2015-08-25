@@ -55,21 +55,21 @@ particular environment.
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-localconfig-connector</artifactId>
-    <version>1.1.1.RELEASE</version>
+    <version>1.2.0.RELEASE</version>
 </dependency>
 
 <!-- If you intend to deploy the app to Cloud Foundry -->
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
-    <version>1.1.1.RELEASE</version>
+    <version>1.2.0.RELEASE</version>
 </dependency>
 
 <!-- If you intend to deploy the app to Heroku -->
 <dependency>
 	<groupId>org.springframework.cloud</groupId>
 	<artifactId>spring-cloud-heroku-connector</artifactId>
-	<version>1.1.1.RELEASE</version>
+	<version>1.2.0.RELEASE</version>
 </dependency>
 ````
 
@@ -82,28 +82,28 @@ addition to your cloud connectors:
 <dependency>
 	<groupId>org.springframework.cloud</groupId>
 	<artifactId>spring-cloud-spring-service-connector</artifactId>
-	<version>1.1.1.RELEASE</version>
+	<version>1.2.0.RELEASE</version>
 </dependency>
 
 <!-- to use Spring Cloud for development -->
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-localconfig-connector</artifactId>
-    <version>1.1.1.RELEASE</version>
+    <version>1.2.0.RELEASE</version>
 </dependency>
 
 <!-- If you intend to deploy the app to Cloud Foundry -->
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
-    <version>1.1.1.RELEASE</version>
+    <version>1.2.0.RELEASE</version>
 </dependency>
 
 <!-- If you intend to deploy the app to Heroku -->
 <dependency>
 	<groupId>org.springframework.cloud</groupId>
 	<artifactId>spring-cloud-heroku-connector</artifactId>
-	<version>1.1.1.RELEASE</version>
+	<version>1.2.0.RELEASE</version>
 </dependency>
 ````
 

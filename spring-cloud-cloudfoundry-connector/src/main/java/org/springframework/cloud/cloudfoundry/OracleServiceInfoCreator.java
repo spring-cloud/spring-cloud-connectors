@@ -8,7 +8,7 @@ public class OracleServiceInfoCreator extends RelationalServiceInfoCreator<Oracl
 	}
 
 	@Override
-	public OracleServiceInfo createServiceInfo(String id, String url) {
-		return new OracleServiceInfo(id, url);
+	public OracleServiceInfo createServiceInfo(String id, String url, String jdbcUrl) {
+		return new OracleServiceInfo(id, url, jdbcUrl);
 	}
 }

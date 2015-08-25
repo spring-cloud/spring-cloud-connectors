@@ -10,19 +10,21 @@ public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 
 	public static final String JDBC_PREFIX = "jdbc:";
 
+	protected final String jdbcUrl;
 	protected final String jdbcUrlDatabaseType;
 
-	public RelationalServiceInfo(String id, String uriString, String jdbcUrlDatabaseType) {
+	public RelationalServiceInfo(String id, String uriString, String jdbcUrl, String jdbcUrlDatabaseType) {
 		super(id, uriString);
+		this.jdbcUrl = jdbcUrl;
 		this.jdbcUrlDatabaseType = jdbcUrlDatabaseType;
 	}
 
 	@ServiceProperty(category = "connection")
 	public String getJdbcUrl() {
-		if (getUriInfo().getUriString().startsWith(JDBC_PREFIX)) {
-			return getUriInfo().getUriString();
-		}
+		return jdbcUrl == null ? buildJdbcUrl() : jdbcUrl;
+	}
 
+	protected String buildJdbcUrl() {
 		return String.format("%s%s://%s%s/%s%s%s", JDBC_PREFIX, jdbcUrlDatabaseType, getHost(), formatPort(),
 				getPath(), formatUserinfo(), formatQuery());
 	}

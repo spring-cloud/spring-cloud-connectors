@@ -4,20 +4,18 @@ import org.springframework.cloud.service.ServiceInfo;
 
 @ServiceInfo.ServiceLabel("sqlserver")
 public class SqlServerServiceInfo extends RelationalServiceInfo {
-	private static final String JDBC_URL_TYPE = "sqlserver";
-
-	public static final String SQLSERVER_SCHEME = JDBC_URL_TYPE;
+	public static final String SQLSERVER_SCHEME = "sqlserver";
 
 	public SqlServerServiceInfo(String id, String url) {
-		super(id, url, JDBC_URL_TYPE);
+		this(id, url, null);
+	}
+
+	public SqlServerServiceInfo(String id, String url, String jdbcUrl) {
+		super(id, url, jdbcUrl, SQLSERVER_SCHEME);
 	}
 
 	@Override
-	public String getJdbcUrl() {
-		if (getUriInfo().getUriString().startsWith(JDBC_PREFIX)) {
-			return getUriInfo().getUriString();
-		}
-
+	protected String buildJdbcUrl() {
 		return String.format("jdbc:%s://%s:%d;database=%s;user=%s;password=%s",
 				jdbcUrlDatabaseType,
 				getHost(), getPort(), getPath(), getUserName(), getPassword());

@@ -1,8 +1,7 @@
 package org.springframework.cloud.cloudfoundry;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.cloud.service.common.RelationalServiceInfo.JDBC_PREFIX;
+import static org.springframework.cloud.service.common.MysqlServiceInfo.MYSQL_SCHEME;
 
 import java.util.List;
 
@@ -25,14 +24,15 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 							getMysqlServicePayload("mysql-1", hostname, port, username, password, name1),
 							getMysqlServicePayload("mysql-2", hostname, port, username, password, name2)));
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		
-		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
-		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
+
+		ServiceInfo info1 = getServiceInfo(serviceInfos, "mysql-1");
+		ServiceInfo info2 = getServiceInfo(serviceInfos, "mysql-2");
 
 		assertServiceFoundOfType(info1, MysqlServiceInfo.class);
 		assertServiceFoundOfType(info2, MysqlServiceInfo.class);
-		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
-		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
+
+		assertJdbcUrlEqual(info1, MYSQL_SCHEME, name1);
+		assertJdbcUrlEqual(info2, MYSQL_SCHEME, name2);
 	}
 
 	@Test
@@ -44,13 +44,18 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 							getMysqlServicePayloadWithLabelNoTags("mysql-1", hostname, port, username, password, name1),
 							getMysqlServicePayloadWithLabelNoTags("mysql-2", hostname, port, username, password, name2)));
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		
-		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
-		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
+
+		ServiceInfo info1 = getServiceInfo(serviceInfos, "mysql-1");
+		ServiceInfo info2 = getServiceInfo(serviceInfos, "mysql-2");
+
 		assertServiceFoundOfType(info1, MysqlServiceInfo.class);
 		assertServiceFoundOfType(info2, MysqlServiceInfo.class);
-		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
-		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
+
+		assertJdbcUrlEqual(info1, MYSQL_SCHEME, name1);
+		assertJdbcUrlEqual(info2, MYSQL_SCHEME, name2);
+
+		assertUriBasedServiceInfoFields(info1, MYSQL_SCHEME, hostname, port, username, password, name1);
+		assertUriBasedServiceInfoFields(info2, MYSQL_SCHEME, hostname, port, username, password, name2);
 	}
 
 	@Test
@@ -63,12 +68,17 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 						getMysqlServicePayloadNoLabelNoTags("mysql-2", hostname, port, username, password, name2)));
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 
-		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
-		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
+		ServiceInfo info1 = getServiceInfo(serviceInfos, "mysql-1");
+		ServiceInfo info2 = getServiceInfo(serviceInfos, "mysql-2");
+
 		assertServiceFoundOfType(info1, MysqlServiceInfo.class);
 		assertServiceFoundOfType(info2, MysqlServiceInfo.class);
-		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
-		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
+
+		assertJdbcUrlEqual(info1, MYSQL_SCHEME, name1);
+		assertJdbcUrlEqual(info2, MYSQL_SCHEME, name2);
+
+		assertUriBasedServiceInfoFields(info1, MYSQL_SCHEME, hostname, port, username, password, name1);
+		assertUriBasedServiceInfoFields(info2, MYSQL_SCHEME, hostname, port, username, password, name2);
 	}
 
 	@Test
@@ -80,13 +90,18 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 					getMysqlServicePayloadWithLabelNoUri("mysql-1", hostname, port, username, password, name1),
 					getMysqlServicePayloadWithLabelNoUri("mysql-2", hostname, port, username, password, name2)));
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-		
-		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
-		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
+
+		ServiceInfo info1 = getServiceInfo(serviceInfos, "mysql-1");
+		ServiceInfo info2 = getServiceInfo(serviceInfos, "mysql-2");
+
 		assertServiceFoundOfType(info1, MysqlServiceInfo.class);
 		assertServiceFoundOfType(info2, MysqlServiceInfo.class);
-		assertEquals(getJdbcUrl("mysql", name1), info1.getJdbcUrl());
-		assertEquals(getJdbcUrl("mysql", name2), info2.getJdbcUrl());
+
+		assertJdbcUrlEqual(info1, MYSQL_SCHEME, name1);
+		assertJdbcUrlEqual(info2, MYSQL_SCHEME, name2);
+
+		assertUriBasedServiceInfoFields(info1, MYSQL_SCHEME, hostname, port, username, password, name1);
+		assertUriBasedServiceInfoFields(info2, MYSQL_SCHEME, hostname, port, username, password, name2);
 	}
 
 	@Test
@@ -99,12 +114,43 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 						getMysqlServicePayloadWithJdbcUrl("mysql-2", hostname, port, username, password, name2)));
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 
-		MysqlServiceInfo info1 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-1");
-		MysqlServiceInfo info2 = (MysqlServiceInfo) getServiceInfo(serviceInfos, "mysql-2");
+		ServiceInfo info1 = getServiceInfo(serviceInfos, "mysql-1");
+		ServiceInfo info2 = getServiceInfo(serviceInfos, "mysql-2");
+
 		assertServiceFoundOfType(info1, MysqlServiceInfo.class);
 		assertServiceFoundOfType(info2, MysqlServiceInfo.class);
-		assertEquals(JDBC_PREFIX + "mysql://rawjdbcurl", info1.getJdbcUrl());
-		assertEquals(JDBC_PREFIX + "mysql://rawjdbcurl", info2.getJdbcUrl());
+
+		assertJdbcUrlEqual(info1, MYSQL_SCHEME, name1);
+		assertJdbcUrlEqual(info2, MYSQL_SCHEME, name2);
+
+		assertUriBasedServiceInfoFields(info1, MYSQL_SCHEME, hostname, port, username, password, name1);
+		assertUriBasedServiceInfoFields(info2, MYSQL_SCHEME, hostname, port, username, password, name2);
+	}
+
+	@Test
+	public void mysqlServiceCreationWithJdbcUrlOnly() {
+		String name1 = "database-1";
+		String name2 = "database-2";
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getMysqlServicePayloadWithJdbcUrlOnly("mysql-1", hostname, port, username, password, name1),
+						getMysqlServicePayloadWithJdbcUrlOnly("mysql-2", hostname, port, username, password, name2)));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+
+		ServiceInfo info1 = getServiceInfo(serviceInfos, "mysql-1");
+		ServiceInfo info2 = getServiceInfo(serviceInfos, "mysql-2");
+
+		assertServiceFoundOfType(info1, MysqlServiceInfo.class);
+		assertServiceFoundOfType(info2, MysqlServiceInfo.class);
+
+		assertJdbcUrlEqual(info1, MYSQL_SCHEME, name1);
+		assertJdbcUrlEqual(info2, MYSQL_SCHEME, name2);
+
+		assertUriBasedServiceInfoFields(info1, "jdbc", null, -1, null, null, null);
+		assertUriBasedServiceInfoFields(info2, "jdbc", null, -1, null, null, null);
+
+		assertJdbcShemeSpecificPartEqual(info1, MYSQL_SCHEME, name1);
+		assertJdbcShemeSpecificPartEqual(info2, MYSQL_SCHEME, name2);
 	}
 
 	private String getMysqlServicePayload(String serviceName,
@@ -139,6 +185,13 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 													 String hostname, int port,
 													 String user, String password, String name) {
 		return getRelationalPayload("test-mysql-info-jdbc-url.json", serviceName,
+				hostname, port, user, password, name);
+	}
+
+	private String getMysqlServicePayloadWithJdbcUrlOnly(String serviceName,
+														 String hostname, int port,
+														 String user, String password, String name) {
+		return getRelationalPayload("test-mysql-info-jdbc-url-only.json", serviceName,
 				hostname, port, user, password, name);
 	}
 }

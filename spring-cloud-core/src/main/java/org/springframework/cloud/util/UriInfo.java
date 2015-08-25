@@ -18,6 +18,7 @@ public class UriInfo {
 	private String password;
 	private String path;
 	private String query;
+	private String schemeSpecificPart;
 
 	private String uriString;
 
@@ -50,6 +51,7 @@ public class UriInfo {
 		this.port = uri.getPort();
 		this.path = parsePath(uri);
 		this.query = uri.getQuery();
+		this.schemeSpecificPart = uri.getSchemeSpecificPart();
 
 		String[] userinfo = parseUserinfo(uri);
 		this.userName = uriDecode(userinfo[0]);
@@ -82,6 +84,10 @@ public class UriInfo {
 
 	public String getQuery() {
 		return query;
+	}
+
+	public String getSchemeSpecificPart() {
+		return schemeSpecificPart;
 	}
 
 	public URI getUri() {

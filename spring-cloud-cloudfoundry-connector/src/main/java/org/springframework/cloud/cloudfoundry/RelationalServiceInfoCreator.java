@@ -42,18 +42,16 @@ public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceI
 		return false;
 	}
 
-	public abstract SI createServiceInfo(String id, String uri);
+	public abstract SI createServiceInfo(String id, String uri, String jdbcUrl);
 
 	public SI createServiceInfo(Map<String, Object> serviceData) {
 		String id = getId(serviceData);
 
 		Map<String,Object> credentials = getCredentials(serviceData);
 
-		String uri = getStringFromCredentials(credentials, "jdbcUrl");
+		String jdbcUrl = getStringFromCredentials(credentials, "jdbcUrl");
 
-		if (uri == null) {
-			uri = getUriFromCredentials(credentials);
-		}
+		String uri = getUriFromCredentials(credentials);
 
 		if (uri == null) {
 			String host = getStringFromCredentials(credentials, "hostname", "host");
@@ -63,10 +61,16 @@ public abstract class RelationalServiceInfoCreator<SI extends RelationalServiceI
 			String password = (String) credentials.get("password");
 
 			String database = (String) credentials.get("name");
-			
-			uri = new UriInfo(getDefaultUriScheme(), host, port, username, password, database).toString();
+
+			if (host != null) {
+				uri = new UriInfo(getDefaultUriScheme(), host, port, username, password, database).toString();
+			}
 		}
 
-		return createServiceInfo(id, uri);
+		if (uri == null) {
+			uri = jdbcUrl;
+		}
+
+		return createServiceInfo(id, uri, jdbcUrl);
 	}
 }

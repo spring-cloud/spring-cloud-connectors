@@ -1,5 +1,12 @@
 package org.springframework.cloud.cloudfoundry;
 
+import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
+
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 /**
  *
  * @author Ramnivas Laddad
@@ -19,7 +26,18 @@ public abstract class AbstractCloudFoundryConnectorRelationalServiceTest extends
 		return payload;
 	}
 
-	protected static String getJdbcUrl(String databaseType, String name) {
+	protected void assertJdbcUrlEqual(ServiceInfo serviceInfo, String scheme, String name) {
+		assertThat(serviceInfo, instanceOf(RelationalServiceInfo.class));
+		assertEquals(getJdbcUrl(scheme, name), ((RelationalServiceInfo) serviceInfo).getJdbcUrl());
+	}
+
+	protected void assertJdbcShemeSpecificPartEqual(ServiceInfo serviceInfo, String scheme, String name) {
+		assertThat(serviceInfo, instanceOf(RelationalServiceInfo.class));
+		String jdbcUrl = getJdbcUrl(scheme, name);
+		assertEquals(jdbcUrl.substring(5), ((RelationalServiceInfo) serviceInfo).getSchemeSpecificPart());
+	}
+
+	protected String getJdbcUrl(String databaseType, String name) {
 	    // this should be cleaned up more broadly; pull into RelationalServiceInfo interface?
 		String jdbcUrlDatabaseType = databaseType;
 		if (databaseType.equals("postgres")) {
@@ -29,5 +47,4 @@ public abstract class AbstractCloudFoundryConnectorRelationalServiceTest extends
 		return "jdbc:" + jdbcUrlDatabaseType + "://" + hostname + ":" + port + "/" + name +
 			   "?user=" + username + "&password=" + password;
 	}
-
 }
