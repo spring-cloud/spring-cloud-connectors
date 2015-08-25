@@ -525,6 +525,7 @@ table.CodeRay td.code>pre{padding:0}
 </li>
 </ul>
 </li>
+<li><a href="#_supporting_new_service_types">Supporting New Service Types</a></li>
 </ul>
 </div>
 </div>
@@ -595,7 +596,7 @@ table.CodeRay td.code>pre{padding:0}
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>label</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The service offering’s name (not to be confused with a service <em>instance’s</em> name).</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The service offering&#8217;s name (not to be confused with a service <em>instance&#8217;s</em> name).</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>credentials.uri</code></p></td>
@@ -851,10 +852,21 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_supporting_new_service_types">Supporting New Service Types</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Extend <code>CloudFoundryServiceInfoCreator</code> with a creator for <a href="#_adding_service_discovery">your service&#8217;s <code>ServiceInfo</code> class</a>.</p>
+</div>
+<div class="paragraph">
+<p>Add the fully-qualified class name for your creator to <code>META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator</code>.</p>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-24 17:06:20 PDT
+Last updated 2015-08-25 10:57:51 PDT
 </div>
 </div>
 </body>
