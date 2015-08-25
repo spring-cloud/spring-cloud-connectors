@@ -72,12 +72,6 @@ The connector will check for:
 
 To add support for a new provider of a service already listed above, add the provider's environment prefix to the list in `getEnvPrefixes()` on the `ServiceInfoCreator` class.
 
-== Supporting New Service Types
-
-Extend `HerokuServiceInfoCreator` with a creator for <<_adding_service_discovery,your service's `ServiceInfo` class>>.
-
-Add the fully-qualified class name for your creator to `META-INF/service/org.springframework.cloud.heroku.HerokuServiceInfoCreator`.
-
 == Limitations
 
 Unlike Cloud Foundry, Heroku exposes very little application information that is retrievable from within a running instance (for example, there is no good way to find the name of the application). If your application requires access to such information, you must make the information available through environment variables.
