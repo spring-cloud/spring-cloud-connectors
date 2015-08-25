@@ -266,7 +266,7 @@ See the https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spri
 
 Spring Cloud uses the https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html[Java SPI] to discover available connectors. 
 
-To add new cloud connectors, your connector classes must implement the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html[`CloudConnector`] interface. It includes three methods:
+Your connector classes must implement the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html[`CloudConnector`] interface. It includes three methods:
 
 * `boolean isInMatchingCloud()`: Determines whether the connector is operating in the cloud for which it provides support.
 +
@@ -340,7 +340,7 @@ To allow Spring Cloud to provide framework-specific service objects for supporte
 Service connectors can be tightly bound to the framework whose service objects they are creating. For example, some connectors in the <<_spring_service_connector,Spring Service Connector>> create connection factories defined by Spring Data, for use in building Spring Data templates.
 ====
 
-To add new service connectors, your connector classes must implement the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html[`ServiceConnectorCreator`] interface. It has three methods:
+Your connector classes must implement the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html[`ServiceConnectorCreator`] interface. It has three methods:
 
 * `SC create()`: Creates a service connection object from a given `ServiceInfo` and configuration.
 * `Class<SC> getServiceConnectorType()`: Returns the type of the connection object that will be created.
