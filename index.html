@@ -35,6 +35,15 @@ Spring Cloud Connectors simplifies connecting to services and gaining operating 
 
 {% endcapture %}
 
+{% capture community_extensions %}
+## Community Extensions
+
+* [Spring Cloud Connectors for SAP HANA Cloud Platform (HCP)](https://github.com/SAP/spring-cloud-sap)
+* [Spring Cloud Connectors for IBM Bluemix](https://github.com/IBM-Bluemix/bluemix-cloud-connectors)
+* [Spring Cloud Connectors for Spring Cloud Services on Pivotal Cloud Foundry](https://github.com/pivotal-cf/spring-cloud-services-connector)
+* [Spring Cloud Connectors for Pivotal Gemfire](https://github.com/pivotal-cf/spring-cloud-gemfire-connector)
+{% endcapture %}
+
 {% capture main_content %}
 
 Spring Cloud Connectors uses the following main concepts:
@@ -67,6 +76,8 @@ Spring Cloud Connectors focuses on providing good out of box experience for typi
 {% include download_widget.md %}
 
 Then if you are working with a Spring application, follow instructions in [Spring Cloud Service Connector for Spring](https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-spring-service-connector). If you aren't using Spring, take a look at [Spring Cloud Core](https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-core).
+
+{{ community_extensions | markdownify }}
 
 {% endcapture %}
 
