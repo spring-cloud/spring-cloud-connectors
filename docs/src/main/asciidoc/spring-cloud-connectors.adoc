@@ -346,14 +346,5 @@ To add new service connectors, your connector classes must implement the http://
 * `Class<SC> getServiceConnectorType()`: Returns the type of the connection object that will be created.
 * `Class<?> getServiceInfoType()`: Returns the type of the `ServiceInfo` that the class will accept.
 
-////
-[source,java]
-----
-public class Foo {
-
-}
-----
-////
-
 List the fully-qualified connector class names in the provider-configuration file at `META-INF/services/org.springframework.cloud.service.ServiceConnectorCreator`.
 
