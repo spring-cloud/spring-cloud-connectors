@@ -17,7 +17,7 @@ This connector checks for the presence of a `VCAP_APPLICATION` environment varia
 
 == Service Detection
 
-The connector inspects Cloud Foundry&#8217;s `VCAP_SERVICES` environment variable to detect available services. This variable stores connection and identification information for service instances that are bound to Cloud Foundry applications.
+The connector inspects Cloud Foundry's `VCAP_SERVICES` environment variable to detect available services. This variable stores connection and identification information for service instances that are bound to Cloud Foundry applications.
 
 Below is an example of a `VCAP_SERVICES` entry (edited for brevity).
 
@@ -48,20 +48,20 @@ Below is an example of a `VCAP_SERVICES` entry (edited for brevity).
 For each service, the connector will consider the following fields:
 
 [cols="3,7", width="100%"]
-|================================================================================================================================================================================
+|===========================================================================================================================================================================
 |`tags` |Attributes or names of backing technologies behind the service.
-|`label` |The service offering&#8217;s name (not to be confused with a service _instance&#8217;s_ name).
+|`label` |The service offering’s name (not to be confused with a service _instance’s_ name).
 |`credentials.uri` |A URI pertaining to the service instance.
 |`credentials.uris` |URIs pertaining to the service instance.
-|================================================================================================================================================================================
+|===========================================================================================================================================================================
 
 If they are present, it will also consider the following fields:
 
 [cols="3,7", width="100%"]
-|================================================================================================================================================================================
+|===========================================================================================================================================================================
 |`credentials.jdbcUrl` |A JDBC connection string.
 |`credentials.${SCHEME}${URL}` |A service URL, where `${SCHEME}` is a URI scheme used by the service and `${URL}` is one of `Url`, `url`, `Uri`, and `uri`.
-|================================================================================================================================================================================
+|===========================================================================================================================================================================
 
 === Supported Services
 
@@ -155,10 +155,3 @@ The connector will check for:
 * `uri` or `uris` using the scheme `sqlserver`
 * `jdbcUrl` field in `credentials` using the scheme `sqlserver`
 * `sqlserverUri`, `sqlserveruri`, `sqlserverUrl`, or `sqlserverurl` fields in `credentials`
-
-== Supporting New Service Types
-
-Extend `CloudFoundryServiceInfoCreator` with a creator for <<_adding_service_discovery,your service's `ServiceInfo` class>>.
-
-Add the fully-qualified class name for your creator to `META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator`.
-

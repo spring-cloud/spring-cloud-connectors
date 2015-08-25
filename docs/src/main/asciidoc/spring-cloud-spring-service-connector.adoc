@@ -9,15 +9,48 @@
 
 The Spring Service Connector is part of the <<spring-cloud-connectors.adoc#,Spring Cloud Connectors>> project.
 
-This library provides `ServiceConnectorCreator` implementations for `javax.sql.DataSource` and various link:http://projects.spring.io/spring-data/[Spring Data] connector factories. It also provides Java configuration and XML namespace support for connecting to cloud services, accessing cloud services, and accessing application properties.
+This library provides `ServiceConnectorCreator` implementations for `javax.sql.DataSource` and various http://projects.spring.io/spring-data/[Spring Data] connector factories. It also provides Java configuration and XML namespace support for connecting to cloud services, accessing cloud services, and accessing application properties.
 
 == The Java Configuration
 
-Typical use of the Java configuration involves extending the `AbstractCloudConfig` class and creating beans for services by annotating methods with the `@Bean` annotation. (If you are migrating an application that uses link:https://spring.io/blog/2011/11/04/using-cloud-foundry-services-with-spring-part-2-auto-reconfiguration/[auto-reconfiguration], you might first try the <<_scanning_for_services,service-scanning approach>> until you need more explicit control.) The Spring Service Connector Java configuration also offers a way to expose application and service properties in case you want lower-level access when creating your own service connectors (or for debugging purposes, etc.).  
+Typical use of the Java configuration involves extending the `AbstractCloudConfig` class and creating beans for services by annotating methods with the `@Bean` annotation.
+
+[TIP]
+====
+If you are migrating an application that uses https://spring.io/blog/2011/11/04/using-cloud-foundry-services-with-spring-part-2-auto-reconfiguration/[auto-reconfiguration], you might first try the <<_scanning_for_services,service-scanning approach>> until you need more explicit control.
+====
+
+The Spring Service Connector Java configuration also offers a way to expose application and service properties in case you want lower-level access when creating your own service connectors (or for debugging purposes, etc.).
 
 === Creating Service Beans
 
-The configuration shown in the following example creates a `DataSource` bean that connects to the only relational database service bound to the application (it will fail if there is no such unique service).  It also creates a `MongoDbFactory` bean, which again connects to the only MongoDB service bound to the application. (For ways to connect to other services, see the link:http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/config/java/AbstractCloudConfig.html[Javadoc for `AbstractCloudConfig`].)
+If you do not wish to extend `AbstractCloudConfig`, you can create your own http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html[`Cloud`] object as an alternative.
+
+[source,java]
+----
+@Bean
+public Cloud cloud() {
+  return new CloudFactory().getCloud();
+}
+----
+
+The following example creates a `DataSource` bean (without configuration) using the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html#getSingletonServiceConnector(java.lang.Class,%20org.springframework.cloud.service.ServiceConnectorConfig)[`getSingletonServiceConnector()`] method on `Cloud`.
+
+[source,java]
+----
+@Bean
+@ConfigurationProperties(DataSourceProperties.PREFIX)
+public DataSource dataSource() {
+  return cloud().getSingletonServiceConnector(DataSource.class, null);
+}
+----
+
+[NOTE]
+====
+Following examples presume a configuration class which extends `AbstractCloudConfig`.
+====
+
+The configuration shown in the following example creates a `DataSource` bean that connects to the only relational database service bound to the application (it will fail if there is no such unique service). It also creates a `MongoDbFactory` bean, which again connects to the only MongoDB service bound to the application. (For ways to connect to other services, see the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/config/java/AbstractCloudConfig.ServiceConnectionFactory.html[Javadoc for `AbstractCloudConfig.ServiceConnectionFactory`].)
 
 [source,java]
 ----
@@ -26,12 +59,12 @@ class CloudConfig extends AbstractCloudConfig {
         public DataSource inventoryDataSource() {
             return connectionFactory().dataSource();
         }
-    
+
     @Bean
     public MongoDbFactory documentMongoDbFactory() {
         return connectionFactory().mongoDbFactory();
     }
-    
+
     // (More beans to obtain service connectors)
 }
 ----
@@ -44,9 +77,9 @@ You can specify a bean name by providing a value in the `@Bean` annotation.
 ----
 
 Otherwise, bean names will match the method names. (This works in the same way as does Spring's Java configuration.)
-    
+
 If you have more than one service of a type bound to the application or want explicit control over the services to which a bean is bound, you can pass the service names to methods such as `dataSource()` and `mongoDbFactory()`.
-    
+
 [source,java]
 ----
 class CloudConfig extends AbstractCloudConfig {
@@ -63,12 +96,250 @@ class CloudConfig extends AbstractCloudConfig {
     // (More beans to obtain service connectors)
 }
 ----
- 
-Methods such as `dataSource()` come in additional overloaded variants that let you specify configuration options (such as pooling parameters). See the relevant Javadocs for more information.
+
+Out of the box, the Spring Service Connector provides methods for connecting to a variety of services. For information on using the Java configuration to create connections to supported services, see below.
+
+==== RabbitMQ
+
+To connect to a unique RabbitMQ service, you can create a service bean using `rabbitConnectionFactory()`. The following example connects to the only RabbitMQ service bound to the application.
+
+[source,java]
+----
+//Connect to the only available RabbitMQ service
+@Bean
+public RabbitConnectionFactory rabbitFactory() {
+    return connectionFactory().rabbitConnectionFactory();
+}
+----
+
+To connect to a specific RabbitMQ service, you can use an overloaded variant of `rabbitConnectionFactory()`. The following example connects specifically to the `bunnymq` RabbitMQ service.
+
+[source,java]
+----
+//Connect to the 'bunnymq' RabbitMQ service
+@Bean
+public RabbitConnectionFactory rabbitFactory() {
+    return connectionFactory().rabbitConnectionFactory("bunnymq");
+}
+----
+
+To provide configuration for a RabbitMQ service, you can use an overloaded `rabbitConnectionFactory()` variant. The following example connects to the `bunnymq` RabbitMQ service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html[`RabbitConnectionFactoryConfig`], which is initialized with a `channelCacheSize` of 10.
+
+[source,java]
+----
+//Connect to the 'bunnymq' RabbitMQ service, supplying configuration
+@Bean
+public RabbitConnectionFactory rabbitFactory() {
+    RabbitConnectionFactoryConfig rabbitConfig = new RabbitConnectionFactoryConfig(10);
+    return connectionFactory().rabbitConnectionFactory("bunnymq", rabbitConfig);
+}
+----
+
+To set properties on a RabbitMQ service, you can use an overloaded variant of `rabbitConnectionFactory()`. The following example connects to the `bunnymq` RabbitMQ service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html[`RabbitConnectionFactoryConfig`], which is initialized with a `HashMap` of property keys and values.
+
+[source,java]
+----
+//Connect to the 'bunnymq' RabbitMQ service, setting properties
+@Bean
+public RabbitConnectionFactory rabbitFactory() {
+    Map<String, Object> properties = new HashMap<String, Object>();
+    properties.put("requestedHeartbeat", 5);
+    properties.put("connectionTimeout", 10);
+
+    RabbitConnectionFactoryConfig rabbitConfig = new RabbitConnectionFactoryConfig(properties);
+    return connectionFactory().rabbitConnectionFactory("bunnymq", rabbitConfig);
+}
+----
+
+==== Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)
+
+To connect to a unique relational database service, you can create a service bean using `dataSource()`. The following example connects to the only relational database service bound to the application.
+
+[source,java]
+----
+//Connect to the only available relational database service
+@Bean
+public DataSource dataSource() {
+    return connectionFactory().dataSource();
+}
+----
+
+To connect to a specific relational database service, you can use an overloaded variant of `dataSource()`. The following example connects specifically to the `my-own-personal-sql` MySQL service.
+
+[source,java]
+----
+//Connect to the 'my-own-personal-sql' relational database service
+@Bean
+public DataSource dataSource() {
+    return connectionFactory().dataSource("my-own-personal-sql");
+}
+----
+
+To provide configuration for a relational database service, you can use an overloaded `dataSource()` variant. The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`], which is initialized with a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] that sets a `minPoolSize` of 5, a `maxPoolSize` of 30, and a `maxWaitTime` of 3000.
+
+[source,java]
+----
+//Connect to the 'my-own-personal-sql' relational database service, supplying configuration
+@Bean
+public DataSource dataSource() {
+    PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
+    DataSourceConfig dbConfig = new DataSourceConfig(poolConfig, null);
+    return connectionFactory().dataSource("my-own-personal-sql", dbConfig);
+}
+----
+
+To set properties on a relational database service, you can use an overloaded variant of `dataSource()`. The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`]. The `DataSourceConfig` is initialized with a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] (which sets a `minPoolSize` of 5, a `maxPoolSize` of 30, and a `maxWaitTime` of 3000) and a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.ConnectionConfig.html[`ConnectionConfig`] (which sets the `useUnicode` and `characterEncoding` properties).
+
+[source,java]
+----
+//Connect to the 'my-own-personal-sql' relational database service, setting properties
+@Bean
+public DataSource dataSource() {
+    PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
+    ConnectionConfig connConfig = new ConnectionConfig("useUnicode=yes;characterEncoding=UTF-8");
+    DataSourceConfig dbConfig = new DataSourceConfig(poolConfig, connConfig);
+    return connectionFactory().dataSource("my-own-personal-sql", dbConfig);
+}
+----
+
+==== MongoDB
+
+To connect to a unique MongoDB service, you can create a service bean using `mongoDbFactory()`. The following example connects to the only MongoDB service bound to the application.
+
+[source,java]
+----
+//Connect to the only available MongoDB service
+@Bean
+public MongoDbFactory mongoFactory() {
+    return connectionFactory().mongoDbFactory();
+}
+----
+
+To provide configuration for a unique MongoDB service, you can use an overloaded `mongoDbFactory()` variant. The following example connects to the only MongoDB service bound to the application and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html[`MongoDbFactoryConfig`] that sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200.
+
+[source,java]
+----
+//Connect to the only available MongoDB service, supplying configuration
+@Bean
+public MongoDbFactory mongoFactory() {
+    MongoDbFactoryConfig mongoConfig = new MongoDbFactoryConfig("NONE", 50, 200);
+    return connectionFactory().mongoDbFactory(mongoConfig);
+}
+----
+
+To connect to a specific MongoDB service, you can use an overloaded variant of `mongoDbFactory()`. The following example connects specifically to the `mongo-service` MongoDB service.
+
+[source,java]
+----
+//Connect to the 'mongo-service' MongoDB service
+@Bean
+public MongoDbFactory mongoFactory() {
+    return connectionFactory().mongoDbFactory("mongo-service");
+}
+----
+
+To connect to a specific MongoDB service and provide configuration, you can use an overloaded `mongoDbFactory()` variant. The following example connects to the `mongo-service` MongoDB service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html[`MongoDbFactoryConfig`] that sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200.
+
+[source,java]
+----
+//Connect to the only available MongoDB service, supplying configuration
+@Bean
+public MongoDbFactory mongoFactory() {
+    MongoDbFactoryConfig mongoConfig = new MongoDbFactoryConfig("NONE", 50, 200);
+    return connectionFactory().mongoDbFactory("mongo-service", mongoConfig);
+}
+----
+
+==== Redis
+
+To connect to a unique Redis service, you can create a service bean using `redisConnectionFactory()`. The following example connects to the only Redis service bound to the application.
+
+[source,java]
+----
+//Connect to the only available Redis service
+@Bean
+public RedisConnectionFactory redisFactory() {
+    return connectionFactory().redisConnectionFactory();
+}
+----
+
+To provide configuration for a unique Redis service, you can use an overloaded `redisConnectionFactory()` variant. The following example connects to the only Redis service bound to the application and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.html[`PooledServiceConnectorConfig`], which is initialized with a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] that sets a `minPoolSize` of 5, a `maxPoolSize` of 30, and a `maxWaitTime` of 3000.
+
+[source,java]
+----
+//Connect to the only available Redis service, supplying configuration
+@Bean
+public RedisConnectionFactory redisFactory() {
+    PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
+    PooledServiceConnectorConfig redisConfig = new PooledServiceConnectorConfig(poolConfig);
+    return connectionFactory().redisConnectionFactory(redisConfig);
+}
+----
+
+To connect to a specific Redis service, you can use an overloaded variant of `redisConnectionFactory()`. The following example connects specifically to the `redis-service` Redis service.
+
+[source,java]
+----
+//Connect to the 'redis-service' Redis service
+@Bean
+public RedisConnectionFactory redisFactory() {
+    return connectionFactory().redisConnectionFactory("redis-service");
+}
+----
+
+To connect to a specific Redis service and provide configuration, you can use an overloaded `redisConnectionFactory()` variant. The following example connects to the `redis-service` Redis service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html[`RedisConnectionFactoryConfig`], which is initialized with a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] that sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200.
+
+[source,java]
+----
+//Connect to the 'redis-service' Redis service, supplying configuration
+@Bean
+public RedisConnectionFactory redisFactory() {
+  PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
+  PooledServiceConnectorConfig redisConfig = new RedisConnectionFactoryConfig(poolConfig);
+  return connectionFactory().redisConnectionFactory("redis-service", redisConfig);
+}
+----
+
+To connect to a specific Redis service and set properties on the service, you can use an overloaded variant of `redisConnectionFactory()`. The following example connects to the `redis-service` Redis service and sets the `timeout` property using a http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html[`RedisConnectionFactoryConfig`] initialized with a `HashMap` that contains the property key and value.
+
+[source,java]
+----
+//Connect to the 'redis-service' Redis service, setting a property
+@Bean
+public RedisConnectionFactory redisFactory() {
+  Map<String, Object> properties = new HashMap<String, Object>();
+  properties.put("timeout", 10);
+  RedisConnectionFactoryConfig redisConfig = new RedisConnectionFactoryConfig(properties);
+  return connectionFactory().redisConnectionFactory("redis-service", redisConfig);
+}
+----
+
+To connect to a specific Redis service and provide configuration and property values for the service, you can use an overloaded variant of `redisConnectionFactory()`. The following example connects to the `redis-service` Redis service and uses a http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html[`RedisConnectionFactoryConfig`] initialized with a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] (which sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200) and a `HashMap` (which contains a property key and value) to configure the service and set its `timeout` property.
+
+[source,java]
+----
+//Connect to the 'redis-service' Redis service, providing configuration and setting a property
+@Bean
+public RedisConnectionFactory redisFactory() {
+  Map<String, Object> properties = new HashMap<String, Object>();
+  properties.put("timeout", 10);
+  PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
+  RedisConnectionFactoryConfig redisConfig = new RedisConnectionFactoryConfig(poolConfig, properties);
+  return connectionFactory().redisConnectionFactory("redis-service", redisConfig);
+}
+----
 
 === Connecting to Generic Services
 
-The Java configuration supports access to generic services (services which don't have a directly mapped method; this is typical for a newly-introduced service or when connecting to a private service in a private PaaS) through the `service()` method. It follows the same pattern as `dataSource()` etc., except that it allows you to supply the connector type as an additional parameter.
+The Java configuration supports access to generic services (services which don't have a directly mapped method; this is typical for a newly-introduced service or when connecting to a private service in a private PaaS) through the `service()` method. It follows the same pattern as `dataSource()` etc., except that it allows you to supply the connector type as an additional parameter. The following example connects to a hypothetical service of type `Search`, called `search-service`.
+
+[source,java]
+----
+@Bean
+public Search search() {
+  return connectionFactory().service("search-service", Search.class);
+}
+----
 
 === Scanning for Services
 
@@ -81,7 +352,7 @@ You can scan for each bound service using the `@ServiceScan` annotation. (This i
 class CloudConfig {
 }
 ----
-    
+
 In the above example, the configuration will create one bean of the appropriate type (such as a `DataSource` in the case of a relational database service). Each bean will have an `id` matching the corresponding service name.
 
 You can inject such beans using autowiring.
@@ -158,6 +429,188 @@ Other namespace elements which create service connectors include:
 <cloud:rabbit-connection-factory/>
 ----
 
+For information on using the `<cloud>` namespace to create connections to services with built-in support in the Spring Service Connector, see below.
+
+==== RabbitMQ
+
+To connect to a RabbitMQ service, you can use the `<cloud:rabbit-connection-factory>` element. The following example connects to the only RabbitMQ service bound to the application.
+
+[source,xml]
+----
+<!-- Connect to the only available RabbitMQ service -->
+<cloud:rabbit-connection-factory />
+----
+
+To connect to a specific RabbitMQ service, you can use the `service-name` attribute. The following example connects specifically to the `bunnymq` RabbitMQ service.
+
+[source,xml]
+----
+<!-- Connect to the 'bunnymq' RabbitMQ service -->
+<cloud:rabbit-connection-factory service-name="bunnymq" />
+----
+
+To specify an id for the RabbitMQ connection bean, you can use the `id` attribute. The following example connects specifically to the `bunnymq` RabbitMQ service with a bean given the id `rabbitmq`.
+
+[source,xml]
+----
+<!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq' -->
+<cloud:rabbit-connection-factory id="rabbitmq" service-name="bunnymq" />
+----
+
+To set properties on a RabbitMQ service, you can use the `<cloud:rabbit-options>` nested element. The following example connects specifically to the `bunnymq` RabbitMQ service with a bean given the id `rabbitmq` and uses the `<cloud:rabbit-options>` element to set the size of the channel cache to 200.
+
+[source,xml]
+----
+<!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq', setting channel cache size -->
+<cloud:rabbit-connection-factory id="rabbitmq" service-name="bunnymq">
+  <cloud:rabbit-options channel-cache-size="200"/>
+</cloud:rabbit-connection-factory>
+----
+
+To set connection properties on a RabbitMQ service, you can use the `<cloud:connection-properties>` nested element. The following example connects specifically to the `bunnymq` RabbitMQ service with a bean given the id `rabbitmq`. It uses the `<cloud:rabbit-options>` element to set the size of the channel cache to 200, and it uses the `<cloud:connection-properties>` element to set a heartbeat timeout of 5 seconds and a connection timeout of 10 milliseconds.
+
+[source,xml]
+----
+<!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq', setting channel cache size and connection properties -->
+<cloud:rabbit-connection-factory id="rabbitmq" service-name="bunnymq">
+  <cloud:rabbit-options channel-cache-size="200"/>
+  <cloud:connection-properties>
+    <entry key="requestedHeartbeat" value="5"/>
+    <entry key="connectionTimeout" value="10"/>
+  </cloud:connection-properties>
+</cloud:rabbit-connection-factory>
+----
+
+==== Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)
+
+To connect to a relational database service, you can use the `<cloud:data-source>` element. The following example connects to the only relational database service bound to the application.
+
+[source,xml]
+----
+<!-- Connect to the only available relational database service -->
+<cloud:data-source/>
+----
+
+To connect to a specific relational database service, you can use the `service-name` attribute. The following example connects specifically to the `my-own-personal-sql` MySQL service.
+
+[source,xml]
+----
+<!-- Connect to the 'my-own-personal-sql' relational database service -->
+<cloud:data-source service-name="my-own-personal-sql"/>
+----
+
+To specify an id for the relational database connection bean, you can use the `id` attribute. The following example connects specifically to the `my-own-personal-sql` MySQL service with a bean given the id `mysql`.
+
+[source,xml]
+----
+<!-- Connect to the 'my-own-personal-sql' relational database service, with a bean of id 'mysql' -->
+<cloud:data-source id="mysql" service-name="my-own-personal-sql" />
+----
+
+To set connection properties on a relational database service, you can use the `<cloud:connection>` nested element. The following example connects specifically to the `my-own-personal-sql` MySQL service with a bean given the id `mysql` and uses the `<cloud:connection>` element to set the `useUnicode` and `characterEncoding` properties.
+
+[source,xml]
+----
+<!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', setting connection properties -->
+<cloud:data-source id="mysql" service-name="my-own-personal-sql">
+    <cloud:connection properties="useUnicode=yes;characterEncoding=UTF-8"/>
+</cloud:data-source>
+----
+
+To configure pool settings on a relational database service, you can use the `<cloud:pool>` nested element. The following example connects specifically to the `my-own-personal-sql` MySQL service with a bean given the id `mysql`. It uses the `<cloud:pool>` element to set a `pool-size` of 5&#8211;30 and a `max-wait-time` of 3000 milliseconds.
+
+[source,xml]
+----
+<!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', configuring pool settings -->
+<cloud:data-source id="mysql" service-name="my-own-personal-sql">
+    <cloud:pool pool-size="5-30" max-wait-time="3000"/>
+</cloud:data-source>
+----
+
+==== MongoDB
+
+To connect to a MongoDB service, you can use the `<cloud:mongo-db-factory/>` element. The following example connects to the only MongoDB service bound to the application.
+
+[source,xml]
+----
+<!-- Connect to the only available MongoDB service -->
+<cloud:mongo-db-factory/>
+----
+
+To connect to a specific MongoDB service, you can use the `service-name` attribute. The following example connects specifically to the `mongo-service` MongoDB service.
+
+[source,xml]
+----
+<!-- Connect to the 'mongo-service' MongoDB service -->
+<cloud:mongo-db-factory service-name="mongo-service"/>
+----
+
+To specify an id for the MongoDB connection bean, you can use the `id` attribute. The following example connects specifically to the `mongo-service` MongoDB service with a bean given the id `mongo`.
+
+[source,xml]
+----
+<!-- Connect to the 'mongo-service' MongoDB service with a bean of id 'mongo' -->
+<cloud:mongo-db-factory id="mongo" service-name="mongo-service"/>
+----
+
+To set properties on a MongoDB service, you can use the `<cloud:mongo-options>` nested element. The following example connects specifically to the `mongo-service` MongoDB service with a bean given the id `mongo` and uses the `<cloud:mongo-options>` element to allow 50 connections per host.
+
+[source,xml]
+----
+<!-- Connect to the 'mongo-service' MongoDB service with a bean of id 'mongo', setting connections per host -->
+<cloud:mongo-db-factory id="mongo" service-name="mongo-service">
+    <cloud:mongo-options connections-per-host="50"/>
+</cloud:mongo-db-factory>
+----
+
+==== Redis
+
+To connect to a Redis service, you can use the `<cloud:redis-connection-factory/>` element. The following example connects to the only Redis service bound to the application.
+
+[source,xml]
+----
+<!-- Connect to the only available Redis service -->
+<cloud:redis-connection-factory/>
+----
+
+To connect to a specific Redis service, you can use the `service-name` attribute. The following example connects specifically to the `redis-service` Redis service.
+
+[source,xml]
+----
+<!-- Connect to the 'redis-service' Redis service -->
+<cloud:redis-connection-factory service-name="redis-service"/>
+----
+
+To specify an id for the Redis connection bean, you can use the `id` attribute. The following example connects specifically to the `redis-service` Redis service with a bean given the id `redis`.
+
+[source,xml]
+----
+<!-- Connect to the 'redis-service' Redis service with a bean of id 'redis' -->
+<cloud:redis-connection-factory id="redis" service-name="redis-service"/>
+----
+
+To set connection properties on a Redis service, you can use the `<cloud:connection-properties>` nested element. The following example connects specifically to the `redis-service` Redis service with a bean given the id `redis` and uses the `<cloud:connection-properties>` element to set a `timeout` of `10`.
+
+[source,xml]
+----
+<!-- Connect to the 'redis-service' Redis service with a bean of id 'redis', setting a connection property -->
+<cloud:redis-connection-factory id="redis" service-name="redis-service">
+  <cloud:connection-properties>
+    <entry key="timeout" value="10"/>
+  </cloud:connection-properties>
+</cloud:redis-connection-factory>
+----
+
+To configure pool settings on a Redis service, you can use the `<cloud:pool>` nested element. The following example connects specifically to the `redis-service` Redis service with a bean given the id `redis`. It uses the `<cloud:pool>` element to set a `pool-size` of 5&#8211;30 and a `max-wait-time` of 3000 milliseconds.
+
+[source,xml]
+----
+<!-- Connect to the 'redis-service' Redis service with a bean of id 'redis', configuring pool settings -->
+<cloud:redis-connection-factory id="redis" service-name="redis-service">
+  <cloud:pool pool-size="5-30" max-wait-time="3000"/>
+</cloud:redis-connection-factory>
+----
+
 === Connecting to Generic Services
 
 Spring Service Connector also supports a generic `<cloud:service>` namespace for connecting to a service with no directly-mapped element (this is typical for a newly-introduced service or when connecting to a private service in a private PaaS). You must specify either the `connector-type` attribute (for locating a unique service by type) or the `service-name` attribute.
@@ -173,5 +626,9 @@ Besides these elements (which create only one bean per element), Spring Service 
 
 === Accessing Service Properties
 
-Lastly, Spring Service Connector provides a `<cloud:properties>` element, which exposes properties for the application and for services.
+Spring Service Connector also provides a `<cloud:properties>` element, which exposes properties for the application and for services.
 
+[source,xml]
+----
+<cloud:properties id="cloudProperties"/>
+----
