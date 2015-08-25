@@ -508,7 +508,14 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel1">
 <li><a href="#_the_java_configuration">The Java Configuration</a>
 <ul class="sectlevel2">
-<li><a href="#_creating_service_beans">Creating Service Beans</a></li>
+<li><a href="#_creating_service_beans">Creating Service Beans</a>
+<ul class="sectlevel3">
+<li><a href="#_rabbitmq">RabbitMQ</a></li>
+<li><a href="#_relational_database_db2_mysql_oracle_postgresql_sql_server">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</a></li>
+<li><a href="#_mongodb">MongoDB</a></li>
+<li><a href="#_redis">Redis</a></li>
+</ul>
+</li>
 <li><a href="#_connecting_to_generic_services">Connecting to Generic Services</a></li>
 <li><a href="#_scanning_for_services">Scanning for Services</a></li>
 <li><a href="#_accessing_service_properties">Accessing Service Properties</a></li>
@@ -517,7 +524,14 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_the_code_cloud_code_namespace">The <code>&lt;cloud&gt;</code> Namespace</a>
 <ul class="sectlevel2">
 <li><a href="#_setting_up">Setting Up</a></li>
-<li><a href="#_creating_service_beans_2">Creating Service Beans</a></li>
+<li><a href="#_creating_service_beans_2">Creating Service Beans</a>
+<ul class="sectlevel3">
+<li><a href="#_rabbitmq_2">RabbitMQ</a></li>
+<li><a href="#_relational_database_db2_mysql_oracle_postgresql_sql_server_2">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</a></li>
+<li><a href="#_mongodb_2">MongoDB</a></li>
+<li><a href="#_redis_2">Redis</a></li>
+</ul>
+</li>
 <li><a href="#_connecting_to_generic_services_2">Connecting to Generic Services</a></li>
 <li><a href="#_scanning_for_services_2">Scanning for Services</a></li>
 <li><a href="#_accessing_service_properties_2">Accessing Service Properties</a></li>
@@ -541,12 +555,66 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_the_java_configuration">The Java Configuration</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Typical use of the Java configuration involves extending the <code>AbstractCloudConfig</code> class and creating beans for services by annotating methods with the <code>@Bean</code> annotation. (If you are migrating an application that uses <a href="https://spring.io/blog/2011/11/04/using-cloud-foundry-services-with-spring-part-2-auto-reconfiguration/">auto-reconfiguration</a>, you might first try the <a href="#_scanning_for_services">service-scanning approach</a> until you need more explicit control.) The Spring Service Connector Java configuration also offers a way to expose application and service properties in case you want lower-level access when creating your own service connectors (or for debugging purposes, etc.).</p>
+<p>Typical use of the Java configuration involves extending the <code>AbstractCloudConfig</code> class and creating beans for services by annotating methods with the <code>@Bean</code> annotation.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you are migrating an application that uses <a href="https://spring.io/blog/2011/11/04/using-cloud-foundry-services-with-spring-part-2-auto-reconfiguration/">auto-reconfiguration</a>, you might first try the <a href="#_scanning_for_services">service-scanning approach</a> until you need more explicit control.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The Spring Service Connector Java configuration also offers a way to expose application and service properties in case you want lower-level access when creating your own service connectors (or for debugging purposes, etc.).</p>
 </div>
 <div class="sect2">
 <h3 id="_creating_service_beans">Creating Service Beans</h3>
 <div class="paragraph">
-<p>The configuration shown in the following example creates a <code>DataSource</code> bean that connects to the only relational database service bound to the application (it will fail if there is no such unique service).  It also creates a <code>MongoDbFactory</code> bean, which again connects to the only MongoDB service bound to the application. (For ways to connect to other services, see the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/config/java/AbstractCloudConfig.html">Javadoc for <code>AbstractCloudConfig</code></a>.)</p>
+<p>If you do not wish to extend <code>AbstractCloudConfig</code>, you can create your own <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html"><code>Cloud</code></a> object as an alternative.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Bean</span>
+<span class="directive">public</span> Cloud cloud() {
+  <span class="keyword">return</span> <span class="keyword">new</span> CloudFactory().getCloud();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following example creates a <code>DataSource</code> bean (without configuration) using the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html#getSingletonServiceConnector(java.lang.Class,%20org.springframework.cloud.service.ServiceConnectorConfig)"><code>getSingletonServiceConnector()</code></a> method on <code>Cloud</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Bean</span>
+<span class="annotation">@ConfigurationProperties</span>(DataSourceProperties.PREFIX)
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+  <span class="keyword">return</span> cloud().getSingletonServiceConnector(<span class="predefined-type">DataSource</span>.class, <span class="predefined-constant">null</span>);
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Following examples presume a configuration class which extends <code>AbstractCloudConfig</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The configuration shown in the following example creates a <code>DataSource</code> bean that connects to the only relational database service bound to the application (it will fail if there is no such unique service). It also creates a <code>MongoDbFactory</code> bean, which again connects to the only MongoDB service bound to the application. (For ways to connect to other services, see the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/config/java/AbstractCloudConfig.ServiceConnectionFactory.html">Javadoc for <code>AbstractCloudConfig.ServiceConnectionFactory</code></a>.)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -597,13 +665,273 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 </div>
 <div class="paragraph">
-<p>Methods such as <code>dataSource()</code> come in additional overloaded variants that let you specify configuration options (such as pooling parameters). See the relevant Javadocs for more information.</p>
+<p>Out of the box, the Spring Service Connector provides methods for connecting to a variety of services. For information on using the Java configuration to create connections to supported services, see below.</p>
+</div>
+<div class="sect3">
+<h4 id="_rabbitmq">RabbitMQ</h4>
+<div class="paragraph">
+<p>To connect to a unique RabbitMQ service, you can create a service bean using <code>rabbitConnectionFactory()</code>. The following example connects to the only RabbitMQ service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available RabbitMQ service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
+    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific RabbitMQ service, you can use an overloaded variant of <code>rabbitConnectionFactory()</code>. The following example connects specifically to the <code>bunnymq</code> RabbitMQ service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'bunnymq' RabbitMQ service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
+    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span>);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To provide configuration for a RabbitMQ service, you can use an overloaded <code>rabbitConnectionFactory()</code> variant. The following example connects to the <code>bunnymq</code> RabbitMQ service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html"><code>RabbitConnectionFactoryConfig</code></a>, which is initialized with a <code>channelCacheSize</code> of 10.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'bunnymq' RabbitMQ service, supplying configuration</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
+    RabbitConnectionFactoryConfig rabbitConfig = <span class="keyword">new</span> RabbitConnectionFactoryConfig(<span class="integer">10</span>);
+    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span>, rabbitConfig);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set properties on a RabbitMQ service, you can use an overloaded variant of <code>rabbitConnectionFactory()</code>. The following example connects to the <code>bunnymq</code> RabbitMQ service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html"><code>RabbitConnectionFactoryConfig</code></a>, which is initialized with a <code>HashMap</code> of property keys and values.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'bunnymq' RabbitMQ service, setting properties</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
+    <span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt; properties = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt;();
+    properties.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">requestedHeartbeat</span><span class="delimiter">&quot;</span></span>, <span class="integer">5</span>);
+    properties.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">connectionTimeout</span><span class="delimiter">&quot;</span></span>, <span class="integer">10</span>);
+
+    RabbitConnectionFactoryConfig rabbitConfig = <span class="keyword">new</span> RabbitConnectionFactoryConfig(properties);
+    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span>, rabbitConfig);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_relational_database_db2_mysql_oracle_postgresql_sql_server">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</h4>
+<div class="paragraph">
+<p>To connect to a unique relational database service, you can create a service bean using <code>dataSource()</code>. The following example connects to the only relational database service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available relational database service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+    <span class="keyword">return</span> connectionFactory().dataSource();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific relational database service, you can use an overloaded variant of <code>dataSource()</code>. The following example connects specifically to the <code>my-own-personal-sql</code> MySQL service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'my-own-personal-sql' relational database service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To provide configuration for a relational database service, you can use an overloaded <code>dataSource()</code> variant. The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>, which is initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> that sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'my-own-personal-sql' relational database service, supplying configuration</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+    PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
+    DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(poolConfig, <span class="predefined-constant">null</span>);
+    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set properties on a relational database service, you can use an overloaded variant of <code>dataSource()</code>. The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>. The <code>DataSourceConfig</code> is initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> (which sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000) and a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.ConnectionConfig.html"><code>ConnectionConfig</code></a> (which sets the <code>useUnicode</code> and <code>characterEncoding</code> properties).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'my-own-personal-sql' relational database service, setting properties</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
+    PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
+    ConnectionConfig connConfig = <span class="keyword">new</span> ConnectionConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">useUnicode=yes;characterEncoding=UTF-8</span><span class="delimiter">&quot;</span></span>);
+    DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(poolConfig, connConfig);
+    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mongodb">MongoDB</h4>
+<div class="paragraph">
+<p>To connect to a unique MongoDB service, you can create a service bean using <code>mongoDbFactory()</code>. The following example connects to the only MongoDB service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> MongoDbFactory mongoFactory() {
+    <span class="keyword">return</span> connectionFactory().mongoDbFactory();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To provide configuration for a unique MongoDB service, you can use an overloaded <code>mongoDbFactory()</code> variant. The following example connects to the only MongoDB service bound to the application and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html"><code>MongoDbFactoryConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service, supplying configuration</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> MongoDbFactory mongoFactory() {
+    MongoDbFactoryConfig mongoConfig = <span class="keyword">new</span> MongoDbFactoryConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>, <span class="integer">50</span>, <span class="integer">200</span>);
+    <span class="keyword">return</span> connectionFactory().mongoDbFactory(mongoConfig);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific MongoDB service, you can use an overloaded variant of <code>mongoDbFactory()</code>. The following example connects specifically to the <code>mongo-service</code> MongoDB service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'mongo-service' MongoDB service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> MongoDbFactory mongoFactory() {
+    <span class="keyword">return</span> connectionFactory().mongoDbFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span>);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific MongoDB service and provide configuration, you can use an overloaded <code>mongoDbFactory()</code> variant. The following example connects to the <code>mongo-service</code> MongoDB service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html"><code>MongoDbFactoryConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service, supplying configuration</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> MongoDbFactory mongoFactory() {
+    MongoDbFactoryConfig mongoConfig = <span class="keyword">new</span> MongoDbFactoryConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>, <span class="integer">50</span>, <span class="integer">200</span>);
+    <span class="keyword">return</span> connectionFactory().mongoDbFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span>, mongoConfig);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_redis">Redis</h4>
+<div class="paragraph">
+<p>To connect to a unique Redis service, you can create a service bean using <code>redisConnectionFactory()</code>. The following example connects to the only Redis service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available Redis service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RedisConnectionFactory redisFactory() {
+    <span class="keyword">return</span> connectionFactory().redisConnectionFactory();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To provide configuration for a unique Redis service, you can use an overloaded <code>redisConnectionFactory()</code> variant. The following example connects to the only Redis service bound to the application and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.html"><code>PooledServiceConnectorConfig</code></a>, which is initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> that sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available Redis service, supplying configuration</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RedisConnectionFactory redisFactory() {
+    PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
+    PooledServiceConnectorConfig redisConfig = <span class="keyword">new</span> PooledServiceConnectorConfig(poolConfig);
+    <span class="keyword">return</span> connectionFactory().redisConnectionFactory(redisConfig);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific Redis service, you can use an overloaded variant of <code>redisConnectionFactory()</code>. The following example connects specifically to the <code>redis-service</code> Redis service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'redis-service' Redis service</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RedisConnectionFactory redisFactory() {
+    <span class="keyword">return</span> connectionFactory().redisConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span>);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific Redis service and provide configuration, you can use an overloaded <code>redisConnectionFactory()</code> variant. The following example connects to the <code>redis-service</code> Redis service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html"><code>RedisConnectionFactoryConfig</code></a>, which is initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'redis-service' Redis service, supplying configuration</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RedisConnectionFactory redisFactory() {
+  PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
+  PooledServiceConnectorConfig redisConfig = <span class="keyword">new</span> RedisConnectionFactoryConfig(poolConfig);
+  <span class="keyword">return</span> connectionFactory().redisConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span>, redisConfig);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific Redis service and set properties on the service, you can use an overloaded variant of <code>redisConnectionFactory()</code>. The following example connects to the <code>redis-service</code> Redis service and sets the <code>timeout</code> property using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html"><code>RedisConnectionFactoryConfig</code></a> initialized with a <code>HashMap</code> that contains the property key and value.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'redis-service' Redis service, setting a property</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RedisConnectionFactory redisFactory() {
+  <span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt; properties = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt;();
+  properties.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">timeout</span><span class="delimiter">&quot;</span></span>, <span class="integer">10</span>);
+  RedisConnectionFactoryConfig redisConfig = <span class="keyword">new</span> RedisConnectionFactoryConfig(properties);
+  <span class="keyword">return</span> connectionFactory().redisConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span>, redisConfig);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific Redis service and provide configuration and property values for the service, you can use an overloaded variant of <code>redisConnectionFactory()</code>. The following example connects to the <code>redis-service</code> Redis service and uses a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html"><code>RedisConnectionFactoryConfig</code></a> initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> (which sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200) and a <code>HashMap</code> (which contains a property key and value) to configure the service and set its <code>timeout</code> property.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'redis-service' Redis service, providing configuration and setting a property</span>
+<span class="annotation">@Bean</span>
+<span class="directive">public</span> RedisConnectionFactory redisFactory() {
+  <span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt; properties = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt;();
+  properties.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">timeout</span><span class="delimiter">&quot;</span></span>, <span class="integer">10</span>);
+  PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
+  RedisConnectionFactoryConfig redisConfig = <span class="keyword">new</span> RedisConnectionFactoryConfig(poolConfig, properties);
+  <span class="keyword">return</span> connectionFactory().redisConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span>, redisConfig);
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_connecting_to_generic_services">Connecting to Generic Services</h3>
 <div class="paragraph">
-<p>The Java configuration supports access to generic services (services which don&#8217;t have a directly mapped method; this is typical for a newly-introduced service or when connecting to a private service in a private PaaS) through the <code>service()</code> method. It follows the same pattern as <code>dataSource()</code> etc., except that it allows you to supply the connector type as an additional parameter.</p>
+<p>The Java configuration supports access to generic services (services which don&#8217;t have a directly mapped method; this is typical for a newly-introduced service or when connecting to a private service in a private PaaS) through the <code>service()</code> method. It follows the same pattern as <code>dataSource()</code> etc., except that it allows you to supply the connector type as an additional parameter. The following example connects to a hypothetical service of type <code>Search</code>, called <code>search-service</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Bean</span>
+<span class="directive">public</span> Search search() {
+  <span class="keyword">return</span> connectionFactory().service(<span class="string"><span class="delimiter">&quot;</span><span class="content">search-service</span><span class="delimiter">&quot;</span></span>, Search.class);
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -711,6 +1039,212 @@ table.CodeRay td.code>pre{padding:0}
 <span class="tag">&lt;cloud:rabbit-connection-factory</span><span class="tag">/&gt;</span></code></pre>
 </div>
 </div>
+<div class="paragraph">
+<p>For information on using the <code>&lt;cloud&gt;</code> namespace to create connections to services with built-in support in the Spring Service Connector, see below.</p>
+</div>
+<div class="sect3">
+<h4 id="_rabbitmq_2">RabbitMQ</h4>
+<div class="paragraph">
+<p>To connect to a RabbitMQ service, you can use the <code>&lt;cloud:rabbit-connection-factory&gt;</code> element. The following example connects to the only RabbitMQ service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available RabbitMQ service --&gt;</span>
+<span class="tag">&lt;cloud:rabbit-connection-factory</span> <span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific RabbitMQ service, you can use the <code>service-name</code> attribute. The following example connects specifically to the <code>bunnymq</code> RabbitMQ service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'bunnymq' RabbitMQ service --&gt;</span>
+<span class="tag">&lt;cloud:rabbit-connection-factory</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To specify an id for the RabbitMQ connection bean, you can use the <code>id</code> attribute. The following example connects specifically to the <code>bunnymq</code> RabbitMQ service with a bean given the id <code>rabbitmq</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq' --&gt;</span>
+<span class="tag">&lt;cloud:rabbit-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">rabbitmq</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set properties on a RabbitMQ service, you can use the <code>&lt;cloud:rabbit-options&gt;</code> nested element. The following example connects specifically to the <code>bunnymq</code> RabbitMQ service with a bean given the id <code>rabbitmq</code> and uses the <code>&lt;cloud:rabbit-options&gt;</code> element to set the size of the channel cache to 200.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq', setting channel cache size --&gt;</span>
+<span class="tag">&lt;cloud:rabbit-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">rabbitmq</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;cloud:rabbit-options</span> <span class="attribute-name">channel-cache-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">200</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/cloud:rabbit-connection-factory&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set connection properties on a RabbitMQ service, you can use the <code>&lt;cloud:connection-properties&gt;</code> nested element. The following example connects specifically to the <code>bunnymq</code> RabbitMQ service with a bean given the id <code>rabbitmq</code>. It uses the <code>&lt;cloud:rabbit-options&gt;</code> element to set the size of the channel cache to 200, and it uses the <code>&lt;cloud:connection-properties&gt;</code> element to set a heartbeat timeout of 5 seconds and a connection timeout of 10 milliseconds.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq', setting channel cache size and connection properties --&gt;</span>
+<span class="tag">&lt;cloud:rabbit-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">rabbitmq</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;cloud:rabbit-options</span> <span class="attribute-name">channel-cache-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">200</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;cloud:connection-properties&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">requestedHeartbeat</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">connectionTimeout</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;/cloud:connection-properties&gt;</span>
+<span class="tag">&lt;/cloud:rabbit-connection-factory&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_relational_database_db2_mysql_oracle_postgresql_sql_server_2">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</h4>
+<div class="paragraph">
+<p>To connect to a relational database service, you can use the <code>&lt;cloud:data-source&gt;</code> element. The following example connects to the only relational database service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available relational database service --&gt;</span>
+<span class="tag">&lt;cloud:data-source</span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific relational database service, you can use the <code>service-name</code> attribute. The following example connects specifically to the <code>my-own-personal-sql</code> MySQL service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service --&gt;</span>
+<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To specify an id for the relational database connection bean, you can use the <code>id</code> attribute. The following example connects specifically to the <code>my-own-personal-sql</code> MySQL service with a bean given the id <code>mysql</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service, with a bean of id 'mysql' --&gt;</span>
+<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set connection properties on a relational database service, you can use the <code>&lt;cloud:connection&gt;</code> nested element. The following example connects specifically to the <code>my-own-personal-sql</code> MySQL service with a bean given the id <code>mysql</code> and uses the <code>&lt;cloud:connection&gt;</code> element to set the <code>useUnicode</code> and <code>characterEncoding</code> properties.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', setting connection properties --&gt;</span>
+<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;cloud:connection</span> <span class="attribute-name">properties</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">useUnicode=yes;characterEncoding=UTF-8</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/cloud:data-source&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To configure pool settings on a relational database service, you can use the <code>&lt;cloud:pool&gt;</code> nested element. The following example connects specifically to the <code>my-own-personal-sql</code> MySQL service with a bean given the id <code>mysql</code>. It uses the <code>&lt;cloud:pool&gt;</code> element to set a <code>pool-size</code> of 5&#8211;30 and a <code>max-wait-time</code> of 3000 milliseconds.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', configuring pool settings --&gt;</span>
+<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;cloud:pool</span> <span class="attribute-name">pool-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5-30</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-wait-time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3000</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/cloud:data-source&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_mongodb_2">MongoDB</h4>
+<div class="paragraph">
+<p>To connect to a MongoDB service, you can use the <code>&lt;cloud:mongo-db-factory/&gt;</code> element. The following example connects to the only MongoDB service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available MongoDB service --&gt;</span>
+<span class="tag">&lt;cloud:mongo-db-factory</span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific MongoDB service, you can use the <code>service-name</code> attribute. The following example connects specifically to the <code>mongo-service</code> MongoDB service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'mongo-service' MongoDB service --&gt;</span>
+<span class="tag">&lt;cloud:mongo-db-factory</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To specify an id for the MongoDB connection bean, you can use the <code>id</code> attribute. The following example connects specifically to the <code>mongo-service</code> MongoDB service with a bean given the id <code>mongo</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'mongo-service' MongoDB service with a bean of id 'mongo' --&gt;</span>
+<span class="tag">&lt;cloud:mongo-db-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set properties on a MongoDB service, you can use the <code>&lt;cloud:mongo-options&gt;</code> nested element. The following example connects specifically to the <code>mongo-service</code> MongoDB service with a bean given the id <code>mongo</code> and uses the <code>&lt;cloud:mongo-options&gt;</code> element to allow 50 connections per host.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'mongo-service' MongoDB service with a bean of id 'mongo', setting connections per host --&gt;</span>
+<span class="tag">&lt;cloud:mongo-db-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="tag">&lt;cloud:mongo-options</span> <span class="attribute-name">connections-per-host</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">50</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/cloud:mongo-db-factory&gt;</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_redis_2">Redis</h4>
+<div class="paragraph">
+<p>To connect to a Redis service, you can use the <code>&lt;cloud:redis-connection-factory/&gt;</code> element. The following example connects to the only Redis service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available Redis service --&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific Redis service, you can use the <code>service-name</code> attribute. The following example connects specifically to the <code>redis-service</code> Redis service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service --&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To specify an id for the Redis connection bean, you can use the <code>id</code> attribute. The following example connects specifically to the <code>redis-service</code> Redis service with a bean given the id <code>redis</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis' --&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set connection properties on a Redis service, you can use the <code>&lt;cloud:connection-properties&gt;</code> nested element. The following example connects specifically to the <code>redis-service</code> Redis service with a bean given the id <code>redis</code> and uses the <code>&lt;cloud:connection-properties&gt;</code> element to set a <code>timeout</code> of <code>10</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis', setting a connection property --&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;cloud:connection-properties&gt;</span>
+    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">timeout</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+  <span class="tag">&lt;/cloud:connection-properties&gt;</span>
+<span class="tag">&lt;/cloud:redis-connection-factory&gt;</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To configure pool settings on a Redis service, you can use the <code>&lt;cloud:pool&gt;</code> nested element. The following example connects specifically to the <code>redis-service</code> Redis service with a bean given the id <code>redis</code>. It uses the <code>&lt;cloud:pool&gt;</code> element to set a <code>pool-size</code> of 5&#8211;30 and a <code>max-wait-time</code> of 3000 milliseconds.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis', configuring pool settings --&gt;</span>
+<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+  <span class="tag">&lt;cloud:pool</span> <span class="attribute-name">pool-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5-30</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-wait-time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3000</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
+<span class="tag">&lt;/cloud:redis-connection-factory&gt;</span></code></pre>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_connecting_to_generic_services_2">Connecting to Generic Services</h3>
@@ -732,7 +1266,12 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sect2">
 <h3 id="_accessing_service_properties_2">Accessing Service Properties</h3>
 <div class="paragraph">
-<p>Lastly, Spring Service Connector provides a <code>&lt;cloud:properties&gt;</code> element, which exposes properties for the application and for services.</p>
+<p>Spring Service Connector also provides a <code>&lt;cloud:properties&gt;</code> element, which exposes properties for the application and for services.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;cloud:properties</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">cloudProperties</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -740,7 +1279,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-08-25 10:59:22 PDT
+Last updated 2015-08-25 11:01:59 PDT
 </div>
 </div>
 </body>
