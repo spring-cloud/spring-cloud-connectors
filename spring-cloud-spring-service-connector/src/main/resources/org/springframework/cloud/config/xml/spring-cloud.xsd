@@ -59,6 +59,7 @@
 			<xsd:sequence>
 				<xsd:element name="connection" type="jdbcConnectionType" minOccurs="0" maxOccurs="1"/>
 				<xsd:element name="pool" type="poolType" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="pool-data-sources" minOccurs="0" maxOccurs="1"/>
 			</xsd:sequence>
 			<xsd:attribute name="id" type="xsd:string" use="optional">
 				<xsd:annotation>
@@ -248,11 +249,19 @@
 			<xsd:annotation>
 				<xsd:documentation><![CDATA[
 					The connection properties that will be sent to the JDBC driver when establishing new connections.
-					Format of the string must be [propertyName=property;]
+					Format of the string must be [propertyName=property;].
 				]]></xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 	</xsd:complexType>
+
+	<xsd:element name="pool-data-sources" type="listType">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+				Element defining optional JDBC DataSource implementation names to use for discovery.
+			]]></xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
 
 	<xsd:complexType name="mongoOptionsType">
 		<xsd:annotation>
@@ -300,6 +309,25 @@
 			]]></xsd:documentation>
 		</xsd:annotation>
 	</xsd:element>
+
+	<xsd:complexType name="listType">
+		<xsd:complexContent>
+			<xsd:extension base="beans:listOrSetType">
+				<xsd:attribute name="ref" use="optional">
+					<xsd:annotation>
+						<xsd:documentation source="java:java.util.List"><![CDATA[
+						The bean name of the List to pass as configuration options.
+						]]></xsd:documentation>
+						<xsd:appinfo>
+							<tool:annotation kind="ref">
+								<tool:expected-type type="java.util.List" />
+							</tool:annotation>
+						</xsd:appinfo>
+					</xsd:annotation>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 
 	<xsd:complexType name="mapType">
 		<xsd:complexContent>

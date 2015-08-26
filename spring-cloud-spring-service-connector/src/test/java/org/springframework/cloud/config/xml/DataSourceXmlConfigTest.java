@@ -8,7 +8,14 @@ import org.junit.Test;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.cloud.config.DataSourceCloudConfigTestHelper;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.relational.BasicDbcpPooledDataSourceCreator;
+import org.springframework.cloud.service.relational.HikariCpPooledDataSourceCreator;
+import org.springframework.cloud.service.relational.TomcatJdbcPooledDataSourceCreator;
 import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertThat;
 
 /**
  * 
@@ -49,11 +56,12 @@ public abstract class DataSourceXmlConfigTest extends AbstractServiceXmlConfigTe
 	}
 	
 	@Test
-	public void cloudDataSourceWithMaxPool() {
+	public void cloudDataSourceWithMaxPool() throws Exception {
 		ApplicationContext testContext = getTestApplicationContext("cloud-datasource-with-config.xml",
 				createService("my-service"));
 		
 		DataSource ds = testContext.getBean("db-pool20-wait200", getConnectorType());
+		assertThat(ds, instanceOf(Class.forName(BasicDbcpPooledDataSourceCreator.DBCP2_BASIC_DATASOURCE)));
 		DataSourceCloudConfigTestHelper.assertPoolProperties(ds, 20, 0, 200);
 		
 		Properties connectionProp = new Properties();
@@ -69,5 +77,32 @@ public abstract class DataSourceXmlConfigTest extends AbstractServiceXmlConfigTe
 		
 		DataSource ds = testContext.getBean("db-pool5-30-wait3000", getConnectorType());
 		DataSourceCloudConfigTestHelper.assertPoolProperties(ds, 30, 5, 3000);
+	}
+
+	@Test
+	public void cloudDataSourceWithTomcatJdbcDataSource() throws Exception {
+		ApplicationContext testContext = getTestApplicationContext("cloud-datasource-with-config.xml",
+				createService("my-service"));
+
+		DataSource ds = testContext.getBean("db-pool-tomcat-jdbc", getConnectorType());
+		assertThat(ds, instanceOf(Class.forName(TomcatJdbcPooledDataSourceCreator.TOMCAT_JDBC_DATASOURCE)));
+	}
+
+	@Test
+	public void cloudDataSourceWithHikariCpDataSource() throws Exception {
+		ApplicationContext testContext = getTestApplicationContext("cloud-datasource-with-config.xml",
+				createService("my-service"));
+
+		DataSource ds = testContext.getBean("db-pool-hikari", getConnectorType());
+		assertThat(ds, instanceOf(Class.forName(HikariCpPooledDataSourceCreator.HIKARI_DATASOURCE)));
+	}
+
+	@Test
+	public void cloudDataSourceWithInvalidDataSource() throws Exception {
+		ApplicationContext testContext = getTestApplicationContext("cloud-datasource-with-config.xml",
+				createService("my-service"));
+
+		DataSource ds = testContext.getBean("db-pool-invalid", getConnectorType());
+		assertThat(ds, instanceOf(SimpleDriverDataSource.class));
 	}
 }
