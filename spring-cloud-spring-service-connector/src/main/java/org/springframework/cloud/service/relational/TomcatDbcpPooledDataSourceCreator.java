@@ -23,10 +23,10 @@ public class TomcatDbcpPooledDataSourceCreator<SI extends RelationalServiceInfo>
 	public DataSource create(RelationalServiceInfo serviceInfo, ServiceConnectorConfig serviceConnectorConfig,
                              String driverClassName, String validationQuery) {
 		if (hasClass(TOMCAT_7_DBCP)) {
-			logger.info("Found Tomcat 7 dbcp connection pool on the classpath. Using it for DataSource connection pooling.");
+			logger.info("Found Tomcat 7 DBCP connection pool on the classpath. Using it for DataSource connection pooling.");
 			return createDataSource(TOMCAT_7_DBCP, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
 		} else if (hasClass(TOMCAT_8_DBCP)) {
-			logger.info("Found Tomcat 8 dbcp connection pool on the classpath. Using it for DataSource connection pooling.");
+			logger.info("Found Tomcat 8 DBCP connection pool on the classpath. Using it for DataSource connection pooling.");
 			return createDataSource(TOMCAT_8_DBCP, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
 		} else {
 			return null;
@@ -41,7 +41,7 @@ public class TomcatDbcpPooledDataSourceCreator<SI extends RelationalServiceInfo>
 			setBasicDataSourceProperties(dataSource, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
 			return dataSource;
 		} catch (Throwable e) {
-			throw new ServiceConnectorCreationException("Error instantiating Tomcat dbcp connection pool", e);
+			throw new ServiceConnectorCreationException("Error instantiating Tomcat DBCP connection pool", e);
 		}
 	}
 }

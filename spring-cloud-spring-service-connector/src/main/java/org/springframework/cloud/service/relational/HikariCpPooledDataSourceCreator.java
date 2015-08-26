@@ -17,7 +17,7 @@ public class HikariCpPooledDataSourceCreator<SI extends RelationalServiceInfo> i
 
 	protected static Logger logger = Logger.getLogger(PooledDataSourceCreator.class.getName());
 
-	private static final String HIKARI_CLASSNAME = "com.zaxxer.hikari.HikariDataSource";
+	public static final String HIKARI_DATASOURCE = "com.zaxxer.hikari.HikariDataSource";
 
 	private DataSourceConfigurer configurer = new DataSourceConfigurer();
 
@@ -37,7 +37,7 @@ public class HikariCpPooledDataSourceCreator<SI extends RelationalServiceInfo> i
 	@Override
 	public DataSource create(RelationalServiceInfo serviceInfo, ServiceConnectorConfig serviceConnectorConfig,
 							 String driverClassName, String validationQuery) {
-		if (hasClass(HIKARI_CLASSNAME)) {
+		if (hasClass(HIKARI_DATASOURCE)) {
 			logger.info("Found HikariCP on the classpath. Using it for DataSource connection pooling.");
 			HikariDataSource ds = new HikariDataSource();
 			setBasicDataSourceProperties(ds, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);

@@ -35,9 +35,9 @@ public abstract class DbcpLikePooledDataSourceCreator<SI extends RelationalServi
 		}
 
 		if (serviceConnectorConfig == null) {
-		    // choose sensible values so that we set max connection pool size to what
-		    // free tier services on Cloud Foundry and Heroku allow
-		    serviceConnectorConfig = new DataSourceConfig(new PoolConfig(4, 30000), null);
+			// choose sensible values so that we set max connection pool size to what
+			// free tier services on Cloud Foundry and Heroku allow
+			serviceConnectorConfig = new DataSourceConfig(new PoolConfig(4, 30000), null);
 		}
 		configurer.configure(basicDataSource, (DataSourceConfig)serviceConnectorConfig);
 	}
