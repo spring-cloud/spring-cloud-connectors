@@ -329,6 +329,30 @@ public RedisConnectionFactory redisFactory() {
 }
 ----
 
+==== SMTP
+
+To connect to a unique SMTP service, you can create a service bean using `service()`, providing the service type http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html[`MailSender`]. The following example connects to the only SMTP service bound to the application.
+
+[source,java]
+----
+//Connect to the only available SMTP service
+@Bean
+public MailSender mailSender() {
+    return connectionFactory().service(MailSender.class);
+}
+----
+
+To connect to a specific SMTP service, you can use an overloaded variant of `service()`, providing the service type http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html[`MailSender`]. The following example connects specifically to the `mail-service` SMTP service.
+
+[source,java]
+----
+//Connect to the 'mail-service' SMTP service
+@Bean
+public MailSender mailSender() {
+    return connectionFactory().service("mail-service", MailSender.class);
+}
+----
+
 === Connecting to Generic Services
 
 The Java configuration supports access to generic services (services which don't have a directly mapped method; this is typical for a newly-introduced service or when connecting to a private service in a private PaaS) through the `service()` method. It follows the same pattern as `dataSource()` etc., except that it allows you to supply the connector type as an additional parameter. The following example connects to a hypothetical service of type `Search`, called `search-service`.
