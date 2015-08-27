@@ -153,6 +153,14 @@ public RabbitConnectionFactory rabbitFactory() {
 
 ==== Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)
 
+[NOTE]
+====
+Spring Cloud Spring Service Connector selects from a number of connection-pooling `DataSource` implementations based on availability and following a set priority. See <<_detection_and_prioritization_of_code_datasource_code_implementations,Detection and Prioritization of `DataSource` Implementations>>.
+////
+If you need to reorder the prioritization of supported implementations, see <<_detection_and_prioritization_of_code_datasource_code_implementations,Detection and Prioritization of `DataSource` Implementations>> below.
+////
+====
+
 To connect to a unique relational database service, you can create a service bean using `dataSource()`. The following example connects to the only relational database service bound to the application.
 
 [source,java]
@@ -201,6 +209,17 @@ public DataSource dataSource() {
     return connectionFactory().dataSource("my-own-personal-sql", dbConfig);
 }
 ----
+
+===== Detection and Prioritization of `DataSource` Implementations
+
+When creating a `DataSource`, the connector prefers any of the following four connection-pooling `DataSource` implementations, in the order shown.
+
+1. https://commons.apache.org/proper/commons-dbcp/[Apache Commons DBCP and DBCP 2]
+2. Tomcat DBCP
+3. https://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html[Tomcat JDBC Connection Pool]
+4. http://brettwooldridge.github.io/HikariCP/[HikariCP]
+
+The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html[`SimpleDriverDataSource`], which does not reuse connections.
 
 ==== MongoDB
 
