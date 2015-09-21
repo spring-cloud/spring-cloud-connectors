@@ -514,7 +514,6 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_relational_database_db2_mysql_oracle_postgresql_sql_server">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</a></li>
 <li><a href="#_mongodb">MongoDB</a></li>
 <li><a href="#_redis">Redis</a></li>
-<li><a href="#_smtp">SMTP</a></li>
 </ul>
 </li>
 <li><a href="#_connecting_to_generic_services">Connecting to Generic Services</a></li>
@@ -727,20 +726,6 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="sect3">
 <h4 id="_relational_database_db2_mysql_oracle_postgresql_sql_server">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</h4>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Spring Cloud Spring Service Connector selects from a number of connection-pooling <code>DataSource</code> implementations based on availability and following a set priority. See <a href="#_detection_and_prioritization_of_code_datasource_code_implementations">Detection and Prioritization of <code>DataSource</code> Implementations</a>.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>To connect to a unique relational database service, you can create a service bean using <code>dataSource()</code>. The following example connects to the only relational database service bound to the application.</p>
 </div>
@@ -792,31 +777,6 @@ table.CodeRay td.code>pre{padding:0}
     DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(poolConfig, connConfig);
     <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
 }</code></pre>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_detection_and_prioritization_of_code_datasource_code_implementations">Detection and Prioritization of <code>DataSource</code> Implementations</h5>
-<div class="paragraph">
-<p>When creating a <code>DataSource</code>, the connector prefers any of the following four connection-pooling <code>DataSource</code> implementations, in the order shown.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="https://commons.apache.org/proper/commons-dbcp/">Apache Commons DBCP and DBCP 2</a></p>
-</li>
-<li>
-<p>Tomcat DBCP</p>
-</li>
-<li>
-<p><a href="https://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html">Tomcat JDBC Connection Pool</a></p>
-</li>
-<li>
-<p><a href="http://brettwooldridge.github.io/HikariCP/">HikariCP</a></p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a <a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html"><code>SimpleDriverDataSource</code></a>, which does not reuse connections.</p>
 </div>
 </div>
 </div>
@@ -955,33 +915,6 @@ table.CodeRay td.code>pre{padding:0}
   PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
   RedisConnectionFactoryConfig redisConfig = <span class="keyword">new</span> RedisConnectionFactoryConfig(poolConfig, properties);
   <span class="keyword">return</span> connectionFactory().redisConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span>, redisConfig);
-}</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_smtp">SMTP</h4>
-<div class="paragraph">
-<p>To connect to a unique SMTP service, you can create a service bean using <code>service()</code>, providing the service type <a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html"><code>MailSender</code></a>. The following example connects to the only SMTP service bound to the application.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available SMTP service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> MailSender mailSender() {
-    <span class="keyword">return</span> connectionFactory().service(MailSender.class);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>To connect to a specific SMTP service, you can use an overloaded variant of <code>service()</code>, providing the service type <a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html"><code>MailSender</code></a>. The following example connects specifically to the <code>mail-service</code> SMTP service.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'mail-service' SMTP service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> MailSender mailSender() {
-    <span class="keyword">return</span> connectionFactory().service(<span class="string"><span class="delimiter">&quot;</span><span class="content">mail-service</span><span class="delimiter">&quot;</span></span>, MailSender.class);
 }</code></pre>
 </div>
 </div>
@@ -1346,7 +1279,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-09-21 10:44:04 EDT
+Last updated 2015-09-21 12:10:41 EDT
 </div>
 </div>
 </body>
