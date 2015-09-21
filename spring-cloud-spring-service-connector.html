@@ -735,7 +735,7 @@ table.CodeRay td.code>pre{padding:0}
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Spring Cloud Spring Service Connector selects from a number of connection-pooling <code>DataSource</code> implementations based on availability and following a set priority. For details on the priority, see <a href="#_detection_and_prioritization_of_code_datasource_code_implementations">Detection and Prioritization of <code>DataSource</code> Implementations</a>. If you need to reorder the prioritization of supported implementations, see <a href="#_reordering_implementation_priority">Reordering Implementation Priority</a>.</p>
+<p>Spring Cloud Spring Service Connector selects from a number of connection-pooling <code>DataSource</code> implementations based on availability and following a set priority. See <a href="#_detection_and_prioritization_of_code_datasource_code_implementations">Detection and Prioritization of <code>DataSource</code> Implementations</a>.</p>
 </div>
 </td>
 </tr>
@@ -817,54 +817,6 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="paragraph">
 <p>The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a <a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html"><code>SimpleDriverDataSource</code></a>, which does not reuse connections.</p>
-</div>
-<div class="sect5">
-<h6 id="_reordering_implementation_priority">Reordering Implementation Priority</h6>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This feature is available only in Spring Cloud Connectors 1.2.1 and later.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>If you would like to reorder the priorities given to supported <code>DataSource</code> implementations, you can provide a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a> containing a <code>List</code> which uses your own ordering. You can name an implementation either by its full class name or by a string included in its class name.</p>
-</div>
-<div class="paragraph">
-<p>The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>, which is initialized with a <code>List</code> of <code>DataSource</code> implementation class names.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Set order of DataSource implementations, using a List of full class names</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
-    <span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; dataSourceNames = <span class="predefined-type">Arrays</span>.asList(<span class="string"><span class="delimiter">&quot;</span><span class="content">TomcatJdbcPooledDataSourceCreator</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">HikariCpPooledDataSourceCreator</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">BasicDbcpPooledDataSourceCreator</span><span class="delimiter">&quot;</span></span>);
-    DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(dataSourceNames);
-    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>, which is initialized with a <code>List</code> of strings contained in <code>DataSource</code> implementations&#8217; class names.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Set order of DataSource implementations, using a List of strings contained in class names</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
-    <span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; dataSourceNames = <span class="predefined-type">Arrays</span>.asList(<span class="string"><span class="delimiter">&quot;</span><span class="content">TomcatJdbc</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">HikariCp</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">BasicDbcp</span><span class="delimiter">&quot;</span></span>);
-    DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(dataSourceNames);
-    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
-}</code></pre>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -1215,20 +1167,6 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="sect3">
 <h4 id="_relational_database_db2_mysql_oracle_postgresql_sql_server_2">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</h4>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Spring Cloud Spring Service Connector selects from a number of connection-pooling <code>DataSource</code> implementations based on availability and following a set priority. For details on the priority, see <a href="#_detection_and_prioritization_of_code_datasource_code_implementations_2">Detection and Prioritization of <code>DataSource</code> Implementations</a>. If you need to reorder the prioritization of supported implementations, see <a href="#_reordering_implementation_priority_2">Reordering Implementation Priority</a>.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>To connect to a relational database service, you can use the <code>&lt;cloud:data-source&gt;</code> element. The following example connects to the only relational database service bound to the application.</p>
 </div>
@@ -1276,66 +1214,6 @@ table.CodeRay td.code>pre{padding:0}
 <span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
     <span class="tag">&lt;cloud:pool</span> <span class="attribute-name">pool-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5-30</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-wait-time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3000</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
 <span class="tag">&lt;/cloud:data-source&gt;</span></code></pre>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_detection_and_prioritization_of_code_datasource_code_implementations_2">Detection and Prioritization of <code>DataSource</code> Implementations</h5>
-<div class="paragraph">
-<p>When creating a <code>DataSource</code>, the connector prefers any of the following four connection-pooling <code>DataSource</code> implementations, in the order shown.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="https://commons.apache.org/proper/commons-dbcp/">Apache Commons DBCP and DBCP 2</a></p>
-</li>
-<li>
-<p>Tomcat DBCP</p>
-</li>
-<li>
-<p><a href="https://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html">Tomcat JDBC Connection Pool</a></p>
-</li>
-<li>
-<p><a href="http://brettwooldridge.github.io/HikariCP/">HikariCP</a></p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a <a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html"><code>SimpleDriverDataSource</code></a>, which does not reuse connections.</p>
-</div>
-<div class="sect5">
-<h6 id="_reordering_implementation_priority_2">Reordering Implementation Priority</h6>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This feature is available only in Spring Cloud Connectors 1.2.1 and later.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>If you would like to reorder the priorities given to supported <code>DataSource</code> implementations, you can use the <code>&lt;cloud:pool-data-sources&gt;</code> nested element. For each implementation, include a <code>&lt;value&gt;</code> element for a string contained in the class name. List these in the order that you wish to have the connector follow.</p>
-</div>
-<div class="paragraph">
-<p>The following example connects to the <code>my-own-personal-sql</code> MySQL service and uses the <code>&lt;cloud:pool-data-sources&gt;</code> element to specify the priority of supported <code>DataSource</code> implementations.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Set order of DataSource implementations, using strings contained in class names --&gt;</span>
-<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
-  <span class="tag">&lt;cloud:pool-data-sources&gt;</span>
-    <span class="tag">&lt;value&gt;</span>TomcatJdbc<span class="tag">&lt;/value&gt;</span>
-    <span class="tag">&lt;value&gt;</span>TomcatDbcp<span class="tag">&lt;/value&gt;</span>
-    <span class="tag">&lt;value&gt;</span>BasicDbcp<span class="tag">&lt;/value&gt;</span>
-  <span class="tag">&lt;/cloud:pool-data-sources&gt;</span>
-<span class="tag">&lt;/cloud:data-source&gt;</span></code></pre>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -1468,7 +1346,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-09-21 10:41:07 EDT
+Last updated 2015-09-21 10:44:04 EDT
 </div>
 </div>
 </body>
