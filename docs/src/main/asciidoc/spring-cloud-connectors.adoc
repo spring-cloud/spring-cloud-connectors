@@ -326,9 +326,9 @@ Register your `ServiceInfoCreator` classes in the appropriate provider-configura
 
 [cols="2,8", width="100%"]
 |=========================================================================================================================================================================
-|**Cloud Foundry** | Add the fully-qualified class name for your creator to `META-INF/service/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator`.
-|**Heroku** | Add the fully-qualified class name for your creator to `META-INF/service/org.springframework.cloud.heroku.HerokuServiceInfoCreator`.
-|**local-configuration** | Add the fully-qualified class name for your creator to `META-INF/service/org.springframework.cloud.localconfig.LocalConfigServiceInfoCreator`.
+|**Cloud Foundry** | Add the fully-qualified class name for your creator to `META-INF/services/org.springframework.cloud.cloudfoundry.CloudFoundryServiceInfoCreator`.
+|**Heroku** | Add the fully-qualified class name for your creator to `META-INF/services/org.springframework.cloud.heroku.HerokuServiceInfoCreator`.
+|**local-configuration** | Add the fully-qualified class name for your creator to `META-INF/services/org.springframework.cloud.localconfig.LocalConfigServiceInfoCreator`.
 |=========================================================================================================================================================================
 
 === Adding Service Connectors
