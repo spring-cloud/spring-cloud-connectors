@@ -35,7 +35,7 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 	@Override
 	public boolean isInMatchingCloud() {
 		return environment.getEnvValue("VCAP_APPLICATION") != null &&
-				environment.getEnvValue("PROCESS_GUID") == null;
+				environment.getEnvValue("VCAP_APP_HOST") != null;
 	}
 	
 	@Override
