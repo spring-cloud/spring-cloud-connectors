@@ -45,7 +45,7 @@ The connector will check for:
 
 * a `CLEARDB_DATABASE_URL` config var with value using the scheme `mysql`
 
-==== Redis (Redis To Go, Redis Cloud, RedisGreen, openredis)
+==== Redis (Redis To Go, Redis Cloud, RedisGreen, openredis, Heroku Redis)
 
 The connector will check for:
 
@@ -53,6 +53,7 @@ The connector will check for:
 * a `REDISCLOUD_URL` config var with value using the scheme `redis`
 * an `OPENREDIS_URL` config var with value using the scheme `redis`
 * a `REDISGREEN_URL` config var with value using the scheme `redis`
+* a `REDIS_URL` config var with value using the scheme `redis`
 
 ==== MongoDB (MongoLab, MongoHQ, MongoSoup)
 
