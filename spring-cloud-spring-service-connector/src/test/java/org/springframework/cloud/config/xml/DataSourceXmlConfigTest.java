@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.cloud.config.DataSourceCloudConfigTestHelper;
 import org.springframework.cloud.service.ServiceInfo;
-import org.springframework.cloud.service.relational.BasicDbcpPooledDataSourceCreator;
 import org.springframework.cloud.service.relational.HikariCpPooledDataSourceCreator;
 import org.springframework.cloud.service.relational.TomcatJdbcPooledDataSourceCreator;
 import org.springframework.context.ApplicationContext;
@@ -61,7 +60,6 @@ public abstract class DataSourceXmlConfigTest extends AbstractServiceXmlConfigTe
 				createService("my-service"));
 		
 		DataSource ds = testContext.getBean("db-pool20-wait200", getConnectorType());
-		assertThat(ds, instanceOf(Class.forName(BasicDbcpPooledDataSourceCreator.DBCP2_BASIC_DATASOURCE)));
 		DataSourceCloudConfigTestHelper.assertPoolProperties(ds, 20, 0, 200);
 		
 		Properties connectionProp = new Properties();

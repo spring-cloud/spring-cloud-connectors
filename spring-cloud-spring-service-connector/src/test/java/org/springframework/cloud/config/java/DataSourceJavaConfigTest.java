@@ -1,5 +1,7 @@
 package org.springframework.cloud.config.java;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -8,6 +10,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.cloud.config.DataSourceCloudConfigTestHelper;
 import org.springframework.cloud.service.PooledServiceConnectorConfig.PoolConfig;
+import org.springframework.cloud.service.relational.BasicDbcpPooledDataSourceCreator;
 import org.springframework.cloud.service.relational.DataSourceConfig;
 import org.springframework.cloud.service.relational.DataSourceConfig.ConnectionConfig;
 import org.springframework.context.ApplicationContext;
@@ -90,14 +93,18 @@ class DatasourceConfigWithServiceConfig extends AbstractCloudConfig {
 	public DataSource dbPool20Wait200() { // use this name so that we have a case with default name
 		PoolConfig poolConfig = new PoolConfig(20, 200);
 		ConnectionConfig connectionConfig = new ConnectionConfig("sessionVariables=sql_mode='ANSI';characterEncoding=UTF-8");
-		DataSourceConfig serviceConfig = new DataSourceConfig(poolConfig, connectionConfig);
+		DataSourceConfig serviceConfig = new DataSourceConfig(poolConfig, connectionConfig, basicDbcpConnectionPool());
 		return connectionFactory().dataSource("my-service", serviceConfig);
 	}
 
 	@Bean
 	public DataSource dbPool5_20Wait3000() { // use this name so that we have a case with default name
 		PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
-		DataSourceConfig serviceConfig = new DataSourceConfig(poolConfig, null);
+		DataSourceConfig serviceConfig = new DataSourceConfig(poolConfig, null, basicDbcpConnectionPool());
 		return connectionFactory().dataSource("my-service", serviceConfig);
+	}
+
+	private List<String> basicDbcpConnectionPool() {
+		return Collections.singletonList(BasicDbcpPooledDataSourceCreator.class.getSimpleName());
 	}
 }

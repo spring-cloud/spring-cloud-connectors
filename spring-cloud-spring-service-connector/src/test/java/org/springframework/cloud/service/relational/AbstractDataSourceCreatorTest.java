@@ -4,11 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
 import org.junit.Test;
+import org.springframework.cloud.ReflectionUtils;
 import org.springframework.cloud.config.DataSourceCloudConfigTestHelper;
 import org.springframework.cloud.service.PooledServiceConnectorConfig.PoolConfig;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
@@ -30,7 +33,9 @@ public abstract class AbstractDataSourceCreatorTest<C extends DataSourceCreator<
 	public void cloudDataSourceCreationNoConfig() throws Exception {
 		SI relationalServiceInfo = createServiceInfo();
 
-		DataSource dataSource = getCreator().create(relationalServiceInfo, null);
+		List<String> pooledDataSource = Collections.singletonList(BasicDbcpPooledDataSourceCreator.class.getSimpleName());
+		DataSourceConfig config = new DataSourceConfig(pooledDataSource);
+		DataSource dataSource = getCreator().create(relationalServiceInfo, config);
 
 		assertDataSourceProperties(relationalServiceInfo, dataSource);
 	}
@@ -39,7 +44,10 @@ public abstract class AbstractDataSourceCreatorTest<C extends DataSourceCreator<
 	public void cloudDataSourceCreationWithConfig() throws Exception {
 		SI relationalServiceInfo = createServiceInfo();
 
-		DataSourceConfig config = new DataSourceConfig(new PoolConfig("5", 100), new ConnectionConfig("foo=bar"));
+		PoolConfig poolConfig = new PoolConfig("5", 100);
+		ConnectionConfig connectionConfig = new ConnectionConfig("foo=bar");
+		List<String> pooledDataSource = Collections.singletonList(BasicDbcpPooledDataSourceCreator.class.getSimpleName());
+		DataSourceConfig config = new DataSourceConfig(poolConfig, connectionConfig, pooledDataSource);
 		DataSource dataSource = getCreator().create(relationalServiceInfo, config);
 		
 		assertDataSourceProperties(relationalServiceInfo, dataSource);
@@ -57,11 +65,16 @@ public abstract class AbstractDataSourceCreatorTest<C extends DataSourceCreator<
 	private void assertDataSourceProperties(RelationalServiceInfo relationalServiceInfo, DataSource dataSource) {
 		assertNotNull(dataSource);
 
-		assertEquals(getDriverName(), ReflectionTestUtils.getField(dataSource, "driverClassName"));
-		assertEquals(relationalServiceInfo.getJdbcUrl(), ReflectionTestUtils.getField(dataSource, "url"));
-		assertTrue((Boolean) ReflectionTestUtils.invokeGetterMethod(dataSource, "testOnBorrow"));
-		assertNotNull(ReflectionTestUtils.invokeGetterMethod(dataSource, "validationQuery"));
-		assertTrue(((String) ReflectionTestUtils.invokeGetterMethod(dataSource, "validationQuery")).startsWith(getValidationQueryStart()));
+		assertEquals(getDriverName(), ReflectionUtils.getValue(dataSource, "driverClassName"));
+		assertEquals(relationalServiceInfo.getJdbcUrl(), ReflectionUtils.getValue(dataSource, "url"));
+
+		Object testOnBorrow = ReflectionUtils.getValue(dataSource, "testOnBorrow");
+		assertNotNull(testOnBorrow);
+		assertTrue(Boolean.valueOf(testOnBorrow.toString()));
+
+		Object validationQuery = ReflectionUtils.getValue(dataSource, "validationQuery");
+		assertNotNull(validationQuery);
+		assertTrue(validationQuery.toString().startsWith(getValidationQueryStart()));
 	}
 	
 }
