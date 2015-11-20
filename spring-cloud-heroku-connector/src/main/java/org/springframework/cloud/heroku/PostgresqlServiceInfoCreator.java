@@ -20,6 +20,6 @@ public class PostgresqlServiceInfoCreator extends RelationalServiceInfoCreator<P
 
 	@Override
 	public String[] getEnvPrefixes() {
-		return new String[]{"HEROKU_POSTGRESQL_"};
+		return new String[]{"DATABASE_URL", "HEROKU_POSTGRESQL_"};
 	}
 }

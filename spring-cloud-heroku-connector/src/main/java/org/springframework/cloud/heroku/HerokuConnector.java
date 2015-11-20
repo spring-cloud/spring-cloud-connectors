@@ -18,22 +18,21 @@ import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
  * Implementation of CloudConnector for Heroku
- *
+ * <p/>
  * Currently support Postgres (default provided), Mysql (Cleardb), MongoDb (MongoLab, MongoHQ, MongoSoup),
  * Redis (RedisToGo, RedisCloud, OpenRedis, RedisGreen), and AMQP (CloudAmqp).
  *
  * @author Ramnivas Laddad
- *
  */
 public class HerokuConnector extends AbstractCloudConnector<UriBasedServiceData> {
 
 	private EnvironmentAccessor environment = new EnvironmentAccessor();
 	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator
-		= new ApplicationInstanceInfoCreator(environment);
+			= new ApplicationInstanceInfoCreator(environment);
 
 	private List<String> serviceEnvPrefixes;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public HerokuConnector() {
 		super((Class) HerokuServiceInfoCreator.class);
 	}
@@ -60,15 +59,15 @@ public class HerokuConnector extends AbstractCloudConnector<UriBasedServiceData>
 
 	@Override
 	protected void registerServiceInfoCreator(ServiceInfoCreator<? extends ServiceInfo, UriBasedServiceData> serviceInfoCreator) {
-	    super.registerServiceInfoCreator(serviceInfoCreator);
-	    HerokuServiceInfoCreator<?> herokuServiceInfoCreator = (HerokuServiceInfoCreator<?>)serviceInfoCreator;
-	    String[] envPrefixes = herokuServiceInfoCreator.getEnvPrefixes();
+		super.registerServiceInfoCreator(serviceInfoCreator);
+		HerokuServiceInfoCreator<?> herokuServiceInfoCreator = (HerokuServiceInfoCreator<?>) serviceInfoCreator;
+		String[] envPrefixes = herokuServiceInfoCreator.getEnvPrefixes();
 
-	    // need to do this since this method gets called during construction and we cannot initialize serviceEnvPrefixes before this
-	    if (serviceEnvPrefixes == null) {
-	        serviceEnvPrefixes = new ArrayList<String>();
-	    }
-	    serviceEnvPrefixes.addAll(Arrays.asList(envPrefixes));
+		// need to do this since this method gets called during construction and we cannot initialize serviceEnvPrefixes before this
+		if (serviceEnvPrefixes == null) {
+			serviceEnvPrefixes = new ArrayList<String>();
+		}
+		serviceEnvPrefixes.addAll(Arrays.asList(envPrefixes));
 	}
 
 	/**
@@ -76,26 +75,27 @@ public class HerokuConnector extends AbstractCloudConnector<UriBasedServiceData>
 	 * <p>
 	 * Returns map whose key is the env key and value is the associated url
 	 * </p>
+	 *
 	 * @return information about services bound to the app
 	 */
 	protected List<UriBasedServiceData> getServicesData() {
 		List<UriBasedServiceData> serviceData = new ArrayList<UriBasedServiceData>();
 
-		Map<String,String> env = environment.getEnv();
+		Map<String, String> env = environment.getEnv();
 
 		for (Map.Entry<String, String> envEntry : env.entrySet()) {
-		    for (String envPrefix : serviceEnvPrefixes) {
-		        if (envEntry.getKey().startsWith(envPrefix)) {
-	                serviceData.add(new UriBasedServiceData(envEntry.getKey(), envEntry.getValue()));
-		        }
-		    }
+			for (String envPrefix : serviceEnvPrefixes) {
+				if (envEntry.getKey().startsWith(envPrefix)) {
+					serviceData.add(new UriBasedServiceData(envEntry.getKey(), envEntry.getValue()));
+				}
+			}
 		}
 
 		return serviceData;
 	}
 
 	@Override
-	protected FallbackServiceInfoCreator<BaseServiceInfo,UriBasedServiceData> getFallbackServiceInfoCreator() {
+	protected FallbackServiceInfoCreator<BaseServiceInfo, UriBasedServiceData> getFallbackServiceInfoCreator() {
 		return new FallbackBaseServiceInfoCreator();
 	}
 }
