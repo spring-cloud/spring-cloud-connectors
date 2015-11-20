@@ -10,6 +10,7 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Parser for the {@code <cloud:data-source>} namespace element
@@ -23,6 +24,7 @@ public class CloudDataSourceFactoryParser extends AbstractPoolingCloudServiceFac
 	private static final String ELEMENT_CONNECTION = "connection";
 	private static final String ELEMENT_POOL = "pool";
 	private static final String ELEMENT_DATASOURCE_NAMES = "pool-data-sources";
+	private static final String ELEMENT_CONNECTION_PROPERTIES = "connection-properties";
 
 	public CloudDataSourceFactoryParser() {
 		super(CloudDataSourceFactory.class);
@@ -54,9 +56,16 @@ public class CloudDataSourceFactoryParser extends AbstractPoolingCloudServiceFac
 					parseListElement(dataSourceNamesElement, dataSourceConfigBeanBuilder.getRawBeanDefinition());
 		}
 
+		Map<?, ?> properties = null;
+		Element propertiesElement = DomUtils.getChildElementByTagName(element, ELEMENT_CONNECTION_PROPERTIES);
+		if (propertiesElement != null) {
+			properties = parserContext.getDelegate().parseMapElement(propertiesElement, builder.getRawBeanDefinition());
+		}
+
 		dataSourceConfigBeanBuilder.addConstructorArgValue(cloudPoolConfiguration);
 		dataSourceConfigBeanBuilder.addConstructorArgValue(cloudConnectionConfiguration);
 		dataSourceConfigBeanBuilder.addConstructorArgValue(dataSourceNames);
+		dataSourceConfigBeanBuilder.addConstructorArgValue(properties);
 
 		builder.addConstructorArgValue(dataSourceConfigBeanBuilder.getBeanDefinition());
 	}

@@ -15,6 +15,8 @@ import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
+import static org.springframework.cloud.config.DataSourceCloudConfigTestHelper.assertConnectionProperties;
+import static org.springframework.cloud.config.DataSourceCloudConfigTestHelper.assertConnectionProperty;
 
 /**
  * 
@@ -22,6 +24,8 @@ import static org.junit.Assert.assertThat;
  *
  */
 public abstract class DataSourceXmlConfigTest extends AbstractServiceXmlConfigTest<DataSource> {
+	protected abstract String getDriverClassName();
+	protected abstract String getValidationQuery();
 
 	protected abstract ServiceInfo createService(String id);
 	
@@ -55,26 +59,48 @@ public abstract class DataSourceXmlConfigTest extends AbstractServiceXmlConfigTe
 	}
 	
 	@Test
-	public void cloudDataSourceWithMaxPool() throws Exception {
+	public void cloudDataSourceWithNoConfig() throws Exception {
 		ApplicationContext testContext = getTestApplicationContext("cloud-datasource-with-config.xml",
 				createService("my-service"));
 		
-		DataSource ds = testContext.getBean("db-pool20-wait200", getConnectorType());
+		DataSource ds = testContext.getBean("no-config", getConnectorType());
+		assertConnectionProperties(ds, null);
+		assertConnectionProperty(ds, "driverClassName", getDriverClassName());
+		assertConnectionProperty(ds, "validationQuery", getValidationQuery());
+	}
+
+	@Test
+	public void cloudDataSourceWithMaxPool() throws Exception {
+		ApplicationContext testContext = getTestApplicationContext("cloud-datasource-with-config.xml",
+				createService("my-service"));
+
+		DataSource ds = testContext.getBean("pool-and-connection-config", getConnectorType());
 		DataSourceCloudConfigTestHelper.assertPoolProperties(ds, 20, 0, 200);
-		
+
 		Properties connectionProp = new Properties();
 		connectionProp.put("sessionVariables", "sql_mode='ANSI'");
 		connectionProp.put("characterEncoding", "UTF-8");
 		DataSourceCloudConfigTestHelper.assertConnectionProperties(ds, connectionProp);
 	}
-	
+
 	@Test
 	public void cloudDataSourceWithMinMaxPool() {
 		ApplicationContext testContext = getTestApplicationContext("cloud-datasource-with-config.xml",
 				createService("my-service"));
 		
-		DataSource ds = testContext.getBean("db-pool5-30-wait3000", getConnectorType());
+		DataSource ds = testContext.getBean("pool-config", getConnectorType());
 		DataSourceCloudConfigTestHelper.assertPoolProperties(ds, 30, 5, 3000);
+	}
+
+	@Test
+	public void cloudDataSourceWithConnectionProperties() {
+		ApplicationContext testContext = getTestApplicationContext("cloud-datasource-with-config.xml",
+				createService("my-service"));
+
+		DataSource ds = testContext.getBean("properties-config", getConnectorType());
+		assertConnectionProperty(ds, "driverClassName", "test.driver");
+		assertConnectionProperty(ds, "validationQuery", "test validation query");
+		assertConnectionProperty(ds, "testOnBorrow", false);
 	}
 
 	@Test

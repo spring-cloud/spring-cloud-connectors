@@ -60,6 +60,7 @@
 				<xsd:element name="connection" type="jdbcConnectionType" minOccurs="0" maxOccurs="1"/>
 				<xsd:element name="pool" type="poolType" minOccurs="0" maxOccurs="1"/>
 				<xsd:element ref="pool-data-sources" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="connection-properties" minOccurs="0" maxOccurs="1"/>
 			</xsd:sequence>
 			<xsd:attribute name="id" type="xsd:string" use="optional">
 				<xsd:annotation>
