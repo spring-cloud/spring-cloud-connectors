@@ -11,14 +11,16 @@ import org.springframework.cloud.service.common.RelationalServiceInfo;
  *
  * @author Ramnivas Laddad
  */
-public class TomcatHighPerformancePooledDataSourceCreator<SI extends RelationalServiceInfo>
+public class TomcatJdbcPooledDataSourceCreator<SI extends RelationalServiceInfo>
 	extends DbcpLikePooledDataSourceCreator<SI> {
+
+	public static final String TOMCAT_JDBC_DATASOURCE = "org.apache.tomcat.jdbc.pool.DataSource";
 
 	@Override
 	public DataSource create(RelationalServiceInfo serviceInfo, ServiceConnectorConfig serviceConnectorConfig,
                              String driverClassName, String validationQuery) {
-		if (hasClass("org.apache.tomcat.jdbc.pool.DataSource")) {
-			logger.info("Found Tomcat high-performance connection pool on the classpath. Using it for DataSource connection pooling.");
+		if (hasClass(TOMCAT_JDBC_DATASOURCE)) {
+			logger.info("Found Tomcat JDBC connection pool on the classpath. Using it for DataSource connection pooling.");
 			org.apache.tomcat.jdbc.pool.DataSource ds = new org.apache.tomcat.jdbc.pool.DataSource();
 			setBasicDataSourceProperties(ds, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
 			return ds;

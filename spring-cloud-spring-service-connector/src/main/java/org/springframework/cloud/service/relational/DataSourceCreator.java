@@ -2,7 +2,10 @@ package org.springframework.cloud.service.relational;
 
 import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.sql.DataSource;
@@ -28,7 +31,8 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 	private String[] driverClasses;
 	private String validationQuery;
 
-	private List<PooledDataSourceCreator<SI>> pooledDataSourceCreators = new ArrayList<PooledDataSourceCreator<SI>>();
+	private Map<String, PooledDataSourceCreator<SI>> pooledDataSourceCreators =
+			new LinkedHashMap<String, PooledDataSourceCreator<SI>>();
 
 	public DataSourceCreator(String driverSystemPropKey, String[] driverClasses, String validationQuery) {
 		this.driverSystemPropKey = driverSystemPropKey;
@@ -36,31 +40,64 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 		this.validationQuery = validationQuery;
 
 		if (pooledDataSourceCreators.size() == 0) {
-			pooledDataSourceCreators.add(new BasicDbcpPooledDataSourceCreator<SI>());
-			pooledDataSourceCreators.add(new TomcatDbcpPooledDataSourceCreator<SI>());
-			pooledDataSourceCreators.add(new TomcatHighPerformancePooledDataSourceCreator<SI>());
-			pooledDataSourceCreators.add(new HikariCpPooledDataSourceCreator<SI>());
+			putPooledDataSourceCreator(new BasicDbcpPooledDataSourceCreator<SI>());
+			putPooledDataSourceCreator(new TomcatDbcpPooledDataSourceCreator<SI>());
+			putPooledDataSourceCreator(new TomcatJdbcPooledDataSourceCreator<SI>());
+			putPooledDataSourceCreator(new HikariCpPooledDataSourceCreator<SI>());
 		}
+	}
+
+	private void putPooledDataSourceCreator(PooledDataSourceCreator<SI> pooledDataSourceCreator) {
+		pooledDataSourceCreators.put(pooledDataSourceCreator.getClass().getSimpleName(), pooledDataSourceCreator);
 	}
 
 	@Override
 	public DataSource create(SI serviceInfo, ServiceConnectorConfig serviceConnectorConfig) {
 		try {
-			for (PooledDataSourceCreator<SI> delegate: pooledDataSourceCreators) {
-				DataSource ds = delegate.create(serviceInfo, serviceConnectorConfig, getDriverClassName(serviceInfo), validationQuery);
-
-				if (ds != null) {
-					return ds;
-				}
+			DataSource ds = createPooledDataSource(serviceInfo, serviceConnectorConfig);
+			if (ds != null) {
+				return ds;
 			}
 			// Only for testing outside Tomcat/CloudFoundry
-			logger.warning("Found neither DBCP nor Tomcat connection pool on the classpath (no pooling is in effect).");
+			logger.warning("No connection pooling DataSource implementation found on the classpath - no pooling is in effect.");
 			return new SimpleDriverDataSource(DriverManager.getDriver(serviceInfo.getJdbcUrl()), serviceInfo.getJdbcUrl());
 		} catch (Exception e) {
 			throw new ServiceConnectorCreationException(
-					"Failed to created cloud datasource for "
-							+ serviceInfo.getId() + " service", e);
+					"Failed to created cloud datasource for " + serviceInfo.getId() + " service", e);
 		}
+	}
+
+	private DataSource createPooledDataSource(SI serviceInfo, ServiceConnectorConfig serviceConnectorConfig) {
+		Collection<PooledDataSourceCreator<SI>> delegates = filterPooledDataSourceCreators(serviceConnectorConfig);
+
+		for (PooledDataSourceCreator<SI> delegate : delegates) {
+			DataSource ds = delegate.create(serviceInfo, serviceConnectorConfig, getDriverClassName(serviceInfo), validationQuery);
+			if (ds != null) {
+				return ds;
+			}
+		}
+
+		return null;
+	}
+
+	private Collection<PooledDataSourceCreator<SI>> filterPooledDataSourceCreators(ServiceConnectorConfig serviceConnectorConfig) {
+		if (serviceConnectorConfig != null) {
+			List<String> pooledDataSourceNames = ((DataSourceConfig) serviceConnectorConfig).getPooledDataSourceNames();
+			if (pooledDataSourceNames != null) {
+				List<PooledDataSourceCreator<SI>> filtered = new ArrayList<PooledDataSourceCreator<SI>>();
+
+				for (String name : pooledDataSourceNames) {
+					for (String key : pooledDataSourceCreators.keySet()) {
+						if (key.contains(name)) {
+							filtered.add(pooledDataSourceCreators.get(key));
+						}
+					}
+				}
+
+				return filtered;
+			}
+		}
+		return pooledDataSourceCreators.values();
 	}
 
 	public String getDriverClassName(SI serviceInfo) {
