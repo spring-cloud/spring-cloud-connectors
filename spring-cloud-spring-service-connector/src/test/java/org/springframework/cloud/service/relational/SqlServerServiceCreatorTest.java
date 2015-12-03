@@ -8,13 +8,16 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.service.common.SqlServerServiceInfo;
 
 public class SqlServerServiceCreatorTest extends AbstractDataSourceCreatorTest<SqlServerDataSourceCreator, SqlServerServiceInfo> {
-	@Mock private SqlServerServiceInfo mockSqlServerServiceInfo;
+	public static final String TEST_SQLSERVER_DRIVER = "com.sqlserver.example.Driver";
+
+	@Mock
+	private SqlServerServiceInfo mockSqlServerServiceInfo;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		// set a dummy JDBC driver since we can't include a real SQL-Server driver in the project due to licensing restrictions
-		System.setProperty("spring-cloud.sqlserver.driver", "com.example.Driver");
+		System.setProperty("spring-cloud.sqlserver.driver", TEST_SQLSERVER_DRIVER);
 	}
 
 	@Override
@@ -26,7 +29,7 @@ public class SqlServerServiceCreatorTest extends AbstractDataSourceCreatorTest<S
 
 	@Override
 	public String getDriverName() {
-		return "com.example.Driver";
+		return TEST_SQLSERVER_DRIVER;
 	}
 
 	@Override

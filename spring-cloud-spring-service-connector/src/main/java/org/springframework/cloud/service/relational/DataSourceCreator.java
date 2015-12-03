@@ -40,10 +40,10 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 		this.validationQuery = validationQuery;
 
 		if (pooledDataSourceCreators.size() == 0) {
-			putPooledDataSourceCreator(new BasicDbcpPooledDataSourceCreator<SI>());
-			putPooledDataSourceCreator(new TomcatDbcpPooledDataSourceCreator<SI>());
 			putPooledDataSourceCreator(new TomcatJdbcPooledDataSourceCreator<SI>());
 			putPooledDataSourceCreator(new HikariCpPooledDataSourceCreator<SI>());
+			putPooledDataSourceCreator(new TomcatDbcpPooledDataSourceCreator<SI>());
+			putPooledDataSourceCreator(new BasicDbcpPooledDataSourceCreator<SI>());
 		}
 	}
 

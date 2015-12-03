@@ -9,12 +9,12 @@ import org.junit.Before;
  *
  */
 public class MysqlServiceCreatorWithMysqlDriverTest extends MysqlServiceCreatorTest {
-	private static final String MYSQL_DRIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
+	private static final String TEST_MYSQL_DRIVER = "com.mysql.example.Driver";
 
 	@Before
 	public void setup() {
 		super.setup();
-		System.setProperty("spring-cloud.mysql.driver", MYSQL_DRIVER_CLASS_NAME);
+		System.setProperty("spring-cloud.mysql.driver", TEST_MYSQL_DRIVER);
 	}
 	
 	@After
@@ -24,6 +24,6 @@ public class MysqlServiceCreatorWithMysqlDriverTest extends MysqlServiceCreatorT
 
 	@Override
 	public String getDriverName() {
-		return MYSQL_DRIVER_CLASS_NAME;
+		return TEST_MYSQL_DRIVER;
 	}
 }

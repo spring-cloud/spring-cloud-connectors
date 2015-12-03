@@ -1,6 +1,6 @@
-package org.springframework.cloud.config.java;
+package org.springframework.cloud.config.xml;
 
-import org.springframework.cloud.service.common.PostgresqlServiceInfo;
+import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.relational.PostgresqlDataSourceCreator;
 
 /**
@@ -8,9 +8,9 @@ import org.springframework.cloud.service.relational.PostgresqlDataSourceCreator;
  * @author Ramnivas Laddad
  *
  */
-public class DataSourceJavaConfigPostgesqlTest extends DataSourceJavaConfigTest {
+public class DataSourceXmlConfigPostgresqlTest extends DataSourceXmlConfigTest {
 	@Override
-	public PostgresqlServiceInfo createService(String id) {
+	protected ServiceInfo createService(String id) {
 		return createPostgresqlService(id);
 	}
 
@@ -24,5 +24,3 @@ public class DataSourceJavaConfigPostgesqlTest extends DataSourceJavaConfigTest 
 		return PostgresqlDataSourceCreator.VALIDATION_QUERY;
 	}
 }
-
-

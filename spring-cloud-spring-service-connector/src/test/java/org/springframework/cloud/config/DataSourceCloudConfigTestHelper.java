@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.cloud.ReflectionUtils;
 
 /**
  * 
@@ -20,6 +20,10 @@ public class DataSourceCloudConfigTestHelper extends CommonPoolCloudConfigTestHe
 	}
 
 	public static void assertConnectionProperties(DataSource dataSource, Properties connectionProp) {
-		assertEquals(connectionProp, ReflectionTestUtils.getField(dataSource, "connectionProperties"));
+		assertEquals(connectionProp, ReflectionUtils.getValue(dataSource, "connectionProperties"));
+	}
+
+	public static void assertConnectionProperty(DataSource dataSource, String key, Object value) {
+		assertEquals(value, ReflectionUtils.getValue(dataSource, key));
 	}
 }

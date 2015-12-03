@@ -8,13 +8,16 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.service.common.OracleServiceInfo;
 
 public class OracleServiceCreatorTest extends AbstractDataSourceCreatorTest<OracleDataSourceCreator, OracleServiceInfo> {
-	@Mock private OracleServiceInfo mockOracleServiceInfo;
+	public static final String TEST_ORACLE_DRIVER = "com.oracle.example.Driver";
+
+	@Mock
+	private OracleServiceInfo mockOracleServiceInfo;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		// set a dummy JDBC driver since we can't include a real Oracle driver in the project due to licensing restrictions
-		System.setProperty("spring-cloud.oracle.driver", "com.example.Driver");
+		System.setProperty("spring-cloud.oracle.driver", TEST_ORACLE_DRIVER);
 	}
 
 	@Override
@@ -26,7 +29,7 @@ public class OracleServiceCreatorTest extends AbstractDataSourceCreatorTest<Orac
 
 	@Override
 	public String getDriverName() {
-		return "com.example.Driver";
+		return TEST_ORACLE_DRIVER;
 	}
 
 	@Override
@@ -36,6 +39,6 @@ public class OracleServiceCreatorTest extends AbstractDataSourceCreatorTest<Orac
 
 	@Override
 	public String getValidationQueryStart() {
-		return "SELECT 'Y' from dual";
+		return OracleDataSourceCreator.VALIDATION_QUERY;
 	}
 }

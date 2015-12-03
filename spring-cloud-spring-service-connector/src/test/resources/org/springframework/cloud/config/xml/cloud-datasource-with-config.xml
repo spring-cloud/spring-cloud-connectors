@@ -5,13 +5,32 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd">
 
-	<cloud:data-source id="db-pool20-wait200" service-name="my-service">
+	<cloud:data-source id="no-config" service-name="my-service"/>
+
+	<cloud:data-source id="pool-and-connection-config" service-name="my-service">
 		<cloud:connection properties="sessionVariables=sql_mode='ANSI';characterEncoding=UTF-8"/>
 		<cloud:pool pool-size="20" max-wait-time="200"/>
+		<cloud:pool-data-sources>
+			<value>BasicDbcp</value>
+		</cloud:pool-data-sources>
 	</cloud:data-source>
 
-	<cloud:data-source id="db-pool5-30-wait3000" service-name="my-service">
+	<cloud:data-source id="pool-config" service-name="my-service">
 		<cloud:pool pool-size="5-30" max-wait-time="3000"/>
+		<cloud:pool-data-sources>
+			<value>BasicDbcp</value>
+		</cloud:pool-data-sources>
+	</cloud:data-source>
+
+	<cloud:data-source id="properties-config" service-name="my-service">
+		<cloud:pool-data-sources>
+			<value>BasicDbcp</value>
+		</cloud:pool-data-sources>
+		<cloud:connection-properties>
+			<entry key="driverClassName" value="test.driver"/>
+			<entry key="validationQuery" value="test validation query"/>
+			<entry key="testOnBorrow" value="false"/>
+		</cloud:connection-properties>
 	</cloud:data-source>
 
 	<cloud:data-source id="db-pool-tomcat-jdbc" service-name="my-service">

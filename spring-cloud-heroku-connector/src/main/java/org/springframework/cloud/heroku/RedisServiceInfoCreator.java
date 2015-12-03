@@ -20,6 +20,6 @@ public class RedisServiceInfoCreator extends HerokuServiceInfoCreator<RedisServi
 
 	@Override
 	public String[] getEnvPrefixes() {
-		return new String[]{ "REDISTOGO_URL", "REDISCLOUD_URL", "OPENREDIS_URL", "REDISGREEN_URL" };
+		return new String[]{ "REDISTOGO_URL", "REDISCLOUD_URL", "OPENREDIS_URL", "REDISGREEN_URL", "REDIS_URL" };
 	}
 }

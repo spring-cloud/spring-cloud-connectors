@@ -13,7 +13,8 @@ import org.springframework.cloud.service.common.PostgresqlServiceInfo;
  *
  */
 public class PostgresqlServiceCreatorTest extends AbstractDataSourceCreatorTest<PostgresqlDataSourceCreator, PostgresqlServiceInfo> {
-	@Mock private PostgresqlServiceInfo mockPostgresqlServiceInfo;
+	@Mock
+	private PostgresqlServiceInfo mockPostgresqlServiceInfo;
 
 	@Before
 	public void setup() {
@@ -29,7 +30,7 @@ public class PostgresqlServiceCreatorTest extends AbstractDataSourceCreatorTest<
 
 	@Override
 	public String getDriverName() {
-		return "org.postgresql.Driver";
+		return PostgresqlDataSourceCreator.DRIVERS[0];
 	}
 
 	@Override
@@ -39,6 +40,6 @@ public class PostgresqlServiceCreatorTest extends AbstractDataSourceCreatorTest<
 
 	@Override
 	public String getValidationQueryStart() {
-		return "SELECT 1";
+		return PostgresqlDataSourceCreator.VALIDATION_QUERY;
 	}
 }

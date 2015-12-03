@@ -5,7 +5,7 @@ currently knows about:
 
 - PostgreSQL (Heroku)
 - MySQL (ClearDB)
-- Redis (RedisToGo, Redis Cloud, RedisGreen, openredis)
+- Redis (RedisToGo, Redis Cloud, RedisGreen, openredis, Heroku Redis)
 - MongoDB (MongoLab, MongoHQ, MongoSoup)
 - RabbitMQ (CloudAMQP)
 

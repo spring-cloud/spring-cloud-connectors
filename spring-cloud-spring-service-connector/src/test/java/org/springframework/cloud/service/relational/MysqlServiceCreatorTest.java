@@ -34,6 +34,6 @@ public abstract class MysqlServiceCreatorTest extends AbstractDataSourceCreatorT
 
 	@Override
 	public String getValidationQueryStart() {
-		return "/* ping */ SELECT 1";
+		return MysqlDataSourceCreator.VALIDATION_QUERY;
 	}
 }

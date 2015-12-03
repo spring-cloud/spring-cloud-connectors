@@ -8,13 +8,15 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.service.common.DB2ServiceInfo;;
 
 public class DB2ServiceCreatorTest extends AbstractDataSourceCreatorTest<DB2DataSourceCreator, DB2ServiceInfo> {
+	public static final String TEST_DB2_DRIVER = "com.db2.example.Driver";
+
 	@Mock private DB2ServiceInfo mockDB2ServiceInfo;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		// set a dummy JDBC driver since we can't yet include a real DB2 driver in the project due to licensing restrictions
-		System.setProperty("spring-cloud.db2.driver", "com.example.Driver");
+		System.setProperty("spring-cloud.db2.driver", TEST_DB2_DRIVER);
 	}
 
 	@Override
@@ -26,7 +28,7 @@ public class DB2ServiceCreatorTest extends AbstractDataSourceCreatorTest<DB2Data
 
 	@Override
 	public String getDriverName() {
-		return "com.example.Driver";
+		return TEST_DB2_DRIVER;
 	}
 
 	@Override

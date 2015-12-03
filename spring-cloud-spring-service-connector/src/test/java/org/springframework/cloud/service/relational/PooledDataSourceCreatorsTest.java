@@ -38,7 +38,7 @@ public class PooledDataSourceCreatorsTest {
 	@Test
 	public void pooledDataSourceCreationDefault() throws Exception {
 		DataSource ds = createMysqlDataSource(null);
-		assertBasicDbcpDataSource(ds);
+		assertTomcatJdbcDataSource(ds);
 	}
 
 	@Test
@@ -50,17 +50,6 @@ public class PooledDataSourceCreatorsTest {
 		assertBasicDbcpDataSource(ds);
 	}
 
-	private void assertBasicDbcpDataSource(DataSource ds) throws ClassNotFoundException {
-		assertTrue(hasClass(DBCP2_BASIC_DATASOURCE) || hasClass(DBCP_BASIC_DATASOURCE));
-
-		if (hasClass(DBCP2_BASIC_DATASOURCE)) {
-			assertThat(ds, instanceOf(Class.forName(DBCP2_BASIC_DATASOURCE)));
-		}
-		if (hasClass(DBCP_BASIC_DATASOURCE) && !hasClass(DBCP2_BASIC_DATASOURCE)) {
-			assertThat(ds, instanceOf(Class.forName(DBCP_BASIC_DATASOURCE)));
-		}
-	}
-
 	@Test
 	public void pooledDataSourceCreationTomcatDbcp() throws Exception {
 		DataSource ds = createMysqlDataSourceWithPooledName("TomcatDbcp");
@@ -70,33 +59,22 @@ public class PooledDataSourceCreatorsTest {
 		assertTomcatDbcpDataSource(ds);
 	}
 
-	private void assertTomcatDbcpDataSource(DataSource ds) throws ClassNotFoundException {
-		assertTrue(hasClass(TOMCAT_7_DBCP) || hasClass(TOMCAT_8_DBCP));
-
-		if (hasClass(TOMCAT_7_DBCP)) {
-			assertThat(ds, instanceOf(Class.forName(TOMCAT_7_DBCP)));
-		}
-		if (hasClass(TOMCAT_8_DBCP)) {
-			assertThat(ds, instanceOf(Class.forName(TOMCAT_8_DBCP)));
-		}
-	}
-
 	@Test
 	public void pooledDataSourceCreationTomcatJdbc() throws Exception {
 		DataSource ds = createMysqlDataSourceWithPooledName("TomcatJdbc");
-		assertThat(ds, instanceOf(Class.forName(TOMCAT_JDBC_DATASOURCE)));
+		assertTomcatJdbcDataSource(ds);
 
 		ds = createMysqlDataSourceWithPooledName(TomcatJdbcPooledDataSourceCreator.class.getSimpleName());
-		assertThat(ds, instanceOf(Class.forName(TOMCAT_JDBC_DATASOURCE)));
+		assertTomcatJdbcDataSource(ds);
 	}
 
 	@Test
 	public void pooledDataSourceCreationHikariCP() throws Exception {
 		DataSource ds = createMysqlDataSourceWithPooledName("HikariCp");
-		assertThat(ds, instanceOf(Class.forName(HIKARI_DATASOURCE)));
+		assertHikariDataSource(ds);
 
 		ds = createMysqlDataSourceWithPooledName(HikariCpPooledDataSourceCreator.class.getSimpleName());
-		assertThat(ds, instanceOf(Class.forName(HIKARI_DATASOURCE)));
+		assertHikariDataSource(ds);
 	}
 
 	@Test
@@ -112,5 +90,35 @@ public class PooledDataSourceCreatorsTest {
 
 	private DataSource createMysqlDataSource(ServiceConnectorConfig config) {
 		return mysqlDataSourceCreator.create(mockMysqlServiceInfo, config);
+	}
+
+	private void assertBasicDbcpDataSource(DataSource ds) throws ClassNotFoundException {
+		assertTrue(hasClass(DBCP2_BASIC_DATASOURCE) || hasClass(DBCP_BASIC_DATASOURCE));
+
+		if (hasClass(DBCP2_BASIC_DATASOURCE)) {
+			assertThat(ds, instanceOf(Class.forName(DBCP2_BASIC_DATASOURCE)));
+		}
+		if (hasClass(DBCP_BASIC_DATASOURCE) && !hasClass(DBCP2_BASIC_DATASOURCE)) {
+			assertThat(ds, instanceOf(Class.forName(DBCP_BASIC_DATASOURCE)));
+		}
+	}
+
+	private void assertTomcatDbcpDataSource(DataSource ds) throws ClassNotFoundException {
+		assertTrue(hasClass(TOMCAT_7_DBCP) || hasClass(TOMCAT_8_DBCP));
+
+		if (hasClass(TOMCAT_7_DBCP)) {
+			assertThat(ds, instanceOf(Class.forName(TOMCAT_7_DBCP)));
+		}
+		if (hasClass(TOMCAT_8_DBCP)) {
+			assertThat(ds, instanceOf(Class.forName(TOMCAT_8_DBCP)));
+		}
+	}
+
+	private void assertTomcatJdbcDataSource(DataSource ds) throws ClassNotFoundException {
+		assertThat(ds, instanceOf(Class.forName(TOMCAT_JDBC_DATASOURCE)));
+	}
+
+	private void assertHikariDataSource(DataSource ds) throws ClassNotFoundException {
+		assertThat(ds, instanceOf(Class.forName(HIKARI_DATASOURCE)));
 	}
 }
