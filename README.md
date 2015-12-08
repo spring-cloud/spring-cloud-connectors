@@ -1,119 +1,35 @@
-# Spring Cloud Connectors [![Build Status](https://build.spring.io/plugins/servlet/buildStatusImage/CLOUD-NIGHTLY "Optional title")](https://build.spring.io/browse/CLOUD-NIGHTLY)
+# Spring Cloud Connectors
 
-Spring Cloud Connectors provides a simple abstraction for JVM-based applications running on cloud platforms
-to discover bound services and deployment information at runtime and provides support for registering
-discovered services as Spring beans. It is based on a plugin model so that the identical
-compiled application can be deployed locally or on multiple clouds, and it supports custom service
-definitions through Java SPI.
+Spring Cloud Connectors provides a simple abstraction that JVM-based applications can use to discover information about the cloud environment on which they are running, connect to services, and have discovered services registered as Spring beans. It provides out-of-the-box support for discovering common services on Heroku and Cloud Foundry cloud platforms, and it supports custom service definitions through Java Service Provider Interfaces (SPI).
 
-Spring Cloud Connectors provides out-of-the-box support for discovering common services on Heroku and
-Cloud Foundry clouds as well as a properties-based configuration for development and testing.
+## Learn more
 
-The core concepts used in this project are:
+See the [project site](http://cloud.spring.io/spring-cloud-connectors/) and [current documentation](http://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html).
 
-- [**Cloud connector**](./spring-cloud-core/src/main/java/org/springframework/cloud/CloudConnector.java):
-  An interface specific to a cloud platform that identifies the presence of the platform and
-  discovers any services bound to the application deployment.
-- **Service connector**: An object, such as a `javax.sql.DataSource`, that represents a runtime
-  connection to a service.
-- [**Service information**](./spring-cloud-core/src/main/java/org/springframework/cloud/service/ServiceInfo.java):
-  Information about the underlying service such as host, port, and credentials.
-- [**Application information**](./spring-cloud-core/src/main/java/org/springframework/cloud/app/ApplicationInstanceInfo.java):
-  Information about the application and the particular running instance.
+## Build
 
-The project contains three major submodules:
+The project is built with Gradle. The [Gradle wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) allows you to build the project on multiple platforms and even if you do not have Gradle installed; run it in place of the `gradle` command (as `./gradlew`) from the root of the main project directory.
 
-- **[core](spring-cloud-core)**: The core library, cloud- and Spring-agnostic, that provides
-  a programmatic entry point for developers who prefer to access cloud services and application
-  information manually. It also provides basic service definitions for several common services
-  (databases, message queues) and an SPI-based extension mechanism to contribute
-  cloud and service connectors.
-- **[spring-service-connector](spring-cloud-spring-service-connector)**: A Spring Library that
-  exposes application and cloud information and discovered services as Spring beans of the
-  appropriate type. For example, SQL services will be exposed as `javax.sql.DataSource`s with
-  optional connection pooling.
-- Cloud connectors:
- - **[cloudfoundry-connector](spring-cloud-cloudfoundry-connector)**: Connector for [Cloud Foundry](http://cloudfoundry.org).
- - **[heroku-connector](spring-cloud-heroku-connector)**: Connector for [Heroku](https://www.heroku.com).
- - **[localconfig-connector](spring-cloud-localconfig-connector)**: Properties-based connector for
-   manually providing configuration information for development or testing. Allows the use of the
-   same Spring Cloud configuration wiring in all stages of application deployment.
+### To compile the project and run tests
 
-##Getting Started
+    ./gradlew build
 
-The following examples are written for Maven; simply include the appropriate dependencies for
-your build system.
+### To build a JAR
 
-###Including cloud connectors
+    ./gradlew jar
 
-Include the connector for each cloud platform you want to be discoverable. Including multiple
-connectors is perfectly fine; each connector will determine whether it should be active in a
-particular environment.
+### To generate Javadoc API documentation
 
-````xml
-<!-- to use Spring Cloud Connectors for development -->
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-localconfig-connector</artifactId>
-    <version>1.2.0.RELEASE</version>
-</dependency>
+    ./gradlew jar
 
-<!-- If you intend to deploy the app to Cloud Foundry -->
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
-    <version>1.2.0.RELEASE</version>
-</dependency>
+### To list all available tasks
 
-<!-- If you intend to deploy the app to Heroku -->
-<dependency>
-	<groupId>org.springframework.cloud</groupId>
-	<artifactId>spring-cloud-heroku-connector</artifactId>
-	<version>1.2.0.RELEASE</version>
-</dependency>
-````
+    ./gradlew tasks
 
-###Spring applications
+## Contribute
 
-Add the [`spring-service-connector`](spring-cloud-spring-service-connector) in
-addition to your cloud connectors:
+Before we accept a non-trivial patch or pull request we will need you to sign the [contributor's agreement](https://support.springsource.com/spring_committer_signup). Signing the contributor's agreement does not grant anyone commit rights to the main repository, but it does mean that we can accept your contributions, and you will get an author credit if we do.  Active contributors might be asked to join the core team, and given the ability to merge pull requests.
 
-````xml
-<dependency>
-	<groupId>org.springframework.cloud</groupId>
-	<artifactId>spring-cloud-spring-service-connector</artifactId>
-	<version>1.2.0.RELEASE</version>
-</dependency>
+## License
 
-<!-- to use Spring Cloud for development -->
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-localconfig-connector</artifactId>
-    <version>1.2.0.RELEASE</version>
-</dependency>
-
-<!-- If you intend to deploy the app to Cloud Foundry -->
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
-    <version>1.2.0.RELEASE</version>
-</dependency>
-
-<!-- If you intend to deploy the app to Heroku -->
-<dependency>
-	<groupId>org.springframework.cloud</groupId>
-	<artifactId>spring-cloud-heroku-connector</artifactId>
-	<version>1.2.0.RELEASE</version>
-</dependency>
-````
-
-Then follow the instructions on [Spring configuration using Java configuration or
-the `<cloud>` namespace](spring-cloud-spring-service-connector).
-
-###Non-Spring applications
----------------
-The [`spring-cloud-core`](core) dependency is included by each cloud connector,
-so simply include the connectors for the platforms you want.
-
-Then follow the [instructions](spring-cloud-core) on using the Spring Cloud Connectors API.
-
+Spring Cloud Connectors is released under version 2.0 of the [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
