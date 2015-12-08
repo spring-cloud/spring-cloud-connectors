@@ -20,7 +20,7 @@ The project is built with Gradle. The [Gradle wrapper](https://docs.gradle.org/c
 
 ### To generate Javadoc API documentation
 
-    ./gradlew jar
+    ./gradlew api
 
 ### To list all available tasks
 
