@@ -153,6 +153,11 @@ public RabbitConnectionFactory rabbitFactory() {
 
 ==== Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)
 
+[NOTE]
+====
+Spring Cloud Spring Service Connector selects from a number of connection-pooling `DataSource` implementations based on availability and following a set priority. For details on the priority, see <<_detection_and_prioritization_of_code_datasource_code_implementations,Detection and Prioritization of `DataSource` Implementations>>. If you need to reorder the prioritization of supported implementations, see <<_reordering_implementation_priority,Reordering Implementation Priority>>.
+====
+
 To connect to a unique relational database service, you can create a service bean using `dataSource()`. The following example connects to the only relational database service bound to the application.
 
 [source,java]
@@ -198,6 +203,52 @@ public DataSource dataSource() {
     PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
     ConnectionConfig connConfig = new ConnectionConfig("useUnicode=yes;characterEncoding=UTF-8");
     DataSourceConfig dbConfig = new DataSourceConfig(poolConfig, connConfig);
+    return connectionFactory().dataSource("my-own-personal-sql", dbConfig);
+}
+----
+
+===== Detection and Prioritization of `DataSource` Implementations
+
+When creating a `DataSource`, the connector prefers any of the following four connection-pooling `DataSource` implementations, in the order shown.
+
+1. https://commons.apache.org/proper/commons-dbcp/[Apache Commons DBCP and DBCP 2]
+2. Tomcat DBCP
+3. https://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html[Tomcat JDBC Connection Pool]
+4. http://brettwooldridge.github.io/HikariCP/[HikariCP]
+
+The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html[`SimpleDriverDataSource`], which does not reuse connections.
+
+====== Reordering Implementation Priority
+
+[NOTE]
+====
+This feature is available only in Spring Cloud Connectors 1.2.1 and later.
+====
+
+If you would like to reorder the priorities given to supported `DataSource` implementations, you can provide a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`] containing a `List` which uses your own ordering. You can name an implementation either by its full class name or by a string included in its class name.
+
+The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`], which is initialized with a `List` of `DataSource` implementation class names.
+
+[source,java]
+----
+//Set order of DataSource implementations, using a List of full class names
+@Bean
+public DataSource dataSource() {
+    List<String> dataSourceNames = Arrays.asList("TomcatJdbcPooledDataSourceCreator", "HikariCpPooledDataSourceCreator", "BasicDbcpPooledDataSourceCreator");
+    DataSourceConfig dbConfig = new DataSourceConfig(dataSourceNames);
+    return connectionFactory().dataSource("my-own-personal-sql", dbConfig);
+}
+----
+
+The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`], which is initialized with a `List` of strings contained in `DataSource` implementations&#8217; class names.
+
+[source,java]
+----
+//Set order of DataSource implementations, using a List of strings contained in class names
+@Bean
+public DataSource dataSource() {
+    List<String> dataSourceNames = Arrays.asList("TomcatJdbc", "HikariCp", "BasicDbcp");
+    DataSourceConfig dbConfig = new DataSourceConfig(dataSourceNames);
     return connectionFactory().dataSource("my-own-personal-sql", dbConfig);
 }
 ----
@@ -326,6 +377,30 @@ public RedisConnectionFactory redisFactory() {
   PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
   RedisConnectionFactoryConfig redisConfig = new RedisConnectionFactoryConfig(poolConfig, properties);
   return connectionFactory().redisConnectionFactory("redis-service", redisConfig);
+}
+----
+
+==== SMTP
+
+To connect to a unique SMTP service, you can create a service bean using `service()`, providing the service type http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html[`MailSender`]. The following example connects to the only SMTP service bound to the application.
+
+[source,java]
+----
+//Connect to the only available SMTP service
+@Bean
+public MailSender mailSender() {
+    return connectionFactory().service(MailSender.class);
+}
+----
+
+To connect to a specific SMTP service, you can use an overloaded variant of `service()`, providing the service type http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html[`MailSender`]. The following example connects specifically to the `mail-service` SMTP service.
+
+[source,java]
+----
+//Connect to the 'mail-service' SMTP service
+@Bean
+public MailSender mailSender() {
+    return connectionFactory().service("mail-service", MailSender.class);
 }
 ----
 
@@ -483,6 +558,11 @@ To set connection properties on a RabbitMQ service, you can use the `<cloud:conn
 
 ==== Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)
 
+[NOTE]
+====
+Spring Cloud Spring Service Connector selects from a number of connection-pooling `DataSource` implementations based on availability and following a set priority. For details on the priority, see <<_detection_and_prioritization_of_code_datasource_code_implementations_2,Detection and Prioritization of `DataSource` Implementations>>. If you need to reorder the prioritization of supported implementations, see <<_reordering_implementation_priority_2,Reordering Implementation Priority>>.
+====
+
 To connect to a relational database service, you can use the `<cloud:data-source>` element. The following example connects to the only relational database service bound to the application.
 
 [source,xml]
@@ -524,6 +604,40 @@ To configure pool settings on a relational database service, you can use the `<c
 <!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', configuring pool settings -->
 <cloud:data-source id="mysql" service-name="my-own-personal-sql">
     <cloud:pool pool-size="5-30" max-wait-time="3000"/>
+</cloud:data-source>
+----
+
+===== Detection and Prioritization of `DataSource` Implementations
+
+When creating a `DataSource`, the connector prefers any of the following four connection-pooling `DataSource` implementations, in the order shown.
+
+1. https://commons.apache.org/proper/commons-dbcp/[Apache Commons DBCP and DBCP 2]
+2. Tomcat DBCP
+3. https://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html[Tomcat JDBC Connection Pool]
+4. http://brettwooldridge.github.io/HikariCP/[HikariCP]
+
+The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html[`SimpleDriverDataSource`], which does not reuse connections.
+
+====== Reordering Implementation Priority
+
+[NOTE]
+====
+This feature is available only in Spring Cloud Connectors 1.2.1 and later.
+====
+
+If you would like to reorder the priorities given to supported `DataSource` implementations, you can use the `<cloud:pool-data-sources>` nested element. For each implementation, include a `<value>` element for a string contained in the class name. List these in the order that you wish to have the connector follow.
+
+The following example connects to the `my-own-personal-sql` MySQL service and uses the `<cloud:pool-data-sources>` element to specify the priority of supported `DataSource` implementations.
+
+[source,xml]
+----
+<!-- Set order of DataSource implementations, using strings contained in class names -->
+<cloud:data-source id="mysql" service-name="my-own-personal-sql" />
+  <cloud:pool-data-sources>
+    <value>TomcatJdbc</value>
+    <value>TomcatDbcp</value>
+    <value>BasicDbcp</value>
+  </cloud:pool-data-sources>
 </cloud:data-source>
 ----
 
