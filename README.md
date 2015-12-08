@@ -1,4 +1,4 @@
-# Spring Cloud Connectors
+# Spring Cloud Connectors [![Build Status](https://build.spring.io/plugins/servlet/buildStatusImage/CLOUD-NIGHTLY "Optional title")](https://build.spring.io/browse/CLOUD-NIGHTLY)
 
 Spring Cloud Connectors provides a simple abstraction that JVM-based applications can use to discover information about the cloud environment on which they are running, connect to services, and have discovered services registered as Spring beans. It provides out-of-the-box support for discovering common services on Heroku and Cloud Foundry cloud platforms, and it supports custom service definitions through Java Service Provider Interfaces (SPI).
 
