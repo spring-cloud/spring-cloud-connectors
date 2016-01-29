@@ -36,7 +36,7 @@ The project contains three major submodules.
 * The cloud connectors:
  ** **Spring Cloud Cloud Foundry Connector**: Connector for link:http://cloudfoundry.org/[Cloud Foundry].
  ** **Spring Cloud Heroku Connector**: Connector for link:https://www.heroku.com/[Heroku].
- ** **Spring Cloud local-configuration Connector**: Properties-based connector for manually providing configuration information during development or testing. Allows use of the same Spring Cloud configuration wiring in all stages of application deployment.
+ ** **Spring Cloud local-configuration Connector**: Properties-based connector for manually providing configuration information during development or testing. Allows use of the same Spring Cloud Connectors configuration wiring in all stages of application deployment.
 
 == Getting Started
 
@@ -132,7 +132,7 @@ This core library provides programmatic access to application and service inform
 
 [NOTE]
 ====
-If you are using Spring Cloud in a Spring application, you should consider <<_spring_service_connector,automatically injecting Spring beans>> instead.
+If you are using Spring Cloud Connectors in a Spring application, you should consider <<_spring_service_connector,automatically injecting Spring beans>> instead.
 ====
 
 * Include the desired cloud connectors on the runtime classpath, <<_getting_started,as described in the main documentation>>.
@@ -169,7 +169,7 @@ List<ServiceInfo> databaseInfos = cloud.getServiceInfos(DataSource.class);
 +
 [source,java]
 ----
-// Alternatively, let Spring Cloud create a service connector for you
+// Alternatively, let Spring Cloud Connectors create a service connector for you
 String serviceId = "inventory-db";
 DataSource ds = cloud.getServiceConnector(serviceId, DataSource.class,
                                             null /* default config */);
@@ -189,7 +189,7 @@ See <<spring-cloud-heroku-connector.adoc#,Spring Cloud Heroku Connector>>.
 
 == local-configuration Connector
 
-This connector provides the ability to configure Spring Cloud services locally for development or testing. **The current implementation reads from Java properties only.**
+This connector provides the ability to configure Spring Cloud Connectors services locally for development or testing. **The current implementation reads from Java properties only.**
 
 === Quick Start
 
@@ -241,7 +241,7 @@ To provide the maximum configuration flexibility, the connector will override an
 
 === Activating the Connector
 
-Spring Cloud Core expects exactly one cloud connector to match the runtime environment.  This connector identifies the &#8220;local cloud&#8221; by the presence of a property, in a configuration properties file or in the system properties, named `spring.cloud.appId`. This property will be used in the `ApplicationInstanceInfo`.
+Spring Cloud Connectors Core expects exactly one cloud connector to match the runtime environment.  This connector identifies the &#8220;local cloud&#8221; by the presence of a property, in a configuration properties file or in the system properties, named `spring.cloud.appId`. This property will be used in the `ApplicationInstanceInfo`.
 
 === Service Definitions
 
