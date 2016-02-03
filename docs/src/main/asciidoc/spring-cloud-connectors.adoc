@@ -2,6 +2,7 @@
 :github-repo: spring-cloud/spring-cloud-connectors
 :github-raw: http://raw.github.com/{github-repo}/{github-tag}
 :github-code: http://github.com/{github-repo}/tree/{github-tag}
+:imagesdir: images
 :toc: left
 :toclevels: 3
 
@@ -36,7 +37,7 @@ The project contains three major submodules.
 * The cloud connectors:
  ** **Spring Cloud Cloud Foundry Connector**: Connector for link:http://cloudfoundry.org/[Cloud Foundry].
  ** **Spring Cloud Heroku Connector**: Connector for link:https://www.heroku.com/[Heroku].
- ** **Spring Cloud local-configuration Connector**: Properties-based connector for manually providing configuration information during development or testing. Allows use of the same Spring Cloud configuration wiring in all stages of application deployment.
+ ** **Spring Cloud local-configuration Connector**: Properties-based connector for manually providing configuration information during development or testing. Allows use of the same Spring Cloud Connectors configuration wiring in all stages of application deployment.
 
 == Getting Started
 
@@ -132,7 +133,7 @@ This core library provides programmatic access to application and service inform
 
 [NOTE]
 ====
-If you are using Spring Cloud in a Spring application, you should consider <<_spring_service_connector,automatically injecting Spring beans>> instead.
+If you are using Spring Cloud Connectors in a Spring application, you should consider <<_spring_service_connector,automatically injecting Spring beans>> instead.
 ====
 
 * Include the desired cloud connectors on the runtime classpath, <<_getting_started,as described in the main documentation>>.
@@ -169,7 +170,7 @@ List<ServiceInfo> databaseInfos = cloud.getServiceInfos(DataSource.class);
 +
 [source,java]
 ----
-// Alternatively, let Spring Cloud create a service connector for you
+// Alternatively, let Spring Cloud Connectors create a service connector for you
 String serviceId = "inventory-db";
 DataSource ds = cloud.getServiceConnector(serviceId, DataSource.class,
                                             null /* default config */);
@@ -189,7 +190,7 @@ See <<spring-cloud-heroku-connector.adoc#,Spring Cloud Heroku Connector>>.
 
 == local-configuration Connector
 
-This connector provides the ability to configure Spring Cloud services locally for development or testing. **The current implementation reads from Java properties only.**
+This connector provides the ability to configure Spring Cloud Connectors services locally for development or testing. **The current implementation reads from Java properties only.**
 
 === Quick Start
 
@@ -241,7 +242,7 @@ To provide the maximum configuration flexibility, the connector will override an
 
 === Activating the Connector
 
-Spring Cloud Core expects exactly one cloud connector to match the runtime environment.  This connector identifies the &#8220;local cloud&#8221; by the presence of a property, in a configuration properties file or in the system properties, named `spring.cloud.appId`. This property will be used in the `ApplicationInstanceInfo`.
+Spring Cloud Connectors Core expects exactly one cloud connector to match the runtime environment.  This connector identifies the &#8220;local cloud&#8221; by the presence of a property, in a configuration properties file or in the system properties, named `spring.cloud.appId`. This property will be used in the `ApplicationInstanceInfo`.
 
 === Service Definitions
 
@@ -255,22 +256,46 @@ This connector creates a UUID for use as the instance ID, as Java does not provi
 
 Besides the built-in service and cloud support and the included Spring Service Connector, Spring Cloud Connectors can be extended to support additional cloud platforms, cloud services, or application frameworks. See below for details.
 
-=== Adding Cloud Connectors
+=== Extensibility Overview
 
-To allow Spring Cloud to detect a new cloud platform, add a cloud connector for the platform. A cloud connector determines whether the application is running in the specific cloud, identifies application information (such as the name and instance ID of the particular running instance), and maps bound services (such as URIs exposed in environment variables) as `ServiceInfo` objects.
+As mentioned in the <<_including_cloud_connectors,Including Cloud Connectors>> section, your application can include cloud connectors for multiple cloud platforms. Spring Cloud Connectors Core activates the `CloudConnector` for the platform in which the application is running. That cloud connector's `ServiceInfoCreator` classes create `ServiceInfo` objects for the application's services, and the `ServiceConnectorCreator` classes use the `ServiceInfo` objects to create service connection objects for use in your application.
+
+image::spring-cloud-connectors-design.png[width=650, height=341, align="center"]
+
+You can extend Spring Cloud Connectors in any of three ways:
+
+1. **Cloud platform support.** Out of the box, Spring Cloud Connectors offers support for the Cloud Foundry and Heroku platforms. You can extend Spring Cloud Connectors to provide support for other cloud platforms and providers.
++
+Spring Cloud Connectors uses the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html[`CloudConnector`] interface to provide cloud platform support. A `CloudConnector` implementation for a particular cloud platform is responsible for detecting when the application is running in that cloud platform, obtaining information about the application from the cloud platform, and obtaining information about the services that are bound to the application.
+2. **Cloud service support.** You can extend Spring Cloud Connectors to support additional services, including services that are specific to your own environment or application.
++
+Spring Cloud Connectors uses two interfaces to provide cloud service support:
++
+* A http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceInfo.html[`ServiceInfo`] models the information required to connect to the service. In the case of a database service, a `ServiceInfo` implementation might include fields for host, port, database name, username, and password; in the case of a web service, it might include fields for URL and API key.
++
+* A http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/ServiceInfoCreator.html[`ServiceInfoCreator`] creates `ServiceInfo` objects based on the service information collected by a cloud connector. A `ServiceInfoCreator` implementation is specific to a cloud platform.
+3. **Application framework support.** The <<spring-cloud-spring-service-connector.adoc#,Spring Cloud Spring Service Connector>> creates service connectors with http://projects.spring.io/spring-data/[Spring Data] data types. You can extend Spring Cloud Connectors to provide service connection objects using another framework.
++
+Spring Cloud Connectors uses the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html[`ServiceConnectorCreator`] interface to provide framework support. A `ServiceConnectorCreator` creates service connectors using the service connection information provided by a `ServiceInfo` object.
+
+=== Adding Cloud Platform Support
+
+To allow Spring Cloud Connectors to detect a new cloud platform, add a cloud connector for the platform.
+
+A cloud connector determines whether the application is running in the specific cloud, identifies application information (such as the name and instance ID of the particular running instance), and maps bound services (such as URIs exposed in environment variables) as `ServiceInfo` objects.
 
 [TIP]
 ====
 See the https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-cloudfoundry-connector[Cloud Foundry Connector] and https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-heroku-connector[Heroku Connector] for examples.
 ====
 
-Spring Cloud uses the https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html[Java SPI] to discover available connectors. 
+Spring Cloud Connectors uses the https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html[Java SPI] to discover available connectors. 
 
-Your connector classes must implement the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html[`CloudConnector`] interface. It includes three methods:
+Your connector class must implement the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html[`CloudConnector`] interface, which includes three methods:
 
 * `boolean isInMatchingCloud()`: Determines whether the connector is operating in the cloud for which it provides support.
 +
-Spring Cloud Connectors will call `isInMatchingCloud()` on each cloud connector included in an application. The first connector to respond `true` will be activated.
+Spring Cloud Connectors Core calls `isInMatchingCloud()` on each cloud connector included in an application, and activates the first connector that responds `true`.
 * `ApplicationInstanceInfo getApplicationInstanceInfo()`: Returns information about the running application instance.
 +
 An `ApplicationInstanceInfo` must provide the instance id (`String`) and application id (`String`). Other properties can be added as needed to a `Map` and be returned via `getProperties()`.
@@ -282,7 +307,7 @@ New cloud connectors should list the fully-qualified class name in the provider-
 
 === Adding Service Support
 
-To allow Spring Cloud to discover a new type of service, create a `ServiceInfo` class containing the information necessary to connect to the service. If your service can be specified via a URI, extend http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/UriBasedServiceInfo.html[`UriBasedServiceInfo`] and provide the URI scheme in a call to the `super` constructor.
+To allow Spring Cloud Connectors to discover a new type of service, create a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceInfo.html[`ServiceInfo`] class containing the information necessary to connect to the service. If your service can be specified via a URI, extend http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/UriBasedServiceInfo.html[`UriBasedServiceInfo`] and provide the URI scheme in a call to the `super` constructor.
 
 The following class will expose information for a `HelloWorldService` available at `helloworld://username:password@host:port/Bonjour`.
 
@@ -303,7 +328,7 @@ public class HelloWorldServiceInfo extends UriBasedServiceInfo {
 }
 ----
 
-After creating the `ServiceInfo` class, you will need to create a `ServiceInfoCreator` for each cloud platform you want to support.  If you are adding service support for a cloud platform already supported by Spring Cloud Connectors, you will probably want to extend the appropriate creator base class(es).
+After creating the `ServiceInfo` class, you will need to create a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/ServiceInfoCreator.html[`ServiceInfoCreator`] for each cloud platform you want to support. If you are adding service support for a cloud platform already supported by Spring Cloud Connectors, you will probably want to extend the appropriate creator base class(es).
 
 [cols="2,8", width="100%"]
 |==================================================================
@@ -331,16 +356,18 @@ Register your `ServiceInfoCreator` classes in the appropriate provider-configura
 |**local-configuration** | Add the fully-qualified class name for your creator to `META-INF/services/org.springframework.cloud.localconfig.LocalConfigServiceInfoCreator`.
 |=========================================================================================================================================================================
 
-=== Adding Service Connectors
+=== Adding Framework Support
 
-To allow Spring Cloud to provide framework-specific service objects for supported cloud services, add a service connector for the framework. A service connector consumes a `ServiceInfo` discovered by the cloud connector and converts it into the appropriate service object (such as a `DataSource` in the case of a service definition that represents a SQL database).
+To allow Spring Cloud Connectors to provide framework-specific service objects for supported cloud services, add a service connector for the framework.
+
+A service connector consumes a `ServiceInfo` for a service discovered by the cloud connector and converts it into the appropriate service object (such as a `DataSource` in the case of a service definition that represents a SQL database).
 
 [TIP]
 ====
 Service connectors can be tightly bound to the framework whose service objects they are creating. For example, some connectors in the <<_spring_service_connector,Spring Service Connector>> create connection factories defined by Spring Data, for use in building Spring Data templates.
 ====
 
-Your connector classes must implement the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html[`ServiceConnectorCreator`] interface. It has three methods:
+Your connector class must implement the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html[`ServiceConnectorCreator`] interface, which has three methods:
 
 * `SC create()`: Creates a service connection object from a given `ServiceInfo` and configuration.
 * `Class<SC> getServiceConnectorType()`: Returns the type of the connection object that will be created.

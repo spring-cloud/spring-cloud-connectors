@@ -9,7 +9,7 @@
 
 The Cloud Foundry Connector is part of the <<spring-cloud-connectors.adoc#,Spring Cloud Connectors>> project.
 
-This connector discovers services that are bound to an application running in Cloud Foundry. (Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud does not care which service provider is providing it.)
+This connector discovers services that are bound to an application running in Cloud Foundry. (Since Cloud Foundry enumerates each service in a consistent format, Spring Cloud Connectors does not care which service provider is providing it.)
 
 == Cloud Detection
 
