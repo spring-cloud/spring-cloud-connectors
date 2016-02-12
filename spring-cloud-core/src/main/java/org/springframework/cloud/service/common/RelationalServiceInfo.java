@@ -13,6 +13,10 @@ public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 	protected final String jdbcUrl;
 	protected final String jdbcUrlDatabaseType;
 
+	public RelationalServiceInfo(String id, String uriString, String jdbcUrlDatabaseType) {
+		this(id, uriString, null, jdbcUrlDatabaseType);
+	}
+
 	public RelationalServiceInfo(String id, String uriString, String jdbcUrl, String jdbcUrlDatabaseType) {
 		super(id, uriString);
 		this.jdbcUrl = jdbcUrl;

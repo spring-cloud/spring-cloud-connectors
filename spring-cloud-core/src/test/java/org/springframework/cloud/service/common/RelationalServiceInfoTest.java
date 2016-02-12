@@ -55,7 +55,7 @@ public class RelationalServiceInfoTest {
 	}
 
 	private RelationalServiceInfo createServiceInfo(final String uri) {
-		return new RelationalServiceInfo("test", uri, null, "jdbcdbtype") {
+		return new RelationalServiceInfo("test", uri, "jdbcdbtype") {
 		};
 	}
 
