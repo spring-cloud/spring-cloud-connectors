@@ -1,0 +1,11 @@
+{
+  "name": "$serviceName",
+  "label": "aws-s3",
+  "tags": [
+    "s3"
+  ],
+  "plan": "developer",
+  "credentials": {
+    "uri": "http://$access_key_id:$secret_access_key@$bucketName.s3-aws-region.amazonaws.com"
+  }
+}

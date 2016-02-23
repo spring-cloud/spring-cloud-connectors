@@ -3,3 +3,4 @@ org.springframework.cloud.heroku.MysqlServiceInfoCreator
 org.springframework.cloud.heroku.MongoServiceInfoCreator
 org.springframework.cloud.heroku.AmqpServiceInfoCreator
 org.springframework.cloud.heroku.RedisServiceInfoCreator
+org.springframework.cloud.heroku.S3ServiceInfoCreator

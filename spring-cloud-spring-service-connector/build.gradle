@@ -29,6 +29,8 @@ dependencies {
   }
   optional("redis.clients:jedis:$jedisVersion")
 
+  optional("org.apache.jclouds.provider:aws-s3:$jcloudsAwsS3Version")
+
   optional("org.springframework.data:spring-data-mongodb:$springDataMongoVersion") {
     exclude(group: 'org.springframework', module: 'spring-beans')
     exclude(group: 'org.springframework', module: 'spring-expression')

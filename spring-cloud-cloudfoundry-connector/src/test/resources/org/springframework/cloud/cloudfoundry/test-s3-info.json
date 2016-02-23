@@ -1,0 +1,12 @@
+{
+  "name": "$serviceName",
+  "label": "p-riakcs",
+  "tags": [
+    "s3",
+    "riak-cs"
+  ],
+  "plan": "developer",
+  "credentials": {
+    "uri": "https://$access_key_id:$secret_access_key@$hostname:$port/$bucketName"
+  }
+}
