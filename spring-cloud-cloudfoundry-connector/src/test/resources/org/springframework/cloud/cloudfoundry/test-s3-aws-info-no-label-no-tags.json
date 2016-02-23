@@ -1,0 +1,6 @@
+{
+  "name": "$serviceName",
+  "credentials": {
+    "uri": "s3://$access_key_id:$secret_access_key@s3.amazonaws.com/$bucketName"
+  }
+}

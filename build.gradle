@@ -24,6 +24,8 @@ ext {
 
 	jedisVersion = "2.1.0"
 
+    jcloudsAwsS3Version = "1.9.0"
+
 	commonDbcpVersion = "1.4"
 	commonDbcp2Version = "2.0"
 

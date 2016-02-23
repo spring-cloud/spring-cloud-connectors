@@ -18,10 +18,10 @@ import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
  * Implementation of CloudConnector for Heroku
- * <p/>
+ * <p>
  * Currently support Postgres (default provided), Mysql (Cleardb), MongoDb (MongoLab, MongoHQ, MongoSoup),
  * Redis (RedisToGo, RedisCloud, OpenRedis, RedisGreen), and AMQP (CloudAmqp).
- *
+ * </p>
  * @author Ramnivas Laddad
  */
 public class HerokuConnector extends AbstractCloudConnector<UriBasedServiceData> {
@@ -55,6 +55,11 @@ public class HerokuConnector extends AbstractCloudConnector<UriBasedServiceData>
 	void setCloudEnvironment(EnvironmentAccessor environment) {
 		this.environment = environment;
 		this.applicationInstanceInfoCreator = new ApplicationInstanceInfoCreator(environment);
+        for (ServiceInfoCreator serviceInfoCreator : this.serviceInfoCreators) {
+            if (serviceInfoCreator instanceof S3ServiceInfoCreator) {
+                ((S3ServiceInfoCreator) serviceInfoCreator).setCloudEnvironment(environment);
+            }
+        }
 	}
 
 	@Override
