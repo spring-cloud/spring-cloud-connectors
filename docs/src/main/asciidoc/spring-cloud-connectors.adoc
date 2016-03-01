@@ -178,15 +178,21 @@ DataSource ds = cloud.getServiceConnector(serviceId, DataSource.class,
 
 == Spring Service Connector
 
-See <<spring-cloud-spring-service-connector.adoc#,Spring Cloud Spring Service Connector>>.
+The Spring Service Connector creates service connection objects for Spring applications. It allows for Java or XML configuration of connection beans and currently supports relational databases such as MySQL and PostgreSQL via `javax.sql.DataSource`, SMTP via `org.springframework.mail.MailSender`, RabbitMQ via Spring AMQP, and MongoDB and Redis via Spring Data projects. It also provides support for connecting to generic (e.g., private) services.
+
+For details on this service connector, see <<spring-cloud-spring-service-connector.adoc#,Spring Cloud Spring Service Connector>>.
 
 == Cloud Foundry Connector
 
-See <<spring-cloud-cloud-foundry-connector.adoc#,Spring Cloud Cloud Foundry Connector>>.
+The Cloud Foundry Connector discovers services bound to an application running in a Cloud Foundry environment. As it consumes bound service information in Cloud Foundry's standard format, it is provider-agnostic; it currently is aware of application monitoring, DB2, MongoDB, MySQL, Oracle, PostgreSQL, RabbitMQ, Redis, SMTP, and SQL Server services.
+
+For details on this cloud connector, see <<spring-cloud-cloud-foundry-connector.adoc#,Spring Cloud Cloud Foundry Connector>>.
 
 == Heroku Connector
 
-See <<spring-cloud-heroku-connector.adoc#,Spring Cloud Heroku Connector>>.
+The Heroku Connector discovers services bound to an application running in Heroku. It currently is aware of PostgreSQL (provided by Heroku), MySQL (provided by ClearDB), Redis (provided by Redis To Go, Redis Cloud, RedisGreen, openredis, and Heroku), MongoDB (provided by MongoLab, MongoHQ, and MongoSoup), and RabbitMQ (provided by CloudAMQP). It can be extended to support additional providers for these services.
+
+For details on this cloud connector, see <<spring-cloud-heroku-connector.adoc#,Spring Cloud Heroku Connector>>.
 
 == local-configuration Connector
 
