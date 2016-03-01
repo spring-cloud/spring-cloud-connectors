@@ -806,7 +806,10 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_spring_service_connector">Spring Service Connector</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>See <a href="spring-cloud-spring-service-connector.html">Spring Cloud Spring Service Connector</a>.</p>
+<p>The Spring Service Connector creates service connection objects for Spring applications. It allows for Java or XML configuration of connection beans and currently supports relational databases such as MySQL and PostgreSQL via <code>javax.sql.DataSource</code>, SMTP via <code>org.springframework.mail.MailSender</code>, RabbitMQ via Spring AMQP, and MongoDB and Redis via Spring Data projects. It also provides support for connecting to generic (e.g., private) services.</p>
+</div>
+<div class="paragraph">
+<p>For details on this service connector, see <a href="spring-cloud-spring-service-connector.html">Spring Cloud Spring Service Connector</a>.</p>
 </div>
 </div>
 </div>
@@ -814,7 +817,10 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_cloud_foundry_connector">Cloud Foundry Connector</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>See <a href="spring-cloud-cloud-foundry-connector.html">Spring Cloud Cloud Foundry Connector</a>.</p>
+<p>The Cloud Foundry Connector discovers services bound to an application running in a Cloud Foundry environment. As it consumes bound service information in Cloud Foundry&#8217;s standard format, it is provider-agnostic; it currently is aware of application monitoring, DB2, MongoDB, MySQL, Oracle, PostgreSQL, RabbitMQ, Redis, SMTP, and SQL Server services.</p>
+</div>
+<div class="paragraph">
+<p>For details on this cloud connector, see <a href="spring-cloud-cloud-foundry-connector.html">Spring Cloud Cloud Foundry Connector</a>.</p>
 </div>
 </div>
 </div>
@@ -822,7 +828,10 @@ table.CodeRay td.code>pre{padding:0}
 <h2 id="_heroku_connector">Heroku Connector</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>See <a href="spring-cloud-heroku-connector.html">Spring Cloud Heroku Connector</a>.</p>
+<p>The Heroku Connector discovers services bound to an application running in Heroku. It currently is aware of PostgreSQL (provided by Heroku), MySQL (provided by ClearDB), Redis (provided by Redis To Go, Redis Cloud, RedisGreen, openredis, and Heroku), MongoDB (provided by mLab, MongoHQ, and MongoSoup), and RabbitMQ (provided by CloudAMQP). It can be extended to support additional providers for these services.</p>
+</div>
+<div class="paragraph">
+<p>For details on this cloud connector, see <a href="spring-cloud-heroku-connector.html">Spring Cloud Heroku Connector</a>.</p>
 </div>
 </div>
 </div>
@@ -1149,7 +1158,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2015-12-28 15:32:00 CST
+Last updated 2016-03-01 11:13:08 CST
 </div>
 </div>
 </body>
