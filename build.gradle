@@ -23,6 +23,7 @@ ext {
 	springDataMongoVersion = "1.4.3.RELEASE"
 
 	jedisVersion = "2.1.0"
+	lettuceVersion = "3.4.3.Final"
 
 	commonDbcpVersion = "1.4"
 	commonDbcp2Version = "2.0"

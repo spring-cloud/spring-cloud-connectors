@@ -28,6 +28,7 @@ dependencies {
     exclude(group: 'org.springframework', module: 'spring-context-support')
   }
   optional("redis.clients:jedis:$jedisVersion")
+  optional("biz.paluch.redis:lettuce:$lettuceVersion")
 
   optional("org.springframework.data:spring-data-mongodb:$springDataMongoVersion") {
     exclude(group: 'org.springframework', module: 'spring-beans')
