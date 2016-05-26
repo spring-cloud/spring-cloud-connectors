@@ -16,11 +16,11 @@ badges:
       icon: tracking
 
     - name: CI (Bamboo)
-      url:  https://build.springsource.org/browse/CLOUD
+      url:  https://build.spring.io/browse/CLOUD
       icon: ci
 
     - name: StackOverflow
-      url:  http://stackoverflow.com/questions/tagged/spring-cloud
+      url:  http://stackoverflow.com/questions/tagged/spring-cloud-connectors
       icon: stackoverflow
 
 
@@ -31,7 +31,7 @@ badges:
 
 {% capture billboard_description %}
 
-Spring Cloud Connectors simplifies connecting to services and gaining operating environment awareness in cloud platforms like Cloud Foundry and Heroku. Special support for Spring application through Java and XML config makes it trivial for apps to connect to cloud services. Designed for extensibility, you can use one of the existing cloud connectors (Cloud Foundry and Heroku) or write one for your cloud platform. While supporting commonly used services (relational databases, MongoDB, Redis, Rabbit) out of the box, it allows extending it to your own services. Neither of these require modifying Spring Cloud itself; all you need to do is add jars for your extensions to your classpath.
+Spring Cloud Connectors simplifies the process of connecting to services and gaining operating environment awareness in cloud platforms such as Cloud Foundry and Heroku, especially for Spring applications. It is designed for extensibility: you can use one of the provided cloud connectors or write one for your cloud platform, and you can use the built-in support for commonly-used services (relational databases, MongoDB, Redis, RabbitMQ) or extend Spring Cloud Connectors to work with your own services.
 
 {% endcapture %}
 
@@ -47,28 +47,20 @@ Spring Cloud Connectors simplifies connecting to services and gaining operating 
 
 {% capture main_content %}
 
-Spring Cloud Connectors uses the following main concepts:
-
-* **Cloud Connector**: An interface that a cloud provider can implement to allow the rest of the library to work with a cloud platform.
-* **Service Connector**: An object, such as javax.sql.DataSource, that represent a connection to a service.
-* **Service information**: Information about the underlying service such as host, port, and credentials.
-* **Application information**: Information about application and instance in which these libraries are embedded.
-
-
 ## Features
 
-Spring Cloud Connectors focuses on providing good out of box experience for typical use cases and extensibility mechanism to cover others. It feature two axis of extensibility:
+Spring Cloud Connectors focuses on providing a good out-of-the-box experience for typical use cases and an extensibility mechanism to cover others.
 
-* *Java and XML config for Spring Applications*: Simple ways to create beans for services bound to the application.
-* **Cloud Platform Extensibility**: Through the concept of Cloud Connector, it allows extending Spring Cloud functionality to other cloud platforms.
-* **Service Information and Connector Extensibility**: Spring Cloud allows connecting to any kind of service as long as there is a way to extract its connection information from the application operating environment and (optionally) transform it into a service connector.
+* **Java and XML config for Spring applications**: Simple ways to create beans for services bound to an application.
+* **Cloud platform extensibility**: The concept of the cloud connector, which allows you to extend Spring Cloud Connectors' functionality to other cloud platforms.
+* **Service information and connector extensibility**: Your own Spring Cloud Connectors extensions can connect your application to any service by extracting the service connection information from the application operating environment, and (optionally) can transform the information into a service connector.
 
 ### Constituent Projects
 
-* [Spring Cloud Connectors Core](https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-core): Core library that is cloud agnostic and Spring agnostic. Provides entry point for application developers that choose to programmatically access cloud services and application information. It also provides an extension mechanism to contribute cloud connectors and service connector creators.]
-* [Spring Cloud Service Connector for Spring](https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-spring-service-connector): Library that provides service connectors creators for javax.sql.DataSource and various connection factories spring-data projects.
-* [Cloudfoundry Connector](https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-cloudfoundry-connector): Cloud connector for Cloud Foundry.
-* [Heroku Connector](https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-heroku-connector): Cloud connector for Heroku.
+* [Spring Cloud Connectors Core](http://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html#_spring_cloud_connectors_core): Core library. Cloud-agnostic, and does not rely on Spring; provides an entry point for application developers who choose to access cloud services and application information programmatically, and provides an extension mechanism for contributing cloud connectors and service connector creators.
+* [Spring Cloud Service Connector](http://cloud.spring.io/spring-cloud-connectors/spring-cloud-spring-service-connector.html): Library that provides service connector creators for `javax.sql.DataSource` and various connection factories from Spring Data projects.
+* [Cloud Foundry Connector](http://cloud.spring.io/spring-cloud-connectors/spring-cloud-cloud-foundry-connector.html): Cloud connector for Cloud Foundry.
+* [Heroku Connector](http://cloud.spring.io/spring-cloud-connectors/spring-cloud-heroku-connector.html): Cloud connector for Heroku.
 
 
 <span id="quick-start"></span>
@@ -76,7 +68,7 @@ Spring Cloud Connectors focuses on providing good out of box experience for typi
 
 {% include download_widget.md %}
 
-Then if you are working with a Spring application, follow instructions in [Spring Cloud Service Connector for Spring](https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-spring-service-connector). If you aren't using Spring, take a look at [Spring Cloud Core](https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-core).
+Then if you are working with a Spring application, follow instructions in [Spring Cloud Spring Service Connector](http://cloud.spring.io/spring-cloud-connectors/spring-cloud-spring-service-connector.html). If you aren't using Spring, take a look at [Spring Cloud Connectors Core](http://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html#_spring_cloud_connectors_core).
 
 {{ community_extensions | markdownify }}
 
@@ -86,9 +78,8 @@ Then if you are working with a Spring application, follow instructions in [Sprin
 
 ### Sample Projects
 
-* [Spring Travel](https://github.com/cloudfoundry-samples/spring-travel)
 * [Spring Music](https://github.com/cloudfoundry-samples/spring-music)
-* [Spring Sendgrid](https://github.com/cloudfoundry-samples/spring-sendgrid)
+* [Spring SendGrid](https://github.com/cloudfoundry-samples/spring-sendgrid)
 
 {% endcapture %}
 
