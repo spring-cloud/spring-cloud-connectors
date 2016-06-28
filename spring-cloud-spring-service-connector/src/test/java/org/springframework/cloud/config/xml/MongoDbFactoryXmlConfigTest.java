@@ -35,7 +35,7 @@ public class MongoDbFactoryXmlConfigTest extends AbstractServiceXmlConfigTest<Mo
 		ApplicationContext testContext = getTestApplicationContext("cloud-mongo-with-config.xml", createService("my-service"));
 		
 		MongoDbFactory connector = testContext.getBean("service-connectionPerHost50-maxWait200-WriteConcernNone", getConnectorType());
-		MongoDbFactoryCloudConfigTestHelper.assertConfigProperties(connector, -1, 50, 200);
+		MongoDbFactoryCloudConfigTestHelper.assertConfigProperties(connector, "none", 50, 200);
 	}
 
 	@Test
@@ -43,7 +43,7 @@ public class MongoDbFactoryXmlConfigTest extends AbstractServiceXmlConfigTest<Mo
 		ApplicationContext testContext = getTestApplicationContext("cloud-mongo-with-config.xml", createService("my-service"));
 		
 		MongoDbFactory connector = testContext.getBean("service-maxWait200-connectionPerHost50-WriteConcernSafe", getConnectorType());
-		MongoDbFactoryCloudConfigTestHelper.assertConfigProperties(connector, 1, 50, 200);
+		MongoDbFactoryCloudConfigTestHelper.assertConfigProperties(connector, "safe", 50, 200);
 	}
 
 	@Test
