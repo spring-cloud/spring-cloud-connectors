@@ -18,7 +18,7 @@ import org.springframework.cloud.util.EnvironmentAccessor;
 
 /**
  * Implementation of CloudConnector for Heroku
- * <p/>
+ *
  * Currently support Postgres (default provided), Mysql (Cleardb), MongoDb (MongoLab, MongoHQ, MongoSoup),
  * Redis (RedisToGo, RedisCloud, OpenRedis, RedisGreen), and AMQP (CloudAmqp).
  *
