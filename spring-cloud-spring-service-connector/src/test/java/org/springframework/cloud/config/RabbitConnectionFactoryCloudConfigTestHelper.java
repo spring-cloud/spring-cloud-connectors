@@ -26,7 +26,8 @@ import org.springframework.test.util.ReflectionTestUtils;
  *
  */
 public class RabbitConnectionFactoryCloudConfigTestHelper {
-	public static final int DEFAULT_CHANNEL_CACHE_SIZE = 1;
+	public static final Integer DEFAULT_CHANNEL_CACHE_SIZE =
+			(Integer) ReflectionTestUtils.getField(new org.springframework.amqp.rabbit.connection.CachingConnectionFactory(), "channelCacheSize");
 
 	private final static Integer DEFAULT_FACTORY_TIMEOUT =
 			(Integer) ReflectionTestUtils.getField(new com.rabbitmq.client.ConnectionFactory(), "connectionTimeout");
