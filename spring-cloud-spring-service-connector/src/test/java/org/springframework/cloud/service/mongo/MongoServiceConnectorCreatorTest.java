@@ -3,6 +3,7 @@ package org.springframework.cloud.service.mongo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.junit.Test;
@@ -10,6 +11,8 @@ import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.cloud.service.document.MongoDbFactoryCreator;
 import org.springframework.data.mongodb.MongoDbFactory;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.mongodb.MongoClient;
@@ -49,7 +52,7 @@ public class MongoServiceConnectorCreatorTest {
 
 		MongoCredential credentials = mongo.getCredentialsList().get(0);
 
-		List<ServerAddress> addresses = mongo.getAllAddress();
+		List<ServerAddress> addresses = extractServerAddresses(mongo);
 		assertEquals(1, addresses.size());
 
 		ServerAddress address = addresses.get(0);
@@ -77,7 +80,7 @@ public class MongoServiceConnectorCreatorTest {
 		MongoClient mongo = (MongoClient) ReflectionTestUtils.getField(mongoDbFactory, "mongo");
 		assertNotNull(mongo);
 
-		List<ServerAddress> addresses = mongo.getAllAddress();
+		List<ServerAddress> addresses = extractServerAddresses(mongo);
 		assertEquals(3, addresses.size());
 
 		MongoCredential credentials = mongo.getCredentialsList().get(0);
@@ -99,4 +102,19 @@ public class MongoServiceConnectorCreatorTest {
 		assertEquals(TEST_HOST_2, address3.getHost());
 		assertEquals(TEST_PORT, address3.getPort());
 	}
+
+	@SuppressWarnings("unchecked")
+	private List<ServerAddress> extractServerAddresses(MongoClient client) {
+		if (ClassUtils.isPresent("com.mongodb.connection.Cluster",
+				getClass().getClassLoader())) {
+			Object cluster = ReflectionTestUtils.getField(client, "cluster");
+			Object clusterSettings = ReflectionTestUtils.getField(cluster, "settings");
+			Method getHostsMethod = ReflectionUtils.findMethod(clusterSettings.getClass(),
+					"getHosts");
+			return (List<ServerAddress>) ReflectionUtils.invokeMethod(getHostsMethod,
+					clusterSettings);
+		}
+		return client.getAllAddress();
+	}
+
 }
