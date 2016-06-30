@@ -23,7 +23,9 @@ dependencies {
   }
   optional("commons-dbcp:commons-dbcp:$commonDbcpVersion")
   optional("com.zaxxer:HikariCP-java6:2.1.0")
+
   optional("org.springframework.amqp:spring-rabbit:$springAmqpVersion")
+
   optional("org.springframework.data:spring-data-redis:$springDataRedisVersion") {
     exclude(group: 'org.springframework', module: 'spring-context-support')
   }
@@ -34,5 +36,8 @@ dependencies {
     exclude(group: 'org.springframework', module: 'spring-beans')
     exclude(group: 'org.springframework', module: 'spring-expression')
     exclude(group: 'org.springframework', module: 'spring-tx')
+    // depend on mongo-java-driver explicitly to control version used for testing
+    exclude(group: 'org.mongodb', module: 'mongo-java-driver')
   }
+  optional("org.mongodb:mongo-java-driver:${mongoDriverVersion}")
 }

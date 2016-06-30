@@ -5,11 +5,11 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:0.8'
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
     }
 }
 
-apply plugin: 'shadow'
+apply plugin: 'com.github.johnrengelman.shadow'
 apply from: "publish-maven.gradle"
 
 dependencies {
@@ -18,27 +18,16 @@ dependencies {
   compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 }
 
-shadow {
-	artifactSet {
-        include 'com.fasterxml.jackson.core:jackson-*'
+shadowJar {
+    classifier = null
+    dependencies {
+        include dependency('com.fasterxml.jackson.core:jackson-.*')
     }
-    relocation {
-        pattern = 'com.fasterxml.jackson'
-        shadedPattern = 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson'
-    }
+    relocate 'com.fasterxml.jackson', 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson'
 }
 
-task moveShadowJar(type: Copy) {
-    from "$buildDir/distributions/${archivesBaseName}-${version}-shadow.jar"
-    into "$buildDir/libs"
-     rename { String fileName ->
-        fileName.replace('-shadow', '')
-    }
-}
-
-moveShadowJar.dependsOn shadowJar
-assemble.dependsOn moveShadowJar
-install.dependsOn moveShadowJar
+assemble.dependsOn shadowJar
+install.dependsOn shadowJar
 
 configurations {
     tests
