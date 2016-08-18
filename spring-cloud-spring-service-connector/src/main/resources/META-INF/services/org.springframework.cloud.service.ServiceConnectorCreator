@@ -7,3 +7,4 @@ org.springframework.cloud.service.document.MongoDbFactoryCreator
 org.springframework.cloud.service.messaging.RabbitConnectionFactoryCreator
 org.springframework.cloud.service.smtp.MailSenderCreator
 org.springframework.cloud.service.relational.SqlServerDataSourceCreator
+org.springframework.cloud.service.column.CassandraClusterCreator

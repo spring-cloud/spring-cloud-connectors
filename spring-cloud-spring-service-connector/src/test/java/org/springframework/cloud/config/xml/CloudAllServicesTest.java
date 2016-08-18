@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import javax.sql.DataSource;
 
+import com.datastax.driver.core.Cluster;
 import org.junit.Test;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.BeanCreationException;
@@ -36,7 +37,8 @@ public class CloudAllServicesTest extends StubCloudConnectorTest {
 																   createPostgresqlService("postDb"),
 																   createMongoService("mongoDb"),
 																   createRedisService("redisDb"),
-																   createRabbitService("rabbit"));
+																   createRabbitService("rabbit"),
+																   createCassandraService("cassandra"));
 		
 		assertNotNull("Getting service by id", testContext.getBean("mysqlDb"));
 		assertNotNull("Getting service by id and type", testContext.getBean("mysqlDb", DataSource.class));		
@@ -51,7 +53,9 @@ public class CloudAllServicesTest extends StubCloudConnectorTest {
 		assertNotNull("Getting service by id and type", testContext.getBean("redisDb", RedisConnectionFactory.class));		
 
 		assertNotNull("Getting service by id", testContext.getBean("rabbit"));
-		assertNotNull("Getting service by id and type", testContext.getBean("rabbit", ConnectionFactory.class));		
+		assertNotNull("Getting service by id and type", testContext.getBean("rabbit", ConnectionFactory.class));
+
+		assertNotNull("Getting service by id", testContext.getBean("cassandra"));
+ 		assertNotNull("Getting service by id and type", testContext.getBean("cassandra", Cluster.class));
 	}
-	
 }

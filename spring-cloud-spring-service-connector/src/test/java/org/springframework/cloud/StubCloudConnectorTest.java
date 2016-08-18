@@ -1,7 +1,10 @@
 package org.springframework.cloud;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.common.CassandraServiceInfo;
 import org.springframework.cloud.service.common.MongoServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
@@ -69,6 +72,10 @@ abstract public class StubCloudConnectorTest {
 
 	protected AmqpServiceInfo createRabbitService(String id) {
 		return new AmqpServiceInfo(id, "10.20.30.40", 1234, "username", "password", "vh");
+	}
+
+	protected CassandraServiceInfo createCassandraService(String id) {
+		return new CassandraServiceInfo(id, Arrays.asList("10.20.30.40"), 1234, "username", "password");
 	}
 	
 	protected RedisServiceInfo createRedisService(String id) {

@@ -349,4 +349,115 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 
+ 	<xsd:element name="cassandra-session-factory">
+ 		<xsd:annotation>
+ 			<xsd:documentation>
+ 				Locates a cassandra service
+ 			</xsd:documentation>
+ 		</xsd:annotation>
+ 
+ 		<xsd:complexType>
+ 
+ 			<xsd:sequence>
+ 				<xsd:element name="cassandra-options" type="cassandraOptionsType" minOccurs="0" maxOccurs="1"/>
+ 
+ 			</xsd:sequence>
+ 			<xsd:attribute name="id" type="xsd:string" use="optional">
+ 				<xsd:annotation>
+ 					<xsd:documentation>
+ 						The id for this Cassandra Session instance.
+ 						If not provided, the service name will be used as a fallback.
+ 					</xsd:documentation>
+ 				</xsd:annotation>
+ 			</xsd:attribute>
+ 			<xsd:attribute name="service-name" type="xsd:string" use="optional">
+ 				<xsd:annotation>
+ 					<xsd:documentation>
+ 						The name of the cassandra service.
+ 					</xsd:documentation>
+ 				</xsd:annotation>
+ 			</xsd:attribute>
+ 
+ 		</xsd:complexType>
+ 
+ 	</xsd:element>
+ 
+ 	<xsd:complexType name="cassandraOptionsType">
+ 		<xsd:annotation>
+ 			<xsd:documentation><![CDATA[
+ 				Element defining optional Cassandra configuration settings.
+ 			]]></xsd:documentation>
+ 		</xsd:annotation>
+ 		<xsd:attributeGroup ref="compressionOptions"/>
+ 		<xsd:attribute type="xsd:string" name="reconnection-policy">
+ 			<xsd:annotation>
+ 				<xsd:documentation><![CDATA[
+ 					A reference to a com.datastax.driver.core.policies.ReconnectionPolicy implementation
+ 	          		]]></xsd:documentation>
+ 				<xsd:appinfo>
+ 					<tool:annotation kind="ref">
+ 						<tool:expected-type type="com.datastax.driver.core.policies.ReconnectionPolicy"/>
+ 					</tool:annotation>
+ 				</xsd:appinfo>
+ 			</xsd:annotation>
+ 
+ 		</xsd:attribute>
+ 		<xsd:attribute type="xsd:string" name="loadbalancing-policy">
+ 			<xsd:annotation>
+ 				<xsd:documentation><![CDATA[
+ 					A reference to a com.datastax.driver.core.policies.LoadBalancingPolicy implementation
+ 	          		]]></xsd:documentation>
+ 				<xsd:appinfo>
+ 					<tool:annotation kind="ref">
+ 						<tool:expected-type type="com.datastax.driver.core.policies.LoadBalancingPolicy"/>
+ 					</tool:annotation>
+ 				</xsd:appinfo>
+ 			</xsd:annotation>
+ 
+ 		</xsd:attribute>
+ 		<xsd:attribute type="xsd:string" name="socket-options">
+ 			<xsd:annotation>
+ 				<xsd:documentation><![CDATA[
+ 					A reference to a com.datastax.driver.core.SocketOptions Object
+ 	          		]]></xsd:documentation>
+ 				<xsd:appinfo>
+ 					<tool:annotation kind="ref">
+ 						<tool:expected-type type="com.datastax.driver.core.SocketOptions"/>
+ 					</tool:annotation>
+ 				</xsd:appinfo>
+ 			</xsd:annotation>
+ 
+ 		</xsd:attribute>
+ 		<xsd:attribute type="xsd:string" name="retry-policy">
+ 			<xsd:annotation>
+ 				<xsd:documentation><![CDATA[
+ 					A reference to a com.datastax.driver.core.policies.RetryPolicy Object
+ 	          		]]></xsd:documentation>
+ 				<xsd:appinfo>
+ 					<tool:annotation kind="ref">
+ 						<tool:expected-type type="com.datastax.driver.core.policies.RetryPolicy"/>
+ 					</tool:annotation>
+ 				</xsd:appinfo>
+ 			</xsd:annotation>
+ 
+ 		</xsd:attribute>
+ 	</xsd:complexType>
+ 
+ 	<xsd:attributeGroup name="compressionOptions">
+ 		<xsd:attribute name="compression">
+ 			<xsd:annotation>
+ 				<xsd:documentation><![CDATA[
+ 					com.datastax.driver.core.policies.RetryPolicy to be used
+ 				]]></xsd:documentation>
+ 			</xsd:annotation>
+ 			<xsd:simpleType>
+ 				<xsd:restriction base="xsd:string">
+ 					<xsd:enumeration value="NONE" />
+ 					<xsd:enumeration value="LZ4" />
+ 					<xsd:enumeration value="SNAPPY" />
+ 				</xsd:restriction>
+ 			</xsd:simpleType>
+ 		</xsd:attribute>
+ 	</xsd:attributeGroup>
+ 
 </xsd:schema>

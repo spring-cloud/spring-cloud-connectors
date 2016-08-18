@@ -40,4 +40,14 @@ dependencies {
     exclude(group: 'org.mongodb', module: 'mongo-java-driver')
   }
   optional("org.mongodb:mongo-java-driver:${mongoDriverVersion}")
+
+
+  optional("org.springframework.data:spring-data-cassandra:$springDataCassandraVersion") {
+    exclude(group: 'org.springframework', module: 'spring-beans')
+    exclude(group: 'org.springframework', module: 'spring-expression')
+    exclude(group: 'org.springframework', module: 'spring-tx')
+    // depend on cassandra-driver-core explicitly to control version used for testing
+    exclude(group: 'com.datastax.cassandra', module: 'cassandra-driver-core')
+  }
+  optional("com.datastax.cassandra:cassandra-driver-core:${cassandraDriverVersion}")
 }
