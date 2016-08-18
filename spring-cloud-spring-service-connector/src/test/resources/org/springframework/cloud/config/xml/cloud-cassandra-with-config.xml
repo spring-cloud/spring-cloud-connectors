@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cloud="http://www.springframework.org/schema/cloud"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd">
+
+    <bean id="loadBalancingPolicy" class="com.datastax.driver.core.policies.RoundRobinPolicy"/>
+    <bean id="reconnectionPolicy" class="com.datastax.driver.core.policies.ConstantReconnectionPolicy">
+        <constructor-arg index="0" value="2000"/>
+    </bean>
+    <bean id="retryPolicy" class="com.datastax.driver.core.policies.DefaultRetryPolicy"/>
+    <bean id="socketOptions" class="com.datastax.driver.core.SocketOptions">
+        <property name="keepAlive" value="true"/>
+        <property name="connectTimeoutMillis" value="15000"/>
+    </bean>
+
+    <cloud:cassandra-session-factory id="cassandra-full-config" service-name="my-service" >
+        <cloud:cassandra-options compression="NONE" retry-policy="retryPolicy"
+                                 loadbalancing-policy="loadBalancingPolicy" reconnection-policy="reconnectionPolicy"
+                                 socket-options="socketOptions"/>
+    </cloud:cassandra-session-factory>
+</beans>

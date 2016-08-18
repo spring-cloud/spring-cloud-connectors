@@ -25,6 +25,7 @@ public class CloudNamespaceHandler extends NamespaceHandlerSupport {
 		registerBeanDefinitionParser("redis-connection-factory", new CloudRedisConnectionFactoryParser());
 		registerBeanDefinitionParser("mongo-db-factory", new CloudMongoDbFactoryParser());
 		registerBeanDefinitionParser("data-source", new CloudDataSourceFactoryParser());
+		registerBeanDefinitionParser("cassandra-session-factory", new CloudCassandraSessionParser());
 
 		registerBeanDefinitionParser("connection-properties", new ConnectionPropertiesParser());
 

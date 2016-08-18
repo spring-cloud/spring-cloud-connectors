@@ -173,7 +173,8 @@ ext {
 	matrix = [
 			"driver34-mongo20"  : [mongoDriverVersion: "3.4.2", springDataMongoVersion: "2.0.0.RELEASE"],
 			"jedis29-redis20"   : [jedisVersion: "2.9.0", springDataRedisVersion: "2.0.0.RELEASE"],
-			"lettuce5-redis20" :  [lettuceVersion: "5.0.0.RELEASE", springDataRedisVersion: "2.0.0.RELEASE"],
+			"lettuce5-redis20"  : [lettuceVersion: "5.0.0.RELEASE", springDataRedisVersion: "2.0.0.RELEASE"],
+			"driver313-cass20"  : [cassandraDriverVersion: "3.1.3", springDataCassandraVersion: "2.0.0.RELEASE"],
 			"amqp20"            : [springAmqpVersion: "2.0.0.RELEASE"],
 			"spring50"          : [springVersion: "5.0.0.RELEASE"],
 			"tomcat85"          : [tomcatVersion: "8.5.13"],

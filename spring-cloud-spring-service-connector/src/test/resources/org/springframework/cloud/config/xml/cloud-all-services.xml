@@ -10,5 +10,6 @@
 	<cloud:mongo-db-factory service-name="mongoDb"/>
 	<cloud:redis-connection-factory service-name="redisDb"/>
 	<cloud:rabbit-connection-factory service-name="rabbit"/>
+	<cloud:cassandra-session-factory service-name="cassandra"/>
 	
 </beans>
