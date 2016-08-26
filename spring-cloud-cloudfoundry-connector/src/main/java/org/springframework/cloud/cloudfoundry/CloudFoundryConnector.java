@@ -70,11 +70,13 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 		if (servicesString == null || servicesString.length() == 0) {
 			rawServices = new HashMap<String, List<Map<String,Object>>>();
 		}
-		try {
-			rawServices = objectMapper.readValue(servicesString, Map.class);
-		} catch (Exception e) {
-			throw new CloudException(e);
-		} 
+		else {
+			try {
+				rawServices = objectMapper.readValue(servicesString, Map.class);
+			} catch (Exception e) {
+				throw new CloudException(e);
+			} 
+		}
 		
 		List<Map<String,Object>> flatServices = new ArrayList<Map<String,Object>>();
 		for (Map.Entry<String, List<Map<String,Object>>> entry : rawServices.entrySet()) {
