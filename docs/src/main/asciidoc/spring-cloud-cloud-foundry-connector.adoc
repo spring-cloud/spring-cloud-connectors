@@ -108,7 +108,7 @@ The connector will check for:
 The connector will check for:
 
 * `uri` or `uris` using the scheme `oracle`
-* `jdbcUrl` field in `credentials` using the scheme `oracle`
+* `jdbcUrl` field in `credentials`
 * `oracleUri`, `oracleuri`, `oracleUrl`, or `oracleurl` fields in `credentials`
 
 ==== PostgreSQL
