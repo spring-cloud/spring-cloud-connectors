@@ -8,7 +8,6 @@ import org.springframework.util.StringUtils;
  * @author Ramnivas Laddad
  * @author Mark Fisher
  * @author Thomas Risberg
- *
  */
 public class PooledServiceConnectorConfig implements ServiceConnectorConfig {
 	private PoolConfig poolConfig;
@@ -63,27 +62,29 @@ public class PooledServiceConnectorConfig implements ServiceConnectorConfig {
 		}
 
 		// For commons-pool2
+
 		/**
 		 * @return property corresponding to commons-pool {@code maxTotal}
 		 */
-        public int getMaxTotal() {
-            return maxPoolSize;
-        }
+		public int getMaxTotal() {
+			return maxPoolSize;
+		}
 
-        /**
+		/**
 		 * @return property corresponding to DBCP {@code maxWait}
 		 */
 		public int getMaxWait() {
 			return maxWaitTime;
 		}
 
-        // For commons-pool2
+		// For commons-pool2
+
 		/**
 		 * @return property corresponding to commons-pool {@code maxWaitMillis}
 		 */
-        public int getMaxWaitMillis() {
-            return maxWaitTime;
-        }
+		public int getMaxWaitMillis() {
+			return maxWaitTime;
+		}
 
 		private void determinePoolSizeRange(String poolSize) {
 			if (StringUtils.hasText(poolSize)) {

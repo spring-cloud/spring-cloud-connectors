@@ -24,8 +24,7 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 	private ObjectMapper objectMapper = new ObjectMapper();
 	private EnvironmentAccessor environment = new EnvironmentAccessor();
 	
-	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator 
-		= new ApplicationInstanceInfoCreator();
+	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator = new ApplicationInstanceInfoCreator();
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public CloudFoundryConnector() {
@@ -56,7 +55,7 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 
 	
 	/**
-	 * Return object representation of the VCAP_SERIVCES environment variable
+	 * Return object representation of the VCAP_SERVICES environment variable
 	 * <p>
 	 * Returns a list whose element is a map with service attributes. 
 	 * </p>
@@ -67,15 +66,14 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 		String servicesString = environment.getEnvValue("VCAP_SERVICES");
 		Map<String, List<Map<String,Object>>> rawServices = new HashMap<String, List<Map<String,Object>>>();
 		
-		if (servicesString == null || servicesString.length() == 0) {
-			rawServices = new HashMap<String, List<Map<String,Object>>>();
+		if (servicesString != null && servicesString.length() > 0) {
+			try {
+				rawServices = objectMapper.readValue(servicesString, Map.class);
+			} catch (Exception e) {
+				throw new CloudException(e);
+			}
 		}
-		try {
-			rawServices = objectMapper.readValue(servicesString, Map.class);
-		} catch (Exception e) {
-			throw new CloudException(e);
-		} 
-		
+
 		List<Map<String,Object>> flatServices = new ArrayList<Map<String,Object>>();
 		for (Map.Entry<String, List<Map<String,Object>>> entry : rawServices.entrySet()) {
 			flatServices.addAll(entry.getValue());

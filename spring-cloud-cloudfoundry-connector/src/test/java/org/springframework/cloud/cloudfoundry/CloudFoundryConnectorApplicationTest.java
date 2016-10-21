@@ -2,16 +2,21 @@ package org.springframework.cloud.cloudfoundry;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
+import org.springframework.cloud.CloudException;
+import org.springframework.cloud.service.ServiceInfo;
 
 /**
  * 
  * @author Ramnivas Laddad
+ * @author Scott Frederick
  *
  */
 public class CloudFoundryConnectorApplicationTest extends AbstractCloudFoundryConnectorTest {
@@ -49,6 +54,27 @@ public class CloudFoundryConnectorApplicationTest extends AbstractCloudFoundryCo
 		
 		return payload;
 	}
-	
+
+	@Test
+	public void servicesInfosWithNullServices() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES")).thenReturn(null);
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertNotNull(serviceInfos);
+		assertEquals(0, serviceInfos.size());
+	}
+
+	@Test
+	public void servicesInfosWithEmptyServices() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES")).thenReturn("");
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertNotNull(serviceInfos);
+		assertEquals(0, serviceInfos.size());
+	}
+
+	@Test(expected = CloudException.class)
+	public void servicesInfosWithNonJsonServices() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES")).thenReturn("some value");
+		testCloudConnector.getServiceInfos();
+	}
 
 }
