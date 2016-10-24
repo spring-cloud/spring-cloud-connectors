@@ -61,7 +61,12 @@ public class PooledServiceConnectorConfig implements ServiceConnectorConfig {
 			return maxPoolSize;
 		}
 
-		// For commons-pool2
+		/**
+		 * @return property corresponding to DBCP {@code maxWait}
+		 */
+		public int getMaxWait() {
+			return maxWaitTime;
+		}
 
 		/**
 		 * @return property corresponding to commons-pool {@code maxTotal}
@@ -71,19 +76,24 @@ public class PooledServiceConnectorConfig implements ServiceConnectorConfig {
 		}
 
 		/**
-		 * @return property corresponding to DBCP {@code maxWait}
-		 */
-		public int getMaxWait() {
-			return maxWaitTime;
-		}
-
-		// For commons-pool2
-
-		/**
 		 * @return property corresponding to commons-pool {@code maxWaitMillis}
 		 */
 		public int getMaxWaitMillis() {
 			return maxWaitTime;
+		}
+
+		/**
+		 * @return property corresponding to HikariCP {@code minimumIdle}
+		 */
+		public int getMinimumIdle() {
+			return minPoolSize;
+		}
+
+		/**
+		 * @return property corresponding to HikariCP {@code maximumPoolSize}
+		 */
+		public int getMaximumPoolSize() {
+			return maxPoolSize;
 		}
 
 		private void determinePoolSizeRange(String poolSize) {

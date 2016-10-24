@@ -6,12 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.cloud.ReflectionUtils;
+import org.springframework.cloud.service.PooledServiceConnectorConfig.PoolConfig;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 
 import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -24,6 +28,10 @@ import static org.springframework.cloud.service.relational.TomcatDbcpPooledDataS
 import static org.springframework.cloud.service.relational.TomcatJdbcPooledDataSourceCreator.TOMCAT_JDBC_DATASOURCE;
 
 public class PooledDataSourceCreatorsTest {
+	public static final int MIN_POOL_SIZE = 100;
+	public static final int MAX_POOL_SIZE = 200;
+	public static final int MAX_WAIT_TIME = 5;
+
 	@Mock private MysqlServiceInfo mockMysqlServiceInfo;
 
 	// Just to grab driver class name and validation query string 
@@ -37,7 +45,9 @@ public class PooledDataSourceCreatorsTest {
 
 	@Test
 	public void pooledDataSourceCreationDefault() throws Exception {
-		DataSource ds = createMysqlDataSource(null);
+		PoolConfig poolConfig = new PoolConfig(MIN_POOL_SIZE, MAX_POOL_SIZE, MAX_WAIT_TIME);
+		DataSourceConfig config = new DataSourceConfig(poolConfig, null);
+		DataSource ds = createMysqlDataSource(config);
 		assertTomcatJdbcDataSource(ds);
 	}
 
@@ -84,7 +94,10 @@ public class PooledDataSourceCreatorsTest {
 	}
 
 	private DataSource createMysqlDataSourceWithPooledName(String pooledDataSourceName) {
-		DataSourceConfig config = new DataSourceConfig(Collections.singletonList(pooledDataSourceName));
+		List<String> dataSourceNames = Collections.singletonList(pooledDataSourceName);
+		PoolConfig poolConfig =
+				new PoolConfig(MIN_POOL_SIZE, MAX_POOL_SIZE, MAX_WAIT_TIME);
+		DataSourceConfig config = new DataSourceConfig(poolConfig, null, dataSourceNames);
 		return createMysqlDataSource(config);
 	}
 
@@ -97,9 +110,17 @@ public class PooledDataSourceCreatorsTest {
 
 		if (hasClass(DBCP2_BASIC_DATASOURCE)) {
 			assertThat(ds, instanceOf(Class.forName(DBCP2_BASIC_DATASOURCE)));
+
+			assertEquals(MIN_POOL_SIZE, getValue(ds, "minIdle"));
+			assertEquals(MAX_POOL_SIZE, getValue(ds, "maxTotal"));
+			assertEquals(MAX_WAIT_TIME, getValue(ds, "maxWaitMillis"));
 		}
 		if (hasClass(DBCP_BASIC_DATASOURCE) && !hasClass(DBCP2_BASIC_DATASOURCE)) {
 			assertThat(ds, instanceOf(Class.forName(DBCP_BASIC_DATASOURCE)));
+
+			assertEquals(MIN_POOL_SIZE, getValue(ds, "minIdle"));
+			assertEquals(MAX_POOL_SIZE, getValue(ds, "maxActive"));
+			assertEquals(MAX_WAIT_TIME, getValue(ds, "maxWait"));
 		}
 	}
 
@@ -108,17 +129,38 @@ public class PooledDataSourceCreatorsTest {
 
 		if (hasClass(TOMCAT_7_DBCP)) {
 			assertThat(ds, instanceOf(Class.forName(TOMCAT_7_DBCP)));
+
+			assertEquals(MIN_POOL_SIZE, getValue(ds, "minIdle"));
+			assertEquals(MAX_WAIT_TIME, getValue(ds, "maxWait"));
 		}
 		if (hasClass(TOMCAT_8_DBCP)) {
 			assertThat(ds, instanceOf(Class.forName(TOMCAT_8_DBCP)));
+
+			assertEquals(MIN_POOL_SIZE, getValue(ds, "minIdle"));
+			assertEquals(MAX_POOL_SIZE, getValue(ds, "maxTotal"));
+			assertEquals(MAX_WAIT_TIME, getValue(ds, "maxWaitMillis"));
 		}
 	}
 
 	private void assertTomcatJdbcDataSource(DataSource ds) throws ClassNotFoundException {
 		assertThat(ds, instanceOf(Class.forName(TOMCAT_JDBC_DATASOURCE)));
+
+		assertEquals(MIN_POOL_SIZE, getValue(ds, "minIdle"));
+		assertEquals(MAX_WAIT_TIME, getValue(ds, "maxWait"));
 	}
 
 	private void assertHikariDataSource(DataSource ds) throws ClassNotFoundException {
 		assertThat(ds, instanceOf(Class.forName(HIKARI_DATASOURCE)));
+
+		assertEquals(MIN_POOL_SIZE, getValue(ds, "minimumIdle"));
+		assertEquals(MAX_POOL_SIZE, getValue(ds, "maximumPoolSize"));
+	}
+
+	private int getValue(Object target, String fieldName) {
+		Object value = ReflectionUtils.getValue(target, fieldName);
+		if (value == null) {
+			throw new IllegalArgumentException("Bad field name " + fieldName + " for target object " + target);
+		}
+		return Integer.valueOf(value.toString());
 	}
 }
