@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Import;
  * spirit, scans services bound to the app and creates a bean for each. It also creates a bean
  * of {@link ApplicationInstanceInfo} class to expose information about the application instance. 
  * 
- * Upon service scanning, if there is a unique bean of for service type, you can inject it 
+ * Upon service scanning, if there is a unique bean for service type, you can inject it
  * using the following code (shows Redis, but the same scheme works for all services):
  * <pre>
  * &#64;Autowired RedisConnectionFactory redisConnectionFactory;
