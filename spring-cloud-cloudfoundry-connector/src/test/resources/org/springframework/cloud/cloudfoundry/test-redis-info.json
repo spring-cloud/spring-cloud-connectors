@@ -1,11 +1,11 @@
 {
-        "name": "$serviceName",
-        "label": "rediscloud",
-        "plan": "free",
-        "tags":["redis","key-value"],
-        "credentials": {
-            "hostname": "$hostname",
-            "port": "$port",
-            "password": "$password"
-        }
+	"name": "$serviceName",
+	"label": "rediscloud",
+	"plan": "free",
+	"tags": [ "redis", "key-value" ],
+	"credentials": {
+		"hostname": "$hostname",
+		"port": "$port",
+		"password": "$password"
+	}
 }

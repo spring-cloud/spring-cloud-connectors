@@ -1,9 +1,9 @@
 {
-        "name": "$serviceName",
-        "label": "elephantsql",
-        "plan": "free",
-        "tags": ["postgresql"],
-        "credentials": {
-        		"uri" : "postgres://$user:$password@$hostname:$port/$name"
-        }
+	"name": "$serviceName",
+	"label": "elephantsql",
+	"plan": "free",
+	"tags": [ "postgresql" ],
+	"credentials": {
+		"uri": "postgres://$user:$password@$hostname:$port/$name"
+	}
 }

@@ -1,9 +1,9 @@
 {
-        "name": "$serviceName",
-        "label": "mongolab",
-        "plan": "free",
-        "tags":["mongodb"],
-        "credentials": {
-            "uri" : "mongodb://$username:$password@$hostname:$port/$db"
-        }
+	"name": "$serviceName",
+	"label": "mongolab",
+	"plan": "free",
+	"tags": [ "mongodb" ],
+	"credentials": {
+		"uri": "mongodb://$username:$password@$hostname:$port/$db"
+	}
 }

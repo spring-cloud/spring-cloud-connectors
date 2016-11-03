@@ -1,9 +1,8 @@
 {
-    "name": "$serviceName",
-	"label":"newrelic-n/a",
-	"tags":[],
-	"plan":"standard",
+	"name": "$serviceName",
+	"label": "newrelic-n/a",
+	"tags": [],
+	"plan": "standard",
 	"credentials": {
-		
 	}
 }

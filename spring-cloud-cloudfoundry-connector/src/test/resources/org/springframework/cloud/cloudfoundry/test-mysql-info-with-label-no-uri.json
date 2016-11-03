@@ -1,15 +1,15 @@
 {
-    "name": "$serviceName",
-    "label": "mysql",
-	"tags":[],
-	"plan":"100",
-	"credentials":{
+	"name": "$serviceName",
+	"label": "mysql",
+	"tags": [],
+	"plan": "100",
+	"credentials": {
 		"name": "$name",
 		"hostname": "$hostname",
 		"host": "$hostname",
 		"port": $port,
 		"user": "$user",
-		"username":"$user",
-		"password":"$password"
+		"username": "$user",
+		"password": "$password"
 	}
 }

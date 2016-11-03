@@ -1,13 +1,13 @@
 {
-    "name": "$serviceName",
-    "label": "user-provided",
-    "tags": [],
-    "credentials": {
-        "host": "$hostname",
-        "port": "$port",
-        "username": "$user",
-        "password": "$password",
-        "name": "$name",
-        "integer": 123
-    }
+	"name": "$serviceName",
+	"label": "user-provided",
+	"tags": [],
+	"credentials": {
+		"host": "$hostname",
+		"port": "$port",
+		"username": "$user",
+		"password": "$password",
+		"name": "$name",
+		"integer": 123
+	}
 }

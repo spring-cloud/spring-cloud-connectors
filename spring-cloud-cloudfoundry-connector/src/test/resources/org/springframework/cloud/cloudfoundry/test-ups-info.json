@@ -1,8 +1,8 @@
 {
-    "name": "$serviceName",
-    "label": "user-provided",
-    "tags": [],
-    "credentials": {
-        "uri": "$scheme//$user:$password@$hostname:$port/$name"
-    }
+	"name": "$serviceName",
+	"label": "user-provided",
+	"tags": [],
+	"credentials": {
+		"uri": "$scheme//$user:$password@$hostname:$port/$name"
+	}
 }

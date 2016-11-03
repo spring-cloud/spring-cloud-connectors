@@ -1,6 +1,6 @@
 {
-        "name": "$serviceName",
-        "credentials": {
-            "uri" : "mongodb://$username:$password@$hostname:$port/$db"
-        }
+	"name": "$serviceName",
+	"credentials": {
+		"uri": "mongodb://$username:$password@$hostname:$port/$db"
+	}
 }

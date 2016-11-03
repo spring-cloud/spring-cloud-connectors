@@ -1,6 +1,6 @@
 {
-        "name": "$serviceName",
-        "credentials": {
-        		"uri" : "redis://$username:$password@$hostname:$port"
-        }
+	"name": "$serviceName",
+	"credentials": {
+		"uri": "redis://$username:$password@$hostname:$port"
+	}
 }

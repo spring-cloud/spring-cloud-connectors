@@ -1,6 +1,6 @@
 {
-        "name": "$serviceName",
-        "credentials": {
-        		"uri" : "postgres://$user:$password@$hostname:$port/$name"
-        }
+	"name": "$serviceName",
+	"credentials": {
+		"uri": "postgres://$user:$password@$hostname:$port/$name"
+	}
 }

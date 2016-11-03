@@ -1,9 +1,9 @@
 {
-        "name": "$serviceName",
-        "label": "mysql",
-        "tags": [],
-        "plan": "free",
-		"credentials":{
-			"uri" : "mysql://$user:$password@$hostname:$port/$name"
-		}
+	"name": "$serviceName",
+	"label": "mysql",
+	"tags": [],
+	"plan": "free",
+	"credentials": {
+		"uri": "mysql://$user:$password@$hostname:$port/$name"
+	}
 }
