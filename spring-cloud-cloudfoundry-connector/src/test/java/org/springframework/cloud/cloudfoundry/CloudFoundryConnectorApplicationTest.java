@@ -77,4 +77,22 @@ public class CloudFoundryConnectorApplicationTest extends AbstractCloudFoundryCo
 		testCloudConnector.getServiceInfos();
 	}
 
+	@Test
+	public void serviceInfosWithMissingCredentials() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES")).
+				thenReturn(getServicesPayload(readTestDataFile("test-credentials-missing.json")));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertNotNull(serviceInfos);
+		assertEquals(1, serviceInfos.size());
+	}
+
+	@Test
+	public void serviceInfosWithEmptyCredentials() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES")).
+				thenReturn(getServicesPayload(readTestDataFile("test-credentials-empty.json")));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertNotNull(serviceInfos);
+		assertEquals(1, serviceInfos.size());
+	}
+
 }

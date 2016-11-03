@@ -61,12 +61,15 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 
 		Map<String, Object> credentials = getCredentials(serviceData);
 
-		for (String uriScheme : uriSchemes) {
-			if (credentials.containsKey(uriScheme + "Uri") || credentials.containsKey(uriScheme + "uri") ||
-					credentials.containsKey(uriScheme + "Url") || credentials.containsKey(uriScheme + "url")) {
-				return true;
+		if (credentials != null) {
+			for (String uriScheme : uriSchemes) {
+				if (credentials.containsKey(uriScheme + "Uri") || credentials.containsKey(uriScheme + "uri") ||
+						credentials.containsKey(uriScheme + "Url") || credentials.containsKey(uriScheme + "url")) {
+					return true;
+				}
 			}
 		}
+
 		return false;
 	}
 
