@@ -1,6 +1,8 @@
 org.springframework.cloud.localconfig.AmqpServiceInfoCreator
+org.springframework.cloud.localconfig.DB2ServiceInfoCreator
 org.springframework.cloud.localconfig.MongoServiceInfoCreator
 org.springframework.cloud.localconfig.MysqlServiceInfoCreator
 org.springframework.cloud.localconfig.OracleServiceInfoCreator
 org.springframework.cloud.localconfig.PostgresqlServiceInfoCreator
 org.springframework.cloud.localconfig.RedisServiceInfoCreator
+org.springframework.cloud.localconfig.SqlServerServiceInfoCreator

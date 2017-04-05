@@ -11,9 +11,7 @@ import org.springframework.cloud.service.UriBasedServiceInfo;
 
 public class AbstractLocalConfigConnectorTest {
 
-    public static final String PROPERTIES_FILE = "localconfig.testuris.properties";
-
-    protected StubbedOpenFileLocalConfigConnector connector = new StubbedOpenFileLocalConfigConnector();
+	protected StubbedOpenFileLocalConfigConnector connector = new StubbedOpenFileLocalConfigConnector();
 
 	protected PassthroughEnvironmentAccessor env;
 
