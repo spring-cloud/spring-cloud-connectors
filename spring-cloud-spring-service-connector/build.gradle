@@ -17,7 +17,6 @@ ext {
 	mariadbDriverVersion = "1.5.9"
 	postgresDriverVersion = "9.1-901-1.jdbc4"
 
-	commonDbcpVersion = "1.4"
 	commonDbcp2Version = "2.1.1"
 	hikariCpVersion = "2.5.1"
 
@@ -45,7 +44,6 @@ dependencies {
 	optional("org.apache.commons:commons-dbcp2:$commonDbcp2Version") {
 		exclude(group: 'commons-logging', module: 'commons-logging')
 	}
-	optional("commons-dbcp:commons-dbcp:$commonDbcpVersion")
 	optional("com.zaxxer:HikariCP:${hikariCpVersion}")
 
 	optional("org.springframework.amqp:spring-rabbit:$springAmqpVersion")
