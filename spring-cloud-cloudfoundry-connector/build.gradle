@@ -1,46 +1,50 @@
 description = 'Spring-Cloud Cloud Foundry Connector'
 
 buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
-    }
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+	}
 }
 
 apply plugin: 'com.github.johnrengelman.shadow'
 apply from: "publish-maven.gradle"
 
+ext {
+	jacksonVersion = "2.3.3"
+}
+
 dependencies {
-  compile project(':spring-cloud-core')
-  compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
-  compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+	compile project(':spring-cloud-core')
+	compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+	compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 }
 
 shadowJar {
-    classifier = null
-    dependencies {
-        include dependency('com.fasterxml.jackson.core:jackson-.*')
-    }
-    relocate 'com.fasterxml.jackson', 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson'
+	classifier = null
+	dependencies {
+		include dependency('com.fasterxml.jackson.core:jackson-.*')
+	}
+	relocate 'com.fasterxml.jackson', 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson'
 }
 
 assemble.dependsOn shadowJar
 install.dependsOn shadowJar
 
 configurations {
-    tests
+	tests
 }
 
 task testJar(type: Jar) {
-    classifier = 'tests'
-    from sourceSets.test.output
+	classifier = 'tests'
+	from sourceSets.test.output
 }
 
 build.dependsOn testJar
 
 artifacts {
-    tests testJar
-    archives testJar
+	tests testJar
+	archives testJar
 }

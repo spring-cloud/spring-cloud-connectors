@@ -1,43 +1,67 @@
 description = 'Service Connectors'
 
+ext {
+	springVersion = "5.0.0.BUILD-SNAPSHOT"
+	tomcatVersion = "8.5.13"
+
+	springAmqpVersion = "2.0.0.BUILD-SNAPSHOT"
+
+	springDataMongoVersion = "2.0.0.BUILD-SNAPSHOT"
+	mongoDriverVersion = "3.4.2"
+
+	springDataRedisVersion = "2.0.0.BUILD-SNAPSHOT"
+	jedisVersion = "2.9.0"
+	lettuceVersion = "4.3.1.Final"
+
+	mysqlDriverVersion = "6.0.6"
+	mariadbDriverVersion = "1.5.9"
+	postgresDriverVersion = "9.1-901-1.jdbc4"
+
+	commonDbcpVersion = "1.4"
+	commonDbcp2Version = "2.1.1"
+	hikariCpVersion = "2.5.1"
+
+	javaxMailVersion = "1.5.6"
+}
+
 dependencies {
-  testCompile project(path: ':spring-cloud-core', configuration: 'tests')
-  compile project(':spring-cloud-core')
+	testCompile project(path: ':spring-cloud-core', configuration: 'tests')
+	compile project(':spring-cloud-core')
 
-  compile("org.springframework:spring-context:$springVersion")
+	compile("org.springframework:spring-context:$springVersion")
 
-  testCompile("org.springframework:spring-test:$springVersion")
-  testCompile("mysql:mysql-connector-java:$mysqlDriverVersion")
-  testCompile("org.mariadb.jdbc:mariadb-java-client:$mariadbDriverVersion")
-  testCompile("postgresql:postgresql:$postgresDriverVersion")
-  testCompile("cglib:cglib-nodep:$cglibVersion")
+	testCompile("org.springframework:spring-test:$springVersion")
 
-  testRuntime("javax.mail:javax.mail-api:$javaxMailVersion")
+	testCompile("mysql:mysql-connector-java:$mysqlDriverVersion")
+	testCompile("org.mariadb.jdbc:mariadb-java-client:$mariadbDriverVersion")
+	testCompile("postgresql:postgresql:$postgresDriverVersion")
 
-  optional("org.springframework:spring-jdbc:$springVersion")
-  optional("org.springframework:spring-context-support:$springVersion")
-  optional("org.apache.tomcat:tomcat-jdbc:$tomcatVersion")
-  optional("org.apache.tomcat:tomcat-dbcp:$tomcatVersion")
-  optional("org.apache.commons:commons-dbcp2:$commonDbcp2Version") {
-    exclude(group: 'commons-logging', module: 'commons-logging')
-  }
-  optional("commons-dbcp:commons-dbcp:$commonDbcpVersion")
-  optional("com.zaxxer:HikariCP-java6:2.1.0")
+	testRuntime("javax.mail:javax.mail-api:$javaxMailVersion")
 
-  optional("org.springframework.amqp:spring-rabbit:$springAmqpVersion")
+	optional("org.springframework:spring-jdbc:$springVersion")
+	optional("org.springframework:spring-context-support:$springVersion")
+	optional("org.apache.tomcat:tomcat-jdbc:$tomcatVersion")
+	optional("org.apache.tomcat:tomcat-dbcp:$tomcatVersion")
+	optional("org.apache.commons:commons-dbcp2:$commonDbcp2Version") {
+		exclude(group: 'commons-logging', module: 'commons-logging')
+	}
+	optional("commons-dbcp:commons-dbcp:$commonDbcpVersion")
+	optional("com.zaxxer:HikariCP:${hikariCpVersion}")
 
-  optional("org.springframework.data:spring-data-redis:$springDataRedisVersion") {
-    exclude(group: 'org.springframework', module: 'spring-context-support')
-  }
-  optional("redis.clients:jedis:$jedisVersion")
-  optional("biz.paluch.redis:lettuce:$lettuceVersion")
+	optional("org.springframework.amqp:spring-rabbit:$springAmqpVersion")
 
-  optional("org.springframework.data:spring-data-mongodb:$springDataMongoVersion") {
-    exclude(group: 'org.springframework', module: 'spring-beans')
-    exclude(group: 'org.springframework', module: 'spring-expression')
-    exclude(group: 'org.springframework', module: 'spring-tx')
-    // depend on mongo-java-driver explicitly to control version used for testing
-    exclude(group: 'org.mongodb', module: 'mongo-java-driver')
-  }
-  optional("org.mongodb:mongo-java-driver:${mongoDriverVersion}")
+	optional("org.springframework.data:spring-data-redis:$springDataRedisVersion") {
+		exclude(group: 'org.springframework', module: 'spring-context-support')
+	}
+	optional("redis.clients:jedis:$jedisVersion")
+	optional("biz.paluch.redis:lettuce:$lettuceVersion")
+
+	optional("org.springframework.data:spring-data-mongodb:$springDataMongoVersion") {
+		exclude(group: 'org.springframework', module: 'spring-beans')
+		exclude(group: 'org.springframework', module: 'spring-expression')
+		exclude(group: 'org.springframework', module: 'spring-tx')
+		// depend on mongo-java-driver explicitly to control version used for testing
+		exclude(group: 'org.mongodb', module: 'mongo-java-driver')
+	}
+	optional("org.mongodb:mongo-java-driver:${mongoDriverVersion}")
 }
