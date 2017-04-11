@@ -1,6 +1,6 @@
 apply plugin: 'base'
 
-description = "Spring Cloud"
+description = "Spring Cloud Connectors"
 
 buildscript {
 	repositories {
@@ -172,12 +172,11 @@ configure(rootProject) {
 
 ext {
 	matrix = [
-			"driver34-mongo20"  : [mongoDriverVersion: "3.4.2", springDataMongoVersion: "2.0.0.M1"],
-			"jedis29-redis20"   : [jedisVersion: "2.9.0", springDataRedisVersion: "2.0.0.M5"],
-			"lettuce43-redis20" : [lettuceVersion: "4.3.1.Final", springDataRedisVersion: "2.0.0.M5"],
-			"amqp20"            : [springAmqpVersion: "2.0.0.M3"],
-			"spring50"          : [springVersion: "5.0.0.RELEASE"],
-			"tomcat80"          : [tomcatVersion: "8.0.43"],
+			"driver34-mongo20"  : [mongoDriverVersion: "3.4.2", springDataMongoVersion: "2.0.0.BUILD-SNAPSHOT"],
+			"jedis29-redis20"   : [jedisVersion: "2.9.0", springDataRedisVersion: "2.0.0.BUILD-SNAPSHOT"],
+			"lettuce43-redis20" : [lettuceVersion: "4.3.1.Final", springDataRedisVersion: "2.0.0.BUILD-SNAPSHOT"],
+			"amqp20"            : [springAmqpVersion: "2.0.0.BUILD-SNAPSHOT"],
+			"spring50"          : [springVersion: "5.0.0.BUILD-SNAPSHOT"],
 			"tomcat85"          : [tomcatVersion: "8.5.13"],
 	]
 }
@@ -204,5 +203,5 @@ task dist(dependsOn: assemble) {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.10'
+	gradleVersion = '3.5'
 }
