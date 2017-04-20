@@ -39,7 +39,7 @@ subprojects {
 	apply plugin: 'propdeps-eclipse'
 	apply plugin: "org.asciidoctor.gradle.asciidoctor"
 
-	asciidoctor { 
+	asciidoctor {
 		sourceDir = new File("docs/src/main/asciidoc")
 		outputDir = new File("docs/target/generated-docs")
 		options = [
@@ -100,6 +100,7 @@ subprojects {
 
 	repositories {
 		mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 		maven { url "https://repo.spring.io/libs-milestone" }
 		maven { url "https://repo.spring.io/libs-snapshot" }
 	}
@@ -174,7 +175,7 @@ ext {
 	matrix = [
 			"driver34-mongo20"  : [mongoDriverVersion: "3.4.2", springDataMongoVersion: "2.0.0.BUILD-SNAPSHOT"],
 			"jedis29-redis20"   : [jedisVersion: "2.9.0", springDataRedisVersion: "2.0.0.BUILD-SNAPSHOT"],
-			"lettuce43-redis20" : [lettuceVersion: "4.3.1.Final", springDataRedisVersion: "2.0.0.BUILD-SNAPSHOT"],
+			"lettuce5-redis20" :  [lettuceVersion: "5.0.0.BUILD-SNAPSHOT", springDataRedisVersion: "2.0.0.BUILD-SNAPSHOT"],
 			"amqp20"            : [springAmqpVersion: "2.0.0.BUILD-SNAPSHOT"],
 			"spring50"          : [springVersion: "5.0.0.BUILD-SNAPSHOT"],
 			"tomcat85"          : [tomcatVersion: "8.5.13"],

@@ -11,7 +11,7 @@ ext {
 
 	springDataRedisVersion = "2.0.0.BUILD-SNAPSHOT"
 	jedisVersion = "2.9.0"
-	lettuceVersion = "4.3.1.Final"
+	lettuceVersion = "5.0.0.BUILD-SNAPSHOT"
 
 	mysqlDriverVersion = "6.0.6"
 	mariadbDriverVersion = "1.5.9"
@@ -52,7 +52,7 @@ dependencies {
 		exclude(group: 'org.springframework', module: 'spring-context-support')
 	}
 	optional("redis.clients:jedis:$jedisVersion")
-	optional("biz.paluch.redis:lettuce:$lettuceVersion")
+	optional("io.lettuce:lettuce-core:$lettuceVersion")
 
 	optional("org.springframework.data:spring-data-mongodb:$springDataMongoVersion") {
 		exclude(group: 'org.springframework', module: 'spring-beans')
