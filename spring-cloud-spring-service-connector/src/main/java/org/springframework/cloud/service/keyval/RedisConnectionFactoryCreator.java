@@ -23,7 +23,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 public class RedisConnectionFactoryCreator extends AbstractServiceConnectorCreator<RedisConnectionFactory, RedisServiceInfo> {
 
 	private static final String JEDIS_CLASS_NAME = "redis.clients.jedis.Jedis";
-	private static final String LETTUCE_CLASS_NAME = "com.lambdaworks.redis.RedisClient";
+	private static final String LETTUCE_CLASS_NAME = "io.lettuce.core.RedisClient";
 
 	@Override
 	public RedisConnectionFactory create(RedisServiceInfo serviceInfo, ServiceConnectorConfig serviceConnectorConfig) {
