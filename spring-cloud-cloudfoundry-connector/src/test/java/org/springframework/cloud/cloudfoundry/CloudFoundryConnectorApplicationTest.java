@@ -1,8 +1,10 @@
 package org.springframework.cloud.cloudfoundry;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -12,6 +14,7 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.cloud.CloudException;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.common.MysqlServiceInfo;
 
 /**
  * 
@@ -93,6 +96,17 @@ public class CloudFoundryConnectorApplicationTest extends AbstractCloudFoundryCo
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 		assertNotNull(serviceInfos);
 		assertEquals(1, serviceInfos.size());
+	}
+
+	@Test
+	public void serviceInfosWithPostProcessedCredentials() {
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES")).
+				thenReturn(getServicesPayload(readTestDataFile("test-credentials-post-processed.json")));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		assertNotNull(serviceInfos);
+		assertEquals(1, serviceInfos.size());
+		assertThat(serviceInfos.get(0), instanceOf(MysqlServiceInfo.class));
+		assertEquals(((MysqlServiceInfo) serviceInfos.get(0)).getUri(), "MYSQL://USERNAME:PASSWORD@DB.EXAMPLE.COM/DB");
 	}
 
 }
