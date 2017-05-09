@@ -1,17 +1,17 @@
 description = 'Service Connectors'
 
 ext {
-	springVersion = "5.0.0.BUILD-SNAPSHOT"
+	springVersion = "5.0.0.RC1"
 	tomcatVersion = "8.5.13"
 
-	springAmqpVersion = "2.0.0.BUILD-SNAPSHOT"
+	springAmqpVersion = "2.0.0.M3"
 
-	springDataMongoVersion = "2.0.0.BUILD-SNAPSHOT"
+	springDataMongoVersion = "2.0.0.M3"
 	mongoDriverVersion = "3.4.2"
 
-	springDataRedisVersion = "2.0.0.BUILD-SNAPSHOT"
+	springDataRedisVersion = "2.0.0.M3"
 	jedisVersion = "2.9.0"
-	lettuceVersion = "5.0.0.BUILD-SNAPSHOT"
+	lettuceVersion = "5.0.0.M2"
 
 	mysqlDriverVersion = "6.0.6"
 	mariadbDriverVersion = "1.5.9"
