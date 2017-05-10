@@ -1,9 +1,9 @@
 package org.springframework.cloud.cloudfoundry;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.CloudException;
@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * 
  * @author Ramnivas Laddad
- *
+ * @author Scott Frederick
  */
 public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Object>> {
 
@@ -25,10 +25,13 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 	private EnvironmentAccessor environment = new EnvironmentAccessor();
 	
 	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator = new ApplicationInstanceInfoCreator();
-	
+
+	private Iterable<ServiceDataPostProcessor> serviceDataPostProcessors;
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public CloudFoundryConnector() {
 		super((Class) CloudFoundryServiceInfoCreator.class);
+		scanServiceDataPostProcessors();
 	}
 
 	@Override
@@ -64,20 +67,25 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 	@SuppressWarnings("unchecked")
 	protected List<Map<String,Object>> getServicesData() {
 		String servicesString = environment.getEnvValue("VCAP_SERVICES");
-		Map<String, List<Map<String,Object>>> rawServices = new HashMap<String, List<Map<String,Object>>>();
+		CloudFoundryRawServiceData rawServices = new CloudFoundryRawServiceData();
 		
 		if (servicesString != null && servicesString.length() > 0) {
 			try {
-				rawServices = objectMapper.readValue(servicesString, Map.class);
+				rawServices = objectMapper.readValue(servicesString, CloudFoundryRawServiceData.class);
 			} catch (Exception e) {
 				throw new CloudException(e);
 			}
 		}
 
-		List<Map<String,Object>> flatServices = new ArrayList<Map<String,Object>>();
+		for (ServiceDataPostProcessor postProcessor : serviceDataPostProcessors) {
+			rawServices = postProcessor.process(rawServices);
+		}
+
+		List<Map<String, Object>> flatServices = new ArrayList<Map<String, Object>>();
 		for (Map.Entry<String, List<Map<String,Object>>> entry : rawServices.entrySet()) {
 			flatServices.addAll(entry.getValue());
 		}
+
 		return flatServices;
 	}
 	
@@ -85,6 +93,10 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 	@Override
 	protected FallbackServiceInfoCreator<BaseServiceInfo,Map<String,Object>> getFallbackServiceInfoCreator() {
 		return new CloudFoundryFallbackServiceInfoCreator();
+	}
+
+	private void scanServiceDataPostProcessors() {
+		serviceDataPostProcessors = ServiceLoader.load(ServiceDataPostProcessor.class);
 	}
 }
 
