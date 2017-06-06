@@ -3,6 +3,7 @@ package org.springframework.cloud.cloudfoundry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import org.springframework.cloud.ServiceInfoCreator;
@@ -30,12 +31,16 @@ public abstract class CloudFoundryServiceInfoCreator<SI extends ServiceInfo> imp
 	@SuppressWarnings("unchecked")
 	protected boolean tagsMatch(Map<String, Object> serviceData) {
 		List<String> serviceTags = (List<String>) serviceData.get("tags");
+		ListIterator<String> iterator = serviceTags.listIterator();
+		while (iterator.hasNext()) {
+			iterator.set(iterator.next().toLowerCase());
+		}
 		return tags.containsOne(serviceTags);
 	}
 
 	protected boolean labelStartsWithTag(Map<String, Object> serviceData) {
 		String label = (String) serviceData.get("label");
-		return tags.startsWith(label);
+		return tags.startsWith(label.toLowerCase());
 	}
 
 	protected boolean uriMatchesScheme(Map<String, Object> serviceData) {

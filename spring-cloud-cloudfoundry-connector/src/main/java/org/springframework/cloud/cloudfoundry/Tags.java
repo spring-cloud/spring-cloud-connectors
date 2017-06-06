@@ -7,6 +7,9 @@ public class Tags {
 	private String[] values;
 
 	public Tags(String... values) {
+		for (int i=0; i<values.length; i++) {
+			values[i] = values[i].toLowerCase();
+		}
 		this.values = values;
 	}
 

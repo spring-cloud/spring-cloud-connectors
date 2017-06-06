@@ -13,11 +13,12 @@ public class CloudFoundryServiceInfoCreatorTest {
 
 	@Test
 	public void tagsMatch() {
-		DummyServiceInfoCreator serviceInfoCreator = new DummyServiceInfoCreator(new Tags("firstTag", "secondTag"));
+		DummyServiceInfoCreator serviceInfoCreator = new DummyServiceInfoCreator(new Tags("firstTag", "secondTag", "capitalTag"));
 
 		assertAcceptedWithTags(serviceInfoCreator, "firstTag", "noMatchTag");
 		assertAcceptedWithTags(serviceInfoCreator, "noMatchTag", "secondTag");
 		assertAcceptedWithTags(serviceInfoCreator, "firstTag", "secondTag");
+		assertAcceptedWithTags(serviceInfoCreator, "CapitalTag");
 
 		assertNotAcceptedWithTags(serviceInfoCreator, "noMatchTag");
 		assertNotAcceptedWithTags(serviceInfoCreator);
