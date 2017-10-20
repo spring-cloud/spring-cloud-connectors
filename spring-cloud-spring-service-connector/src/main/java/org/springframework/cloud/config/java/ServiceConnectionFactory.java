@@ -1,8 +1,10 @@
 package org.springframework.cloud.config.java;
 
+import com.datastax.driver.core.Cluster;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.cloud.service.PooledServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorConfig;
+import org.springframework.cloud.service.column.CassandraClusterConfig;
 import org.springframework.cloud.service.document.MongoDbFactoryConfig;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryConfig;
 import org.springframework.cloud.service.relational.DataSourceConfig;
@@ -48,6 +50,50 @@ public interface ServiceConnectionFactory {
 
 	RedisConnectionFactory redisConnectionFactory(String serviceId,
 												  PooledServiceConnectorConfig redisConnectionFactoryConfig);
+
+	/**
+	 * Get the {@link Cluster} object associated with the only Cassandra service bound to
+	 * the app.
+	 *
+	 * @return the Cassandra {@link Cluster}
+	 * @throws org.springframework.cloud.CloudException if there are either 0 or more than
+	 * 1 Cassandra database services.
+	 */
+	Cluster cluster();
+
+	/**
+	 * Get the {@link Cluster} object associated with the only Cassandra service bound to
+	 * the app configured as specified.
+	 *
+	 * @param config configuration for the Cluster created
+	 * @return the Cassandra {@link Cluster}
+	 * @throws org.springframework.cloud.CloudException if there are either 0 or more than
+	 * 1 Cassandra database services.
+	 */
+	Cluster cluster(CassandraClusterConfig config);
+
+	/**
+	 * Get the {@link Cluster} object associated with the Cassandra {@code serviceId}
+	 * bound to the app.
+	 *
+	 * @param serviceId the Cassandra serviceId
+	 * @return the Cassandra {@link Cluster}
+	 * @throws org.springframework.cloud.CloudException if there is no service bound with
+	 * the {@code serviceId}
+	 */
+	Cluster cluster(String serviceId);
+
+	/**
+	 * Get the {@link Cluster} object associated with the Cassandra {@code serviceId}
+	 * bound to the app configured as specified.
+	 *
+	 * @param serviceId the Cassandra serviceId
+	 * @param config configuration for the Cluster created
+	 * @return the Cassandra {@link Cluster}
+	 * @throws org.springframework.cloud.CloudException if there is no service bound with
+	 * the {@code serviceId}
+	 */
+	Cluster cluster(String serviceId, CassandraClusterConfig config);
 
 	Object service();
 

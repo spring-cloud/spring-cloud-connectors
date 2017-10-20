@@ -8,3 +8,4 @@ org.springframework.cloud.cloudfoundry.SmtpServiceInfoCreator
 org.springframework.cloud.cloudfoundry.OracleServiceInfoCreator
 org.springframework.cloud.cloudfoundry.DB2ServiceInfoCreator
 org.springframework.cloud.cloudfoundry.SqlServerServiceInfoCreator
+org.springframework.cloud.cloudfoundry.CassandraServiceInfoCreator
