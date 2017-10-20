@@ -52,7 +52,6 @@ For each service, the connector will consider the following fields:
 |`tags` |Attributes or names of backing technologies behind the service.
 |`label` |The service offering’s name (not to be confused with a service _instance’s_ name).
 |`credentials.uri` |A URI pertaining to the service instance.
-|`credentials.uris` |URIs pertaining to the service instance.
 |===========================================================================================================================================================================
 
 If they are present, it will also consider the following fields:
@@ -80,7 +79,7 @@ The connector will check for:
 
 * `tags` including `sqldb`, `dashDB`, or `db2`
 * `label` beginning with the `sqldb`, `dashDB`, or `db2` tags
-* `uri` or `uris` using the scheme `db2`
+* `uri` using the scheme `db2`
 * `jdbcUrl` field in `credentials` using the subprotocol `db2` in the JDBC URL
 * `db2Uri`, `db2uri`, `db2Url`, or `db2url` fields in `credentials`
 
@@ -90,7 +89,7 @@ The connector will check for:
 
 * `tags` including `mongodb`
 * `label` beginning with the `mongodb` tag
-* `uri` or `uris` using the scheme `mongodb`
+* `uri` using the scheme `mongodb`
 * `mongodbUri`, `mongodburi`, `mongodbUrl`, or `mongodburl` fields in `credentials`
 
 ==== MySQL
@@ -99,7 +98,7 @@ The connector will check for:
 
 * `tags` including `mysql`
 * `label` beginning with the `mysql` tag
-* `uri` or `uris` using the scheme `mysql`
+* `uri` using the scheme `mysql`
 * `jdbcUrl` field in `credentials` using the subprotocol `mysql` in the JDBC URL
 * `mysqlUri`, `mysqluri`, `mysqlUrl`, or `mysqlurl` fields in `credentials`
 
@@ -107,7 +106,7 @@ The connector will check for:
 
 The connector will check for:
 
-* `uri` or `uris` using the scheme `oracle`
+* `uri` using the scheme `oracle`
 * `jdbcUrl` field in `credentials` using the subprotocol `oracle` in the JDBC URL
 * `oracleUri`, `oracleuri`, `oracleUrl`, or `oracleurl` fields in `credentials`
 
@@ -117,7 +116,7 @@ The connector will check for:
 
 * `tags` including `postgresql`
 * `label` beginning with the `postgresql` tag
-* `uri` or `uris` using the scheme `postgres`
+* `uri` using the scheme `postgres`
 * `jdbcUrl` field in `credentials` using the subprotocol `postgres` in the JDBC URL
 * `postgresUri`, `postgresuri`, `postgresUrl`, or `postgresurl` fields in `credentials`
 
@@ -136,7 +135,7 @@ The connector will check for:
 
 * `tags` including `redis`
 * `label` beginning with the `redis` tag
-* `uri` or `uris` using the scheme `redis`
+* `uri` using the scheme `redis`
 * `redisUri`, `redisuri`, `redisUrl`, or `redisurl` fields in `credentials`
 
 ==== SMTP
@@ -145,13 +144,13 @@ The connector will check for:
 
 * `tags` including `smtp`
 * `label` beginning with the `smtp` tag
-* `uri` or `uris` using the scheme `smtp`
+* `uri` using the scheme `smtp`
 * `smtpUri`, `smtpuri`, `smtpUrl`, or `smtpurl` fields in `credentials`
 
 ==== SQL Server
 
 The connector will check for:
 
-* `uri` or `uris` using the scheme `sqlserver`
+* `uri` using the scheme `sqlserver`
 * `jdbcUrl` field in `credentials` using the subprotocol `sqlserver` in the JDBC URL
 * `sqlserverUri`, `sqlserveruri`, `sqlserverUrl`, or `sqlserverurl` fields in `credentials`
