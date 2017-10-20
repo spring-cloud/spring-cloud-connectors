@@ -11,7 +11,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.service.common.RedisServiceInfo;
 import org.springframework.cloud.service.keyval.RedisConnectionFactoryCreator;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 
 /**
  * 
@@ -52,9 +53,18 @@ public class RedisServiceConnectorCreatorTest {
 
 	private void assertConnectorProperties(RedisServiceInfo serviceInfo, RedisConnectionFactory connector) {
 		assertNotNull(connector);
-		
-		assertEquals(serviceInfo.getHost(), ReflectionTestUtils.getField(connector, "hostName"));
-		assertEquals(serviceInfo.getPort(), ReflectionTestUtils.getField(connector, "port"));
-		assertEquals(serviceInfo.getPassword(), ReflectionTestUtils.getField(connector, "password"));
+
+		if (connector instanceof JedisConnectionFactory) {
+			JedisConnectionFactory connectionFactory = (JedisConnectionFactory) connector;
+			assertEquals(serviceInfo.getHost(), connectionFactory.getHostName());
+			assertEquals(serviceInfo.getPort(), connectionFactory.getPort());
+			assertEquals(serviceInfo.getPassword(), connectionFactory.getPassword());
+		}
+		if (connector instanceof LettuceConnectionFactory) {
+			LettuceConnectionFactory connectionFactory = (LettuceConnectionFactory) connector;
+			assertEquals(serviceInfo.getHost(), connectionFactory.getHostName());
+			assertEquals(serviceInfo.getPort(), connectionFactory.getPort());
+			assertEquals(serviceInfo.getPassword(), connectionFactory.getPassword());
+		}
 	}
 }

@@ -10,9 +10,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Ramnivas Laddad
  * @author Scott Frederick
@@ -49,27 +46,6 @@ public class RedisConnectionFactoryJavaConfigTest extends AbstractServiceJavaCon
 		RedisConnectionFactory connector = testContext.getBean("pool5_30Wait3000", getConnectorType());
 		RedisConnectionFactoryCloudConfigTestHelper.assertPoolProperties(connector, 30, 5, 3000);
 	}
-
-	@Test
-	public void cloudRedisConnectionFactoryWithTimeout() {
-		ApplicationContext testContext =
-				getTestApplicationContext(RedisConnectionFactoryConfigWithServiceConfig.class,
-						createService("my-service"));
-
-		RedisConnectionFactory connector = testContext.getBean("timeout10", getConnectorType());
-		RedisConnectionFactoryCloudConfigTestHelper.assertConnectionProperties(connector, 10);
-	}
-
-	@Test
-	public void cloudRedisConnectionFactoryWithWithMaxPoolAndTimeout() {
-		ApplicationContext testContext =
-				getTestApplicationContext(RedisConnectionFactoryConfigWithServiceConfig.class,
-						createService("my-service"));
-
-		RedisConnectionFactory connector = testContext.getBean("pool30Wait300_timeout20", getConnectorType());
-		RedisConnectionFactoryCloudConfigTestHelper.assertPoolProperties(connector, 30, 0, 300);
-		RedisConnectionFactoryCloudConfigTestHelper.assertConnectionProperties(connector, 20);
-	}
 }
 
 class RedisConnectionFactoryConfigWithId extends AbstractCloudConfig {
@@ -98,23 +74,6 @@ class RedisConnectionFactoryConfigWithServiceConfig extends AbstractCloudConfig 
 	public RedisConnectionFactory pool5_30Wait3000() {
 		PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
 		PooledServiceConnectorConfig serviceConfig = new RedisConnectionFactoryConfig(poolConfig);
-		return connectionFactory().redisConnectionFactory("my-service", serviceConfig);
-	}
-
-	@Bean
-	public RedisConnectionFactory timeout10() {
-		Map<String, Object> properties = new HashMap<String, Object>();
-		properties.put("timeout", 10);
-		RedisConnectionFactoryConfig serviceConfig = new RedisConnectionFactoryConfig(properties);
-		return connectionFactory().redisConnectionFactory("my-service", serviceConfig);
-	}
-
-	@Bean
-	public RedisConnectionFactory pool30Wait300_timeout20() {
-		Map<String, Object> properties = new HashMap<String, Object>();
-		properties.put("timeout", 20);
-		PoolConfig poolConfig = new PoolConfig(30, 300);
-		RedisConnectionFactoryConfig serviceConfig = new RedisConnectionFactoryConfig(poolConfig, properties);
 		return connectionFactory().redisConnectionFactory("my-service", serviceConfig);
 	}
 }

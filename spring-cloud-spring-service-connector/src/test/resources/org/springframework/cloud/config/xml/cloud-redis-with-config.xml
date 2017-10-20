@@ -13,18 +13,4 @@
 	<cloud:redis-connection-factory id="service-pool5-30-wait3000" service-name="my-service">
 		<cloud:pool pool-size="5-30" max-wait-time="3000"/>
 	</cloud:redis-connection-factory>
-
-	<cloud:redis-connection-factory id="service-timeout10" service-name="my-service">
-		<cloud:connection-properties>
-			<entry key="timeout" value="10"/>
-		</cloud:connection-properties>
-	</cloud:redis-connection-factory>
-
-	<cloud:redis-connection-factory id="service-pool30-wait300-timeout20" service-name="my-service">
-		<cloud:pool pool-size="30" max-wait-time="300"/>
-		<cloud:connection-properties>
-			<entry key="timeout" value="20"/>
-		</cloud:connection-properties>
-	</cloud:redis-connection-factory>
-
 </beans>
