@@ -52,7 +52,7 @@ public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 
 	private String formatQuery() {
 		if (getQuery() != null) {
-			if (getUserName() == null && getPassword() == null) {
+			if (formatUserinfo().isEmpty()) {
 				return String.format("?%s", getQuery());
 			} else {
 				return String.format("&%s", getQuery());
