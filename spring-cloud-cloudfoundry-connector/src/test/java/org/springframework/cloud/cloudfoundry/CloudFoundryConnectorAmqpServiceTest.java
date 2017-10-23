@@ -75,8 +75,8 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 	public void rabbitServiceCreationMultipleUris() {
 		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 			.thenReturn(getServicesPayload(
-					getRabbitServicePayloadMultipleUris("rabbit-1", hostname, hostname2, port, username, password, "q-1", "vhost1"),
-					getRabbitServicePayloadMultipleUris("rabbit-2", hostname, hostname2, port, username, password, "q-2", "vhost2")));
+					getRabbitServicePayloadMultipleUris("rabbit-1", hostname, hostname2, port, username, password, "q-1", "v%2Fhost1"),
+					getRabbitServicePayloadMultipleUris("rabbit-2", hostname, hostname2, port, username, password, "q-2", "v%2Fhost2")));
 
 		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
 		assertServiceFoundOfType(serviceInfos, "rabbit-1", AmqpServiceInfo.class);
@@ -85,6 +85,7 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 		AmqpServiceInfo amqpServiceInfo = (AmqpServiceInfo) serviceInfos.get(0);
 		assertNotNull(amqpServiceInfo.getUri());
 		assertTrue(amqpServiceInfo.getUri().contains(hostname));
+		assertEquals("v/host1", amqpServiceInfo.getVirtualHost());
 		assertNotNull(amqpServiceInfo.getManagementUri());
 		assertTrue(amqpServiceInfo.getManagementUri().contains(hostname));
 
