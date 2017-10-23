@@ -18,6 +18,8 @@ import java.util.List;
  */
 @ServiceLabel("rabbitmq")
 public class AmqpServiceInfo extends UriBasedServiceInfo {
+	private static final Integer DEFAULT_AMQP_PORT = 5672;
+	private static final Integer DEFAULT_AMQPS_PORT = 5671;
 
 	public static final String AMQP_SCHEME = "amqp";
 	public static final String AMQPS_SCHEME = "amqps";
@@ -85,6 +87,18 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 	@ServiceProperty(category="connection")
 	public List<String> getManagementUris() {
 		return managementUris;
+	}
+
+	@Override
+	public int getPort() {
+		if (super.getPort() == -1) {
+			if (getScheme().equals(AMQP_SCHEME)) {
+				return DEFAULT_AMQP_PORT;
+			} else if (getScheme().equals(AMQPS_SCHEME)) {
+				return DEFAULT_AMQPS_PORT;
+			}
+		}
+		return super.getPort();
 	}
 
 	@Override

@@ -56,6 +56,39 @@ public class AmqpServiceInfoTest {
 	}
 
 	@Test
+	public void uriBasedParsingAmqpDefaultPort() {
+		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id", "amqp://myuser:mypass@myhost/myvhost");
+
+		assertEquals("myhost", serviceInfo.getHost());
+		assertEquals(5672, serviceInfo.getPort());
+		assertEquals("myuser", serviceInfo.getUserName());
+		assertEquals("mypass", serviceInfo.getPassword());
+		assertEquals("myvhost", serviceInfo.getVirtualHost());
+	}
+
+	@Test
+	public void uriBasedParsingAmqpsDefaultPort() {
+		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id", "amqps://myuser:mypass@myhost/myvhost");
+
+		assertEquals("myhost", serviceInfo.getHost());
+		assertEquals(5671, serviceInfo.getPort());
+		assertEquals("myuser", serviceInfo.getUserName());
+		assertEquals("mypass", serviceInfo.getPassword());
+		assertEquals("myvhost", serviceInfo.getVirtualHost());
+	}
+
+	@Test
+	public void uriBasedParsingUnknownSchemeDefaultPort() {
+		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id", "amqpx://myuser:mypass@myhost/myvhost");
+
+		assertEquals("myhost", serviceInfo.getHost());
+		assertEquals(-1, serviceInfo.getPort());
+		assertEquals("myuser", serviceInfo.getUserName());
+		assertEquals("mypass", serviceInfo.getPassword());
+		assertEquals("myvhost", serviceInfo.getVirtualHost());
+	}
+
+	@Test
 	public void uriBasedParsingEncodedVhost() {
 		AmqpServiceInfo serviceInfo = new AmqpServiceInfo("id", "amqp://myuser:mypass@myhost:12345/my%2Fvhost");
 

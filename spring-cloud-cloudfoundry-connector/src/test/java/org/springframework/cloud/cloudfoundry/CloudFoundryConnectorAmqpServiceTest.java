@@ -86,6 +86,7 @@ public class CloudFoundryConnectorAmqpServiceTest extends AbstractCloudFoundryCo
 		assertNotNull(amqpServiceInfo.getUri());
 		assertTrue(amqpServiceInfo.getUri().contains(hostname));
 		assertEquals("v/host1", amqpServiceInfo.getVirtualHost());
+		assertEquals(5672, amqpServiceInfo.getPort());
 		assertNotNull(amqpServiceInfo.getManagementUri());
 		assertTrue(amqpServiceInfo.getManagementUri().contains(hostname));
 
