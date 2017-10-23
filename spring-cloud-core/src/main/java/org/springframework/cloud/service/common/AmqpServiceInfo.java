@@ -5,6 +5,8 @@ import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
 import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.util.UriInfo;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -25,6 +27,8 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 	private List<String> uris;
 	private List<String> managementUris;
 
+	private String virtualHost;
+
 	public AmqpServiceInfo(String id, String host, int port, String username, String password, String virtualHost) {
 		this(id, host, port, username, password, virtualHost, null);
 	}
@@ -32,6 +36,7 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 	public AmqpServiceInfo(String id, String host, int port, String username, String password, String virtualHost, String managementUri) {
 		super(id, AMQP_SCHEME, host, port, username, password, virtualHost);
 		this.managementUri = managementUri;
+		this.virtualHost = decode(getUriInfo().getPath());
 	}
 
 	public AmqpServiceInfo(String id, String uri, String managementUri, List<String> uris, List<String> managementUris) {
@@ -47,11 +52,24 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 	public AmqpServiceInfo(String id, String uri, String managementUri) throws CloudException {
 		super(id, uri);
 		this.managementUri = managementUri;
+		this.virtualHost = decode(getUriInfo().getPath());
+	}
+
+	private String decode(String value) {
+		if (value == null) {
+			return null;
+		}
+
+		try {
+			return URLDecoder.decode(value, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return value;
+		}
 	}
 
 	@ServiceProperty(category="connection")
 	public String getVirtualHost() {
-		return getUriInfo().getPath();
+		return virtualHost;
 	}
 
 	@ServiceProperty(category="connection")
