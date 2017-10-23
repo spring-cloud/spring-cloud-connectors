@@ -90,6 +90,7 @@ public class AmqpServiceInfo extends UriBasedServiceInfo {
 	}
 
 	@Override
+	@ServiceProperty(category="connection")
 	public int getPort() {
 		if (super.getPort() == -1) {
 			if (getScheme().equals(AMQP_SCHEME)) {
