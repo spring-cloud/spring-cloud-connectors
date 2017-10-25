@@ -16,6 +16,7 @@ public class TagsTest {
 		Tags tags = new Tags("test1", "test2");
 		assertTrue(tags.containsOne(Arrays.asList("test1", "testx")));
 		assertTrue(tags.containsOne(Arrays.asList("testx", "test2")));
+		assertTrue(tags.containsOne(Arrays.asList("TESTX", "TEST2")));
 		assertFalse(tags.containsOne(Arrays.asList("testx", "testy")));
 	}
 
@@ -29,6 +30,7 @@ public class TagsTest {
 		Tags tags = new Tags("test1", "test2");
 		assertTrue(tags.contains("test1"));
 		assertTrue(tags.contains("test2"));
+		assertTrue(tags.contains("TEST2"));
 		assertFalse(tags.contains("testx"));
 	}
 
@@ -41,6 +43,7 @@ public class TagsTest {
 	public void startsWith() {
 		Tags tags = new Tags("test");
 		assertTrue(tags.startsWith("test-123"));
+		assertTrue(tags.startsWith("TEST-123"));
 		assertFalse(tags.startsWith("abcd"));
 	}
 
