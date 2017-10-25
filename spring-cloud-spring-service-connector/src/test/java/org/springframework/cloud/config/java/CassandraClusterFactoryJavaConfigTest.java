@@ -47,7 +47,7 @@ public class CassandraClusterFactoryJavaConfigTest
 	}
 
 	@Test
-	public void cloudRedisConnectionFactoryConfig() {
+	public void cloudCassandraConnectionFactoryConfig() {
 		ApplicationContext testContext = getTestApplicationContext(
 				CassandraClusterConfigWithServiceConfig.class,
 				createService("my-service"));
