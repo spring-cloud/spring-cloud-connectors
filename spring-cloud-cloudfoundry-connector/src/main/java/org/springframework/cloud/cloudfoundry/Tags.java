@@ -1,6 +1,5 @@
 package org.springframework.cloud.cloudfoundry;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Tags {
@@ -17,8 +16,10 @@ public class Tags {
 	public boolean containsOne(List<String> tags) {
 		if (tags != null) {
 			for (String value : values) {
-				if (tags.contains(value)) {
-					return true;
+				for (String tag : tags) {
+					if (tag.equalsIgnoreCase(value)) {
+						return true;
+					}
 				}
 			}
 		}
@@ -26,17 +27,28 @@ public class Tags {
 	}
 
 	public boolean contains(String tag) {
-		return tag != null && Arrays.asList(values).contains(tag);
-	}
-
-	public boolean startsWith(String tag) {
 		if (tag != null) {
 			for (String value : values) {
-				if (tag.startsWith(value)) {
+				if (tag.equalsIgnoreCase(value)) {
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	public boolean startsWith(String tag) {
+		if (tag != null) {
+			for (String value : values) {
+				if (startsWithIgnoreCase(tag, value)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private static boolean startsWithIgnoreCase(String string, String prefix) {
+		return string.regionMatches(true, 0, prefix, 0, prefix.length());
 	}
 }
