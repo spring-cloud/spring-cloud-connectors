@@ -98,7 +98,7 @@ public class CloudScanHelper {
 									  "factoryBeanObjectType", serviceFactory.getObjectType());
 			registry.registerBeanDefinition(serviceInfo.getId(), definitionBuilder.getBeanDefinition());
 		} catch (Exception ex) {
-			logger.warning("Unable to create service for " + serviceInfo.getId() + " during service scanning. Skipping.");
+			logger.fine("Unable to create service for " + serviceInfo.getId() + " during service scanning. Skipping.");
 		}
 	}
 

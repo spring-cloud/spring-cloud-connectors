@@ -64,8 +64,8 @@ public abstract class AbstractCloudConnector<SD> implements CloudConnector {
 
 		// Fallback with a warning
 		ServiceInfo fallackServiceInfo = getFallbackServiceInfoCreator().createServiceInfo(serviceData);
-		logger.warning("No suitable service info creator found for service " + fallackServiceInfo.getId()
-				+ " Did you forget to add a ServiceInfoCreator?");
+		logger.fine("No suitable service info creator found for service " + fallackServiceInfo.getId()
+				+ ". Did you forget to add a ServiceInfoCreator?");
 		return fallackServiceInfo;
 	}
 }
