@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.springframework.cloud.CloudConnector;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
+import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.CompositeServiceInfo;
-import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.ServiceInfo.ServiceLabel;
+import org.springframework.cloud.service.UriBasedServiceInfo;
 
 /**
  * Class to support testing.
@@ -96,6 +96,18 @@ public class CloudTestUtil {
 	    public String getFoo() {
 	        return "foo";
 	    }
+	}
+
+	public static class TestServiceInfoTypeA extends BaseServiceInfo {
+		public TestServiceInfoTypeA(String id) {
+			super(id);
+		}
+	}
+
+	public static class TestServiceInfoTypeB extends BaseServiceInfo {
+		public TestServiceInfoTypeB(String id) {
+			super(id);
+		}
 	}
 
 	public static class StubCompositeServiceInfo implements CompositeServiceInfo {
