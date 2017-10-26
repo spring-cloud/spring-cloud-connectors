@@ -116,6 +116,53 @@ public class Cloud {
 	}
 
 	/**
+	 * Get all {@link ServiceInfo}s for the given service info type.
+	 * 
+	 * <p>
+	 * Unlike {@link #getServiceInfos(Class)} which checks if the service info
+	 * can be mapped to the given service connector type, this method only
+	 * checks the type of the service info.
+	 * 
+	 * @param <T> the class of service info to return
+	 * @param serviceInfoType
+	 *            service info type
+	 * @return a list of service info of the given type
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends ServiceInfo> List<T> getServiceInfosByType(Class<T> serviceInfoType) {
+		List<ServiceInfo> allServiceInfos = getServiceInfos();
+
+		List<T> matchingServiceInfos = new ArrayList<T>();
+		for (ServiceInfo serviceInfo : allServiceInfos) {
+			if (serviceInfoType.isAssignableFrom(serviceInfo.getClass())) {
+				matchingServiceInfos.add((T) serviceInfo);
+			}
+		}
+
+		return matchingServiceInfos;
+	}
+
+	/**
+	 * Get the singleton {@link ServiceInfo} for the given service info type.
+	 * 
+	 * @param <T> the class of service info to return
+	 * @param serviceInfoType
+	 *            service info type
+	 * @return the single service info of the given type
+	 * @throws CloudException
+	 *             if there are either 0 or more than 1 service info of the
+	 *             given type.
+	 */
+	public <T extends ServiceInfo> T getSingletonServiceInfoByType(Class<T> serviceInfoType) {
+		List<T> serviceInfos = getServiceInfosByType(serviceInfoType);
+		if (serviceInfos.size() != 1) {
+			throw new CloudException(
+					"No unique service info " + serviceInfoType + " found. Expected 1, found " + serviceInfos.size());
+		}
+		return serviceInfos.get(0);
+	}
+
+	/**
 	 * Get a service connector for the given service id, the connector type, configured with the given config
 	 *
 	 *
