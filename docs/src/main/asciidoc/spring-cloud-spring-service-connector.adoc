@@ -293,7 +293,7 @@ To connect to a specific MongoDB service and provide configuration, you can use 
 
 [source,java]
 ----
-//Connect to the only available MongoDB service, supplying configuration
+//Connect to the 'mongo-service' MongoDB service, supplying configuration
 @Bean
 public MongoDbFactory mongoFactory() {
     MongoDbFactoryConfig mongoConfig = new MongoDbFactoryConfig("NONE", 50, 200);
@@ -377,6 +377,58 @@ public RedisConnectionFactory redisFactory() {
   PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
   RedisConnectionFactoryConfig redisConfig = new RedisConnectionFactoryConfig(poolConfig, properties);
   return connectionFactory().redisConnectionFactory("redis-service", redisConfig);
+}
+----
+
+==== Cassandra
+
+To connect to a unique Cassandra service, you can create a service bean using `cluster()`. The following example connects to the only Cassandra service bound to the application.
+
+[source,java]
+----
+//Connect to the only available Cassandra service
+@Bean
+public Cluster cluster() {
+    return connectionFactory().cluster();
+}
+----
+
+To provide configuration for a unique Cassandra service, you can use an overloaded `cluster()` variant. The following example connects to the only Cassandra service bound to the application and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html[`CassandraClusterConfig`] with metrics and JMX reporting disabled.
+
+[source,java]
+----
+//Connect to the only available Cassandra service, supplying configuration
+@Bean
+public Cluster cluster() {
+    CassandraClusterConfig config = new CassandraClusterConfig();
+    config.setMetricsEnabled(false);
+    config.setJmxReportingEnabled(false);
+    return connectionFactory().cluster(config);
+}
+----
+
+To connect to a specific Cassandra service, you can use an overloaded variant of `cluster()`. The following example connects specifically to the `cassandra-service` Cassandra service.
+
+[source,java]
+----
+//Connect to the 'cassandra-service' Cassandra service
+@Bean
+public Cluster cluster() {
+    return connectionFactory().cluster("cassandra-service");
+}
+----
+
+To connect to a specific Cassandra service and provide configuration, you can use an overloaded `cluster()` variant. The following example connects to the `cassandra-service` Cassandra service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html[`CassandraClusterConfig`] with metrics and JMX reporting disabled.
+
+[source,java]
+----
+//Connect to the 'cassandra-service' Cassandra service, supplying configuration
+@Bean
+public Cluster cluster() {
+    CassandraClusterConfig config = new CassandraClusterConfig();
+    config.setMetricsEnabled(false);
+    config.setJmxReportingEnabled(false);
+    return connectionFactory().cluster("cassandra-service", config);
 }
 ----
 
@@ -723,6 +775,44 @@ To configure pool settings on a Redis service, you can use the `<cloud:pool>` ne
 <cloud:redis-connection-factory id="redis" service-name="redis-service">
   <cloud:pool pool-size="5-30" max-wait-time="3000"/>
 </cloud:redis-connection-factory>
+----
+
+==== Cassandra
+
+To connect to a Cassandra service, you can use the `<cloud:cassandra-session-factory/>` element. The following example connects to the only Cassandra service bound to the application.
+
+[source,xml]
+----
+<!-- Connect to the only available Cassandra service -->
+<cloud:cassandra-session-factory/>
+----
+
+To connect to a specific Cassandra service, you can use the `service-name` attribute. The following example connects specifically to the `cassandra-service` Cassandra service.
+
+[source,xml]
+----
+<!-- Connect to the 'cassandra-service' Cassandra service -->
+<cloud:cassandra-session-factory service-name="cassandra-service"/>
+----
+
+To specify an id for the Cassandra connection bean, you can use the `id` attribute. The following example connects specifically to the `cassandra-service` Cassandra service with a bean given the id `cassandra`.
+
+[source,xml]
+----
+<!-- Connect to the 'cassandra-service' Cassandra service with a bean of id 'cassandra' -->
+<cloud:cassandra-session-factory id="cassandra" service-name="cassandra-service"/>
+----
+
+To set properties on a Cassandra service, you can use the `<cloud:cassandra-options>` nested element. The following example connects specifically to the `cassandra-service` Cassandra service with a bean given the id `cassandra` and uses the `<cloud:cassandra-options>` element.
+
+[source,xml]
+----
+<!-- Connect to the 'cassandra-service' Cassandra service with a bean of id 'cassandra', setting connections options -->
+<bean id="retryPolicy" class="com.datastax.driver.core.policies.DefaultRetryPolicy"/>
+
+<cloud:cassandra-session-factory id="cassandra" service-name="cassandra-service" >
+  <cloud:cassandra-options compression="NONE" retry-policy="retryPolicy"/>
+</cloud:cassandra-session-factory>
 ----
 
 === Connecting to Generic Services
