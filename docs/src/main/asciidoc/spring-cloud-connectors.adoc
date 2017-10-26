@@ -121,7 +121,7 @@ Then follow the instructions in the <<Spring Service Connector>> documentation o
 
 === Non-Spring Applications
 
-The `spring-cloud-core` dependency is included by each cloud connector, so simply include the connectors for the platforms you want. Then follow the <<_spring_cloud_connectors_core,instructions on using the Spring Cloud Connectors API>>.
+The `spring-cloud-connectors-core` dependency is included by each cloud connector, so simply include the connectors for the platforms you want. Then follow the <<_spring_cloud_connectors_core,instructions on using the Spring Cloud Connectors API>>.
 
 == Spring Cloud Connectors Core
 

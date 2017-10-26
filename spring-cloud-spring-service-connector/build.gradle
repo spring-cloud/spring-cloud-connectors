@@ -1,4 +1,4 @@
-description = 'Service Connectors'
+description = 'Spring Cloud Connectors Spring Service Connectors'
 
 ext {
 	springVersion = "5.0.0.RELEASE"
@@ -27,8 +27,8 @@ ext {
 }
 
 dependencies {
-	testCompile project(path: ':spring-cloud-core', configuration: 'tests')
-	compile project(':spring-cloud-core')
+	testCompile project(path: ':spring-cloud-connectors-core', configuration: 'tests')
+	compile project(':spring-cloud-connectors-core')
 
 	compile("org.springframework:spring-context:$springVersion")
 

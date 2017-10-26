@@ -1,4 +1,4 @@
-description = 'Spring-Cloud Cloud Foundry Connector'
+description = 'Spring Cloud Connectors Cloud Foundry Connector'
 
 buildscript {
 	repositories {
@@ -17,7 +17,7 @@ ext {
 }
 
 dependencies {
-	compile project(':spring-cloud-core')
+	compile project(':spring-cloud-connectors-core')
 	compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
 	compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 }
