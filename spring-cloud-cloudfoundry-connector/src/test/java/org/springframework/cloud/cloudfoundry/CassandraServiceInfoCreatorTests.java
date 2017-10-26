@@ -69,7 +69,7 @@ public class CassandraServiceInfoCreatorTests extends AbstractCloudFoundryConnec
 	}
 
 	@Test
-	public void testAcceptService() throws Exception {
+	public void shouldAcceptService() throws Exception {
 
 		CassandraServiceInfoCreator creator = new CassandraServiceInfoCreator();
 		Map services = readServiceData("test-cassandra-service.json");
@@ -77,6 +77,17 @@ public class CassandraServiceInfoCreatorTests extends AbstractCloudFoundryConnec
 				"p-dse-cassandra-acceptance");
 
 		assertThat(creator.accept(serviceData), is(true));
+	}
+
+	@Test
+	public void shouldNotAcceptServiceWithRequiredFieldsMissing() throws Exception {
+
+		CassandraServiceInfoCreator creator = new CassandraServiceInfoCreator();
+		Map services = readServiceData("test-cassandra-missing-required-fields.json");
+		Map<String, Object> serviceData = getServiceData(services,
+				"p-dse-cassandra-acceptance");
+
+		assertThat(creator.accept(serviceData), is(false));
 	}
 
 	private Map readServiceData(String resource) throws java.io.IOException {

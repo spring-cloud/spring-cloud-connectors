@@ -1,0 +1,20 @@
+{
+  "p-dse-cassandra-acceptance": [
+	{
+	  "credentials": {
+		"opscenter_url": "http://datastax-opscenter-cassandra.cf-app.com/opscenter/index.html"
+	  },
+	  "label": "p-dse-cassandra-acceptance",
+	  "name": "mydse",
+	  "plan": "single-node",
+	  "provider": null,
+	  "syslog_drain_url": null,
+	  "tags": [
+		"pivotal",
+		"cassandra",
+		"dse",
+		"datastax"
+	  ]
+	}
+  ]
+}

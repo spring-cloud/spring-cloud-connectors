@@ -35,6 +35,18 @@ public class CassandraServiceInfoCreator extends
 	}
 
 	@Override
+	public boolean accept(Map<String, Object> serviceData) {
+		return cassandraCredentialsPresent(serviceData);
+	}
+
+	private boolean cassandraCredentialsPresent(Map<String, Object> serviceData) {
+		Map<String, Object> credentials = getCredentials(serviceData);
+		return credentials != null &&
+				credentials.containsKey("cqlsh_port") &&
+				credentials.containsKey("node_ips");
+	}
+
+	@Override
 	@SuppressWarnings("unchecked")
 	public CassandraServiceInfo createServiceInfo(Map<String, Object> serviceData) {
 
@@ -44,10 +56,10 @@ public class CassandraServiceInfoCreator extends
 
 		String username = getStringFromCredentials(credentials, "username");
 		String password = getStringFromCredentials(credentials, "password");
-		String port = getStringFromCredentials(credentials, "cqlsh_port");
-		List<String> contactpoints = (List<String>) credentials.get("node_ips");
+		int port = getIntFromCredentials(credentials, "cqlsh_port");
+		List<String> contactPoints = (List<String>) credentials.get("node_ips");
 
-		return new CassandraServiceInfo(id, contactpoints, Integer.parseInt(port),
+		return new CassandraServiceInfo(id, contactPoints, port,
 				username, password);
 	}
 }
