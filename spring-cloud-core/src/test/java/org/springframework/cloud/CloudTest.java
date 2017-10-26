@@ -16,6 +16,8 @@ import org.springframework.cloud.CloudTestUtil.StubApplicationInstanceInfo;
 import org.springframework.cloud.CloudTestUtil.StubCloudConnector;
 import org.springframework.cloud.CloudTestUtil.StubCompositeServiceInfo;
 import org.springframework.cloud.CloudTestUtil.StubServiceInfo;
+import org.springframework.cloud.CloudTestUtil.TestServiceInfoTypeA;
+import org.springframework.cloud.CloudTestUtil.TestServiceInfoTypeB;
 import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreator;
@@ -217,7 +219,48 @@ public class CloudTest {
         assertNotNull(testCloud.getServiceInfo("test-id-2a"));
         assertNotNull(testCloud.getServiceInfo("test-id-2b"));
     }
-	
+
+	@Test
+	public void getServiceInfosByType() {
+		StubServiceInfo testServiceInfo = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");
+		TestServiceInfoTypeA testServiceInfoTypeA1 = new TestServiceInfoTypeA("test-id-a1");
+		TestServiceInfoTypeA testServiceInfoTypeA2 = new TestServiceInfoTypeA("test-id-a2");
+		TestServiceInfoTypeB testServiceInfoTypeB = new TestServiceInfoTypeB("test-id-b");
+		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo, testServiceInfoTypeA1, testServiceInfoTypeA2, testServiceInfoTypeB);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
+
+		List<TestServiceInfoTypeA> actualServiceInfoTypeA = testCloud.getServiceInfosByType(TestServiceInfoTypeA.class);
+		assertEquals(2, actualServiceInfoTypeA.size());
+		assertEquals(1, testCloud.getServiceInfosByType(TestServiceInfoTypeB.class).size());
+	}
+
+	@Test(expected=CloudException.class)
+	public void getSingletonServiceInfoByTypeNoService() {
+		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector();
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
+
+		testCloud.getSingletonServiceInfoByType(StubServiceInfo.class);
+	}
+
+	@Test(expected=CloudException.class)
+	public void getSingletonServiceInfoByTypeMultipleServices() {
+		StubServiceInfo testServiceInfo1 = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");
+		StubServiceInfo testServiceInfo2 = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");		
+		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo1, testServiceInfo2);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
+
+		testCloud.getSingletonServiceInfoByType(StubServiceInfo.class);
+	}
+
+	@Test
+	public void getSingletonServiceInfoByTypeSingleService() {
+		StubServiceInfo testServiceInfo = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");
+		StubCloudConnector stubCloudConnector = CloudTestUtil.getTestCloudConnector(testServiceInfo);
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
+
+		assertNotNull(testCloud.getSingletonServiceInfoByType(StubServiceInfo.class));
+	}
+
 	private void assertStubServiceProp(String leadKey, StubServiceInfo serviceInfo, Properties cloudProperties) {
 		CloudTestUtil.assertBasicProps(leadKey, serviceInfo, cloudProperties);
 		
