@@ -3,8 +3,12 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.0'
+        classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
     }
 }
 
-apply plugin: "org.asciidoctor.gradle.asciidoctor"
+apply plugin: "org.asciidoctor.convert"
+
+asciidoctor {
+  sourceDir = file('src/main/asciidoc')
+}
