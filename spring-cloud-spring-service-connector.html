@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.0">
+<meta name="generator" content="Asciidoctor 1.5.3">
 <title>Spring Cloud Spring Service Connector</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
-/* Remove the comments around the @import statement below when using this as a custom stylesheet */
-/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic|Noto+Serif:400,400italic,700,700italic|Droid+Sans+Mono:400";*/
+/* Remove comment around @import statement below when using as a custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
 audio,canvas,video{display:inline-block}
 audio:not([controls]){display:none;height:0}
@@ -57,7 +57,6 @@ a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
 img{-ms-interpolation-mode:bicubic}
-#map_canvas img,#map_canvas embed,#map_canvas object,.map_canvas img,.map_canvas embed,.map_canvas object{max-width:none!important}
 .left{float:left!important}
 .right{float:right!important}
 .text-left{text-align:left!important}
@@ -65,10 +64,12 @@ img{-ms-interpolation-mode:bicubic}
 .text-center{text-align:center!important}
 .text-justify{text-align:justify!important}
 .hide{display:none}
-.antialiased,body{-webkit-font-smoothing:antialiased}
-img{display:inline-block;vertical-align:middle}
+body{-webkit-font-smoothing:antialiased}
+img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.spread{width:100%}
 p.lead,.paragraph.lead>p,#preamble>.sectionbody>.paragraph:first-of-type p{font-size:1.21875em;line-height:1.6}
 .subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
 div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
@@ -111,12 +112,14 @@ blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
 h1{font-size:2.75em}
 h2{font-size:2.3125em}
 h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
-h4{font-size:1.4375em}}table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
 table thead,table tfoot{background:#f7f8f7;font-weight:bold}
 table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt,table tr:nth-of-type(even){background:#f8f8f7}
 table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+body{tab-size:4}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
 .clearfix:before,.clearfix:after,.float-group:before,.float-group:after{content:" ";display:table}
@@ -124,7 +127,7 @@ h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title str
 *:not(pre)>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background-color:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre,pre>code{line-height:1.45;color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;text-rendering:optimizeSpeed}
 .keyseq{color:rgba(51,51,51,.8)}
-kbd{display:inline-block;color:rgba(0,0,0,.8);font-size:.75em;line-height:1.4;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:-.15em .15em 0 .15em;padding:.2em .6em .2em .5em;vertical-align:middle;white-space:nowrap}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background-color:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
 .keyseq kbd:first-child{margin-left:0}
 .keyseq kbd:last-child{margin-right:0}
 .menuseq,.menu{color:rgba(0,0,0,.8)}
@@ -155,29 +158,33 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toc ul.sectlevel0>li>a{font-style:italic}
 #toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
 #toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
 #toc a{text-decoration:none}
 #toc a:active{text-decoration:underline}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media only screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
 #toc.toc2{margin-top:0!important;background-color:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #efefed;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
-#toc.toc2 #toctitle{margin-top:0;font-size:1.2em}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
 #toc.toc2 ul ul{margin-left:0;padding-left:1em}
 #toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
 body.toc2.toc-right{padding-left:0;padding-right:15em}
-body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #efefed;left:auto;right:0}}
+@media only screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
 #toc.toc2{width:20em}
 #toc.toc2 #toctitle{font-size:1.375em}
 #toc.toc2>ul{font-size:.95em}
 #toc.toc2 ul ul{padding-left:1.25em}
-body.toc2.toc-right{padding-left:0;padding-right:20em}}#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
 #content #toc>:first-child{margin-top:0}
 #content #toc>:last-child{margin-bottom:0}
 #footer{max-width:100%;background-color:rgba(0,0,0,.8);padding:1.25em}
 #footer-text{color:rgba(255,255,255,.8);line-height:1.44}
 .sect1{padding-bottom:.625em}
-@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}.sect1+.sect1{border-top:1px solid #efefed}
+@media only screen and (min-width:768px){.sect1{padding-bottom:1.25em}}
+.sect1+.sect1{border-top:1px solid #efefed}
 #content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
 #content h1>a.anchor:before,h2>a.anchor:before,h3>a.anchor:before,#toctitle>a.anchor:before,.sidebarblock>.content>.title>a.anchor:before,h4>a.anchor:before,h5>a.anchor:before,h6>a.anchor:before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
 #content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
@@ -206,7 +213,9 @@ table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inh
 .sidebarblock .literalblock pre,.sidebarblock .listingblock pre:not(.highlight),.sidebarblock .listingblock pre[class="highlight"],.sidebarblock .listingblock pre[class^="highlight "],.sidebarblock .listingblock pre.CodeRay,.sidebarblock .listingblock pre.prettyprint{background:#f2f1f1}
 .literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;padding:1em;font-size:.8125em}
 .literalblock pre.nowrap,.literalblock pre[class].nowrap,.listingblock pre.nowrap,.listingblock pre[class].nowrap{overflow-x:auto;white-space:pre;word-wrap:normal}
-@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
+@media only screen and (min-width:768px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:.90625em}}
+@media only screen and (min-width:1280px){.literalblock pre,.literalblock pre[class],.listingblock pre,.listingblock pre[class]{font-size:1em}}
+.literalblock.output pre{color:#f7f7f8;background-color:rgba(0,0,0,.9)}
 .listingblock pre.highlightjs{padding:0}
 .listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
 .listingblock pre.prettyprint{border-width:0}
@@ -216,7 +225,7 @@ table.tableblock #preamble>.sectionbody>.paragraph:first-of-type p{font-size:inh
 .listingblock.terminal pre .command:before{content:attr(data-prompt);padding-right:.5em;color:#999}
 .listingblock.terminal pre .command:not([data-prompt]):before{content:"$"}
 table.pyhltable{border-collapse:separate;border:0;margin-bottom:0;background:none}
-table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0}
+table.pyhltable td{vertical-align:top;padding-top:0;padding-bottom:0;line-height:1.45}
 table.pyhltable td.code{padding-left:.75em;padding-right:0}
 pre.pygments .lineno,table.pyhltable td:not(.code){color:#999;padding-left:0;padding-right:.5em;border-right:1px solid #ddddd8}
 pre.pygments .lineno{display:inline-block;margin-right:.25em}
@@ -237,13 +246,12 @@ table.pyhltable .linenodiv{background:none!important;padding-right:0!important}
 .verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
 .quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
 .quoteblock .attribution br,.verseblock .attribution br{display:none}
-.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.05em;color:rgba(0,0,0,.6)}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
 .quoteblock.abstract{margin:0 0 1.25em 0;display:block}
 .quoteblock.abstract blockquote,.quoteblock.abstract blockquote p{text-align:left;word-spacing:0}
 .quoteblock.abstract blockquote:before,.quoteblock.abstract blockquote p:first-of-type:before{display:none}
 table.tableblock{max-width:100%;border-collapse:separate}
 table.tableblock td>.paragraph:last-child p>p:last-child,table.tableblock th>p:last-child,table.tableblock td>p:last-child{margin-bottom:0}
-table.spread{width:100%}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
 table.grid-all th.tableblock,table.grid-all td.tableblock{border-width:0 1px 1px 0}
 table.grid-all tfoot>tr>th.tableblock,table.grid-all tfoot>tr>td.tableblock{border-width:1px 1px 0 0}
@@ -274,8 +282,8 @@ dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
 ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
 ul.unstyled,ol.unnumbered,ul.checklist,ul.none{list-style-type:none}
 ul.unstyled,ol.unnumbered,ul.checklist{margin-left:.625em}
-ul.checklist li>p:first-child>.fa-check-square-o:first-child,ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
-ul.checklist li>p:first-child>input[type="checkbox"]:first-child{position:relative;top:1px}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1em;font-size:.85em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{width:1em;position:relative;top:1px}
 ul.inline{margin:0 auto .625em auto;margin-left:-1.375em;margin-right:0;padding:0;list-style:none;overflow:hidden}
 ul.inline>li{list-style:none;float:left;margin-left:1.375em;display:block}
 ul.inline>li>*{display:block}
@@ -289,8 +297,8 @@ ol.upperroman{list-style-type:upper-roman}
 ol.lowergreek{list-style-type:lower-greek}
 .hdlist>table,.colist>table{border:0;background:none}
 .hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
-td.hdlist1{padding-right:.75em;font-weight:bold}
-td.hdlist1,td.hdlist2{vertical-align:top}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
 .literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
 .colist>table tr>td:first-of-type{padding:0 .75em;line-height:1}
 .colist>table tr>td:last-of-type{padding:.25em 0}
@@ -303,13 +311,14 @@ td.hdlist1,td.hdlist2{vertical-align:top}
 .image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
 .image.left{margin-right:.625em}
 .image.right{margin-left:.625em}
-a.image{text-decoration:none}
-span.footnote,span.footnoteref{vertical-align:super;font-size:.875em}
-span.footnote a,span.footnoteref a{text-decoration:none}
-span.footnote a:active,span.footnoteref a:active{text-decoration:underline}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em 0;border-width:1px 0 0 0}
-#footnotes .footnote{padding:0 .375em;line-height:1.3;font-size:.875em;margin-left:1.2em;text-indent:-1.2em;margin-bottom:.2em}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;text-indent:-1.05em;margin-bottom:.2em}
 #footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none}
 #footnotes .footnote:last-of-type{margin-bottom:0}
 #content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
@@ -367,11 +376,10 @@ span.icon>.fa{cursor:default}
 pre .conum[data-value]{position:relative;top:-.125em}
 b.conum *{color:inherit!important}
 .conum:not([data-value]):empty{display:none}
-h1,h2{letter-spacing:-.01em}
-dt,th.tableblock,td.content{text-rendering:optimizeLegibility}
-p,td.content{letter-spacing:-.01em}
-p strong,td.content strong{letter-spacing:-.005em}
-p,blockquote,dt,td.content{font-size:1.0625rem}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
 p{margin-bottom:1.25rem}
 .sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
 .exampleblock>.content{background-color:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
@@ -380,11 +388,11 @@ p{margin-bottom:1.25rem}
 *{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
 a{color:inherit!important;text-decoration:underline!important}
 a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
-a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after,a[href^="mailto:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+a[href^="http:"]:not(.bare):after,a[href^="https:"]:not(.bare):after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
 abbr[title]:after{content:" (" attr(title) ")"}
-pre,blockquote,tr,img{page-break-inside:avoid}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
 thead{display:table-header-group}
-img{max-width:100%!important}
+svg{max-width:100%}
 p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
 h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
 #toc,.sidebarblock,.exampleblock>.content{background:none!important}
@@ -408,99 +416,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .hide-for-print{display:none!important}
 .show-for-print{display:inherit!important}}
 </style>
-<style>
-/* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
-/*pre.CodeRay {background-color:#f7f7f8;}*/
-.CodeRay .line-numbers{border-right:1px solid #d8d8d8;padding:0 0.5em 0 .25em}
-.CodeRay span.line-numbers{display:inline-block;margin-right:.5em;color:rgba(0,0,0,.3)}
-.CodeRay .line-numbers strong{font-weight: normal}
-table.CodeRay{border-collapse:separate;border-spacing:0;margin-bottom:0;border:0;background:none}
-table.CodeRay td{vertical-align: top}
-table.CodeRay td.line-numbers{text-align:right}
-table.CodeRay td.line-numbers>pre{padding:0;color:rgba(0,0,0,.3)}
-table.CodeRay td.code{padding:0 0 0 .5em}
-table.CodeRay td.code>pre{padding:0}
-.CodeRay .debug{color:#fff !important;background:#000080 !important}
-.CodeRay .annotation{color:#007}
-.CodeRay .attribute-name{color:#000080}
-.CodeRay .attribute-value{color:#700}
-.CodeRay .binary{color:#509}
-.CodeRay .comment{color:#998;font-style:italic}
-.CodeRay .char{color:#04d}
-.CodeRay .char .content{color:#04d}
-.CodeRay .char .delimiter{color:#039}
-.CodeRay .class{color:#458;font-weight:bold}
-.CodeRay .complex{color:#a08}
-.CodeRay .constant,.CodeRay .predefined-constant{color:#008080}
-.CodeRay .color{color:#099}
-.CodeRay .class-variable{color:#369}
-.CodeRay .decorator{color:#b0b}
-.CodeRay .definition{color:#099}
-.CodeRay .delimiter{color:#000}
-.CodeRay .doc{color:#970}
-.CodeRay .doctype{color:#34b}
-.CodeRay .doc-string{color:#d42}
-.CodeRay .escape{color:#666}
-.CodeRay .entity{color:#800}
-.CodeRay .error{color:#808}
-.CodeRay .exception{color:inherit}
-.CodeRay .filename{color:#099}
-.CodeRay .function{color:#900;font-weight:bold}
-.CodeRay .global-variable{color:#008080}
-.CodeRay .hex{color:#058}
-.CodeRay .integer,.CodeRay .float{color:#099}
-.CodeRay .include{color:#555}
-.CodeRay .inline{color:#00}
-.CodeRay .inline .inline{background:#ccc}
-.CodeRay .inline .inline .inline{background:#bbb}
-.CodeRay .inline .inline-delimiter{color:#d14}
-.CodeRay .inline-delimiter{color:#d14}
-.CodeRay .important{color:#555;font-weight:bold}
-.CodeRay .interpreted{color:#b2b}
-.CodeRay .instance-variable{color:#008080}
-.CodeRay .label{color:#970}
-.CodeRay .local-variable{color:#963}
-.CodeRay .octal{color:#40e}
-.CodeRay .predefined{color:#369}
-.CodeRay .preprocessor{color:#579}
-.CodeRay .pseudo-class{color:#555}
-.CodeRay .directive{font-weight:bold}
-.CodeRay .type{font-weight:bold}
-.CodeRay .predefined-type{color:inherit}
-.CodeRay .reserved,.CodeRay .keyword {color:#000;font-weight:bold}
-.CodeRay .key{color:#808}
-.CodeRay .key .delimiter{color:#606}
-.CodeRay .key .char{color:#80f}
-.CodeRay .value{color:#088}
-.CodeRay .regexp .delimiter{color:#808}
-.CodeRay .regexp .content{color:#808}
-.CodeRay .regexp .modifier{color:#808}
-.CodeRay .regexp .char{color:#d14}
-.CodeRay .regexp .function{color:#404;font-weight:bold}
-.CodeRay .string{color:#d20}
-.CodeRay .string .string .string{background:#ffd0d0}
-.CodeRay .string .content{color:#d14}
-.CodeRay .string .char{color:#d14}
-.CodeRay .string .delimiter{color:#d14}
-.CodeRay .shell{color:#d14}
-.CodeRay .shell .delimiter{color:#d14}
-.CodeRay .symbol{color:#990073}
-.CodeRay .symbol .content{color:#a60}
-.CodeRay .symbol .delimiter{color:#630}
-.CodeRay .tag{color:#008080}
-.CodeRay .tag-special{color:#d70}
-.CodeRay .variable{color:#036}
-.CodeRay .insert{background:#afa}
-.CodeRay .delete{background:#faa}
-.CodeRay .change{color:#aaf;background:#007}
-.CodeRay .head{color:#f8f;background:#505}
-.CodeRay .insert .insert{color:#080}
-.CodeRay .delete .delete{color:#800}
-.CodeRay .change .change{color:#66f}
-.CodeRay .head .head{color:#f4f}
-</style>
 </head>
-<body class="book">
+<body class="article">
 <div id="header">
 <h1>Spring Cloud Spring Service Connector</h1>
 <div id="toc" class="toc">
@@ -514,6 +431,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_relational_database_db2_mysql_oracle_postgresql_sql_server">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</a></li>
 <li><a href="#_mongodb">MongoDB</a></li>
 <li><a href="#_redis">Redis</a></li>
+<li><a href="#_cassandra">Cassandra</a></li>
 <li><a href="#_smtp">SMTP</a></li>
 </ul>
 </li>
@@ -531,6 +449,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#_relational_database_db2_mysql_oracle_postgresql_sql_server_2">Relational database (DB2, MySQL, Oracle, PostgreSQL, SQL Server)</a></li>
 <li><a href="#_mongodb_2">MongoDB</a></li>
 <li><a href="#_redis_2">Redis</a></li>
+<li><a href="#_cassandra_2">Cassandra</a></li>
 </ul>
 </li>
 <li><a href="#_connecting_to_generic_services_2">Connecting to Generic Services</a></li>
@@ -582,9 +501,9 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Bean</span>
-<span class="directive">public</span> Cloud cloud() {
-  <span class="keyword">return</span> <span class="keyword">new</span> CloudFactory().getCloud();
+<pre class="highlight"><code class="language-java" data-lang="java">@Bean
+public Cloud cloud() {
+  return new CloudFactory().getCloud();
 }</code></pre>
 </div>
 </div>
@@ -593,10 +512,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Bean</span>
-<span class="annotation">@ConfigurationProperties</span>(DataSourceProperties.PREFIX)
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
-  <span class="keyword">return</span> cloud().getSingletonServiceConnector(<span class="predefined-type">DataSource</span>.class, <span class="predefined-constant">null</span>);
+<pre class="highlight"><code class="language-java" data-lang="java">@Bean
+@ConfigurationProperties(DataSourceProperties.PREFIX)
+public DataSource dataSource() {
+  return cloud().getSingletonServiceConnector(DataSource.class, null);
 }</code></pre>
 </div>
 </div>
@@ -619,18 +538,18 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">CloudConfig</span> <span class="directive">extends</span> AbstractCloudConfig {
-    <span class="annotation">@Bean</span>
-        <span class="directive">public</span> <span class="predefined-type">DataSource</span> inventoryDataSource() {
-            <span class="keyword">return</span> connectionFactory().dataSource();
+<pre class="highlight"><code class="language-java" data-lang="java">class CloudConfig extends AbstractCloudConfig {
+    @Bean
+        public DataSource inventoryDataSource() {
+            return connectionFactory().dataSource();
         }
 
-    <span class="annotation">@Bean</span>
-    <span class="directive">public</span> MongoDbFactory documentMongoDbFactory() {
-        <span class="keyword">return</span> connectionFactory().mongoDbFactory();
+    @Bean
+    public MongoDbFactory documentMongoDbFactory() {
+        return connectionFactory().mongoDbFactory();
     }
 
-    <span class="comment">// (More beans to obtain service connectors)</span>
+    // (More beans to obtain service connectors)
 }</code></pre>
 </div>
 </div>
@@ -639,7 +558,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Bean</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-service</span><span class="delimiter">&quot;</span></span>)</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">@Bean("inventory-service")</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -650,18 +569,18 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">CloudConfig</span> <span class="directive">extends</span> AbstractCloudConfig {
-    <span class="annotation">@Bean</span>
-    <span class="directive">public</span> <span class="predefined-type">DataSource</span> inventoryDataSource() {
-        <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db-service</span><span class="delimiter">&quot;</span></span>);
+<pre class="highlight"><code class="language-java" data-lang="java">class CloudConfig extends AbstractCloudConfig {
+    @Bean
+    public DataSource inventoryDataSource() {
+        return connectionFactory().dataSource("inventory-db-service");
     }
 
-    <span class="annotation">@Bean</span>
-    <span class="directive">public</span> MongoDbFactory documentMongoDbFactory() {
-        <span class="keyword">return</span> connectionFactory().mongoDbFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">document-service</span><span class="delimiter">&quot;</span></span>);
+    @Bean
+    public MongoDbFactory documentMongoDbFactory() {
+        return connectionFactory().mongoDbFactory("document-service");
     }
 
-    <span class="comment">// (More beans to obtain service connectors)</span>
+    // (More beans to obtain service connectors)
 }</code></pre>
 </div>
 </div>
@@ -675,10 +594,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available RabbitMQ service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
-    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory();
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the only available RabbitMQ service
+@Bean
+public RabbitConnectionFactory rabbitFactory() {
+    return connectionFactory().rabbitConnectionFactory();
 }</code></pre>
 </div>
 </div>
@@ -687,10 +606,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'bunnymq' RabbitMQ service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
-    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span>);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'bunnymq' RabbitMQ service
+@Bean
+public RabbitConnectionFactory rabbitFactory() {
+    return connectionFactory().rabbitConnectionFactory("bunnymq");
 }</code></pre>
 </div>
 </div>
@@ -699,11 +618,11 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'bunnymq' RabbitMQ service, supplying configuration</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
-    RabbitConnectionFactoryConfig rabbitConfig = <span class="keyword">new</span> RabbitConnectionFactoryConfig(<span class="integer">10</span>);
-    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span>, rabbitConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'bunnymq' RabbitMQ service, supplying configuration
+@Bean
+public RabbitConnectionFactory rabbitFactory() {
+    RabbitConnectionFactoryConfig rabbitConfig = new RabbitConnectionFactoryConfig(10);
+    return connectionFactory().rabbitConnectionFactory("bunnymq", rabbitConfig);
 }</code></pre>
 </div>
 </div>
@@ -712,15 +631,15 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'bunnymq' RabbitMQ service, setting properties</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> RabbitConnectionFactory rabbitFactory() {
-    <span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt; properties = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt;();
-    properties.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">requestedHeartbeat</span><span class="delimiter">&quot;</span></span>, <span class="integer">5</span>);
-    properties.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">connectionTimeout</span><span class="delimiter">&quot;</span></span>, <span class="integer">10</span>);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'bunnymq' RabbitMQ service, setting properties
+@Bean
+public RabbitConnectionFactory rabbitFactory() {
+    Map&lt;String, Object&gt; properties = new HashMap&lt;String, Object&gt;();
+    properties.put("requestedHeartbeat", 5);
+    properties.put("connectionTimeout", 10);
 
-    RabbitConnectionFactoryConfig rabbitConfig = <span class="keyword">new</span> RabbitConnectionFactoryConfig(properties);
-    <span class="keyword">return</span> connectionFactory().rabbitConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span>, rabbitConfig);
+    RabbitConnectionFactoryConfig rabbitConfig = new RabbitConnectionFactoryConfig(properties);
+    return connectionFactory().rabbitConnectionFactory("bunnymq", rabbitConfig);
 }</code></pre>
 </div>
 </div>
@@ -746,10 +665,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available relational database service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
-    <span class="keyword">return</span> connectionFactory().dataSource();
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the only available relational database service
+@Bean
+public DataSource dataSource() {
+    return connectionFactory().dataSource();
 }</code></pre>
 </div>
 </div>
@@ -758,10 +677,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'my-own-personal-sql' relational database service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
-    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'my-own-personal-sql' relational database service
+@Bean
+public DataSource dataSource() {
+    return connectionFactory().dataSource("my-own-personal-sql");
 }</code></pre>
 </div>
 </div>
@@ -770,12 +689,12 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'my-own-personal-sql' relational database service, supplying configuration</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
-    PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
-    DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(poolConfig, <span class="predefined-constant">null</span>);
-    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'my-own-personal-sql' relational database service, supplying configuration
+@Bean
+public DataSource dataSource() {
+    PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
+    DataSourceConfig dbConfig = new DataSourceConfig(poolConfig, null);
+    return connectionFactory().dataSource("my-own-personal-sql", dbConfig);
 }</code></pre>
 </div>
 </div>
@@ -784,13 +703,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'my-own-personal-sql' relational database service, setting properties</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
-    PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
-    ConnectionConfig connConfig = <span class="keyword">new</span> ConnectionConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">useUnicode=yes;characterEncoding=UTF-8</span><span class="delimiter">&quot;</span></span>);
-    DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(poolConfig, connConfig);
-    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'my-own-personal-sql' relational database service, setting properties
+@Bean
+public DataSource dataSource() {
+    PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
+    ConnectionConfig connConfig = new ConnectionConfig("useUnicode=yes;characterEncoding=UTF-8");
+    DataSourceConfig dbConfig = new DataSourceConfig(poolConfig, connConfig);
+    return connectionFactory().dataSource("my-own-personal-sql", dbConfig);
 }</code></pre>
 </div>
 </div>
@@ -842,12 +761,12 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Set order of DataSource implementations, using a List of full class names</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
-    <span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; dataSourceNames = <span class="predefined-type">Arrays</span>.asList(<span class="string"><span class="delimiter">&quot;</span><span class="content">TomcatJdbcPooledDataSourceCreator</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">HikariCpPooledDataSourceCreator</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">BasicDbcpPooledDataSourceCreator</span><span class="delimiter">&quot;</span></span>);
-    DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(dataSourceNames);
-    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Set order of DataSource implementations, using a List of full class names
+@Bean
+public DataSource dataSource() {
+    List&lt;String&gt; dataSourceNames = Arrays.asList("TomcatJdbcPooledDataSourceCreator", "HikariCpPooledDataSourceCreator", "BasicDbcpPooledDataSourceCreator");
+    DataSourceConfig dbConfig = new DataSourceConfig(dataSourceNames);
+    return connectionFactory().dataSource("my-own-personal-sql", dbConfig);
 }</code></pre>
 </div>
 </div>
@@ -856,12 +775,12 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Set order of DataSource implementations, using a List of strings contained in class names</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> <span class="predefined-type">DataSource</span> dataSource() {
-    <span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; dataSourceNames = <span class="predefined-type">Arrays</span>.asList(<span class="string"><span class="delimiter">&quot;</span><span class="content">TomcatJdbc</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">HikariCp</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">BasicDbcp</span><span class="delimiter">&quot;</span></span>);
-    DataSourceConfig dbConfig = <span class="keyword">new</span> DataSourceConfig(dataSourceNames);
-    <span class="keyword">return</span> connectionFactory().dataSource(<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span>, dbConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Set order of DataSource implementations, using a List of strings contained in class names
+@Bean
+public DataSource dataSource() {
+    List&lt;String&gt; dataSourceNames = Arrays.asList("TomcatJdbc", "HikariCp", "BasicDbcp");
+    DataSourceConfig dbConfig = new DataSourceConfig(dataSourceNames);
+    return connectionFactory().dataSource("my-own-personal-sql", dbConfig);
 }</code></pre>
 </div>
 </div>
@@ -875,10 +794,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> MongoDbFactory mongoFactory() {
-    <span class="keyword">return</span> connectionFactory().mongoDbFactory();
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the only available MongoDB service
+@Bean
+public MongoDbFactory mongoFactory() {
+    return connectionFactory().mongoDbFactory();
 }</code></pre>
 </div>
 </div>
@@ -887,11 +806,11 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service, supplying configuration</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> MongoDbFactory mongoFactory() {
-    MongoDbFactoryConfig mongoConfig = <span class="keyword">new</span> MongoDbFactoryConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>, <span class="integer">50</span>, <span class="integer">200</span>);
-    <span class="keyword">return</span> connectionFactory().mongoDbFactory(mongoConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the only available MongoDB service, supplying configuration
+@Bean
+public MongoDbFactory mongoFactory() {
+    MongoDbFactoryConfig mongoConfig = new MongoDbFactoryConfig("NONE", 50, 200);
+    return connectionFactory().mongoDbFactory(mongoConfig);
 }</code></pre>
 </div>
 </div>
@@ -900,10 +819,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'mongo-service' MongoDB service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> MongoDbFactory mongoFactory() {
-    <span class="keyword">return</span> connectionFactory().mongoDbFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span>);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'mongo-service' MongoDB service
+@Bean
+public MongoDbFactory mongoFactory() {
+    return connectionFactory().mongoDbFactory("mongo-service");
 }</code></pre>
 </div>
 </div>
@@ -912,11 +831,11 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available MongoDB service, supplying configuration</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> MongoDbFactory mongoFactory() {
-    MongoDbFactoryConfig mongoConfig = <span class="keyword">new</span> MongoDbFactoryConfig(<span class="string"><span class="delimiter">&quot;</span><span class="content">NONE</span><span class="delimiter">&quot;</span></span>, <span class="integer">50</span>, <span class="integer">200</span>);
-    <span class="keyword">return</span> connectionFactory().mongoDbFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span>, mongoConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'mongo-service' MongoDB service, supplying configuration
+@Bean
+public MongoDbFactory mongoFactory() {
+    MongoDbFactoryConfig mongoConfig = new MongoDbFactoryConfig("NONE", 50, 200);
+    return connectionFactory().mongoDbFactory("mongo-service", mongoConfig);
 }</code></pre>
 </div>
 </div>
@@ -928,10 +847,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available Redis service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> RedisConnectionFactory redisFactory() {
-    <span class="keyword">return</span> connectionFactory().redisConnectionFactory();
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the only available Redis service
+@Bean
+public RedisConnectionFactory redisFactory() {
+    return connectionFactory().redisConnectionFactory();
 }</code></pre>
 </div>
 </div>
@@ -940,12 +859,12 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available Redis service, supplying configuration</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> RedisConnectionFactory redisFactory() {
-    PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
-    PooledServiceConnectorConfig redisConfig = <span class="keyword">new</span> PooledServiceConnectorConfig(poolConfig);
-    <span class="keyword">return</span> connectionFactory().redisConnectionFactory(redisConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the only available Redis service, supplying configuration
+@Bean
+public RedisConnectionFactory redisFactory() {
+    PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
+    PooledServiceConnectorConfig redisConfig = new PooledServiceConnectorConfig(poolConfig);
+    return connectionFactory().redisConnectionFactory(redisConfig);
 }</code></pre>
 </div>
 </div>
@@ -954,10 +873,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'redis-service' Redis service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> RedisConnectionFactory redisFactory() {
-    <span class="keyword">return</span> connectionFactory().redisConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span>);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'redis-service' Redis service
+@Bean
+public RedisConnectionFactory redisFactory() {
+    return connectionFactory().redisConnectionFactory("redis-service");
 }</code></pre>
 </div>
 </div>
@@ -966,12 +885,12 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'redis-service' Redis service, supplying configuration</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> RedisConnectionFactory redisFactory() {
-  PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
-  PooledServiceConnectorConfig redisConfig = <span class="keyword">new</span> RedisConnectionFactoryConfig(poolConfig);
-  <span class="keyword">return</span> connectionFactory().redisConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span>, redisConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'redis-service' Redis service, supplying configuration
+@Bean
+public RedisConnectionFactory redisFactory() {
+  PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
+  PooledServiceConnectorConfig redisConfig = new RedisConnectionFactoryConfig(poolConfig);
+  return connectionFactory().redisConnectionFactory("redis-service", redisConfig);
 }</code></pre>
 </div>
 </div>
@@ -980,13 +899,13 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'redis-service' Redis service, setting a property</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> RedisConnectionFactory redisFactory() {
-  <span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt; properties = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt;();
-  properties.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">timeout</span><span class="delimiter">&quot;</span></span>, <span class="integer">10</span>);
-  RedisConnectionFactoryConfig redisConfig = <span class="keyword">new</span> RedisConnectionFactoryConfig(properties);
-  <span class="keyword">return</span> connectionFactory().redisConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span>, redisConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'redis-service' Redis service, setting a property
+@Bean
+public RedisConnectionFactory redisFactory() {
+  Map&lt;String, Object&gt; properties = new HashMap&lt;String, Object&gt;();
+  properties.put("timeout", 10);
+  RedisConnectionFactoryConfig redisConfig = new RedisConnectionFactoryConfig(properties);
+  return connectionFactory().redisConnectionFactory("redis-service", redisConfig);
 }</code></pre>
 </div>
 </div>
@@ -995,14 +914,71 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'redis-service' Redis service, providing configuration and setting a property</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> RedisConnectionFactory redisFactory() {
-  <span class="predefined-type">Map</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt; properties = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;<span class="predefined-type">String</span>, <span class="predefined-type">Object</span>&gt;();
-  properties.put(<span class="string"><span class="delimiter">&quot;</span><span class="content">timeout</span><span class="delimiter">&quot;</span></span>, <span class="integer">10</span>);
-  PoolConfig poolConfig = <span class="keyword">new</span> PoolConfig(<span class="integer">5</span>, <span class="integer">30</span>, <span class="integer">3000</span>);
-  RedisConnectionFactoryConfig redisConfig = <span class="keyword">new</span> RedisConnectionFactoryConfig(poolConfig, properties);
-  <span class="keyword">return</span> connectionFactory().redisConnectionFactory(<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span>, redisConfig);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'redis-service' Redis service, providing configuration and setting a property
+@Bean
+public RedisConnectionFactory redisFactory() {
+  Map&lt;String, Object&gt; properties = new HashMap&lt;String, Object&gt;();
+  properties.put("timeout", 10);
+  PoolConfig poolConfig = new PoolConfig(5, 30, 3000);
+  RedisConnectionFactoryConfig redisConfig = new RedisConnectionFactoryConfig(poolConfig, properties);
+  return connectionFactory().redisConnectionFactory("redis-service", redisConfig);
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cassandra">Cassandra</h4>
+<div class="paragraph">
+<p>To connect to a unique Cassandra service, you can create a service bean using <code>cluster()</code>. The following example connects to the only Cassandra service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the only available Cassandra service
+@Bean
+public Cluster cluster() {
+    return connectionFactory().cluster();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To provide configuration for a unique Cassandra service, you can use an overloaded <code>cluster()</code> variant. The following example connects to the only Cassandra service bound to the application and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html"><code>CassandraClusterConfig</code></a> with metrics and JMX reporting disabled.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the only available Cassandra service, supplying configuration
+@Bean
+public Cluster cluster() {
+    CassandraClusterConfig config = new CassandraClusterConfig();
+    config.setMetricsEnabled(false);
+    config.setJmxReportingEnabled(false);
+    return connectionFactory().cluster(config);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific Cassandra service, you can use an overloaded variant of <code>cluster()</code>. The following example connects specifically to the <code>cassandra-service</code> Cassandra service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'cassandra-service' Cassandra service
+@Bean
+public Cluster cluster() {
+    return connectionFactory().cluster("cassandra-service");
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific Cassandra service and provide configuration, you can use an overloaded <code>cluster()</code> variant. The following example connects to the <code>cassandra-service</code> Cassandra service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html"><code>CassandraClusterConfig</code></a> with metrics and JMX reporting disabled.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'cassandra-service' Cassandra service, supplying configuration
+@Bean
+public Cluster cluster() {
+    CassandraClusterConfig config = new CassandraClusterConfig();
+    config.setMetricsEnabled(false);
+    config.setJmxReportingEnabled(false);
+    return connectionFactory().cluster("cassandra-service", config);
 }</code></pre>
 </div>
 </div>
@@ -1014,10 +990,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the only available SMTP service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> MailSender mailSender() {
-    <span class="keyword">return</span> connectionFactory().service(MailSender.class);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the only available SMTP service
+@Bean
+public MailSender mailSender() {
+    return connectionFactory().service(MailSender.class);
 }</code></pre>
 </div>
 </div>
@@ -1026,10 +1002,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="comment">//Connect to the 'mail-service' SMTP service</span>
-<span class="annotation">@Bean</span>
-<span class="directive">public</span> MailSender mailSender() {
-    <span class="keyword">return</span> connectionFactory().service(<span class="string"><span class="delimiter">&quot;</span><span class="content">mail-service</span><span class="delimiter">&quot;</span></span>, MailSender.class);
+<pre class="highlight"><code class="language-java" data-lang="java">//Connect to the 'mail-service' SMTP service
+@Bean
+public MailSender mailSender() {
+    return connectionFactory().service("mail-service", MailSender.class);
 }</code></pre>
 </div>
 </div>
@@ -1042,9 +1018,9 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Bean</span>
-<span class="directive">public</span> Search search() {
-  <span class="keyword">return</span> connectionFactory().service(<span class="string"><span class="delimiter">&quot;</span><span class="content">search-service</span><span class="delimiter">&quot;</span></span>, Search.class);
+<pre class="highlight"><code class="language-java" data-lang="java">@Bean
+public Search search() {
+  return connectionFactory().service("search-service", Search.class);
 }</code></pre>
 </div>
 </div>
@@ -1056,9 +1032,9 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Configuration</span>
-<span class="annotation">@ServiceScan</span>
-<span class="type">class</span> <span class="class">CloudConfig</span> {
+<pre class="highlight"><code class="language-java" data-lang="java">@Configuration
+@ServiceScan
+class CloudConfig {
 }</code></pre>
 </div>
 </div>
@@ -1070,7 +1046,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Autowired</span> <span class="predefined-type">DataSource</span> inventoryDb;</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">@Autowired DataSource inventoryDb;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1078,8 +1054,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Autowired</span> <span class="annotation">@Qualifier</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db</span><span class="delimiter">&quot;</span></span>) <span class="predefined-type">DataSource</span> inventoryDb;
-<span class="annotation">@Autowired</span> <span class="annotation">@Qualifier</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">shipping-db</span><span class="delimiter">&quot;</span></span>) <span class="predefined-type">DataSource</span> shippingDb;</code></pre>
+<pre class="highlight"><code class="language-java" data-lang="java">@Autowired @Qualifier("inventory-db") DataSource inventoryDb;
+@Autowired @Qualifier("shipping-db") DataSource shippingDb;</code></pre>
 </div>
 </div>
 </div>
@@ -1090,10 +1066,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="type">class</span> <span class="class">CloudPropertiesConfig</span> <span class="directive">extends</span> AbstractCloudConfig {
-    <span class="annotation">@Bean</span>
-    <span class="directive">public</span> <span class="predefined-type">Properties</span> cloudProperties() {
-        <span class="keyword">return</span> properties();
+<pre class="highlight"><code class="language-java" data-lang="java">class CloudPropertiesConfig extends AbstractCloudConfig {
+    @Bean
+    public Properties cloudProperties() {
+        return properties();
     }
 }</code></pre>
 </div>
@@ -1114,14 +1090,14 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="preprocessor">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="tag">&lt;beans</span> <span class="attribute-name">xmlns</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans</span><span class="delimiter">&quot;</span></span>
-           <span class="attribute-name">xmlns:xsi</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.w3.org/2001/XMLSchema-instance</span><span class="delimiter">&quot;</span></span>
-       <span class="attribute-name">xmlns:cloud</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/cloud</span><span class="delimiter">&quot;</span></span>
-       <span class="attribute-name">xsi:schemaLocation</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span>
-       <span class="content">http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cloud="http://www.springframework.org/schema/cloud"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd"&gt;
 
-<span class="comment">&lt;!-- &lt;cloud&gt; namespace usage here --&gt;</span></code></pre>
+&lt;!-- &lt;cloud&gt; namespace usage here --&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -1132,10 +1108,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">inventory-db-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    <span class="tag">&lt;cloud:connection</span> <span class="attribute-name">properties</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">sessionVariables=sql_mode='ANSI';characterEncoding=UTF-8</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-    <span class="tag">&lt;cloud:pool</span> <span class="attribute-name">pool-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">20</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-wait-time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">200</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-<span class="tag">&lt;/cloud&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;cloud:data-source id="inventory-db" service-name="inventory-db-service"&gt;
+    &lt;cloud:connection properties="sessionVariables=sql_mode='ANSI';characterEncoding=UTF-8"/&gt;
+    &lt;cloud:pool pool-size="20" max-wait-time="200"/&gt;
+&lt;/cloud&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1149,9 +1125,9 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;cloud:mongo-db-factory</span><span class="tag">/&gt;</span>
-<span class="tag">&lt;cloud:redis-connection-factory</span><span class="tag">/&gt;</span>
-<span class="tag">&lt;cloud:rabbit-connection-factory</span><span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;cloud:mongo-db-factory/&gt;
+&lt;cloud:redis-connection-factory/&gt;
+&lt;cloud:rabbit-connection-factory/&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1164,8 +1140,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available RabbitMQ service --&gt;</span>
-<span class="tag">&lt;cloud:rabbit-connection-factory</span> <span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the only available RabbitMQ service --&gt;
+&lt;cloud:rabbit-connection-factory /&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1173,8 +1149,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'bunnymq' RabbitMQ service --&gt;</span>
-<span class="tag">&lt;cloud:rabbit-connection-factory</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'bunnymq' RabbitMQ service --&gt;
+&lt;cloud:rabbit-connection-factory service-name="bunnymq" /&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1182,8 +1158,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq' --&gt;</span>
-<span class="tag">&lt;cloud:rabbit-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">rabbitmq</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq' --&gt;
+&lt;cloud:rabbit-connection-factory id="rabbitmq" service-name="bunnymq" /&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1191,10 +1167,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq', setting channel cache size --&gt;</span>
-<span class="tag">&lt;cloud:rabbit-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">rabbitmq</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-  <span class="tag">&lt;cloud:rabbit-options</span> <span class="attribute-name">channel-cache-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">200</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-<span class="tag">&lt;/cloud:rabbit-connection-factory&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq', setting channel cache size --&gt;
+&lt;cloud:rabbit-connection-factory id="rabbitmq" service-name="bunnymq"&gt;
+  &lt;cloud:rabbit-options channel-cache-size="200"/&gt;
+&lt;/cloud:rabbit-connection-factory&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1202,14 +1178,14 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq', setting channel cache size and connection properties --&gt;</span>
-<span class="tag">&lt;cloud:rabbit-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">rabbitmq</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">bunnymq</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-  <span class="tag">&lt;cloud:rabbit-options</span> <span class="attribute-name">channel-cache-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">200</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-  <span class="tag">&lt;cloud:connection-properties&gt;</span>
-    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">requestedHeartbeat</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">connectionTimeout</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-  <span class="tag">&lt;/cloud:connection-properties&gt;</span>
-<span class="tag">&lt;/cloud:rabbit-connection-factory&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'bunnymq' RabbitMQ service with a bean of id 'rabbitmq', setting channel cache size and connection properties --&gt;
+&lt;cloud:rabbit-connection-factory id="rabbitmq" service-name="bunnymq"&gt;
+  &lt;cloud:rabbit-options channel-cache-size="200"/&gt;
+  &lt;cloud:connection-properties&gt;
+    &lt;entry key="requestedHeartbeat" value="5"/&gt;
+    &lt;entry key="connectionTimeout" value="10"/&gt;
+  &lt;/cloud:connection-properties&gt;
+&lt;/cloud:rabbit-connection-factory&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -1234,8 +1210,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available relational database service --&gt;</span>
-<span class="tag">&lt;cloud:data-source</span><span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the only available relational database service --&gt;
+&lt;cloud:data-source/&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1243,8 +1219,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service --&gt;</span>
-<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'my-own-personal-sql' relational database service --&gt;
+&lt;cloud:data-source service-name="my-own-personal-sql"/&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1252,8 +1228,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service, with a bean of id 'mysql' --&gt;</span>
-<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'my-own-personal-sql' relational database service, with a bean of id 'mysql' --&gt;
+&lt;cloud:data-source id="mysql" service-name="my-own-personal-sql" /&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1261,10 +1237,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', setting connection properties --&gt;</span>
-<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    <span class="tag">&lt;cloud:connection</span> <span class="attribute-name">properties</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">useUnicode=yes;characterEncoding=UTF-8</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-<span class="tag">&lt;/cloud:data-source&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', setting connection properties --&gt;
+&lt;cloud:data-source id="mysql" service-name="my-own-personal-sql"&gt;
+    &lt;cloud:connection properties="useUnicode=yes;characterEncoding=UTF-8"/&gt;
+&lt;/cloud:data-source&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1272,10 +1248,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', configuring pool settings --&gt;</span>
-<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    <span class="tag">&lt;cloud:pool</span> <span class="attribute-name">pool-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5-30</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-wait-time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3000</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-<span class="tag">&lt;/cloud:data-source&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'my-own-personal-sql' relational database service with a bean of id 'mysql', configuring pool settings --&gt;
+&lt;cloud:data-source id="mysql" service-name="my-own-personal-sql"&gt;
+    &lt;cloud:pool pool-size="5-30" max-wait-time="3000"/&gt;
+&lt;/cloud:data-source&gt;</code></pre>
 </div>
 </div>
 <div class="sect4">
@@ -1326,14 +1302,14 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Set order of DataSource implementations, using strings contained in class names --&gt;</span>
-<span class="tag">&lt;cloud:data-source</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mysql</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">my-own-personal-sql</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span>
-  <span class="tag">&lt;cloud:pool-data-sources&gt;</span>
-    <span class="tag">&lt;value&gt;</span>TomcatJdbc<span class="tag">&lt;/value&gt;</span>
-    <span class="tag">&lt;value&gt;</span>TomcatDbcp<span class="tag">&lt;/value&gt;</span>
-    <span class="tag">&lt;value&gt;</span>BasicDbcp<span class="tag">&lt;/value&gt;</span>
-  <span class="tag">&lt;/cloud:pool-data-sources&gt;</span>
-<span class="tag">&lt;/cloud:data-source&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Set order of DataSource implementations, using strings contained in class names --&gt;
+&lt;cloud:data-source id="mysql" service-name="my-own-personal-sql" /&gt;
+  &lt;cloud:pool-data-sources&gt;
+    &lt;value&gt;TomcatJdbc&lt;/value&gt;
+    &lt;value&gt;TomcatDbcp&lt;/value&gt;
+    &lt;value&gt;BasicDbcp&lt;/value&gt;
+  &lt;/cloud:pool-data-sources&gt;
+&lt;/cloud:data-source&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -1346,8 +1322,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available MongoDB service --&gt;</span>
-<span class="tag">&lt;cloud:mongo-db-factory</span><span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the only available MongoDB service --&gt;
+&lt;cloud:mongo-db-factory/&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1355,8 +1331,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'mongo-service' MongoDB service --&gt;</span>
-<span class="tag">&lt;cloud:mongo-db-factory</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'mongo-service' MongoDB service --&gt;
+&lt;cloud:mongo-db-factory service-name="mongo-service"/&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1364,8 +1340,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'mongo-service' MongoDB service with a bean of id 'mongo' --&gt;</span>
-<span class="tag">&lt;cloud:mongo-db-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'mongo-service' MongoDB service with a bean of id 'mongo' --&gt;
+&lt;cloud:mongo-db-factory id="mongo" service-name="mongo-service"/&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1373,10 +1349,10 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'mongo-service' MongoDB service with a bean of id 'mongo', setting connections per host --&gt;</span>
-<span class="tag">&lt;cloud:mongo-db-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">mongo-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    <span class="tag">&lt;cloud:mongo-options</span> <span class="attribute-name">connections-per-host</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">50</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-<span class="tag">&lt;/cloud:mongo-db-factory&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'mongo-service' MongoDB service with a bean of id 'mongo', setting connections per host --&gt;
+&lt;cloud:mongo-db-factory id="mongo" service-name="mongo-service"&gt;
+    &lt;cloud:mongo-options connections-per-host="50"/&gt;
+&lt;/cloud:mongo-db-factory&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -1387,8 +1363,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the only available Redis service --&gt;</span>
-<span class="tag">&lt;cloud:redis-connection-factory</span><span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the only available Redis service --&gt;
+&lt;cloud:redis-connection-factory/&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1396,8 +1372,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service --&gt;</span>
-<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'redis-service' Redis service --&gt;
+&lt;cloud:redis-connection-factory service-name="redis-service"/&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1405,8 +1381,8 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis' --&gt;</span>
-<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis' --&gt;
+&lt;cloud:redis-connection-factory id="redis" service-name="redis-service"/&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1414,12 +1390,12 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis', setting a connection property --&gt;</span>
-<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-  <span class="tag">&lt;cloud:connection-properties&gt;</span>
-    <span class="tag">&lt;entry</span> <span class="attribute-name">key</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">timeout</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">value</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">10</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-  <span class="tag">&lt;/cloud:connection-properties&gt;</span>
-<span class="tag">&lt;/cloud:redis-connection-factory&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis', setting a connection property --&gt;
+&lt;cloud:redis-connection-factory id="redis" service-name="redis-service"&gt;
+  &lt;cloud:connection-properties&gt;
+    &lt;entry key="timeout" value="10"/&gt;
+  &lt;/cloud:connection-properties&gt;
+&lt;/cloud:redis-connection-factory&gt;</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1427,10 +1403,53 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="comment">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis', configuring pool settings --&gt;</span>
-<span class="tag">&lt;cloud:redis-connection-factory</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">redis-service</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-  <span class="tag">&lt;cloud:pool</span> <span class="attribute-name">pool-size</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">5-30</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">max-wait-time</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">3000</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span>
-<span class="tag">&lt;/cloud:redis-connection-factory&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'redis-service' Redis service with a bean of id 'redis', configuring pool settings --&gt;
+&lt;cloud:redis-connection-factory id="redis" service-name="redis-service"&gt;
+  &lt;cloud:pool pool-size="5-30" max-wait-time="3000"/&gt;
+&lt;/cloud:redis-connection-factory&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cassandra_2">Cassandra</h4>
+<div class="paragraph">
+<p>To connect to a Cassandra service, you can use the <code>&lt;cloud:cassandra-session-factory/&gt;</code> element. The following example connects to the only Cassandra service bound to the application.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the only available Cassandra service --&gt;
+&lt;cloud:cassandra-session-factory/&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To connect to a specific Cassandra service, you can use the <code>service-name</code> attribute. The following example connects specifically to the <code>cassandra-service</code> Cassandra service.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'cassandra-service' Cassandra service --&gt;
+&lt;cloud:cassandra-session-factory service-name="cassandra-service"/&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To specify an id for the Cassandra connection bean, you can use the <code>id</code> attribute. The following example connects specifically to the <code>cassandra-service</code> Cassandra service with a bean given the id <code>cassandra</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'cassandra-service' Cassandra service with a bean of id 'cassandra' --&gt;
+&lt;cloud:cassandra-session-factory id="cassandra" service-name="cassandra-service"/&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To set properties on a Cassandra service, you can use the <code>&lt;cloud:cassandra-options&gt;</code> nested element. The following example connects specifically to the <code>cassandra-service</code> Cassandra service with a bean given the id <code>cassandra</code> and uses the <code>&lt;cloud:cassandra-options&gt;</code> element.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;!-- Connect to the 'cassandra-service' Cassandra service with a bean of id 'cassandra', setting connections options --&gt;
+&lt;bean id="retryPolicy" class="com.datastax.driver.core.policies.DefaultRetryPolicy"/&gt;
+
+&lt;cloud:cassandra-session-factory id="cassandra" service-name="cassandra-service" &gt;
+  &lt;cloud:cassandra-options compression="NONE" retry-policy="retryPolicy"/&gt;
+&lt;/cloud:cassandra-session-factory&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -1442,7 +1461,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"> <span class="tag">&lt;cloud:service</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">email</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">service-name</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">email-service</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">connector-type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">com.something.EmailConnectory</span><span class="delimiter">&quot;</span></span> <span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml"> &lt;cloud:service id="email" service-name="email-service" connector-type="com.something.EmailConnectory" /&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -1459,7 +1478,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="xml"><span class="tag">&lt;cloud:properties</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">cloudProperties</span><span class="delimiter">&quot;</span></span><span class="tag">/&gt;</span></code></pre>
+<pre class="highlight"><code class="language-xml" data-lang="xml">&lt;cloud:properties id="cloudProperties"/&gt;</code></pre>
 </div>
 </div>
 </div>
@@ -1468,7 +1487,7 @@ table.CodeRay td.code>pre{padding:0}
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-03-01 11:06:32 CST
+Last updated 2017-10-31 14:19:31 -05:00
 </div>
 </div>
 </body>
