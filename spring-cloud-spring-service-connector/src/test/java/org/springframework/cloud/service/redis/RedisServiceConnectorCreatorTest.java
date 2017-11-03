@@ -2,6 +2,7 @@ package org.springframework.cloud.service.redis;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -59,12 +60,15 @@ public class RedisServiceConnectorCreatorTest {
 			assertEquals(serviceInfo.getHost(), connectionFactory.getHostName());
 			assertEquals(serviceInfo.getPort(), connectionFactory.getPort());
 			assertEquals(serviceInfo.getPassword(), connectionFactory.getPassword());
-		}
-		if (connector instanceof LettuceConnectionFactory) {
+		} else if (connector instanceof LettuceConnectionFactory) {
 			LettuceConnectionFactory connectionFactory = (LettuceConnectionFactory) connector;
 			assertEquals(serviceInfo.getHost(), connectionFactory.getHostName());
 			assertEquals(serviceInfo.getPort(), connectionFactory.getPort());
 			assertEquals(serviceInfo.getPassword(), connectionFactory.getPassword());
+		} else {
+			fail("Expected RedisConnectionFactory of type " +
+					JedisConnectionFactory.class.getName() + " or " + LettuceConnectionFactory.class.getName() +
+					" but was of type " + connector.getClass().getName());
 		}
 	}
 }
