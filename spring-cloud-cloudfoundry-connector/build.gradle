@@ -13,21 +13,20 @@ apply plugin: 'com.github.johnrengelman.shadow'
 apply from: "publish-maven.gradle"
 
 ext {
-	jacksonVersion = "2.3.3"
+	jsonVersion = "20171018"
 }
 
 dependencies {
 	compile project(':spring-cloud-connectors-core')
-	compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
-	compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+	compile("org.json:json:$jsonVersion")
 }
 
 shadowJar {
 	classifier = null
 	dependencies {
-		include dependency('com.fasterxml.jackson.core:jackson-.*')
+		include dependency('org.json:json')
 	}
-	relocate 'com.fasterxml.jackson', 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson'
+	relocate 'org.json', 'org.springframework.cloud.cloudfoundry.org.json'
 }
 
 assemble.dependsOn shadowJar
