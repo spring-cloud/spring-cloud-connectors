@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
-import org.json.JSONObject;
 import org.springframework.cloud.AbstractCloudConnector;
 import org.springframework.cloud.CloudException;
 import org.springframework.cloud.FallbackServiceInfoCreator;
 import org.springframework.cloud.app.ApplicationInstanceInfo;
 import org.springframework.cloud.service.BaseServiceInfo;
 import org.springframework.cloud.util.EnvironmentAccessor;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 
@@ -22,6 +21,7 @@ import org.springframework.cloud.util.EnvironmentAccessor;
  */
 public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Object>> {
 
+	private ObjectMapper objectMapper = new ObjectMapper();
 	private EnvironmentAccessor environment = new EnvironmentAccessor();
 	
 	private ApplicationInstanceInfoCreator applicationInstanceInfoCreator = new ApplicationInstanceInfoCreator();
@@ -43,8 +43,8 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 	public ApplicationInstanceInfo getApplicationInstanceInfo() {
 		try {
 			@SuppressWarnings("unchecked")
-			Map<String, Object> rawApplicationInstanceInfo
-				= new JSONObject(environment.getEnvValue("VCAP_APPLICATION")).toMap();
+			Map<String, Object> rawApplicationInstanceInfo 
+				= objectMapper.readValue(environment.getEnvValue("VCAP_APPLICATION"), Map.class);
 			return applicationInstanceInfoCreator.createApplicationInstanceInfo(rawApplicationInstanceInfo);
 		} catch (Exception e) {
 			throw new CloudException(e);
@@ -71,8 +71,7 @@ public class CloudFoundryConnector extends AbstractCloudConnector<Map<String,Obj
 		
 		if (servicesString != null && servicesString.length() > 0) {
 			try {
-				rawServices = new CloudFoundryRawServiceData(new JSONObject(servicesString).toMap().entrySet().stream()
-				.collect(Collectors.toMap(Map.Entry::getKey, entry -> (List<Map<String, Object>>) entry.getValue())));
+				rawServices = objectMapper.readValue(servicesString, CloudFoundryRawServiceData.class);
 			} catch (Exception e) {
 				throw new CloudException(e);
 			}
