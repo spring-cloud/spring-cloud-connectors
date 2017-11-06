@@ -22,10 +22,9 @@ import static org.junit.Assert.*;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.junit.Test;
 import org.springframework.cloud.service.common.CassandraServiceInfo;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Unit tests for link {@link CassandraServiceInfoCreator}.
@@ -33,8 +32,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Mark Paluch
  */
 public class CassandraServiceInfoCreatorTests extends AbstractCloudFoundryConnectorTest {
-
-	private ObjectMapper mapper = new ObjectMapper();
 
 	@Test
 	public void shouldCreateServiceInfo() throws Exception {
@@ -91,7 +88,7 @@ public class CassandraServiceInfoCreatorTests extends AbstractCloudFoundryConnec
 	}
 
 	private Map readServiceData(String resource) throws java.io.IOException {
-		return mapper.readValue(readTestDataFile(resource), Map.class);
+		return new JSONObject(readTestDataFile(resource)).toMap();
 	}
 
 	@SuppressWarnings("unchecked")

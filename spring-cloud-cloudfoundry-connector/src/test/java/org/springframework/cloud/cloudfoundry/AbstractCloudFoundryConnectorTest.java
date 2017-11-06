@@ -8,14 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import org.json.JSONObject;
 import org.junit.Before;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.UriBasedServiceInfo;
 import org.springframework.cloud.util.EnvironmentAccessor;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
@@ -36,8 +35,6 @@ public abstract class AbstractCloudFoundryConnectorTest {
 	protected static final int port = 1234;
 	protected static String username = "myuser";
 	protected static final String password = "mypass";
-
-	private static ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Before
 	public void setup() {
@@ -116,7 +113,7 @@ public abstract class AbstractCloudFoundryConnectorTest {
 	@SuppressWarnings("unchecked")
 	private static String getServiceLabel(String servicePayload) {
 		try {
-			Map<String, Object> serviceMap = objectMapper.readValue(servicePayload, Map.class);
+			Map<String, Object> serviceMap = new JSONObject(servicePayload).toMap();
 			return serviceMap.get("label").toString();
 		} catch (Exception e) {
 			return null;
