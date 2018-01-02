@@ -2,10 +2,13 @@ package org.springframework.cloud.cloudfoundry;
 
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.cloud.service.common.SqlServerServiceInfo;
+import org.springframework.cloud.util.UriInfo;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -28,6 +31,23 @@ public class CloudFoundryConnectorSqlServerServiceTest extends AbstractUserProvi
 		assertServiceFoundOfType(info, SqlServerServiceInfo.class);
 		assertJdbcUrlEqual(info, SQLSERVER_SCHEME, INSTANCE_NAME);
 		assertUriBasedServiceInfoFields(info, SQLSERVER_SCHEME, hostname, port, username, password, INSTANCE_NAME);
+	}
+
+	@Test
+	public void sqlServerServiceCreationWithSpecialChars() {
+		String userWithSpecialChars = "u%u:u+";
+		String passwordWithSpecialChars = "p%p:p+";
+
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getUserProvidedServicePayload(SERVICE_NAME, hostname, port, userWithSpecialChars, passwordWithSpecialChars, INSTANCE_NAME, SQLSERVER_SCHEME + ":")));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+
+		ServiceInfo info = getServiceInfo(serviceInfos, SERVICE_NAME);
+		assertServiceFoundOfType(info, SqlServerServiceInfo.class);
+		assertEquals(getJdbcUrl(hostname, port, SQLSERVER_SCHEME, INSTANCE_NAME, 
+				userWithSpecialChars, passwordWithSpecialChars), ((RelationalServiceInfo)info).getJdbcUrl());
+		assertUriBasedServiceInfoFields(info, SQLSERVER_SCHEME, hostname, port, userWithSpecialChars, passwordWithSpecialChars, INSTANCE_NAME);
 	}
 
 	@Test
@@ -55,6 +75,23 @@ public class CloudFoundryConnectorSqlServerServiceTest extends AbstractUserProvi
 		assertUriBasedServiceInfoFields(info, SQLSERVER_SCHEME, hostname, port, username, password, INSTANCE_NAME);
 	}
 
+	@Test
+	public void sqlServerServiceCreationWithJdbcUrlAndSpecialChars() {
+		String userWithSpecialChars = "u%u:u+";
+		String passwordWithSpecialChars = "p%p:p+";
+
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getSqlServerServicePayloadWithJdbcurl(SERVICE_NAME, hostname, port, userWithSpecialChars, passwordWithSpecialChars, INSTANCE_NAME, SQLSERVER_SCHEME + ":")));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+
+		ServiceInfo info = getServiceInfo(serviceInfos, SERVICE_NAME);
+		assertServiceFoundOfType(info, SqlServerServiceInfo.class);
+		assertEquals(getJdbcUrl(hostname, port, SQLSERVER_SCHEME, INSTANCE_NAME,
+				userWithSpecialChars, passwordWithSpecialChars), ((RelationalServiceInfo)info).getJdbcUrl());
+		assertUriBasedServiceInfoFields(info, SQLSERVER_SCHEME, hostname, port, userWithSpecialChars, passwordWithSpecialChars, INSTANCE_NAME);
+	}
+
 	protected String getSqlServerServicePayloadWithJdbcurl(String serviceName, String hostname, int port,
 														String user, String password, String name, String scheme) {
 		String payload = getRelationalPayload("test-sqlserver-info-jdbc-url.json", serviceName,
@@ -64,5 +101,10 @@ public class CloudFoundryConnectorSqlServerServiceTest extends AbstractUserProvi
 
 	protected String getJdbcUrl(String scheme, String name) {
 		return String.format("%s%s://%s:%d;database=%s;user=%s;password=%s", JDBC_PREFIX, scheme, hostname, port, name, username, password);
+	}
+
+	private String getJdbcUrl(String hostname, int port, String scheme, String name, String username, String password) {
+		return String.format("%s%s://%s:%d;database=%s;user=%s;password=%s", JDBC_PREFIX, scheme, hostname, port, 
+				name, UriInfo.urlEncode(username), UriInfo.urlEncode(password));
 	}
 }
