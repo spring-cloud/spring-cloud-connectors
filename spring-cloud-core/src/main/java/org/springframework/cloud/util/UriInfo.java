@@ -1,8 +1,11 @@
 package org.springframework.cloud.util;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Utility class that allows expressing URIs in alternative forms: individual fields or a URI string
@@ -155,6 +158,14 @@ public class UriInfo {
 			return URLDecoder.decode(s.replace("+", "%2B"), "US-ASCII");
 		} catch (java.io.UnsupportedEncodingException e) {
 			// US-ASCII is always supported
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static String urlEncode(String s) {
+		try {
+			return URLEncoder.encode(s, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}
 	}

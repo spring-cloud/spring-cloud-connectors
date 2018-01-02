@@ -1,6 +1,7 @@
 package org.springframework.cloud.service.common;
 
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.util.UriInfo;
 
 @ServiceInfo.ServiceLabel("oracle")
 public class OracleServiceInfo extends RelationalServiceInfo {
@@ -17,7 +18,7 @@ public class OracleServiceInfo extends RelationalServiceInfo {
 	@Override
 	protected String buildJdbcUrl() {
 		return String.format("jdbc:%s:thin:%s/%s@%s:%d/%s",
-				jdbcUrlDatabaseType, getUserName(), getPassword(),
+				jdbcUrlDatabaseType, UriInfo.urlEncode(getUserName()), UriInfo.urlEncode(getPassword()),
 				getHost(), getPort(), getPath());
 	}
 }

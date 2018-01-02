@@ -1,6 +1,7 @@
 package org.springframework.cloud.service.common;
 
 import org.springframework.cloud.service.UriBasedServiceInfo;
+import org.springframework.cloud.util.UriInfo;
 
 /**
  * @author Ramnivas Laddad
@@ -42,10 +43,10 @@ public abstract class RelationalServiceInfo extends UriBasedServiceInfo {
 
 	private String formatUserinfo() {
 		if (getUserName() != null && getPassword() != null) {
-			return String.format("?user=%s&password=%s", getUserName(), getPassword());
+			return String.format("?user=%s&password=%s", UriInfo.urlEncode(getUserName()), UriInfo.urlEncode(getPassword()));
 		}
 		if (getUserName() != null) {
-			return String.format("?user=%s", getUserName());
+			return String.format("?user=%s", UriInfo.urlEncode(getUserName()));
 		}
 		return "";
 	}

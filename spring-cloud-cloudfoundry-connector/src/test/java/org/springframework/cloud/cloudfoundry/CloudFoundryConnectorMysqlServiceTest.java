@@ -1,13 +1,16 @@
 package org.springframework.cloud.cloudfoundry;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.cloud.service.common.MysqlServiceInfo.MYSQL_SCHEME;
-
-import java.util.List;
-
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
+import org.springframework.cloud.util.UriInfo;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.springframework.cloud.service.common.MysqlServiceInfo.MYSQL_SCHEME;
 
 /**
  * 
@@ -82,6 +85,27 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 	}
 
 	@Test
+	public void mysqlServiceCreationNoLabelNoTagsWithSpecialChars() {
+		String name = "database";
+		String userWithSpecialChars = "u%u:u+";
+		String passwordWithSpecialChars = "p%p:p+";
+
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getMysqlServicePayloadNoLabelNoTags("mysql", hostname, port, userWithSpecialChars, passwordWithSpecialChars, name)));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+
+		ServiceInfo info = getServiceInfo(serviceInfos, "mysql");
+
+		assertServiceFoundOfType(info, MysqlServiceInfo.class);
+
+		assertEquals(getJdbcUrl(hostname, port, name, userWithSpecialChars, passwordWithSpecialChars), 
+				((RelationalServiceInfo)info).getJdbcUrl());
+
+		assertUriBasedServiceInfoFields(info, MYSQL_SCHEME, hostname, port, userWithSpecialChars, passwordWithSpecialChars, name);
+	}
+	
+	@Test
 	public void mysqlServiceCreationWithLabelNoUri() {
 		String name1 = "database-1";
 		String name2 = "database-2";
@@ -128,6 +152,26 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 	}
 
 	@Test
+	public void mysqlServiceCreationWithJdbcUrlAndSpecialChars() {
+		String userWithSpecialChars = "u%u:u+";
+		String passwordWithSpecialChars = "p%p:p+";
+		String name = "database";
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getMysqlServicePayloadWithJdbcUrl("mysql", hostname, port, userWithSpecialChars, passwordWithSpecialChars, name)));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+
+		ServiceInfo info = getServiceInfo(serviceInfos, "mysql");
+
+		assertServiceFoundOfType(info, MysqlServiceInfo.class);
+
+		assertEquals(getJdbcUrl(hostname, port, name, userWithSpecialChars, passwordWithSpecialChars),
+				((RelationalServiceInfo)info).getJdbcUrl());
+
+		assertUriBasedServiceInfoFields(info, MYSQL_SCHEME, hostname, port, userWithSpecialChars, passwordWithSpecialChars, name);
+	}
+
+	@Test
 	public void mysqlServiceCreationWithJdbcUrlOnly() {
 		String name1 = "database-1";
 		String name2 = "database-2";
@@ -151,6 +195,25 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 
 		assertJdbcShemeSpecificPartEqual(info1, MYSQL_SCHEME, name1);
 		assertJdbcShemeSpecificPartEqual(info2, MYSQL_SCHEME, name2);
+	}
+
+	@Test
+	public void mysqlServiceCreationWithJdbcUrlOnlyWithSpecialChars() {
+		String name = "database";
+		String userWithSpecialChars = "u%u:u+";
+		String passwordWithSpecialChars = "p%p:p+";
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getMysqlServicePayloadWithJdbcUrlOnly("mysql", hostname, port, userWithSpecialChars, passwordWithSpecialChars, name)));
+		
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+
+		ServiceInfo info = getServiceInfo(serviceInfos, "mysql");
+
+		assertServiceFoundOfType(info, MysqlServiceInfo.class);
+
+		assertEquals(getJdbcUrl(hostname, port, name, userWithSpecialChars, passwordWithSpecialChars),
+				((RelationalServiceInfo)info).getJdbcUrl());
 	}
 
 	private String getMysqlServicePayload(String serviceName,
@@ -193,5 +256,10 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 														 String user, String password, String name) {
 		return getRelationalPayload("test-mysql-info-jdbc-url-only.json", serviceName,
 				hostname, port, user, password, name);
+	}
+
+	private String getJdbcUrl(String hostname, int port, String name, String user, String password) {
+		return "jdbc:mysql://" + hostname + ":" + port + "/" + name +
+				"?user=" + UriInfo.urlEncode(user) + "&password=" + UriInfo.urlEncode(password);
 	}
 }

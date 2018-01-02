@@ -2,6 +2,7 @@ package org.springframework.cloud.cloudfoundry;
 
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
+import org.springframework.cloud.util.UriInfo;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
@@ -19,8 +20,8 @@ public abstract class AbstractCloudFoundryConnectorRelationalServiceTest extends
 		payload = payload.replace("$serviceName", serviceName);
 		payload = payload.replace("$hostname", hostname);
 		payload = payload.replace("$port", Integer.toString(port));
-		payload = payload.replace("$user", user);
-		payload = payload.replace("$password", password);
+		payload = payload.replace("$user", UriInfo.urlEncode(user));
+		payload = payload.replace("$password", UriInfo.urlEncode(password));
 		payload = payload.replace("$name", name);
 
 		return payload;
