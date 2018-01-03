@@ -1,16 +1,16 @@
 package org.springframework.cloud.cloudfoundry;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.springframework.cloud.service.common.MysqlServiceInfo.MYSQL_SCHEME;
+
+import java.util.List;
+
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.cloud.util.UriInfo;
-
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.springframework.cloud.service.common.MysqlServiceInfo.MYSQL_SCHEME;
 
 /**
  * 
@@ -258,8 +258,9 @@ public class CloudFoundryConnectorMysqlServiceTest extends AbstractCloudFoundryC
 				hostname, port, user, password, name);
 	}
 
-	private String getJdbcUrl(String hostname, int port, String name, String user, String password) {
-		return "jdbc:mysql://" + hostname + ":" + port + "/" + name +
-				"?user=" + UriInfo.urlEncode(user) + "&password=" + UriInfo.urlEncode(password);
+	private String getJdbcUrl(String hostname, int port, String name, String user,
+			String password) {
+		return String.format("jdbc:mysql://%s:%d/%s?user=%s&password=%s", hostname, port,
+				name, UriInfo.urlEncode(user), UriInfo.urlEncode(password));
 	}
 }

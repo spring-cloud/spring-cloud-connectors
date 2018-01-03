@@ -1,5 +1,6 @@
 package org.springframework.cloud.cloudfoundry;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.cloud.service.common.PostgresqlServiceInfo.POSTGRES_SCHEME;
 
@@ -8,6 +9,8 @@ import java.util.List;
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.PostgresqlServiceInfo;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
+import org.springframework.cloud.util.UriInfo;
 
 /**
  * @author Ramnivas Laddad
@@ -37,6 +40,29 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
 		assertUriBasedServiceInfoFields(info2, POSTGRES_SCHEME, hostname, port, username, password, name2);
 	}
 
+	@Test
+	public void postgresqlWithSpecialCharsServiceCreation() {
+		String userWithSpecialChars = "u%u:u+";
+		String passwordWithSpecialChars = "p%p:p+";
+
+		String name1 = "database-1";
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES")).thenReturn(
+				getServicesPayload(getPostgresqlServicePayload("postgresql-1", hostname,
+						port, userWithSpecialChars, passwordWithSpecialChars, name1)));
+
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+		ServiceInfo info1 = getServiceInfo(serviceInfos, "postgresql-1");
+
+		assertServiceFoundOfType(info1, PostgresqlServiceInfo.class);
+
+		assertEquals(getJdbcUrl(hostname, port, userWithSpecialChars,
+				passwordWithSpecialChars, name1),
+				((RelationalServiceInfo) info1).getJdbcUrl());
+
+		assertUriBasedServiceInfoFields(info1, POSTGRES_SCHEME, hostname, port,
+				userWithSpecialChars, passwordWithSpecialChars, name1);
+	}
+	
 	@Test
 	public void postgresqlServiceCreationNoLabelNoTags() {
 		String name1 = "database-1";
@@ -104,4 +130,9 @@ public class CloudFoundryConnectorPostgresqlServiceTest extends AbstractCloudFou
 				hostname, port, user, password, name);
 	}
 
+	private String getJdbcUrl(String hostname, int port, String user, String password,
+			String name) {
+		return String.format("jdbc:postgresql://%s:%d/%s?user=%s&password=%s", hostname,
+				port, name, UriInfo.urlEncode(user), UriInfo.urlEncode(password));
+	}
 }
