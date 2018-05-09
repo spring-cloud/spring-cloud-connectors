@@ -1,5 +1,5 @@
-description = 'Spring-Cloud Heroku Connector'
+description = 'Spring Cloud Connectors Heroku Connector'
 
 dependencies {
-  compile project(':spring-cloud-core')
+	compile project(':spring-cloud-connectors-core')
 }

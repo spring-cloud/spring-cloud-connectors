@@ -8,8 +8,14 @@ import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreationException;
 import org.springframework.cloud.service.common.RedisServiceInfo;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration.JedisClientConfigurationBuilder;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder;
 
 /**
  * Simplified access to creating Redis service objects.
@@ -19,44 +25,45 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
  * @author Jennifer Hickey
  * @author Thomas Risberg
  * @author Mark Paluch
+ * @author Scott Frederick
  */
 public class RedisConnectionFactoryCreator extends AbstractServiceConnectorCreator<RedisConnectionFactory, RedisServiceInfo> {
 
 	private static final String JEDIS_CLASS_NAME = "redis.clients.jedis.Jedis";
-	private static final String LETTUCE_CLASS_NAME = "com.lambdaworks.redis.RedisClient";
+	private static final String LETTUCE_CLASS_NAME = "io.lettuce.core.RedisClient";
 
 	@Override
 	public RedisConnectionFactory create(RedisServiceInfo serviceInfo, ServiceConnectorConfig serviceConnectorConfig) {
+		RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
+		configuration.setHostName(serviceInfo.getHost());
+		configuration.setPort(serviceInfo.getPort());
+		configuration.setPassword(RedisPassword.of(serviceInfo.getPassword()));
 
 		if (hasClass(JEDIS_CLASS_NAME)) {
+			JedisClientConfigurationBuilder builder = JedisClientConfiguration.builder();
 
-			RedisConnectionFactoryConfigurer configurer = new RedisConnectionFactoryConfigurer();
-
-			JedisConnectionFactory connectionFactory = new JedisConnectionFactory();
-			connectionFactory.setHostName(serviceInfo.getHost());
-			connectionFactory.setPort(serviceInfo.getPort());
-			connectionFactory.setPassword(serviceInfo.getPassword());
-
+			RedisJedisClientConfigurer clientConfigurer = new RedisJedisClientConfigurer();
 			if (serviceConnectorConfig instanceof RedisConnectionFactoryConfig) {
-				configurer.configure(connectionFactory, (RedisConnectionFactoryConfig) serviceConnectorConfig);
+				clientConfigurer.configure(builder, (RedisConnectionFactoryConfig) serviceConnectorConfig);
 			} else {
-				configurer.configure(connectionFactory, (PooledServiceConnectorConfig) serviceConnectorConfig);
+				clientConfigurer.configure(builder, (PooledServiceConnectorConfig) serviceConnectorConfig);
 			}
 
+			JedisConnectionFactory connectionFactory = new JedisConnectionFactory(configuration, builder.build());
 			connectionFactory.afterPropertiesSet();
 			return connectionFactory;
 		}
 		else if (hasClass(LETTUCE_CLASS_NAME)) {
+			LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration.builder();
 
-			RedisLettuceConnectionFactoryConfigurer configurer = new RedisLettuceConnectionFactoryConfigurer();
+			RedisLettuceClientConfigurer clientConfigurer = new RedisLettuceClientConfigurer();
+			if (serviceConnectorConfig instanceof RedisConnectionFactoryConfig) {
+				clientConfigurer.configure(builder, (RedisConnectionFactoryConfig) serviceConnectorConfig);
+			} else {
+				clientConfigurer.configure(builder, (PooledServiceConnectorConfig) serviceConnectorConfig);
+			}
 
-			LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory();
-			connectionFactory.setHostName(serviceInfo.getHost());
-			connectionFactory.setPort(serviceInfo.getPort());
-			connectionFactory.setPassword(serviceInfo.getPassword());
-
-			configurer.configure(connectionFactory, (RedisConnectionFactoryConfig) serviceConnectorConfig);
-
+			LettuceConnectionFactory connectionFactory = new LettuceConnectionFactory(configuration, builder.build());
 			connectionFactory.afterPropertiesSet();
 			return connectionFactory;
 		}

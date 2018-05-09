@@ -61,7 +61,10 @@ public class CassandraClusterCreator
 			builder.withLoadBalancingPolicy(config.getLoadBalancingPolicy());
 			builder.withReconnectionPolicy(config.getReconnectionPolicy());
 			builder.withRetryPolicy(config.getRetryPolicy());
-			builder.withProtocolVersion(config.getProtocolVersion());
+
+			if (config.getProtocolVersion() != null) {
+				builder.withProtocolVersion(config.getProtocolVersion());
+			}
 
 			if (!config.isMetricsEnabled()) {
 				builder.withoutMetrics();

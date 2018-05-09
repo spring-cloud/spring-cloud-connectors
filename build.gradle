@@ -1,56 +1,26 @@
 apply plugin: 'base'
 
-description = "Spring Cloud"
+description = "Spring Cloud Connectors"
 
 buildscript {
 	repositories {
+		mavenCentral()
 		jcenter()
 		maven { url 'https://repo.spring.io/plugins-release' }
 	}
 	dependencies {
-		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
-		classpath 'io.spring.gradle:spring-io-plugin:0.0.4.RELEASE'
+		classpath 'io.spring.gradle:propdeps-plugin:0.0.10.RELEASE'
+		classpath 'io.spring.gradle:spring-io-plugin:0.0.8.RELEASE'
 		classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
 	}
 }
 
 ext {
-	springVersion = "3.1.4.RELEASE"
-	tomcatVersion = "7.0.53"
-
-	springAmqpVersion = "1.1.1.RELEASE"
-
-	springDataMongoVersion = "1.4.3.RELEASE"
-	mongoDriverVersion = "2.11.4"
-
-	springDataRedisVersion = "1.1.1.RELEASE"
-	jedisVersion = "2.1.0"
-	lettuceVersion = "3.4.3.Final"
-
-	commonDbcpVersion = "1.4"
-	commonDbcp2Version = "2.0"
-
-	mysqlDriverVersion = "5.1.29"
-	mariadbDriverVersion = "1.1.3"
-	postgresDriverVersion = "9.0-801.jdbc4"
-
-	springDataCassandraVersion = "1.5.3.RELEASE"
-	cassandraDriverVersion = "3.1.3"
-
-	javaxMailVersion = "1.4.7"
-
-	cglibVersion = "3.1"
-
-	jacksonVersion = "2.9.5"
-
-	junitVersion = "4.11"
-	mockitoVersion = "1.9.5"
-	eurekaClientVersion = "1.1.135"
-	hadoopCommonVersion = "2.2.0"
+	junitVersion = "4.12"
+	mockitoVersion = "2.7.22"
 
 	javadocLinks = [
-		'http://docs.oracle.com/javase/7/docs/api/',
-		'http://docs.oracle.com/javaee/6/api/',
+		'http://docs.oracle.com/javase/8/docs/api/',
 		'http://docs.spring.io/spring/docs/current/javadoc-api/',
 		'http://docs.spring.io/spring-amqp/docs/latest-ga/api/',
 		'http://docs.spring.io/spring-data/data-mongo/docs/current/api/',
@@ -99,8 +69,8 @@ subprojects {
 		}
 	}
 
-	sourceCompatibility = 1.6
-	targetCompatibility = 1.6
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
 
 	javadoc {
 		options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
@@ -129,6 +99,7 @@ subprojects {
 	}
 
 	repositories {
+		mavenCentral()
 		maven { url "https://repo.spring.io/libs-milestone" }
 	}
 }
@@ -200,36 +171,13 @@ configure(rootProject) {
 
 ext {
 	matrix = [
-			"driver211-mongo14": [mongoDriverVersion: "2.11.4", springDataMongoVersion: "1.4.3.RELEASE"],
-			"driver211-mongo15": [mongoDriverVersion: "2.11.4", springDataMongoVersion: "1.5.5.RELEASE"],
-			"driver211-mongo16": [mongoDriverVersion: "2.11.4", springDataMongoVersion: "1.6.3.RELEASE"],
-			"driver213-mongo17": [mongoDriverVersion: "2.13.0", springDataMongoVersion: "1.7.2.RELEASE"],
-			"driver214-mongo18": [mongoDriverVersion: "2.13.0", springDataMongoVersion: "1.8.4.RELEASE"],
-			"driver214-mongo19": [mongoDriverVersion: "2.14.0", springDataMongoVersion: "1.9.2.RELEASE"],
-			"driver32-mongo19" : [mongoDriverVersion: "3.2.2", springDataMongoVersion: "1.9.2.RELEASE"],
-			"jedis25-redis14"  : [jedisVersion: "2.5.2", springDataRedisVersion: "1.4.4.RELEASE"],
-			"jedis26-redis15"  : [jedisVersion: "2.6.3", springDataRedisVersion: "1.5.2.RELEASE"],
-			"jedis27-redis16"  : [jedisVersion: "2.7.3", springDataRedisVersion: "1.6.4.RELEASE"],
-			"jedis28-redis17"  : [jedisVersion: "2.8.1", springDataRedisVersion: "1.7.2.RELEASE"],
-			"driver300-cass15" : [cassandraDriverVersion: "3.0.0", springDataCassandraVersion: "1.5.3.RELEASE"],
-			"driver301-cass15" : [cassandraDriverVersion: "3.0.1", springDataCassandraVersion: "1.5.3.RELEASE"],
-			"driver313-cass15" : [cassandraDriverVersion: "3.1.3", springDataCassandraVersion: "1.5.3.RELEASE"],
-//			"lettuce34-redis15": [lettuceVersion: "3.4.3.Final", springDataRedisVersion: "1.5.2.RELEASE"],
-//			"lettuce34-redis16": [lettuceVersion: "3.4.3.Final", springDataRedisVersion: "1.6.4.RELEASE"],
-//			"lettuce34-redis17": [lettuceVersion: "3.4.3.Final", springDataRedisVersion: "1.7.2.RELEASE"],
-			"amqp11"           : [springAmqpVersion: "1.1.4.RELEASE"],
-			"amqp12"           : [springAmqpVersion: "1.2.2.RELEASE"],
-			"amqp13"           : [springAmqpVersion: "1.3.9.RELEASE"],
-			"amqp14"           : [springAmqpVersion: "1.4.6.RELEASE"],
-			"amqp15"           : [springAmqpVersion: "1.5.6.RELEASE"],
-			"amqp16"           : [springAmqpVersion: "1.6.0.RELEASE"],
-			"spring32"         : [springVersion: "3.2.17.RELEASE"],
-			"spring40"         : [springVersion: "4.0.9.RELEASE"],
-			"spring41"         : [springVersion: "4.1.9.RELEASE"],
-			"spring42"         : [springVersion: "4.2.6.RELEASE"],
-			"spring43"         : [springVersion: "4.3.0.RELEASE"],
-			"tomcat7"          : [tomcatVersion: "7.0.53"],
-			"tomcat8"          : [tomcatVersion: "8.0.24"],
+			"driver34-mongo20"  : [mongoDriverVersion: "3.4.2", springDataMongoVersion: "2.0.0.RELEASE"],
+			"jedis29-redis20"   : [jedisVersion: "2.9.0", springDataRedisVersion: "2.0.0.RELEASE"],
+			"lettuce5-redis20"  : [lettuceVersion: "5.0.0.RELEASE", springDataRedisVersion: "2.0.0.RELEASE"],
+			"driver330-cass20"  : [cassandraDriverVersion: "3.3.0", springDataCassandraVersion: "2.0.0.RELEASE"],
+			"amqp20"            : [springAmqpVersion: "2.0.0.RELEASE"],
+			"spring50"          : [springVersion: "5.0.0.RELEASE"],
+			"tomcat85"          : [tomcatVersion: "8.5.13"],
 	]
 }
 
@@ -255,5 +203,5 @@ task dist(dependsOn: assemble) {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.10'
+	gradleVersion = '4.2.1'
 }

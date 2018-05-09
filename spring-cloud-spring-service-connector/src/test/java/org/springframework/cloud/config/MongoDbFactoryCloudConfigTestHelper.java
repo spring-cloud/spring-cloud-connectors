@@ -27,7 +27,7 @@ public class MongoDbFactoryCloudConfigTestHelper {
 
 		assertEquals(ReflectionTestUtils.getField(connector,  "writeConcern"), writeConcern == null ? null : WriteConcern.valueOf(writeConcern));
 		
-		MongoClient mongoClient = (MongoClient) ReflectionTestUtils.getField(connector, "mongo");
+		MongoClient mongoClient = (MongoClient) ReflectionTestUtils.getField(connector, "mongoClient");
 		assertEquals(connectionsPerHost.intValue(), mongoClient.getMongoClientOptions().getConnectionsPerHost());
 		assertEquals(maxWaitTime.intValue(), mongoClient.getMongoClientOptions().getMaxWaitTime());
 	}

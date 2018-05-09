@@ -44,15 +44,13 @@ public class MongoServiceConnectorCreatorTest {
 		MongoServiceInfo serviceInfo = new MongoServiceInfo("id", TEST_HOST, TEST_PORT, TEST_USERNAME, TEST_PASSWORD, TEST_DB);
 
 		MongoDbFactory mongoDbFactory = testCreator.create(serviceInfo, null);
-
 		assertNotNull(mongoDbFactory);
 
-		MongoClient mongo = (MongoClient) ReflectionTestUtils.getField(mongoDbFactory, "mongo");
-		assertNotNull(mongo);
+		MongoClient mongoClient = getMongoClientField(mongoDbFactory);
 
-		MongoCredential credentials = mongo.getCredentialsList().get(0);
+		MongoCredential credentials = mongoClient.getCredentialsList().get(0);
 
-		List<ServerAddress> addresses = extractServerAddresses(mongo);
+		List<ServerAddress> addresses = extractServerAddresses(mongoClient);
 		assertEquals(1, addresses.size());
 
 		ServerAddress address = addresses.get(0);
@@ -74,16 +72,14 @@ public class MongoServiceConnectorCreatorTest {
 		MongoServiceInfo serviceInfo = new MongoServiceInfo("id", uri);
 
 		MongoDbFactory mongoDbFactory = testCreator.create(serviceInfo, null);
-
 		assertNotNull(mongoDbFactory);
 
-		MongoClient mongo = (MongoClient) ReflectionTestUtils.getField(mongoDbFactory, "mongo");
-		assertNotNull(mongo);
+		MongoClient mongoClient = getMongoClientField(mongoDbFactory);
 
-		List<ServerAddress> addresses = extractServerAddresses(mongo);
+		List<ServerAddress> addresses = extractServerAddresses(mongoClient);
 		assertEquals(3, addresses.size());
 
-		MongoCredential credentials = mongo.getCredentialsList().get(0);
+		MongoCredential credentials = mongoClient.getCredentialsList().get(0);
 		assertEquals(TEST_USERNAME, credentials.getUserName());
 		assertNotNull(credentials.getPassword());
 
@@ -115,6 +111,12 @@ public class MongoServiceConnectorCreatorTest {
 					clusterSettings);
 		}
 		return client.getAllAddress();
+	}
+
+	private MongoClient getMongoClientField(MongoDbFactory mongoDbFactory) {
+		MongoClient mongo = (MongoClient) ReflectionTestUtils.getField(mongoDbFactory, "mongoClient");
+		assertNotNull(mongo);
+		return mongo;
 	}
 
 }

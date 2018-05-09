@@ -1,8 +1,9 @@
 rootProject.name = "spring-cloud"
 
-include "${rootProject.name}-core"
+include "${rootProject.name}-connectors-core"
 include "${rootProject.name}-cloudfoundry-connector"
 include "${rootProject.name}-spring-service-connector"
 include "${rootProject.name}-heroku-connector"
 include "${rootProject.name}-localconfig-connector"
 
+project(":${rootProject.name}-connectors-core").projectDir = file("${rootProject.name}-core")

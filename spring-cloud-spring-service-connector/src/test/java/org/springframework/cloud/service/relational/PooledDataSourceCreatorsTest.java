@@ -23,7 +23,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.cloud.service.Util.hasClass;
 import static org.springframework.cloud.service.relational.BasicDbcpPooledDataSourceCreator.DBCP2_BASIC_DATASOURCE;
-import static org.springframework.cloud.service.relational.BasicDbcpPooledDataSourceCreator.DBCP_BASIC_DATASOURCE;
 import static org.springframework.cloud.service.relational.HikariCpPooledDataSourceCreator.HIKARI_DATASOURCE;
 import static org.springframework.cloud.service.relational.TomcatDbcpPooledDataSourceCreator.TOMCAT_7_DBCP;
 import static org.springframework.cloud.service.relational.TomcatDbcpPooledDataSourceCreator.TOMCAT_8_DBCP;
@@ -116,24 +115,12 @@ public class PooledDataSourceCreatorsTest {
 	}
 
 	private void assertBasicDbcpDataSource(DataSource ds) throws ClassNotFoundException {
-		assertTrue(hasClass(DBCP2_BASIC_DATASOURCE) || hasClass(DBCP_BASIC_DATASOURCE));
+		assertThat(ds, instanceOf(Class.forName(DBCP2_BASIC_DATASOURCE)));
 
-		if (hasClass(DBCP2_BASIC_DATASOURCE)) {
-			assertThat(ds, instanceOf(Class.forName(DBCP2_BASIC_DATASOURCE)));
-
-			assertEquals(MIN_POOL_SIZE, getIntValue(ds, "minIdle"));
-			assertEquals(MAX_POOL_SIZE, getIntValue(ds, "maxTotal"));
-			assertEquals(MAX_WAIT_TIME, getIntValue(ds, "maxWaitMillis"));
-			assertEquals(CONNECTION_PROPERTIES, getPropertiesValue(ds, "connectionProperties"));
-		}
-		if (hasClass(DBCP_BASIC_DATASOURCE) && !hasClass(DBCP2_BASIC_DATASOURCE)) {
-			assertThat(ds, instanceOf(Class.forName(DBCP_BASIC_DATASOURCE)));
-
-			assertEquals(MIN_POOL_SIZE, getIntValue(ds, "minIdle"));
-			assertEquals(MAX_POOL_SIZE, getIntValue(ds, "maxActive"));
-			assertEquals(MAX_WAIT_TIME, getIntValue(ds, "maxWait"));
-			assertEquals(CONNECTION_PROPERTIES, getPropertiesValue(ds, "connectionProperties"));
-		}
+		assertEquals(MIN_POOL_SIZE, getIntValue(ds, "minIdle"));
+		assertEquals(MAX_POOL_SIZE, getIntValue(ds, "maxTotal"));
+		assertEquals(MAX_WAIT_TIME, getIntValue(ds, "maxWaitMillis"));
+		assertEquals(CONNECTION_PROPERTIES, getPropertiesValue(ds, "connectionProperties"));
 	}
 
 	private void assertTomcatDbcpDataSource(DataSource ds) throws ClassNotFoundException {

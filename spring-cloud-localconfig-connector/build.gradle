@@ -1,6 +1,6 @@
-description = 'Spring Cloud local-configuration connector'
+description = 'Spring Cloud Connectors local-configuration Connector'
 
 dependencies {
-  compile project(':spring-cloud-core')
-  compile 'org.apache.commons:commons-lang3:3.3.2'
+	compile project(':spring-cloud-connectors-core')
+	compile 'org.apache.commons:commons-lang3:3.3.2'
 }

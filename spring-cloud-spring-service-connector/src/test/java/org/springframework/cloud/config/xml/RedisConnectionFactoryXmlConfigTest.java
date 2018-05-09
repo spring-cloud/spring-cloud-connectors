@@ -44,21 +44,4 @@ public class RedisConnectionFactoryXmlConfigTest extends AbstractServiceXmlConfi
 		RedisConnectionFactory connector = testContext.getBean("service-pool5-30-wait3000", getConnectorType());
 		RedisConnectionFactoryCloudConfigTestHelper.assertPoolProperties(connector, 30, 5, 3000);
 	}
-
-	@Test
-	public void cloudRedisConnectionFactoryWithTimeout() {
-		ApplicationContext testContext = getTestApplicationContext("cloud-redis-with-config.xml", createService("my-service"));
-
-		RedisConnectionFactory connector = testContext.getBean("service-timeout10", getConnectorType());
-		RedisConnectionFactoryCloudConfigTestHelper.assertConnectionProperties(connector, 10);
-	}
-
-	@Test
-	public void cloudRedisConnectionFactoryWithMaxPoolAndTimeout() {
-		ApplicationContext testContext = getTestApplicationContext("cloud-redis-with-config.xml", createService("my-service"));
-
-		RedisConnectionFactory connector = testContext.getBean("service-pool30-wait300-timeout20", getConnectorType());
-		RedisConnectionFactoryCloudConfigTestHelper.assertPoolProperties(connector, 30, 0, 300);
-		RedisConnectionFactoryCloudConfigTestHelper.assertConnectionProperties(connector, 20);
-	}
 }

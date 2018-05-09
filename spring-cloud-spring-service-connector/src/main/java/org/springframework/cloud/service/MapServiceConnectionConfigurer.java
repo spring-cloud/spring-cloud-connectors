@@ -2,6 +2,7 @@ package org.springframework.cloud.service;
 
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.MutablePropertyValues;
 
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class MapServiceConnectionConfigurer<SC, SCC extends MapServiceConnectorC
 			Map<String, Object> properties = config.getConnectionProperties();
 			if (properties != null) {
 				BeanWrapper target = new BeanWrapperImpl(serviceConnector);
-				target.setPropertyValues(properties);
+				target.setPropertyValues(new MutablePropertyValues(properties), true);
 			}
 		}
 		return serviceConnector;
