@@ -1,6 +1,7 @@
 package org.springframework.cloud.service.common;
 
 import org.springframework.cloud.service.ServiceInfo;
+import org.springframework.cloud.util.UriInfo;
 
 @ServiceInfo.ServiceLabel("db2")
 public class DB2ServiceInfo extends RelationalServiceInfo {
@@ -18,6 +19,6 @@ public class DB2ServiceInfo extends RelationalServiceInfo {
 	protected String buildJdbcUrl() {
 		return String.format("jdbc:%s://%s:%d/%s:user=%s;password=%s;",
 				jdbcUrlDatabaseType,
-				getHost(), getPort(), getPath(), getUserName(), getPassword());
+				getHost(), getPort(), getPath(), UriInfo.urlEncode(getUserName()), UriInfo.urlEncode(getPassword()));
 	}
 }

@@ -2,11 +2,14 @@ package org.springframework.cloud.cloudfoundry;
 
 import org.junit.Test;
 import org.springframework.cloud.service.ServiceInfo;
-import org.springframework.cloud.service.common.MysqlServiceInfo;
 import org.springframework.cloud.service.common.DB2ServiceInfo;
+import org.springframework.cloud.service.common.MysqlServiceInfo;
+import org.springframework.cloud.service.common.RelationalServiceInfo;
+import org.springframework.cloud.util.UriInfo;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -29,6 +32,22 @@ public class CloudFoundryConnectorDB2ServiceTest extends AbstractUserProvidedSer
 		assertServiceFoundOfType(info, DB2ServiceInfo.class);
 		assertJdbcUrlEqual(info, DB2_SCHEME, INSTANCE_NAME);
 		assertUriBasedServiceInfoFields(info, DB2_SCHEME, hostname, port, username, password, INSTANCE_NAME);
+	}
+
+	@Test
+	public void db2ServiceCreationWithSpecialChars() {
+		String userWithSpecialChars = "u%u:u+";
+		String passwordWithSpecialChars = "p%p:p+";
+		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
+				.thenReturn(getServicesPayload(
+						getUserProvidedServicePayload(SERVICE_NAME, hostname, port, userWithSpecialChars, 
+								passwordWithSpecialChars, INSTANCE_NAME, DB2_SCHEME + ":")));
+		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
+
+		ServiceInfo info = getServiceInfo(serviceInfos, SERVICE_NAME);
+		assertServiceFoundOfType(info, DB2ServiceInfo.class);
+		assertEquals(getJdbcUrl("db2", hostname, port, INSTANCE_NAME, userWithSpecialChars, passwordWithSpecialChars), ((RelationalServiceInfo) info).getJdbcUrl());
+		assertUriBasedServiceInfoFields(info, DB2_SCHEME, hostname, port, userWithSpecialChars, passwordWithSpecialChars, INSTANCE_NAME);
 	}
 
 	@Test
@@ -65,6 +84,12 @@ public class CloudFoundryConnectorDB2ServiceTest extends AbstractUserProvidedSer
 	}
 
 	protected String getJdbcUrl(String scheme, String name) {
-		return String.format("%s%s://%s:%d/%s:user=%s;password=%s;", JDBC_PREFIX, scheme, hostname, port, name, username, password);
+		return String.format("%s%s://%s:%d/%s:user=%s;password=%s;", JDBC_PREFIX, scheme, hostname, port, name, 
+				UriInfo.urlEncode(username), UriInfo.urlEncode(password));
+	}
+
+	private String getJdbcUrl(String scheme, String hostname, int port, String name, String user, String password) {
+		return String.format("%s%s://%s:%d/%s:user=%s;password=%s;", JDBC_PREFIX, scheme, hostname, port, name, 
+				UriInfo.urlEncode(user), UriInfo.urlEncode(password));
 	}
 }
