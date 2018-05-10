@@ -34,12 +34,12 @@ public class CloudTest {
 	
 	@Before
 	public void setup() {
-		serviceConnectorCreators = new ArrayList<ServiceConnectorCreator<?, ? extends ServiceInfo>>();
+		serviceConnectorCreators = new ArrayList<>();
 	}
 	
 	@Test
 	public void appProps() {
-		Map<String, Object> appProps = new HashMap<String, Object>();
+		Map<String, Object> appProps = new HashMap<>();
 		appProps.put("foo", "bar");
 		appProps.put("users", null); // on v2, users property is null
 		StubCloudConnector stubCloudConnector = 
@@ -51,6 +51,16 @@ public class CloudTest {
 		assertEquals("bar", testCloud.getCloudProperties().get("cloud.application.foo"));
 	}
 	
+	@Test
+	public void appPropsWithNullValues() {
+		StubCloudConnector stubCloudConnector =
+				CloudTestUtil.getTestCloudConnector(new StubApplicationInstanceInfo(null, null, null));
+		Cloud testCloud = new Cloud(stubCloudConnector, serviceConnectorCreators);
+
+		assertNull(testCloud.getCloudProperties().get("cloud.application.app-id"));
+		assertNull(testCloud.getCloudProperties().get("cloud.application.instance-id"));
+	}
+
 	@Test
 	public void serviceConnectorCreationDefaultTypeAndConfig() {
 		StubServiceInfo testServiceInfo = new StubServiceInfo("test-id", "test-host", 1000, "test-username", "test-password");

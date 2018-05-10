@@ -104,7 +104,7 @@ public class Cloud {
 	 */
 	public <T> List<ServiceInfo> getServiceInfos(Class<T> serviceConnectorType) {
 		List<ServiceInfo> allServiceInfos = getServiceInfos();
-		List<ServiceInfo> matchingServiceInfos = new ArrayList<ServiceInfo>();
+		List<ServiceInfo> matchingServiceInfos = new ArrayList<>();
 
 		for (ServiceInfo serviceInfo : allServiceInfos) {
 			if (serviceConnectorCreatorRegistry.canCreate(serviceConnectorType, serviceInfo)) {
@@ -132,7 +132,7 @@ public class Cloud {
 	public <T extends ServiceInfo> List<T> getServiceInfosByType(Class<T> serviceInfoType) {
 		List<ServiceInfo> allServiceInfos = getServiceInfos();
 
-		List<T> matchingServiceInfos = new ArrayList<T>();
+		List<T> matchingServiceInfos = new ArrayList<>();
 		for (ServiceInfo serviceInfo : allServiceInfos) {
 			if (serviceInfoType.isAssignableFrom(serviceInfo.getClass())) {
 				matchingServiceInfos.add((T) serviceInfo);
@@ -252,14 +252,10 @@ public class Cloud {
 	 * @return the properties object
 	 */
 	public Properties getCloudProperties() {
-		Map<String, List<ServiceInfo>> mappedServiceInfos = new HashMap<String, List<ServiceInfo>>();
+		Map<String, List<ServiceInfo>> mappedServiceInfos = new HashMap<>();
 		for (ServiceInfo serviceInfo : getServiceInfos()) {
 			String key = getServiceLabel(serviceInfo);
-			List<ServiceInfo> serviceInfosForLabel = mappedServiceInfos.get(key);
-			if (serviceInfosForLabel == null) {
-				serviceInfosForLabel = new ArrayList<ServiceInfo>();
-				mappedServiceInfos.put(key, serviceInfosForLabel);
-			}
+			List<ServiceInfo> serviceInfosForLabel = mappedServiceInfos.computeIfAbsent(key, k -> new ArrayList<>());
 			serviceInfosForLabel.add(serviceInfo);
 		}
 
@@ -296,15 +292,23 @@ public class Cloud {
 		final String appPropLeadKey = "cloud.application.";
 
 		Properties appProperties = new Properties();
-		appProperties.put(appPropLeadKey + "instance-id", getApplicationInstanceInfo().getInstanceId());
-		appProperties.put(appPropLeadKey + "app-id", getApplicationInstanceInfo().getAppId());
-		for (Map.Entry<String, Object> entry : getApplicationInstanceInfo().getProperties().entrySet()) {
-			if (entry.getValue() != null) {
-				appProperties.put(appPropLeadKey + entry.getKey(), entry.getValue());
+		addProperty(appProperties, appPropLeadKey + "instance-id", getApplicationInstanceInfo().getInstanceId());
+		addProperty(appProperties, appPropLeadKey + "app-id", getApplicationInstanceInfo().getAppId());
+		if (getApplicationInstanceInfo().getProperties() != null) {
+			for (Map.Entry<String, Object> entry : getApplicationInstanceInfo().getProperties().entrySet()) {
+				if (entry.getValue() != null) {
+					addProperty(appProperties, appPropLeadKey + entry.getKey(), entry.getValue());
+				}
 			}
 		}
 
 		return appProperties;
+	}
+
+	private void addProperty(Properties appProperties, String key, Object value) {
+		if (value != null) {
+			appProperties.put(key, value);
+		}
 	}
 
 	private Properties getServiceProperties(String keyLead, ServiceInfo serviceInfo) {
@@ -354,7 +358,7 @@ public class Cloud {
 	}
 
 	private static List<ServiceInfo> flatten(List<ServiceInfo> serviceInfos) {
-		List<ServiceInfo> flattened = new ArrayList<ServiceInfo>();
+		List<ServiceInfo> flattened = new ArrayList<>();
 
 		for (ServiceInfo serviceInfo : serviceInfos) {
 			if (serviceInfo instanceof CompositeServiceInfo) {
@@ -375,7 +379,7 @@ public class Cloud {
 class ServiceConnectorCreatorRegistry {
 	private static Logger logger = Logger.getLogger(Cloud.class.getName());
 
-	private List<ServiceConnectorCreator<?, ? extends ServiceInfo>> serviceConnectorCreators = new ArrayList<ServiceConnectorCreator<?, ? extends ServiceInfo>>();
+	private List<ServiceConnectorCreator<?, ? extends ServiceInfo>> serviceConnectorCreators = new ArrayList<>();
 
 	public void registerCreator(ServiceConnectorCreator<?, ? extends ServiceInfo> serviceConnectorCreator) {
 		serviceConnectorCreators.add(serviceConnectorCreator);
