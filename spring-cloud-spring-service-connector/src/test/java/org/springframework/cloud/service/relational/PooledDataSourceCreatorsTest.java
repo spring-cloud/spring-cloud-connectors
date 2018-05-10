@@ -32,6 +32,10 @@ public class PooledDataSourceCreatorsTest {
 	private static final int MIN_POOL_SIZE = 100;
 	private static final int MAX_POOL_SIZE = 200;
 	private static final int MAX_WAIT_TIME = 5;
+	private static final int DEFAULT_MIN_POOL_SIZE = 0;
+	private static final int DEFAULT_MAX_POOL_SIZE = 4;
+	private static final int DEFAULT_MAX_WAIT_TIME = 30000;
+
 	private static final String CONNECTION_PROPERTIES_STRING = "useUnicode=true;characterEncoding=UTF-8";
 	private static final Properties CONNECTION_PROPERTIES = new Properties() {{
 		setProperty("useUnicode", "true");
@@ -56,7 +60,13 @@ public class PooledDataSourceCreatorsTest {
 		ConnectionConfig connectionConfig = new ConnectionConfig(CONNECTION_PROPERTIES_STRING);
 		DataSourceConfig config = new DataSourceConfig(poolConfig, connectionConfig);
 		DataSource ds = createMysqlDataSource(config);
-		assertTomcatJdbcDataSource(ds);
+		assertTomcatJdbcDataSource(ds, true);
+	}
+
+	@Test
+	public void pooledDataSourceCreationDefaultPools() throws Exception {
+		DataSource ds = createMysqlDataSource(null);
+		assertTomcatJdbcDataSource(ds, false);
 	}
 
 	@Test
@@ -80,10 +90,10 @@ public class PooledDataSourceCreatorsTest {
 	@Test
 	public void pooledDataSourceCreationTomcatJdbc() throws Exception {
 		DataSource ds = createMysqlDataSourceWithPooledName("TomcatJdbc");
-		assertTomcatJdbcDataSource(ds);
+		assertTomcatJdbcDataSource(ds, true);
 
 		ds = createMysqlDataSourceWithPooledName(TomcatJdbcPooledDataSourceCreator.class.getSimpleName());
-		assertTomcatJdbcDataSource(ds);
+		assertTomcatJdbcDataSource(ds, true);
 	}
 
 	@Test
@@ -96,7 +106,7 @@ public class PooledDataSourceCreatorsTest {
 	}
 
 	@Test
-	public void pooledDataSourceCreationInvalid() throws Exception {
+	public void pooledDataSourceCreationInvalid() {
 		DataSource ds = createMysqlDataSourceWithPooledName("Dummy");
 		assertThat(ds, instanceOf(org.springframework.jdbc.datasource.SimpleDriverDataSource.class));
 	}
@@ -143,13 +153,21 @@ public class PooledDataSourceCreatorsTest {
 		}
 	}
 
-	private void assertTomcatJdbcDataSource(DataSource ds) throws ClassNotFoundException {
+	private void assertTomcatJdbcDataSource(DataSource ds, boolean overrideConfig) throws ClassNotFoundException {
 		assertThat(ds, instanceOf(Class.forName(TOMCAT_JDBC_DATASOURCE)));
 
-		assertEquals(MIN_POOL_SIZE, getIntValue(ds, "minIdle"));
-		assertEquals(MAX_WAIT_TIME, getIntValue(ds, "maxWait"));
-		// the results of setConnectionProperties are reflected by getDbProperties, not getConnectionProperties
-		assertEquals(CONNECTION_PROPERTIES, getPropertiesValue(ds, "dbProperties"));
+		if (overrideConfig) {
+			assertEquals(MIN_POOL_SIZE, getIntValue(ds, "minIdle"));
+			assertEquals(MAX_POOL_SIZE, getIntValue(ds, "maxActive"));
+			assertEquals(MAX_WAIT_TIME, getIntValue(ds, "maxWait"));
+			// the results of setConnectionProperties are reflected by getDbProperties, not getConnectionProperties
+			assertEquals(CONNECTION_PROPERTIES, getPropertiesValue(ds, "dbProperties"));
+		} else {
+			assertEquals(DEFAULT_MIN_POOL_SIZE, getIntValue(ds, "minIdle"));
+			assertEquals(DEFAULT_MAX_POOL_SIZE, getIntValue(ds, "maxActive"));
+			assertEquals(DEFAULT_MAX_WAIT_TIME, getIntValue(ds, "maxWait"));
+			assertEquals(Collections.emptyMap(), getPropertiesValue(ds, "dbProperties"));
+		}
 	}
 
 	private void assertHikariDataSource(DataSource ds) throws ClassNotFoundException {
