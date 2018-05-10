@@ -29,6 +29,9 @@ public class RabbitConnectionFactoryCloudConfigTestHelper {
 	public static final Integer DEFAULT_CHANNEL_CACHE_SIZE =
 			(Integer) ReflectionTestUtils.getField(new org.springframework.amqp.rabbit.connection.CachingConnectionFactory(), "channelCacheSize");
 
+	public final static Integer DEFAULT_CONNECTION_LIMIT =
+			(Integer) ReflectionTestUtils.getField(new org.springframework.amqp.rabbit.connection.CachingConnectionFactory(), "connectionLimit");
+
 	private final static Integer DEFAULT_FACTORY_TIMEOUT =
 			(Integer) ReflectionTestUtils.getField(new com.rabbitmq.client.ConnectionFactory(), "connectionTimeout");
 
@@ -36,13 +39,16 @@ public class RabbitConnectionFactoryCloudConfigTestHelper {
 			(Integer) ReflectionTestUtils.getField(new com.rabbitmq.client.ConnectionFactory(), "requestedHeartbeat");
 
 	public static void assertConfigProperties(ConnectionFactory connector, Integer channelCacheSize,
-											  Integer requestedHeartbeat, Integer connectionTimeout) {
+											  Integer requestedHeartbeat, Integer connectionTimeout,
+											  int connectionLimit, boolean publisherConfirms) {
 		Integer timeoutToTest = connectionTimeout < 0 ? DEFAULT_FACTORY_TIMEOUT : connectionTimeout;
 		Integer heartBeatToTest = requestedHeartbeat < 0 ? DEFAULT_FACTORY_HEARTBEAT : requestedHeartbeat;
 
 		assertNotNull(connector);
 
 		assertEquals(channelCacheSize, ReflectionTestUtils.getField(connector, "channelCacheSize"));
+		assertEquals(connectionLimit, ReflectionTestUtils.getField(connector, "connectionLimit"));
+		assertEquals(publisherConfirms, ReflectionTestUtils.getField(connector, "publisherConfirms"));
 
 		Object rabbitConnectionFactory = ReflectionTestUtils.getField(connector, "rabbitConnectionFactory");
 		assertNotNull(rabbitConnectionFactory);

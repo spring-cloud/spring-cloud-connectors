@@ -13,6 +13,8 @@
 package org.springframework.cloud.config.java;
 
 import static org.springframework.cloud.config.RabbitConnectionFactoryCloudConfigTestHelper.DEFAULT_CHANNEL_CACHE_SIZE;
+import static org.springframework.cloud.config.RabbitConnectionFactoryCloudConfigTestHelper.DEFAULT_CONNECTION_LIMIT;
+import static org.springframework.cloud.config.RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +22,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.cloud.config.RabbitConnectionFactoryCloudConfigTestHelper;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.messaging.RabbitConnectionFactoryConfig;
 import org.springframework.context.ApplicationContext;
@@ -54,7 +55,7 @@ public class RabbitConnectionFactoryJavaConfigTest extends AbstractServiceJavaCo
 			getTestApplicationContext(RabbitConnectionFactoryConfigWithServiceConfig.class, createService("my-service"));
 
 		ConnectionFactory connector = testContext.getBean("connectionFactoryWithConfig", getConnectorType());
-		RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties(connector, 200, -1, -1);
+		assertConfigProperties(connector, 200, -1, -1, DEFAULT_CONNECTION_LIMIT, false);
 	}
 
 	@Test
@@ -63,7 +64,7 @@ public class RabbitConnectionFactoryJavaConfigTest extends AbstractServiceJavaCo
 			getTestApplicationContext(RabbitConnectionFactoryConfigWithServiceConfig.class, createService("my-service"));
 
 		ConnectionFactory connector = testContext.getBean("connectionFactoryWithProperties", getConnectorType());
-		RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties(connector, DEFAULT_CHANNEL_CACHE_SIZE, 5, 10);
+		assertConfigProperties(connector, DEFAULT_CHANNEL_CACHE_SIZE, 5, 10, 15, true);
 	}
 
 	@Test
@@ -72,7 +73,7 @@ public class RabbitConnectionFactoryJavaConfigTest extends AbstractServiceJavaCo
 			getTestApplicationContext(RabbitConnectionFactoryConfigWithServiceConfig.class, createService("my-service"));
 
 		ConnectionFactory connector = testContext.getBean("connectionFactoryWithConfigAndProperties", getConnectorType());
-		RabbitConnectionFactoryCloudConfigTestHelper.assertConfigProperties(connector, 300, 15, 20);
+		assertConfigProperties(connector, 300, 15, 20, 10, true);
 	}
 }
 
@@ -99,18 +100,22 @@ class RabbitConnectionFactoryConfigWithServiceConfig extends AbstractCloudConfig
 
 	@Bean
 	public ConnectionFactory connectionFactoryWithProperties() {
-		Map<String, Object> properties = new HashMap<String, Object>();
+		Map<String, Object> properties = new HashMap<>();
 		properties.put("requestedHeartbeat", 5);
 		properties.put("connectionTimeout", 10);
+		properties.put("connectionLimit", 15);
+		properties.put("publisherConfirms", true);
 		RabbitConnectionFactoryConfig serviceConfig = new RabbitConnectionFactoryConfig(properties);
 		return connectionFactory().rabbitConnectionFactory("my-service", serviceConfig);
 	}
 
 	@Bean
 	public ConnectionFactory connectionFactoryWithConfigAndProperties() {
-		Map<String, Object> properties = new HashMap<String, Object>();
+		Map<String, Object> properties = new HashMap<>();
 		properties.put("requestedHeartbeat", 15);
 		properties.put("connectionTimeout", 20);
+		properties.put("connectionLimit", 10);
+		properties.put("publisherConfirms", true);
 		RabbitConnectionFactoryConfig serviceConfig = new RabbitConnectionFactoryConfig(properties, 300);
 		return connectionFactory().rabbitConnectionFactory("my-service", serviceConfig);
 	}

@@ -14,6 +14,8 @@
 		<cloud:connection-properties>
 			<entry key="requestedHeartbeat" value="5"/>
 			<entry key="connectionTimeout" value="10"/>
+			<entry key="connectionLimit" value="15"/>
+			<entry key="publisherConfirms" value="true"/>
 		</cloud:connection-properties>
 	</cloud:rabbit-connection-factory>
 
@@ -21,6 +23,8 @@
 		<cloud:connection-properties>
 			<entry key="requestedHeartbeat" value="5"/>
 			<entry key="connectionTimeout" value="10"/>
+			<entry key="connectionLimit" value="15"/>
+			<entry key="publisherConfirms" value="true"/>
 		</cloud:connection-properties>
 	</cloud:rabbit-connection-factory>
 </beans>
