@@ -7,7 +7,9 @@ import org.springframework.data.redis.connection.lettuce.LettuceClientConfigurat
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 
 /**
  * 
@@ -17,27 +19,25 @@ import static org.junit.Assert.assertEquals;
  */
 public class RedisConnectionFactoryCloudConfigTestHelper extends CommonPoolCloudConfigTestHelper {
 
+	public static void assertNoPoolProperties(RedisConnectionFactory connector) {
+		if (connector instanceof JedisConnectionFactory) {
+			assertFalse(((JedisConnectionFactory) connector).getUsePool());
+		} else if (connector instanceof LettuceConnectionFactory) {
+			LettuceClientConfiguration config = ((LettuceConnectionFactory) connector).getClientConfiguration();
+			assertThat(config, instanceOf(LettuceClientConfiguration.class));
+		}
+	}
+
 	public static void assertPoolProperties(RedisConnectionFactory connector, int maxActive, int minIdle, long maxWait) {
 		GenericObjectPoolConfig poolConfig = null;
 		if (connector instanceof JedisConnectionFactory) {
 			poolConfig = ((JedisConnectionFactory) connector).getPoolConfig();
 		} else if (connector instanceof LettuceConnectionFactory) {
 			LettuceClientConfiguration config = ((LettuceConnectionFactory) connector).getClientConfiguration();
-			if (config instanceof LettucePoolingClientConfiguration) {
-				poolConfig = ((LettucePoolingClientConfiguration) config).getPoolConfig();
-			}
+			assertThat(config, instanceOf(LettucePoolingClientConfiguration.class));
+			poolConfig = ((LettucePoolingClientConfiguration) config).getPoolConfig();
 		}
 		assertCommonsPoolProperties(poolConfig, maxActive, minIdle, maxWait);
-	}
-
-	public static void assertConnectionProperties(RedisConnectionFactory connector, int timeout) {
-		if (connector instanceof JedisConnectionFactory) {
-			JedisConnectionFactory connectionFactory = (JedisConnectionFactory) connector;
-			assertEquals(timeout, connectionFactory.getTimeout());
-		} else  if (connector instanceof LettuceConnectionFactory) {
-			LettuceConnectionFactory connectionFactory = (LettuceConnectionFactory) connector;
-			assertEquals(timeout, connectionFactory.getTimeout());
-		}
 	}
 
 }

@@ -28,6 +28,16 @@ public class RedisConnectionFactoryJavaConfigTest extends AbstractServiceJavaCon
 	}
 
 	@Test
+	public void cloudRedisConnectionFactoryWithNoPool() {
+		ApplicationContext testContext =
+				getTestApplicationContext(RedisConnectionFactoryConfigWithServiceConfig.class,
+						createService("my-service"));
+
+		RedisConnectionFactory connector = testContext.getBean("noPool", getConnectorType());
+		RedisConnectionFactoryCloudConfigTestHelper.assertNoPoolProperties(connector);
+	}
+
+	@Test
 	public void cloudRedisConnectionFactoryWithMaxPool() {
 		ApplicationContext testContext =
 				getTestApplicationContext(RedisConnectionFactoryConfigWithServiceConfig.class,
@@ -63,6 +73,11 @@ class RedisConnectionFactoryConfigWithoutId extends AbstractCloudConfig {
 }
 
 class RedisConnectionFactoryConfigWithServiceConfig extends AbstractCloudConfig {
+	@Bean
+	public RedisConnectionFactory noPool() {
+		return connectionFactory().redisConnectionFactory("my-service", null);
+	}
+
 	@Bean
 	public RedisConnectionFactory pool20Wait200() {
 		PoolConfig poolConfig = new PoolConfig(20, 200);
