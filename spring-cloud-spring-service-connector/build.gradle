@@ -8,6 +8,7 @@ ext {
 
 	springDataMongoVersion = "2.0.0.RELEASE"
 	mongoDriverVersion = "3.6.3"
+	mongoDriverReactiveStreamsVersion = "1.7.1"
 
 	springDataRedisVersion = "2.0.0.RELEASE"
 	jedisVersion = "2.9.0"
@@ -65,6 +66,7 @@ dependencies {
 		exclude(group: 'org.mongodb', module: 'mongo-java-driver')
 	}
 	optional("org.mongodb:mongo-java-driver:${mongoDriverVersion}")
+	optional("org.mongodb:mongodb-driver-reactivestreams:${mongoDriverReactiveStreamsVersion}")
 
 	optional("org.springframework.data:spring-data-cassandra:$springDataCassandraVersion") {
 		exclude(group: 'org.springframework', module: 'spring-beans')

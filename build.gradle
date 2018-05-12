@@ -171,7 +171,7 @@ configure(rootProject) {
 
 ext {
 	matrix = [
-			"driver36-mongo20"  : [mongoDriverVersion: "3.6.3", springDataMongoVersion: "2.0.0.RELEASE"],
+			"driver36-mongo20"  : [mongoDriverVersion: "3.6.3", mongoDriverReactiveStreamsVersion: "1.7.1", springDataMongoVersion: "2.0.0.RELEASE"],
 			"jedis29-redis20"   : [jedisVersion: "2.9.0", springDataRedisVersion: "2.0.0.RELEASE"],
 			"lettuce5-redis20"  : [lettuceVersion: "5.0.0.RELEASE", springDataRedisVersion: "2.0.0.RELEASE"],
 			"driver330-cass20"  : [cassandraDriverVersion: "3.3.0", springDataCassandraVersion: "2.0.0.RELEASE"],
