@@ -1,0 +1,7 @@
+{
+	"name": "$serviceName",
+	"credentials": {
+		"jdbcUrl": "jdbc:sap://$hostname:$port/?currentschema=$name&user=$user&password=$password",
+		"uri": "sap://$user:$password@$hostname:$port/$name"
+	}
+}

@@ -2,6 +2,7 @@ org.springframework.cloud.service.relational.MysqlDataSourceCreator
 org.springframework.cloud.service.relational.PostgresqlDataSourceCreator
 org.springframework.cloud.service.relational.OracleDataSourceCreator
 org.springframework.cloud.service.relational.DB2DataSourceCreator
+org.springframework.cloud.service.relational.HANADataSourceCreator
 org.springframework.cloud.service.keyval.RedisConnectionFactoryCreator
 org.springframework.cloud.service.keyval.SpringData1RedisConnectionFactoryCreator
 org.springframework.cloud.service.document.MongoDbFactoryCreator
