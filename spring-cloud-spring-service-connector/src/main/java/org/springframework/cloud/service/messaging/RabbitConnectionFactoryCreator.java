@@ -38,6 +38,8 @@ public class RabbitConnectionFactoryCreator extends	AbstractServiceConnectorCrea
 
 	private com.rabbitmq.client.ConnectionFactory createRabbitConnectionFactory(AmqpServiceInfo serviceInfo) {
 		com.rabbitmq.client.ConnectionFactory connectionFactory = new com.rabbitmq.client.ConnectionFactory();
+		connectionFactory.setAutomaticRecoveryEnabled(false);
+		
 		if (serviceInfo.getUris() != null && serviceInfo.getUris().size() > 0) {
 			setConnectionFactoryUri(connectionFactory, serviceInfo.getUris().get(0));
 		} else {
