@@ -5,6 +5,7 @@ ext {
 	tomcatVersion = "8.5.13"
 
 	springAmqpVersion = "2.0.0.RELEASE"
+	rabbitClientVersion = "5.0.0"
 
 	springDataMongoVersion = "2.0.0.RELEASE"
 	mongoDriverVersion = "3.4.2"
@@ -50,6 +51,7 @@ dependencies {
 	optional("com.zaxxer:HikariCP:${hikariCpVersion}")
 
 	optional("org.springframework.amqp:spring-rabbit:$springAmqpVersion")
+	optional("com.rabbitmq:amqp-client:$rabbitClientVersion")
 
 	optional("org.springframework.data:spring-data-redis:$springDataRedisVersion") {
 		exclude(group: 'org.springframework', module: 'spring-context-support')

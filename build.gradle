@@ -175,7 +175,8 @@ ext {
 			"jedis29-redis20"   : [jedisVersion: "2.9.0", springDataRedisVersion: "2.0.0.RELEASE"],
 			"lettuce5-redis20"  : [lettuceVersion: "5.0.0.RELEASE", springDataRedisVersion: "2.0.0.RELEASE"],
 			"driver330-cass20"  : [cassandraDriverVersion: "3.3.0", springDataCassandraVersion: "2.0.0.RELEASE"],
-			"amqp20"            : [springAmqpVersion: "2.0.0.RELEASE"],
+			"amqp200"           : [springAmqpVersion: "2.0.0.RELEASE"],
+			"amqp205-rabbit541" : [springAmqpVersion: "2.0.5.RELEASE", "rabbitClientVersion": "5.4.1"],
 			"spring50"          : [springVersion: "5.0.0.RELEASE"],
 			"tomcat85"          : [tomcatVersion: "8.5.13"],
 	]
