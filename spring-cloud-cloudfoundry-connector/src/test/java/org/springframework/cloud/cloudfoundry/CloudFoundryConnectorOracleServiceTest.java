@@ -34,21 +34,6 @@ public class CloudFoundryConnectorOracleServiceTest extends AbstractUserProvided
 	}
 
 	@Test
-	public void oracleServiceCreationWithSpecialChars() {
-		String userWithSpecialChars = "u%u:u+";
-		String passwordWithSpecialChars = "p%p:p+";
-		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
-				.thenReturn(getServicesPayload(
-						getUserProvidedServicePayload(SERVICE_NAME, hostname, port, userWithSpecialChars, passwordWithSpecialChars, INSTANCE_NAME, ORACLE_SCHEME + ":")));
-		List<ServiceInfo> serviceInfos = testCloudConnector.getServiceInfos();
-
-		ServiceInfo info = getServiceInfo(serviceInfos, SERVICE_NAME);
-		assertServiceFoundOfType(info, OracleServiceInfo.class);
-		assertEquals(getJdbcUrl(hostname, port, INSTANCE_NAME, userWithSpecialChars, passwordWithSpecialChars), ((RelationalServiceInfo)info).getJdbcUrl());
-		assertUriBasedServiceInfoFields(info, ORACLE_SCHEME, hostname, port, userWithSpecialChars, passwordWithSpecialChars, INSTANCE_NAME);
-	}
-
-	@Test
 	public void oracleServiceCreationWithNoUri() {
 		when(mockEnvironment.getEnvValue("VCAP_SERVICES"))
 				.thenReturn(getServicesPayload(

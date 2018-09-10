@@ -18,7 +18,7 @@ public class OracleServiceInfo extends RelationalServiceInfo {
 	@Override
 	protected String buildJdbcUrl() {
 		return String.format("jdbc:%s:thin:%s/%s@%s:%d/%s",
-				jdbcUrlDatabaseType, UriInfo.urlEncode(getUserName()), UriInfo.urlEncode(getPassword()),
+				jdbcUrlDatabaseType, getUserName(), getPassword(),
 				getHost(), getPort(), getPath());
 	}
 }
