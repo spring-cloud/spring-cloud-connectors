@@ -18,6 +18,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 /**
  * 
  * @author Ramnivas Laddad
+ * @author Scott Frederick
  *
  */
 public class RedisServiceConnectorCreatorTest {
@@ -36,15 +37,25 @@ public class RedisServiceConnectorCreatorTest {
 	}
 	
 	@Test
-	public void cloudRedisCreationNoConfig() throws Exception {
-		RedisServiceInfo serviceInfo = createServiceInfo();
+	public void cloudRedisCreationNoConfig() {
+		RedisServiceInfo serviceInfo = createServiceInfo(RedisServiceInfo.REDIS_SCHEME);
 
 		RedisConnectionFactory dataSource = testCreator.create(serviceInfo, null);
 
-		assertConnectorProperties(serviceInfo, dataSource);
+		assertConnectorProperties(serviceInfo, dataSource, false);
 	}
 
-	public RedisServiceInfo createServiceInfo() {
+	@Test
+	public void cloudRedisCreationSecureConnection() {
+		RedisServiceInfo serviceInfo = createServiceInfo(RedisServiceInfo.REDISS_SCHEME);
+
+		RedisConnectionFactory dataSource = testCreator.create(serviceInfo, null);
+
+		assertConnectorProperties(serviceInfo, dataSource, true);
+	}
+
+	public RedisServiceInfo createServiceInfo(String scheme) {
+		when(mockRedisServiceInfo.getScheme()).thenReturn(scheme);
 		when(mockRedisServiceInfo.getHost()).thenReturn(TEST_HOST);
 		when(mockRedisServiceInfo.getPort()).thenReturn(TEST_PORT);
 		when(mockRedisServiceInfo.getPassword()).thenReturn(TEST_PASSWORD);
@@ -52,7 +63,8 @@ public class RedisServiceConnectorCreatorTest {
 		return mockRedisServiceInfo;
 	}
 
-	private void assertConnectorProperties(RedisServiceInfo serviceInfo, RedisConnectionFactory connector) {
+	private void assertConnectorProperties(RedisServiceInfo serviceInfo, RedisConnectionFactory connector,
+										   boolean isSecure) {
 		assertNotNull(connector);
 
 		if (connector instanceof JedisConnectionFactory) {
@@ -60,11 +72,13 @@ public class RedisServiceConnectorCreatorTest {
 			assertEquals(serviceInfo.getHost(), connectionFactory.getHostName());
 			assertEquals(serviceInfo.getPort(), connectionFactory.getPort());
 			assertEquals(serviceInfo.getPassword(), connectionFactory.getPassword());
+			assertEquals(isSecure, connectionFactory.isUseSsl());
 		} else if (connector instanceof LettuceConnectionFactory) {
 			LettuceConnectionFactory connectionFactory = (LettuceConnectionFactory) connector;
 			assertEquals(serviceInfo.getHost(), connectionFactory.getHostName());
 			assertEquals(serviceInfo.getPort(), connectionFactory.getPort());
 			assertEquals(serviceInfo.getPassword(), connectionFactory.getPassword());
+			assertEquals(isSecure, connectionFactory.isUseSsl());
 		} else {
 			fail("Expected RedisConnectionFactory of type " +
 					JedisConnectionFactory.class.getName() + " or " + LettuceConnectionFactory.class.getName() +

@@ -47,7 +47,7 @@ public class CloudFoundryConnectorRedisServiceTest extends AbstractCloudFoundryC
 	private String getRedisServicePayloadNoLabelNoTags(String serviceName,
 													   String hostname, int port,
 													   String password, String name) {
-		return getRedisServicePayload("test-redis-info-no-label-no-tags.json", serviceName, hostname, port, password, name);
+		return getRedisServicePayload("test-redis-info-no-label-no-tags-secure.json", serviceName, hostname, port, password, name);
 	}
 
 	private String getRedisServicePayload(String payloadFile, String serviceName,

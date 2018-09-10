@@ -51,6 +51,10 @@ public class RedisConnectionFactoryCreator extends AbstractServiceConnectorCreat
 				clientConfigurer.configure(builder, (PooledServiceConnectorConfig) serviceConnectorConfig);
 			}
 
+			if (connectionIsSecure(serviceInfo)) {
+				builder.useSsl();
+			}
+
 			JedisConnectionFactory connectionFactory = new JedisConnectionFactory(configuration, builder.build());
 			connectionFactory.afterPropertiesSet();
 			return connectionFactory;
@@ -67,6 +71,10 @@ public class RedisConnectionFactoryCreator extends AbstractServiceConnectorCreat
 				builder = LettucePoolingClientConfiguration.builder();
 			} else {
 				builder = LettuceClientConfiguration.builder();
+			}
+
+			if (connectionIsSecure(serviceInfo)) {
+				builder.useSsl();
 			}
 
 			RedisLettuceClientConfigurer clientConfigurer = new RedisLettuceClientConfigurer();
@@ -86,5 +94,9 @@ public class RedisConnectionFactoryCreator extends AbstractServiceConnectorCreat
 					" of Jedis or Lettuce clients implementation (%s, %s) not found",
 					serviceInfo.getId(), JEDIS_CLASS_NAME, LETTUCE_CLASS_NAME));
 		}
+	}
+
+	private boolean connectionIsSecure(RedisServiceInfo serviceInfo) {
+		return RedisServiceInfo.REDISS_SCHEME.equalsIgnoreCase(serviceInfo.getScheme());
 	}
 }
