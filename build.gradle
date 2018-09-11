@@ -223,7 +223,6 @@ ext {
 			"amqp14"           : [springAmqpVersion: "1.4.6.RELEASE"],
 			"amqp15"           : [springAmqpVersion: "1.5.6.RELEASE"],
 			"amqp16"           : [springAmqpVersion: "1.6.0.RELEASE"],
-			"amqp20"           : [springAmqpVersion: "2.0.0.RELEASE"],
 			"spring32"         : [springVersion: "3.2.17.RELEASE"],
 			"spring40"         : [springVersion: "4.0.9.RELEASE"],
 			"spring41"         : [springVersion: "4.1.9.RELEASE"],
