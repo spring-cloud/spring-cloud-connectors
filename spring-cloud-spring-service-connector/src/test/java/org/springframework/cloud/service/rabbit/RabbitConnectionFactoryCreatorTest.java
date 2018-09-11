@@ -76,8 +76,8 @@ public class RabbitConnectionFactoryCreatorTest {
 		com.rabbitmq.client.ConnectionFactory rabbitConnectionFactory =
 				(com.rabbitmq.client.ConnectionFactory) ReflectionTestUtils.getField(connector, "rabbitConnectionFactory");
 		String[] userInfo = uri.getRawUserInfo().split(":");
-		assertEquals(userInfo[0], ReflectionTestUtils.getField(rabbitConnectionFactory, "username"));
-		assertEquals(userInfo[1], ReflectionTestUtils.getField(rabbitConnectionFactory, "password"));
+		assertEquals(userInfo[0], rabbitConnectionFactory.getUsername());
+		assertEquals(userInfo[1], rabbitConnectionFactory.getPassword());
 
 		assertTrue(uri.getPath().endsWith(connector.getVirtualHost()));
 	}
