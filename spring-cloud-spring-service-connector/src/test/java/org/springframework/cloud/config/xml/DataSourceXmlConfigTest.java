@@ -1,10 +1,10 @@
 package org.springframework.cloud.config.xml;
 
 import java.util.Properties;
-
 import javax.sql.DataSource;
 
 import org.junit.Test;
+
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.cloud.config.DataSourceCloudConfigTestHelper;
 import org.springframework.cloud.service.ServiceInfo;
@@ -13,10 +13,9 @@ import org.springframework.cloud.service.relational.TomcatJdbcPooledDataSourceCr
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
 import static org.springframework.cloud.config.DataSourceCloudConfigTestHelper.assertConnectionProperties;
 import static org.springframework.cloud.config.DataSourceCloudConfigTestHelper.assertConnectionProperty;
+import static org.springframework.cloud.config.DataSourceCloudConfigTestHelper.assertDataSourceType;
 
 /**
  * 
@@ -109,7 +108,7 @@ public abstract class DataSourceXmlConfigTest extends AbstractServiceXmlConfigTe
 				createService("my-service"));
 
 		DataSource ds = testContext.getBean("db-pool-tomcat-jdbc", getConnectorType());
-		assertThat(ds, instanceOf(Class.forName(TomcatJdbcPooledDataSourceCreator.TOMCAT_JDBC_DATASOURCE)));
+		assertDataSourceType(ds, TomcatJdbcPooledDataSourceCreator.TOMCAT_JDBC_DATASOURCE);
 	}
 
 	@Test
@@ -118,7 +117,7 @@ public abstract class DataSourceXmlConfigTest extends AbstractServiceXmlConfigTe
 				createService("my-service"));
 
 		DataSource ds = testContext.getBean("db-pool-hikari", getConnectorType());
-		assertThat(ds, instanceOf(Class.forName(HikariCpPooledDataSourceCreator.HIKARI_DATASOURCE)));
+		assertDataSourceType(ds, HikariCpPooledDataSourceCreator.HIKARI_DATASOURCE);
 	}
 
 	@Test
@@ -127,6 +126,6 @@ public abstract class DataSourceXmlConfigTest extends AbstractServiceXmlConfigTe
 				createService("my-service"));
 
 		DataSource ds = testContext.getBean("db-pool-invalid", getConnectorType());
-		assertThat(ds, instanceOf(SimpleDriverDataSource.class));
+		assertDataSourceType(ds, SimpleDriverDataSource.class);
 	}
 }

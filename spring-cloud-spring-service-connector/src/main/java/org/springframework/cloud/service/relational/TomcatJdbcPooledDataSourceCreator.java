@@ -1,11 +1,11 @@
 package org.springframework.cloud.service.relational;
 
-import static org.springframework.cloud.service.Util.hasClass;
-
 import javax.sql.DataSource;
 
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
+
+import static org.springframework.cloud.service.Util.hasClass;
 
 /**
  *
@@ -23,7 +23,7 @@ public class TomcatJdbcPooledDataSourceCreator<SI extends RelationalServiceInfo>
 			logger.info("Found Tomcat JDBC connection pool on the classpath. Using it for DataSource connection pooling.");
 			org.apache.tomcat.jdbc.pool.DataSource ds = new org.apache.tomcat.jdbc.pool.DataSource();
 			setBasicDataSourceProperties(ds, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
-			return ds;
+			return new UrlDecodingDataSource(ds, "url");
 		} else {
 			return null;
 		}
