@@ -1,11 +1,11 @@
 package org.springframework.cloud.service.relational;
 
-import static org.springframework.cloud.service.Util.hasClass;
-
 import javax.sql.DataSource;
 
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
+
+import static org.springframework.cloud.service.Util.hasClass;
 
 /**
  *
@@ -24,12 +24,12 @@ public class BasicDbcpPooledDataSourceCreator<SI extends RelationalServiceInfo> 
 			logger.info("Found DBCP2 on the classpath. Using it for DataSource connection pooling.");
 			org.apache.commons.dbcp2.BasicDataSource ds = new org.apache.commons.dbcp2.BasicDataSource();
 			setBasicDataSourceProperties(ds, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
-			return ds;
+			return new UrlDecodingDataSource(ds, "url");
 		} else if (hasClass(DBCP_BASIC_DATASOURCE)) {
 			logger.info("Found DBCP on the classpath. Using it for DataSource connection pooling.");
 			org.apache.commons.dbcp.BasicDataSource ds = new org.apache.commons.dbcp.BasicDataSource();
 			setBasicDataSourceProperties(ds, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
-			return ds;
+			return new UrlDecodingDataSource(ds, "url");
 		} else {
 			return null;
 		}

@@ -1,17 +1,16 @@
 package org.springframework.cloud.service.relational;
 
-import static org.springframework.cloud.service.Util.*;
-
 import java.util.logging.Logger;
-
 import javax.sql.DataSource;
+
+import com.zaxxer.hikari.HikariDataSource;
 
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 
-import com.zaxxer.hikari.HikariDataSource;
+import static org.springframework.cloud.service.Util.hasClass;
 
 public class HikariCpPooledDataSourceCreator<SI extends RelationalServiceInfo> implements PooledDataSourceCreator<SI> {
 
@@ -41,7 +40,7 @@ public class HikariCpPooledDataSourceCreator<SI extends RelationalServiceInfo> i
 			logger.info("Found HikariCP on the classpath. Using it for DataSource connection pooling.");
 			HikariDataSource ds = new HikariDataSource();
 			setBasicDataSourceProperties(ds, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
-			return ds;
+			return new UrlDecodingDataSource(ds, "jdbcUrl");
 		} else {
 			return null;
 		}

@@ -1,6 +1,5 @@
 package org.springframework.cloud.service.relational;
 
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -15,7 +14,6 @@ import org.springframework.cloud.service.AbstractServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreationException;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 
 /**
  *
@@ -60,7 +58,7 @@ public abstract class DataSourceCreator<SI extends RelationalServiceInfo> extend
 			}
 			// Only for testing outside Tomcat/CloudFoundry
 			logger.warning("No connection pooling DataSource implementation found on the classpath - no pooling is in effect.");
-			return new SimpleDriverDataSource(DriverManager.getDriver(serviceInfo.getJdbcUrl()), serviceInfo.getJdbcUrl());
+			return new UrlDecodingDataSource(serviceInfo.getJdbcUrl());
 		} catch (Exception e) {
 			throw new ServiceConnectorCreationException(
 					"Failed to created cloud datasource for " + serviceInfo.getId() + " service", e);
