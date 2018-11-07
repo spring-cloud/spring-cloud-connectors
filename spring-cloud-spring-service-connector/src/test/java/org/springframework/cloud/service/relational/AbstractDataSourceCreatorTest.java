@@ -1,22 +1,23 @@
 package org.springframework.cloud.service.relational;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-
 import javax.sql.DataSource;
 
 import org.junit.Test;
+
 import org.springframework.cloud.ReflectionUtils;
 import org.springframework.cloud.config.DataSourceCloudConfigTestHelper;
 import org.springframework.cloud.service.PooledServiceConnectorConfig.PoolConfig;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
 import org.springframework.cloud.service.relational.DataSourceConfig.ConnectionConfig;
+import org.springframework.jdbc.datasource.DelegatingDataSource;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * 
@@ -59,10 +60,19 @@ public abstract class AbstractDataSourceCreatorTest<C extends DataSourceCreator<
 	}
 	
 	private void assertConnectionProperties(DataSource dataSource, Properties connectionProp) {
+		if (dataSource instanceof DelegatingDataSource) {
+			dataSource = ((DelegatingDataSource) dataSource).getTargetDataSource();
+		}
 		assertEquals(connectionProp, ReflectionTestUtils.getField(dataSource, "connectionProperties"));
 	}
 
 	private void assertDataSourceProperties(RelationalServiceInfo relationalServiceInfo, DataSource dataSource) {
+		assertNotNull(dataSource);
+
+		if (dataSource instanceof DelegatingDataSource) {
+			dataSource = ((DelegatingDataSource) dataSource).getTargetDataSource();
+		}
+
 		assertNotNull(dataSource);
 
 		assertEquals(getDriverName(), ReflectionUtils.getValue(dataSource, "driverClassName"));
