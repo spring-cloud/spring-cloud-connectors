@@ -1,12 +1,12 @@
 package org.springframework.cloud.service.relational;
 
-import static org.springframework.cloud.service.Util.hasClass;
-
 import javax.sql.DataSource;
 
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.ServiceConnectorCreationException;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
+
+import static org.springframework.cloud.service.Util.hasClass;
 
 /**
  *
@@ -39,7 +39,7 @@ public class TomcatDbcpPooledDataSourceCreator<SI extends RelationalServiceInfo>
 		try {
 			DataSource dataSource = (DataSource) Class.forName(className).newInstance();
 			setBasicDataSourceProperties(dataSource, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
-			return dataSource;
+			return new UrlDecodingDataSource(dataSource, "url");
 		} catch (Throwable e) {
 			throw new ServiceConnectorCreationException("Error instantiating Tomcat DBCP connection pool", e);
 		}

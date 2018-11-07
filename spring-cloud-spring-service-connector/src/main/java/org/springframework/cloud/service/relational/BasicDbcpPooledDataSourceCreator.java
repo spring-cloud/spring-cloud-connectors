@@ -21,6 +21,6 @@ public class BasicDbcpPooledDataSourceCreator<SI extends RelationalServiceInfo> 
 		logger.info("Found DBCP2 on the classpath. Using it for DataSource connection pooling.");
 		org.apache.commons.dbcp2.BasicDataSource ds = new org.apache.commons.dbcp2.BasicDataSource();
 		setBasicDataSourceProperties(ds, serviceInfo, serviceConnectorConfig, driverClassName, validationQuery);
-		return ds;
+		return new UrlDecodingDataSource(ds, "url");
 	}
 }

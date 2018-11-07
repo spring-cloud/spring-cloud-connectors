@@ -1,20 +1,20 @@
 package org.springframework.cloud.service.relational;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import org.springframework.cloud.ReflectionUtils;
 import org.springframework.cloud.service.PooledServiceConnectorConfig.PoolConfig;
 import org.springframework.cloud.service.ServiceConnectorConfig;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 import org.springframework.cloud.service.relational.DataSourceConfig.ConnectionConfig;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
 
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertEquals;
@@ -108,6 +108,10 @@ public class PooledDataSourceCreatorsTest {
 	@Test
 	public void pooledDataSourceCreationInvalid() {
 		DataSource ds = createMysqlDataSourceWithPooledName("Dummy");
+		assertThat(ds, instanceOf(UrlDecodingDataSource.class));
+
+		ds = ((UrlDecodingDataSource) ds).getTargetDataSource();
+
 		assertThat(ds, instanceOf(org.springframework.jdbc.datasource.SimpleDriverDataSource.class));
 	}
 
@@ -125,6 +129,10 @@ public class PooledDataSourceCreatorsTest {
 	}
 
 	private void assertBasicDbcpDataSource(DataSource ds) throws ClassNotFoundException {
+		assertThat(ds, instanceOf(UrlDecodingDataSource.class));
+
+		ds = ((UrlDecodingDataSource) ds).getTargetDataSource();
+
 		assertThat(ds, instanceOf(Class.forName(DBCP2_BASIC_DATASOURCE)));
 
 		assertEquals(MIN_POOL_SIZE, getIntValue(ds, "minIdle"));
@@ -134,6 +142,10 @@ public class PooledDataSourceCreatorsTest {
 	}
 
 	private void assertTomcatDbcpDataSource(DataSource ds) throws ClassNotFoundException {
+		assertThat(ds, instanceOf(UrlDecodingDataSource.class));
+
+		ds = ((UrlDecodingDataSource) ds).getTargetDataSource();
+
 		assertTrue(hasClass(TOMCAT_7_DBCP) || hasClass(TOMCAT_8_DBCP));
 
 		if (hasClass(TOMCAT_7_DBCP)) {
@@ -154,6 +166,10 @@ public class PooledDataSourceCreatorsTest {
 	}
 
 	private void assertTomcatJdbcDataSource(DataSource ds, boolean overrideConfig) throws ClassNotFoundException {
+		assertThat(ds, instanceOf(UrlDecodingDataSource.class));
+
+		ds = ((UrlDecodingDataSource) ds).getTargetDataSource();
+
 		assertThat(ds, instanceOf(Class.forName(TOMCAT_JDBC_DATASOURCE)));
 
 		if (overrideConfig) {
@@ -171,6 +187,10 @@ public class PooledDataSourceCreatorsTest {
 	}
 
 	private void assertHikariDataSource(DataSource ds) throws ClassNotFoundException {
+		assertThat(ds, instanceOf(UrlDecodingDataSource.class));
+
+		ds = ((UrlDecodingDataSource) ds).getTargetDataSource();
+
 		assertThat(ds, instanceOf(Class.forName(HIKARI_DATASOURCE)));
 
 		assertEquals(MIN_POOL_SIZE, getIntValue(ds, "minimumIdle"));
