@@ -17,8 +17,8 @@ artifacts {
     tests testJar
 }
 
-//install { 
-//    configuration = configurations.published 
-//}
+install {
+    configuration = configurations.published
+}
 
-tasks.findByPath("artifactoryPublish")?.publishConfigs ('published')
+//tasks.findByPath("artifactoryPublish")?.publishConfigs ('published')
