@@ -10,7 +10,6 @@ buildscript {
 }
 
 apply plugin: 'com.github.johnrengelman.shadow'
-apply from: "publish-maven.gradle"
 
 ext {
 	jacksonVersion = "2.9.5"
