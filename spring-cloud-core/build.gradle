@@ -20,5 +20,5 @@ artifacts {
 //install { 
 //    configuration = configurations.published 
 //}
-//
-//tasks.findByPath("artifactoryPublish")?.publishConfigs ('published')
+
+tasks.findByPath("artifactoryPublish")?.publishConfigs ('published')
