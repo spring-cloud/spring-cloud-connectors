@@ -4,7 +4,7 @@ Spring Cloud Connectors provides a simple abstraction that JVM-based application
 
 == Learn more
 
-See the http://cloud.spring.io/spring-cloud-connectors/[project site] and http://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html[current documentation].
+See the https://spring.io/projects/spring-cloud-connectors/[project site] and http://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html[current documentation].
 
 == Build
 
