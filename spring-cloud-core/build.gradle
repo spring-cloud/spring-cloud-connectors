@@ -2,7 +2,6 @@ description = 'Spring-Cloud Core'
 
 configurations {
 	tests
-	published.extendsFrom tests, archives 
 }
 
 task testJar(type: Jar) {
@@ -14,11 +13,6 @@ testJar.dependsOn testClasses
 build.dependsOn testJar
 
 artifacts {
-    tests testJar
+	tests testJar
+	archives testJar
 }
-
-install {
-    configuration = configurations.published
-}
-
-//tasks.findByPath("artifactoryPublish")?.publishConfigs ('published')

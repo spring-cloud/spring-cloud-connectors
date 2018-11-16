@@ -10,7 +10,6 @@ buildscript {
 }
 
 apply plugin: 'com.github.johnrengelman.shadow'
-apply from: "publish-maven.gradle"
 
 dependencies {
   compile project(':spring-cloud-core')
