@@ -5,7 +5,6 @@ import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.service.common.DB2ServiceInfo;
 import org.springframework.cloud.service.common.MysqlServiceInfo;
 import org.springframework.cloud.service.common.RelationalServiceInfo;
-import org.springframework.cloud.util.UriInfo;
 
 import java.util.List;
 
@@ -85,11 +84,11 @@ public class CloudFoundryConnectorDB2ServiceTest extends AbstractUserProvidedSer
 
 	protected String getJdbcUrl(String scheme, String name) {
 		return String.format("%s%s://%s:%d/%s:user=%s;password=%s;", JDBC_PREFIX, scheme, hostname, port, name, 
-				UriInfo.urlEncode(username), UriInfo.urlEncode(password));
+				username, password);
 	}
 
 	private String getJdbcUrl(String scheme, String hostname, int port, String name, String user, String password) {
 		return String.format("%s%s://%s:%d/%s:user=%s;password=%s;", JDBC_PREFIX, scheme, hostname, port, name, 
-				UriInfo.urlEncode(user), UriInfo.urlEncode(password));
+				user, password);
 	}
 }
