@@ -9,3 +9,5 @@ org.springframework.cloud.service.messaging.RabbitConnectionFactoryCreator
 org.springframework.cloud.service.smtp.MailSenderCreator
 org.springframework.cloud.service.relational.SqlServerDataSourceCreator
 org.springframework.cloud.service.column.CassandraClusterCreator
+org.springframework.cloud.service.volumes.NfsVolumeServiceCreator
+org.springframework.cloud.service.volumes.SmbVolumeServiceCreator

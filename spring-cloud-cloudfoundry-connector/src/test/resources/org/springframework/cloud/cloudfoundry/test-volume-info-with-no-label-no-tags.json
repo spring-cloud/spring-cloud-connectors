@@ -1,0 +1,12 @@
+{
+	"instance_name": "$name",
+	"name": "$name",
+	"plan": "Existing",
+	"volume_mounts": [
+		{
+			"container_dir": "$containerDir",
+			"device_type": "shared",
+			"mode": "$mode"
+		}
+	]
+}

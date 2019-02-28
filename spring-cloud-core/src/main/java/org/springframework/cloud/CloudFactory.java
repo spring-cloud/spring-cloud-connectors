@@ -8,6 +8,8 @@ import org.springframework.cloud.service.ServiceConnectorCreator;
 import org.springframework.cloud.service.ServiceInfo;
 import org.springframework.cloud.util.ServiceLoaderWithExceptionControl;
 
+import static java.lang.String.format;
+
 /**
  * Factory for the cloud.
  *

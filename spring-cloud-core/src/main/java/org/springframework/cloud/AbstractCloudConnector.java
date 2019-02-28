@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 import org.springframework.cloud.service.ServiceInfo;
 
+import static java.lang.String.format;
+
 
 /**
  * Helper abstract class to simplify {@link CloudConnector} implementations.

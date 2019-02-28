@@ -1,0 +1,16 @@
+{
+	"label": "nfs",
+	"instance_name": "$name",
+	"name": "$name",
+	"plan": "Existing",
+	"tags": [
+		"nfs"
+	],
+	"volume_mounts": [
+		{
+			"container_dir": "$containerDir",
+			"device_type": "shared",
+			"mode": "$mode"
+		}
+	]
+}
