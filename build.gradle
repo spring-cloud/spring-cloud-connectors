@@ -20,11 +20,11 @@ ext {
 	mockitoVersion = "2.7.22"
 
 	javadocLinks = [
-		'http://docs.oracle.com/javase/8/docs/api/',
-		'http://docs.spring.io/spring/docs/current/javadoc-api/',
-		'http://docs.spring.io/spring-amqp/docs/latest-ga/api/',
-		'http://docs.spring.io/spring-data/data-mongo/docs/current/api/',
-		'http://docs.spring.io/spring-data/data-redis/docs/current/api/'
+		'https://docs.oracle.com/javase/8/docs/api/',
+		'https://docs.spring.io/spring/docs/current/javadoc-api/',
+		'https://docs.spring.io/spring-amqp/docs/latest-ga/api/',
+		'https://docs.spring.io/spring-data/data-mongo/docs/current/api/',
+		'https://docs.spring.io/spring-data/data-redis/docs/current/api/'
 	] as String[]
 }
 
