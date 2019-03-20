@@ -1,7 +1,7 @@
 :github-tag: master
 :github-repo: spring-cloud/spring-cloud-connectors
-:github-raw: http://raw.github.com/{github-repo}/{github-tag}
-:github-code: http://github.com/{github-repo}/tree/{github-tag}
+:github-raw: https://raw.github.com/{github-repo}/{github-tag}
+:github-code: https://github.com/{github-repo}/tree/{github-tag}
 :toc:
 :toclevels: 3
 
@@ -9,7 +9,7 @@
 
 The Spring Service Connector is part of the <<spring-cloud-connectors.adoc#,Spring Cloud Connectors>> project.
 
-This library provides `ServiceConnectorCreator` implementations for `javax.sql.DataSource` and various http://projects.spring.io/spring-data/[Spring Data] connector factories. It also provides Java configuration and XML namespace support for connecting to cloud services, accessing cloud services, and accessing application properties.
+This library provides `ServiceConnectorCreator` implementations for `javax.sql.DataSource` and various https://projects.spring.io/spring-data/[Spring Data] connector factories. It also provides Java configuration and XML namespace support for connecting to cloud services, accessing cloud services, and accessing application properties.
 
 == The Java Configuration
 
@@ -24,7 +24,7 @@ The Spring Service Connector Java configuration also offers a way to expose appl
 
 === Creating Service Beans
 
-If you do not wish to extend `AbstractCloudConfig`, you can create your own http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html[`Cloud`] object as an alternative.
+If you do not wish to extend `AbstractCloudConfig`, you can create your own https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html[`Cloud`] object as an alternative.
 
 [source,java]
 ----
@@ -34,7 +34,7 @@ public Cloud cloud() {
 }
 ----
 
-The following example creates a `DataSource` bean (without configuration) using the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html#getSingletonServiceConnector(java.lang.Class,%20org.springframework.cloud.service.ServiceConnectorConfig)[`getSingletonServiceConnector()`] method on `Cloud`.
+The following example creates a `DataSource` bean (without configuration) using the https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html#getSingletonServiceConnector(java.lang.Class,%20org.springframework.cloud.service.ServiceConnectorConfig)[`getSingletonServiceConnector()`] method on `Cloud`.
 
 [source,java]
 ----
@@ -50,7 +50,7 @@ public DataSource dataSource() {
 Following examples presume a configuration class which extends `AbstractCloudConfig`.
 ====
 
-The configuration shown in the following example creates a `DataSource` bean that connects to the only relational database service bound to the application (it will fail if there is no such unique service). It also creates a `MongoDbFactory` bean, which again connects to the only MongoDB service bound to the application. (For ways to connect to other services, see the http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/config/java/AbstractCloudConfig.ServiceConnectionFactory.html[Javadoc for `AbstractCloudConfig.ServiceConnectionFactory`].)
+The configuration shown in the following example creates a `DataSource` bean that connects to the only relational database service bound to the application (it will fail if there is no such unique service). It also creates a `MongoDbFactory` bean, which again connects to the only MongoDB service bound to the application. (For ways to connect to other services, see the https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/config/java/AbstractCloudConfig.ServiceConnectionFactory.html[Javadoc for `AbstractCloudConfig.ServiceConnectionFactory`].)
 
 [source,java]
 ----
@@ -123,7 +123,7 @@ public RabbitConnectionFactory rabbitFactory() {
 }
 ----
 
-To provide configuration for a RabbitMQ service, you can use an overloaded `rabbitConnectionFactory()` variant. The following example connects to the `bunnymq` RabbitMQ service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html[`RabbitConnectionFactoryConfig`], which is initialized with a `channelCacheSize` of 10.
+To provide configuration for a RabbitMQ service, you can use an overloaded `rabbitConnectionFactory()` variant. The following example connects to the `bunnymq` RabbitMQ service and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html[`RabbitConnectionFactoryConfig`], which is initialized with a `channelCacheSize` of 10.
 
 [source,java]
 ----
@@ -135,7 +135,7 @@ public RabbitConnectionFactory rabbitFactory() {
 }
 ----
 
-To set properties on a RabbitMQ service, you can use an overloaded variant of `rabbitConnectionFactory()`. The following example connects to the `bunnymq` RabbitMQ service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html[`RabbitConnectionFactoryConfig`], which is initialized with a `HashMap` of property keys and values.
+To set properties on a RabbitMQ service, you can use an overloaded variant of `rabbitConnectionFactory()`. The following example connects to the `bunnymq` RabbitMQ service and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html[`RabbitConnectionFactoryConfig`], which is initialized with a `HashMap` of property keys and values.
 
 [source,java]
 ----
@@ -180,7 +180,7 @@ public DataSource dataSource() {
 }
 ----
 
-To provide configuration for a relational database service, you can use an overloaded `dataSource()` variant. The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`], which is initialized with a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] that sets a `minPoolSize` of 5, a `maxPoolSize` of 30, and a `maxWaitTime` of 3000.
+To provide configuration for a relational database service, you can use an overloaded `dataSource()` variant. The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`], which is initialized with a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] that sets a `minPoolSize` of 5, a `maxPoolSize` of 30, and a `maxWaitTime` of 3000.
 
 [source,java]
 ----
@@ -193,7 +193,7 @@ public DataSource dataSource() {
 }
 ----
 
-To set properties on a relational database service, you can use an overloaded variant of `dataSource()`. The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`]. The `DataSourceConfig` is initialized with a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] (which sets a `minPoolSize` of 5, a `maxPoolSize` of 30, and a `maxWaitTime` of 3000) and a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.ConnectionConfig.html[`ConnectionConfig`] (which sets the `useUnicode` and `characterEncoding` properties).
+To set properties on a relational database service, you can use an overloaded variant of `dataSource()`. The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`]. The `DataSourceConfig` is initialized with a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] (which sets a `minPoolSize` of 5, a `maxPoolSize` of 30, and a `maxWaitTime` of 3000) and a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.ConnectionConfig.html[`ConnectionConfig`] (which sets the `useUnicode` and `characterEncoding` properties).
 
 [source,java]
 ----
@@ -214,9 +214,9 @@ When creating a `DataSource`, the connector prefers any of the following four co
 1. https://commons.apache.org/proper/commons-dbcp/[Apache Commons DBCP and DBCP 2]
 2. Tomcat DBCP
 3. https://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html[Tomcat JDBC Connection Pool]
-4. http://brettwooldridge.github.io/HikariCP/[HikariCP]
+4. https://brettwooldridge.github.io/HikariCP/[HikariCP]
 
-The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html[`SimpleDriverDataSource`], which does not reuse connections.
+The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html[`SimpleDriverDataSource`], which does not reuse connections.
 
 ====== Reordering Implementation Priority
 
@@ -225,9 +225,9 @@ The connector uses the first of these that is found on the classpath. If none of
 This feature is available only in Spring Cloud Connectors 1.2.1 and later.
 ====
 
-If you would like to reorder the priorities given to supported `DataSource` implementations, you can provide a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`] containing a `List` which uses your own ordering. You can name an implementation either by its full class name or by a string included in its class name.
+If you would like to reorder the priorities given to supported `DataSource` implementations, you can provide a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`] containing a `List` which uses your own ordering. You can name an implementation either by its full class name or by a string included in its class name.
 
-The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`], which is initialized with a `List` of `DataSource` implementation class names.
+The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`], which is initialized with a `List` of `DataSource` implementation class names.
 
 [source,java]
 ----
@@ -240,7 +240,7 @@ public DataSource dataSource() {
 }
 ----
 
-The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`], which is initialized with a `List` of strings contained in `DataSource` implementations&#8217; class names.
+The following example connects to the `my-own-personal-sql` MySQL service and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html[`DataSourceConfig`], which is initialized with a `List` of strings contained in `DataSource` implementations&#8217; class names.
 
 [source,java]
 ----
@@ -266,7 +266,7 @@ public MongoDbFactory mongoFactory() {
 }
 ----
 
-To provide configuration for a unique MongoDB service, you can use an overloaded `mongoDbFactory()` variant. The following example connects to the only MongoDB service bound to the application and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html[`MongoDbFactoryConfig`] that sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200.
+To provide configuration for a unique MongoDB service, you can use an overloaded `mongoDbFactory()` variant. The following example connects to the only MongoDB service bound to the application and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html[`MongoDbFactoryConfig`] that sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200.
 
 [source,java]
 ----
@@ -289,7 +289,7 @@ public MongoDbFactory mongoFactory() {
 }
 ----
 
-To connect to a specific MongoDB service and provide configuration, you can use an overloaded `mongoDbFactory()` variant. The following example connects to the `mongo-service` MongoDB service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html[`MongoDbFactoryConfig`] that sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200.
+To connect to a specific MongoDB service and provide configuration, you can use an overloaded `mongoDbFactory()` variant. The following example connects to the `mongo-service` MongoDB service and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html[`MongoDbFactoryConfig`] that sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200.
 
 [source,java]
 ----
@@ -314,7 +314,7 @@ public RedisConnectionFactory redisFactory() {
 }
 ----
 
-To provide configuration for a unique Redis service, you can use an overloaded `redisConnectionFactory()` variant. The following example connects to the only Redis service bound to the application and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.html[`PooledServiceConnectorConfig`], which is initialized with a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] that sets a `minPoolSize` of 5, a `maxPoolSize` of 30, and a `maxWaitTime` of 3000.
+To provide configuration for a unique Redis service, you can use an overloaded `redisConnectionFactory()` variant. The following example connects to the only Redis service bound to the application and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.html[`PooledServiceConnectorConfig`], which is initialized with a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] that sets a `minPoolSize` of 5, a `maxPoolSize` of 30, and a `maxWaitTime` of 3000.
 
 [source,java]
 ----
@@ -338,7 +338,7 @@ public RedisConnectionFactory redisFactory() {
 }
 ----
 
-To connect to a specific Redis service and provide configuration, you can use an overloaded `redisConnectionFactory()` variant. The following example connects to the `redis-service` Redis service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html[`RedisConnectionFactoryConfig`], which is initialized with a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] that sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200.
+To connect to a specific Redis service and provide configuration, you can use an overloaded `redisConnectionFactory()` variant. The following example connects to the `redis-service` Redis service and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html[`RedisConnectionFactoryConfig`], which is initialized with a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] that sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200.
 
 [source,java]
 ----
@@ -351,7 +351,7 @@ public RedisConnectionFactory redisFactory() {
 }
 ----
 
-To connect to a specific Redis service and set properties on the service, you can use an overloaded variant of `redisConnectionFactory()`. The following example connects to the `redis-service` Redis service and sets the `timeout` property using a http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html[`RedisConnectionFactoryConfig`] initialized with a `HashMap` that contains the property key and value.
+To connect to a specific Redis service and set properties on the service, you can use an overloaded variant of `redisConnectionFactory()`. The following example connects to the `redis-service` Redis service and sets the `timeout` property using a https://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html[`RedisConnectionFactoryConfig`] initialized with a `HashMap` that contains the property key and value.
 
 [source,java]
 ----
@@ -365,7 +365,7 @@ public RedisConnectionFactory redisFactory() {
 }
 ----
 
-To connect to a specific Redis service and provide configuration and property values for the service, you can use an overloaded variant of `redisConnectionFactory()`. The following example connects to the `redis-service` Redis service and uses a http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html[`RedisConnectionFactoryConfig`] initialized with a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] (which sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200) and a `HashMap` (which contains a property key and value) to configure the service and set its `timeout` property.
+To connect to a specific Redis service and provide configuration and property values for the service, you can use an overloaded variant of `redisConnectionFactory()`. The following example connects to the `redis-service` Redis service and uses a https://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html[`RedisConnectionFactoryConfig`] initialized with a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html[`PoolConfig`] (which sets `writeConcern` to `NONE`, `connectionsPerHost` to 50, and `maxWaitTime` to 200) and a `HashMap` (which contains a property key and value) to configure the service and set its `timeout` property.
 
 [source,java]
 ----
@@ -393,7 +393,7 @@ public Cluster cluster() {
 }
 ----
 
-To provide configuration for a unique Cassandra service, you can use an overloaded `cluster()` variant. The following example connects to the only Cassandra service bound to the application and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html[`CassandraClusterConfig`] with metrics and JMX reporting disabled.
+To provide configuration for a unique Cassandra service, you can use an overloaded `cluster()` variant. The following example connects to the only Cassandra service bound to the application and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html[`CassandraClusterConfig`] with metrics and JMX reporting disabled.
 
 [source,java]
 ----
@@ -418,7 +418,7 @@ public Cluster cluster() {
 }
 ----
 
-To connect to a specific Cassandra service and provide configuration, you can use an overloaded `cluster()` variant. The following example connects to the `cassandra-service` Cassandra service and supplies configuration using a http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html[`CassandraClusterConfig`] with metrics and JMX reporting disabled.
+To connect to a specific Cassandra service and provide configuration, you can use an overloaded `cluster()` variant. The following example connects to the `cassandra-service` Cassandra service and supplies configuration using a https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html[`CassandraClusterConfig`] with metrics and JMX reporting disabled.
 
 [source,java]
 ----
@@ -434,7 +434,7 @@ public Cluster cluster() {
 
 ==== SMTP
 
-To connect to a unique SMTP service, you can create a service bean using `service()`, providing the service type http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html[`MailSender`]. The following example connects to the only SMTP service bound to the application.
+To connect to a unique SMTP service, you can create a service bean using `service()`, providing the service type https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html[`MailSender`]. The following example connects to the only SMTP service bound to the application.
 
 [source,java]
 ----
@@ -445,7 +445,7 @@ public MailSender mailSender() {
 }
 ----
 
-To connect to a specific SMTP service, you can use an overloaded variant of `service()`, providing the service type http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html[`MailSender`]. The following example connects specifically to the `mail-service` SMTP service.
+To connect to a specific SMTP service, you can use an overloaded variant of `service()`, providing the service type https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html[`MailSender`]. The following example connects specifically to the `mail-service` SMTP service.
 
 [source,java]
 ----
@@ -525,8 +525,8 @@ To use this namespace, add a declaration for it.
 <beans xmlns="http://www.springframework.org/schema/beans"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:cloud="http://www.springframework.org/schema/cloud"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/cloud https://www.springframework.org/schema/cloud/spring-cloud.xsd">
 
 <!-- <cloud> namespace usage here -->
 ----
@@ -666,9 +666,9 @@ When creating a `DataSource`, the connector prefers any of the following four co
 1. https://commons.apache.org/proper/commons-dbcp/[Apache Commons DBCP and DBCP 2]
 2. Tomcat DBCP
 3. https://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html[Tomcat JDBC Connection Pool]
-4. http://brettwooldridge.github.io/HikariCP/[HikariCP]
+4. https://brettwooldridge.github.io/HikariCP/[HikariCP]
 
-The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html[`SimpleDriverDataSource`], which does not reuse connections.
+The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html[`SimpleDriverDataSource`], which does not reuse connections.
 
 ====== Reordering Implementation Priority
 
