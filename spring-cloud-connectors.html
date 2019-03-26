@@ -8,7 +8,7 @@
 <title>Spring Cloud Connectors</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
-/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
 /* Remove comment around @import statement below when using as a custom stylesheet */
 /*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
@@ -527,7 +527,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p><strong>Spring Cloud Cloud Foundry Connector</strong>: Connector for <a href="http://cloudfoundry.org/">Cloud Foundry</a>.</p>
+<p><strong>Spring Cloud Cloud Foundry Connector</strong>: Connector for <a href="https://cloudfoundry.org/">Cloud Foundry</a>.</p>
 </li>
 <li>
 <p><strong>Spring Cloud Heroku Connector</strong>: Connector for <a href="https://www.heroku.com/">Heroku</a>.</p>
@@ -806,7 +806,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="sect3">
 <h4 id="_providing_a_bootstrap_properties_file">Providing a Bootstrap Properties File</h4>
 <div class="paragraph">
-<p>To avoid having to manually configure run configurations or test runners with the path to the configuration properties file, the connector can read a templated filename out of the runtime classpath. This file must be named <code>spring-cloud-bootstrap.properties</code> and be located at the classpath root. For security, the connector will not attempt to read any service URIs out of the file. If the connector does find the file, it will read the property <code>spring.cloud.propertiesFile</code> and <a href="http://commons.apache.org/proper/commons-lang/javadocs/api-release/index.html?org/apache/commons/lang3/text/StrSubstitutor.html">substitute the pattern <code>${system.property}</code></a> with the appropriate value from the system properties. The most useful option is generally <code>${user.home}</code>.</p>
+<p>To avoid having to manually configure run configurations or test runners with the path to the configuration properties file, the connector can read a templated filename out of the runtime classpath. This file must be named <code>spring-cloud-bootstrap.properties</code> and be located at the classpath root. For security, the connector will not attempt to read any service URIs out of the file. If the connector does find the file, it will read the property <code>spring.cloud.propertiesFile</code> and <a href="https://commons.apache.org/proper/commons-lang/javadocs/api-release/index.html?org/apache/commons/lang3/text/StrSubstitutor.html">substitute the pattern <code>${system.property}</code></a> with the appropriate value from the system properties. The most useful option is generally <code>${user.home}</code>.</p>
 </div>
 <div class="paragraph">
 <p>A configuration properties file specified in the system properties will override any bootstrap file that may be available on the classpath.</p>
@@ -863,7 +863,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <li>
 <p><strong>Cloud platform support.</strong> Out of the box, Spring Cloud Connectors offers support for the Cloud Foundry and Heroku platforms. You can extend Spring Cloud Connectors to provide support for other cloud platforms and providers.</p>
 <div class="paragraph">
-<p>Spring Cloud Connectors uses the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html"><code>CloudConnector</code></a> interface to provide cloud platform support. A <code>CloudConnector</code> implementation for a particular cloud platform is responsible for detecting when the application is running in that cloud platform, obtaining information about the application from the cloud platform, and obtaining information about the services that are bound to the application.</p>
+<p>Spring Cloud Connectors uses the <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html"><code>CloudConnector</code></a> interface to provide cloud platform support. A <code>CloudConnector</code> implementation for a particular cloud platform is responsible for detecting when the application is running in that cloud platform, obtaining information about the application from the cloud platform, and obtaining information about the services that are bound to the application.</p>
 </div>
 </li>
 <li>
@@ -874,18 +874,18 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>A <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceInfo.html"><code>ServiceInfo</code></a> models the information required to connect to the service. In the case of a database service, a <code>ServiceInfo</code> implementation might include fields for host, port, database name, username, and password; in the case of a web service, it might include fields for URL and API key.</p>
+<p>A <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceInfo.html"><code>ServiceInfo</code></a> models the information required to connect to the service. In the case of a database service, a <code>ServiceInfo</code> implementation might include fields for host, port, database name, username, and password; in the case of a web service, it might include fields for URL and API key.</p>
 </li>
 <li>
-<p>A <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/ServiceInfoCreator.html"><code>ServiceInfoCreator</code></a> creates <code>ServiceInfo</code> objects based on the service information collected by a cloud connector. A <code>ServiceInfoCreator</code> implementation is specific to a cloud platform.</p>
+<p>A <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/ServiceInfoCreator.html"><code>ServiceInfoCreator</code></a> creates <code>ServiceInfo</code> objects based on the service information collected by a cloud connector. A <code>ServiceInfoCreator</code> implementation is specific to a cloud platform.</p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p><strong>Application framework support.</strong> The <a href="spring-cloud-spring-service-connector.html">Spring Cloud Spring Service Connector</a> creates service connectors with <a href="http://projects.spring.io/spring-data/">Spring Data</a> data types. You can extend Spring Cloud Connectors to provide service connection objects using another framework.</p>
+<p><strong>Application framework support.</strong> The <a href="spring-cloud-spring-service-connector.html">Spring Cloud Spring Service Connector</a> creates service connectors with <a href="https://projects.spring.io/spring-data/">Spring Data</a> data types. You can extend Spring Cloud Connectors to provide service connection objects using another framework.</p>
 <div class="paragraph">
-<p>Spring Cloud Connectors uses the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html"><code>ServiceConnectorCreator</code></a> interface to provide framework support. A <code>ServiceConnectorCreator</code> creates service connectors using the service connection information provided by a <code>ServiceInfo</code> object.</p>
+<p>Spring Cloud Connectors uses the <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html"><code>ServiceConnectorCreator</code></a> interface to provide framework support. A <code>ServiceConnectorCreator</code> creates service connectors using the service connection information provided by a <code>ServiceInfo</code> object.</p>
 </div>
 </li>
 </ol>
@@ -917,7 +917,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <p>Spring Cloud Connectors uses the <a href="https://docs.oracle.com/javase/tutorial/sound/SPI-intro.html">Java SPI</a> to discover available connectors.</p>
 </div>
 <div class="paragraph">
-<p>Your connector class must implement the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html"><code>CloudConnector</code></a> interface, which includes three methods:</p>
+<p>Your connector class must implement the <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/CloudConnector.html"><code>CloudConnector</code></a> interface, which includes three methods:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -948,7 +948,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 <div class="sect2">
 <h3 id="_adding_service_support">Adding Service Support</h3>
 <div class="paragraph">
-<p>To allow Spring Cloud Connectors to discover a new type of service, create a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceInfo.html"><code>ServiceInfo</code></a> class containing the information necessary to connect to the service. If your service can be specified via a URI, extend <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/UriBasedServiceInfo.html"><code>UriBasedServiceInfo</code></a> and provide the URI scheme in a call to the <code>super</code> constructor.</p>
+<p>To allow Spring Cloud Connectors to discover a new type of service, create a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceInfo.html"><code>ServiceInfo</code></a> class containing the information necessary to connect to the service. If your service can be specified via a URI, extend <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/UriBasedServiceInfo.html"><code>UriBasedServiceInfo</code></a> and provide the URI scheme in a call to the <code>super</code> constructor.</p>
 </div>
 <div class="paragraph">
 <p>The following class will expose information for a <code>HelloWorldService</code> available at <code>helloworld://username:password@host:port/Bonjour</code>.</p>
@@ -971,7 +971,7 @@ spring.cloud.database: mysql://user:pass@host:1234/dbname</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>After creating the <code>ServiceInfo</code> class, you will need to create a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/ServiceInfoCreator.html"><code>ServiceInfoCreator</code></a> for each cloud platform you want to support. If you are adding service support for a cloud platform already supported by Spring Cloud Connectors, you will probably want to extend the appropriate creator base class(es).</p>
+<p>After creating the <code>ServiceInfo</code> class, you will need to create a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/ServiceInfoCreator.html"><code>ServiceInfoCreator</code></a> for each cloud platform you want to support. If you are adding service support for a cloud platform already supported by Spring Cloud Connectors, you will probably want to extend the appropriate creator base class(es).</p>
 </div>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
@@ -1051,7 +1051,7 @@ public HelloWorldServiceInfo createServiceInfo(String id, String uri) {
 </table>
 </div>
 <div class="paragraph">
-<p>Your connector class must implement the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html"><code>ServiceConnectorCreator</code></a> interface, which has three methods:</p>
+<p>Your connector class must implement the <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/index.html?org/springframework/cloud/service/ServiceConnectorCreator.html"><code>ServiceConnectorCreator</code></a> interface, which has three methods:</p>
 </div>
 <div class="ulist">
 <ul>
