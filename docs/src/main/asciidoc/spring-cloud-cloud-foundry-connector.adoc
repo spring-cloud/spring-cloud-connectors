@@ -1,7 +1,7 @@
 :github-tag: master
 :github-repo: spring-cloud/spring-cloud-connectors
-:github-raw: http://raw.github.com/{github-repo}/{github-tag}
-:github-code: http://github.com/{github-repo}/tree/{github-tag}
+:github-raw: https://raw.github.com/{github-repo}/{github-tag}
+:github-code: https://github.com/{github-repo}/tree/{github-tag}
 :toc:
 :toclevels: 3
 
@@ -26,9 +26,9 @@ Below is an example of a `VCAP_SERVICES` entry (edited for brevity).
 "p-rabbitmq": [
  {
   "credentials": {
-   "http_api_uri": "http://ca30db57-a396:ddrnu58423q@12.34.567.89:12345/api",
+   "http_api_uri": "https://ca30db57-a396:ddrnu58423q@12.34.567.89:12345/api",
    "http_api_uris": [
-    "http://ca30db57-a396:ddrnu58423q@12.34.567.89:12345/api"
+    "https://ca30db57-a396:ddrnu58423q@12.34.567.89:12345/api"
    ],
    "uri": "amqp://ca30db57-a396:ddrnu58423q@12.34.567.89/322e7782-eb1f",
    "uris": [

@@ -2,7 +2,7 @@
   "p-dse-cassandra-acceptance": [
 	{
 	  "credentials": {
-		"opscenter_url": "http://datastax-opscenter-cassandra.cf-app.com/opscenter/index.html"
+		"opscenter_url": "https://datastax-opscenter-cassandra.cf-app.com/opscenter/index.html"
 	  },
 	  "label": "p-dse-cassandra-acceptance",
 	  "name": "mydse",
