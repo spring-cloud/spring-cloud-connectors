@@ -7,7 +7,7 @@
 		  "1.2.3.4",
 		  "5.6.7.8"
 		],
-		"opscenter_url": "http://datastax-opscenter-cassandra.cf-app.com/opscenter/index.html"
+		"opscenter_url": "https://datastax-opscenter-cassandra.cf-app.com/opscenter/index.html"
 	  },
 	  "label": "p-dse-cassandra-acceptance",
 	  "name": "mydse",

@@ -43,8 +43,8 @@ public class CloudFoundryServiceInfoCreatorTest {
 		assertAcceptedWithCredentials(serviceInfoCreator, "url", "amqp://example.com");
 		assertAcceptedWithCredentials(serviceInfoCreator, "url", "amqps://example.com");
 
-		assertNotAcceptedWithCredentials(serviceInfoCreator, "uri", "http://example.com");
-		assertNotAcceptedWithCredentials(serviceInfoCreator, "url", "http://example.com");
+		assertNotAcceptedWithCredentials(serviceInfoCreator, "uri", "https://example.com");
+		assertNotAcceptedWithCredentials(serviceInfoCreator, "url", "https://example.com");
 		assertNotAcceptedWithCredentials(serviceInfoCreator, "otherkey", "amqp://example.com");
 		assertNotAcceptedWithCredentials(serviceInfoCreator, "otherkey", "amqps://example.com");
 	}
@@ -53,15 +53,15 @@ public class CloudFoundryServiceInfoCreatorTest {
 	public void uriKeyMatchesScheme() {
 		DummyServiceInfoCreator serviceInfoCreator = new DummyServiceInfoCreator(new Tags(), "amqp", "amqps");
 
-		assertAcceptedWithCredentials(serviceInfoCreator, "amqpUri", "http://example.com");
-		assertAcceptedWithCredentials(serviceInfoCreator, "amqpsUri", "http://example.com");
-		assertAcceptedWithCredentials(serviceInfoCreator, "amqpUrl", "http://example.com");
-		assertAcceptedWithCredentials(serviceInfoCreator, "amqpsUrl", "http://example.com");
+		assertAcceptedWithCredentials(serviceInfoCreator, "amqpUri", "https://example.com");
+		assertAcceptedWithCredentials(serviceInfoCreator, "amqpsUri", "https://example.com");
+		assertAcceptedWithCredentials(serviceInfoCreator, "amqpUrl", "https://example.com");
+		assertAcceptedWithCredentials(serviceInfoCreator, "amqpsUrl", "https://example.com");
 
-		assertAcceptedWithCredentials(serviceInfoCreator, "amqpuri", "http://example.com");
-		assertAcceptedWithCredentials(serviceInfoCreator, "amqpsuri", "http://example.com");
-		assertAcceptedWithCredentials(serviceInfoCreator, "amqpurl", "http://example.com");
-		assertAcceptedWithCredentials(serviceInfoCreator, "amqpsurl", "http://example.com");
+		assertAcceptedWithCredentials(serviceInfoCreator, "amqpuri", "https://example.com");
+		assertAcceptedWithCredentials(serviceInfoCreator, "amqpsuri", "https://example.com");
+		assertAcceptedWithCredentials(serviceInfoCreator, "amqpurl", "https://example.com");
+		assertAcceptedWithCredentials(serviceInfoCreator, "amqpsurl", "https://example.com");
 	}
 
 	@Test
@@ -73,15 +73,15 @@ public class CloudFoundryServiceInfoCreatorTest {
 		assertUriRetrieved(serviceInfoCreator, "url", "amqp://example.com");
 		assertUriRetrieved(serviceInfoCreator, "url", "amqps://example.com");
 
-		assertUriRetrieved(serviceInfoCreator, "amqpUri", "http://example.com");
-		assertUriRetrieved(serviceInfoCreator, "amqpsUri", "http://example.com");
-		assertUriRetrieved(serviceInfoCreator, "amqpUrl", "http://example.com");
-		assertUriRetrieved(serviceInfoCreator, "amqpsUrl", "http://example.com");
+		assertUriRetrieved(serviceInfoCreator, "amqpUri", "https://example.com");
+		assertUriRetrieved(serviceInfoCreator, "amqpsUri", "https://example.com");
+		assertUriRetrieved(serviceInfoCreator, "amqpUrl", "https://example.com");
+		assertUriRetrieved(serviceInfoCreator, "amqpsUrl", "https://example.com");
 
-		assertUriRetrieved(serviceInfoCreator, "amqpuri", "http://example.com");
-		assertUriRetrieved(serviceInfoCreator, "amqpsuri", "http://example.com");
-		assertUriRetrieved(serviceInfoCreator, "amqpurl", "http://example.com");
-		assertUriRetrieved(serviceInfoCreator, "amqpsurl", "http://example.com");
+		assertUriRetrieved(serviceInfoCreator, "amqpuri", "https://example.com");
+		assertUriRetrieved(serviceInfoCreator, "amqpsuri", "https://example.com");
+		assertUriRetrieved(serviceInfoCreator, "amqpurl", "https://example.com");
+		assertUriRetrieved(serviceInfoCreator, "amqpsurl", "https://example.com");
 	}
 
 
