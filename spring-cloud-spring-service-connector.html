@@ -8,7 +8,7 @@
 <title>Spring Cloud Spring Service Connector</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
-/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
 /* Remove comment around @import statement below when using as a custom stylesheet */
 /*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}
@@ -467,7 +467,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The Spring Service Connector is part of the <a href="spring-cloud-connectors.html">Spring Cloud Connectors</a> project.</p>
 </div>
 <div class="paragraph">
-<p>This library provides <code>ServiceConnectorCreator</code> implementations for <code>javax.sql.DataSource</code> and various <a href="http://projects.spring.io/spring-data/">Spring Data</a> connector factories. It also provides Java configuration and XML namespace support for connecting to cloud services, accessing cloud services, and accessing application properties.</p>
+<p>This library provides <code>ServiceConnectorCreator</code> implementations for <code>javax.sql.DataSource</code> and various <a href="https://projects.spring.io/spring-data/">Spring Data</a> connector factories. It also provides Java configuration and XML namespace support for connecting to cloud services, accessing cloud services, and accessing application properties.</p>
 </div>
 </div>
 </div>
@@ -497,7 +497,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_creating_service_beans">Creating Service Beans</h3>
 <div class="paragraph">
-<p>If you do not wish to extend <code>AbstractCloudConfig</code>, you can create your own <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html"><code>Cloud</code></a> object as an alternative.</p>
+<p>If you do not wish to extend <code>AbstractCloudConfig</code>, you can create your own <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html"><code>Cloud</code></a> object as an alternative.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -508,7 +508,7 @@ public Cloud cloud() {
 </div>
 </div>
 <div class="paragraph">
-<p>The following example creates a <code>DataSource</code> bean (without configuration) using the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html#getSingletonServiceConnector(java.lang.Class,%20org.springframework.cloud.service.ServiceConnectorConfig)"><code>getSingletonServiceConnector()</code></a> method on <code>Cloud</code>.</p>
+<p>The following example creates a <code>DataSource</code> bean (without configuration) using the <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/Cloud.html#getSingletonServiceConnector(java.lang.Class,%20org.springframework.cloud.service.ServiceConnectorConfig)"><code>getSingletonServiceConnector()</code></a> method on <code>Cloud</code>.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -534,7 +534,7 @@ public DataSource dataSource() {
 </table>
 </div>
 <div class="paragraph">
-<p>The configuration shown in the following example creates a <code>DataSource</code> bean that connects to the only relational database service bound to the application (it will fail if there is no such unique service). It also creates a <code>MongoDbFactory</code> bean, which again connects to the only MongoDB service bound to the application. (For ways to connect to other services, see the <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/config/java/AbstractCloudConfig.ServiceConnectionFactory.html">Javadoc for <code>AbstractCloudConfig.ServiceConnectionFactory</code></a>.)</p>
+<p>The configuration shown in the following example creates a <code>DataSource</code> bean that connects to the only relational database service bound to the application (it will fail if there is no such unique service). It also creates a <code>MongoDbFactory</code> bean, which again connects to the only MongoDB service bound to the application. (For ways to connect to other services, see the <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/config/java/AbstractCloudConfig.ServiceConnectionFactory.html">Javadoc for <code>AbstractCloudConfig.ServiceConnectionFactory</code></a>.)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -614,7 +614,7 @@ public RabbitConnectionFactory rabbitFactory() {
 </div>
 </div>
 <div class="paragraph">
-<p>To provide configuration for a RabbitMQ service, you can use an overloaded <code>rabbitConnectionFactory()</code> variant. The following example connects to the <code>bunnymq</code> RabbitMQ service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html"><code>RabbitConnectionFactoryConfig</code></a>, which is initialized with a <code>channelCacheSize</code> of 10.</p>
+<p>To provide configuration for a RabbitMQ service, you can use an overloaded <code>rabbitConnectionFactory()</code> variant. The following example connects to the <code>bunnymq</code> RabbitMQ service and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html"><code>RabbitConnectionFactoryConfig</code></a>, which is initialized with a <code>channelCacheSize</code> of 10.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -627,7 +627,7 @@ public RabbitConnectionFactory rabbitFactory() {
 </div>
 </div>
 <div class="paragraph">
-<p>To set properties on a RabbitMQ service, you can use an overloaded variant of <code>rabbitConnectionFactory()</code>. The following example connects to the <code>bunnymq</code> RabbitMQ service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html"><code>RabbitConnectionFactoryConfig</code></a>, which is initialized with a <code>HashMap</code> of property keys and values.</p>
+<p>To set properties on a RabbitMQ service, you can use an overloaded variant of <code>rabbitConnectionFactory()</code>. The following example connects to the <code>bunnymq</code> RabbitMQ service and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/messaging/RabbitConnectionFactoryConfig.html"><code>RabbitConnectionFactoryConfig</code></a>, which is initialized with a <code>HashMap</code> of property keys and values.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -685,7 +685,7 @@ public DataSource dataSource() {
 </div>
 </div>
 <div class="paragraph">
-<p>To provide configuration for a relational database service, you can use an overloaded <code>dataSource()</code> variant. The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>, which is initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> that sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000.</p>
+<p>To provide configuration for a relational database service, you can use an overloaded <code>dataSource()</code> variant. The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>, which is initialized with a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> that sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -699,7 +699,7 @@ public DataSource dataSource() {
 </div>
 </div>
 <div class="paragraph">
-<p>To set properties on a relational database service, you can use an overloaded variant of <code>dataSource()</code>. The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>. The <code>DataSourceConfig</code> is initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> (which sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000) and a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.ConnectionConfig.html"><code>ConnectionConfig</code></a> (which sets the <code>useUnicode</code> and <code>characterEncoding</code> properties).</p>
+<p>To set properties on a relational database service, you can use an overloaded variant of <code>dataSource()</code>. The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>. The <code>DataSourceConfig</code> is initialized with a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> (which sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000) and a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.ConnectionConfig.html"><code>ConnectionConfig</code></a> (which sets the <code>useUnicode</code> and <code>characterEncoding</code> properties).</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -730,12 +730,12 @@ public DataSource dataSource() {
 <p><a href="https://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html">Tomcat JDBC Connection Pool</a></p>
 </li>
 <li>
-<p><a href="http://brettwooldridge.github.io/HikariCP/">HikariCP</a></p>
+<p><a href="https://brettwooldridge.github.io/HikariCP/">HikariCP</a></p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a <a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html"><code>SimpleDriverDataSource</code></a>, which does not reuse connections.</p>
+<p>The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a <a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html"><code>SimpleDriverDataSource</code></a>, which does not reuse connections.</p>
 </div>
 <div class="sect5">
 <h6 id="_reordering_implementation_priority">Reordering Implementation Priority</h6>
@@ -754,10 +754,10 @@ public DataSource dataSource() {
 </table>
 </div>
 <div class="paragraph">
-<p>If you would like to reorder the priorities given to supported <code>DataSource</code> implementations, you can provide a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a> containing a <code>List</code> which uses your own ordering. You can name an implementation either by its full class name or by a string included in its class name.</p>
+<p>If you would like to reorder the priorities given to supported <code>DataSource</code> implementations, you can provide a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a> containing a <code>List</code> which uses your own ordering. You can name an implementation either by its full class name or by a string included in its class name.</p>
 </div>
 <div class="paragraph">
-<p>The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>, which is initialized with a <code>List</code> of <code>DataSource</code> implementation class names.</p>
+<p>The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>, which is initialized with a <code>List</code> of <code>DataSource</code> implementation class names.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -771,7 +771,7 @@ public DataSource dataSource() {
 </div>
 </div>
 <div class="paragraph">
-<p>The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>, which is initialized with a <code>List</code> of strings contained in <code>DataSource</code> implementations&#8217; class names.</p>
+<p>The following example connects to the <code>my-own-personal-sql</code> MySQL service and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/relational/DataSourceConfig.html"><code>DataSourceConfig</code></a>, which is initialized with a <code>List</code> of strings contained in <code>DataSource</code> implementations&#8217; class names.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -802,7 +802,7 @@ public MongoDbFactory mongoFactory() {
 </div>
 </div>
 <div class="paragraph">
-<p>To provide configuration for a unique MongoDB service, you can use an overloaded <code>mongoDbFactory()</code> variant. The following example connects to the only MongoDB service bound to the application and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html"><code>MongoDbFactoryConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
+<p>To provide configuration for a unique MongoDB service, you can use an overloaded <code>mongoDbFactory()</code> variant. The following example connects to the only MongoDB service bound to the application and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html"><code>MongoDbFactoryConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -827,7 +827,7 @@ public MongoDbFactory mongoFactory() {
 </div>
 </div>
 <div class="paragraph">
-<p>To connect to a specific MongoDB service and provide configuration, you can use an overloaded <code>mongoDbFactory()</code> variant. The following example connects to the <code>mongo-service</code> MongoDB service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html"><code>MongoDbFactoryConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
+<p>To connect to a specific MongoDB service and provide configuration, you can use an overloaded <code>mongoDbFactory()</code> variant. The following example connects to the <code>mongo-service</code> MongoDB service and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/document/MongoDbFactoryConfig.html"><code>MongoDbFactoryConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -855,7 +855,7 @@ public RedisConnectionFactory redisFactory() {
 </div>
 </div>
 <div class="paragraph">
-<p>To provide configuration for a unique Redis service, you can use an overloaded <code>redisConnectionFactory()</code> variant. The following example connects to the only Redis service bound to the application and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.html"><code>PooledServiceConnectorConfig</code></a>, which is initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> that sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000.</p>
+<p>To provide configuration for a unique Redis service, you can use an overloaded <code>redisConnectionFactory()</code> variant. The following example connects to the only Redis service bound to the application and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.html"><code>PooledServiceConnectorConfig</code></a>, which is initialized with a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> that sets a <code>minPoolSize</code> of 5, a <code>maxPoolSize</code> of 30, and a <code>maxWaitTime</code> of 3000.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -881,7 +881,7 @@ public RedisConnectionFactory redisFactory() {
 </div>
 </div>
 <div class="paragraph">
-<p>To connect to a specific Redis service and provide configuration, you can use an overloaded <code>redisConnectionFactory()</code> variant. The following example connects to the <code>redis-service</code> Redis service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html"><code>RedisConnectionFactoryConfig</code></a>, which is initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
+<p>To connect to a specific Redis service and provide configuration, you can use an overloaded <code>redisConnectionFactory()</code> variant. The following example connects to the <code>redis-service</code> Redis service and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html"><code>RedisConnectionFactoryConfig</code></a>, which is initialized with a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> that sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -895,7 +895,7 @@ public RedisConnectionFactory redisFactory() {
 </div>
 </div>
 <div class="paragraph">
-<p>To connect to a specific Redis service and set properties on the service, you can use an overloaded variant of <code>redisConnectionFactory()</code>. The following example connects to the <code>redis-service</code> Redis service and sets the <code>timeout</code> property using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html"><code>RedisConnectionFactoryConfig</code></a> initialized with a <code>HashMap</code> that contains the property key and value.</p>
+<p>To connect to a specific Redis service and set properties on the service, you can use an overloaded variant of <code>redisConnectionFactory()</code>. The following example connects to the <code>redis-service</code> Redis service and sets the <code>timeout</code> property using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html"><code>RedisConnectionFactoryConfig</code></a> initialized with a <code>HashMap</code> that contains the property key and value.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -910,7 +910,7 @@ public RedisConnectionFactory redisFactory() {
 </div>
 </div>
 <div class="paragraph">
-<p>To connect to a specific Redis service and provide configuration and property values for the service, you can use an overloaded variant of <code>redisConnectionFactory()</code>. The following example connects to the <code>redis-service</code> Redis service and uses a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html"><code>RedisConnectionFactoryConfig</code></a> initialized with a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> (which sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200) and a <code>HashMap</code> (which contains a property key and value) to configure the service and set its <code>timeout</code> property.</p>
+<p>To connect to a specific Redis service and provide configuration and property values for the service, you can use an overloaded variant of <code>redisConnectionFactory()</code>. The following example connects to the <code>redis-service</code> Redis service and uses a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/1.1.2.BUILD-SNAPSHOT/api/org/springframework/cloud/service/keyval/RedisConnectionFactoryConfig.html"><code>RedisConnectionFactoryConfig</code></a> initialized with a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/PooledServiceConnectorConfig.PoolConfig.html"><code>PoolConfig</code></a> (which sets <code>writeConcern</code> to <code>NONE</code>, <code>connectionsPerHost</code> to 50, and <code>maxWaitTime</code> to 200) and a <code>HashMap</code> (which contains a property key and value) to configure the service and set its <code>timeout</code> property.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -941,7 +941,7 @@ public Cluster cluster() {
 </div>
 </div>
 <div class="paragraph">
-<p>To provide configuration for a unique Cassandra service, you can use an overloaded <code>cluster()</code> variant. The following example connects to the only Cassandra service bound to the application and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html"><code>CassandraClusterConfig</code></a> with metrics and JMX reporting disabled.</p>
+<p>To provide configuration for a unique Cassandra service, you can use an overloaded <code>cluster()</code> variant. The following example connects to the only Cassandra service bound to the application and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html"><code>CassandraClusterConfig</code></a> with metrics and JMX reporting disabled.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -968,7 +968,7 @@ public Cluster cluster() {
 </div>
 </div>
 <div class="paragraph">
-<p>To connect to a specific Cassandra service and provide configuration, you can use an overloaded <code>cluster()</code> variant. The following example connects to the <code>cassandra-service</code> Cassandra service and supplies configuration using a <a href="http://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html"><code>CassandraClusterConfig</code></a> with metrics and JMX reporting disabled.</p>
+<p>To connect to a specific Cassandra service and provide configuration, you can use an overloaded <code>cluster()</code> variant. The following example connects to the <code>cassandra-service</code> Cassandra service and supplies configuration using a <a href="https://docs.spring.io/autorepo/docs/spring-cloud/current/api/org/springframework/cloud/service/column/CassandraClusterConfig.html"><code>CassandraClusterConfig</code></a> with metrics and JMX reporting disabled.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -986,7 +986,7 @@ public Cluster cluster() {
 <div class="sect3">
 <h4 id="_smtp">SMTP</h4>
 <div class="paragraph">
-<p>To connect to a unique SMTP service, you can create a service bean using <code>service()</code>, providing the service type <a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html"><code>MailSender</code></a>. The following example connects to the only SMTP service bound to the application.</p>
+<p>To connect to a unique SMTP service, you can create a service bean using <code>service()</code>, providing the service type <a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html"><code>MailSender</code></a>. The following example connects to the only SMTP service bound to the application.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -998,7 +998,7 @@ public MailSender mailSender() {
 </div>
 </div>
 <div class="paragraph">
-<p>To connect to a specific SMTP service, you can use an overloaded variant of <code>service()</code>, providing the service type <a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html"><code>MailSender</code></a>. The following example connects specifically to the <code>mail-service</code> SMTP service.</p>
+<p>To connect to a specific SMTP service, you can use an overloaded variant of <code>service()</code>, providing the service type <a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/mail/MailSender.html"><code>MailSender</code></a>. The following example connects specifically to the <code>mail-service</code> SMTP service.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1094,8 +1094,8 @@ class CloudConfig {
 &lt;beans xmlns="http://www.springframework.org/schema/beans"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:cloud="http://www.springframework.org/schema/cloud"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd"&gt;
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/cloud https://www.springframework.org/schema/cloud/spring-cloud.xsd"&gt;
 
 &lt;!-- &lt;cloud&gt; namespace usage here --&gt;</code></pre>
 </div>
@@ -1271,12 +1271,12 @@ class CloudConfig {
 <p><a href="https://tomcat.apache.org/tomcat-7.0-doc/jdbc-pool.html">Tomcat JDBC Connection Pool</a></p>
 </li>
 <li>
-<p><a href="http://brettwooldridge.github.io/HikariCP/">HikariCP</a></p>
+<p><a href="https://brettwooldridge.github.io/HikariCP/">HikariCP</a></p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
-<p>The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a <a href="http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html"><code>SimpleDriverDataSource</code></a>, which does not reuse connections.</p>
+<p>The connector uses the first of these that is found on the classpath. If none of these are on the classpath, the connector falls back to a <a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/jdbc/datasource/SimpleDriverDataSource.html"><code>SimpleDriverDataSource</code></a>, which does not reuse connections.</p>
 </div>
 <div class="sect5">
 <h6 id="_reordering_implementation_priority_2">Reordering Implementation Priority</h6>
