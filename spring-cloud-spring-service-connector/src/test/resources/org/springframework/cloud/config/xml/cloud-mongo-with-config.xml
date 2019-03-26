@@ -2,8 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:cloud="http://www.springframework.org/schema/cloud"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/cloud http://www.springframework.org/schema/cloud/spring-cloud.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/cloud https://www.springframework.org/schema/cloud/spring-cloud.xsd">
 	
 		 
 	<cloud:mongo-db-factory id="service-connectionPerHost50-maxWait200-WriteConcernNone" service-name="my-service" write-concern="NONE">
