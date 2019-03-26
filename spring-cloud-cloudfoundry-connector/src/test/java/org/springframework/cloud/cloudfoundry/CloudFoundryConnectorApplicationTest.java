@@ -26,7 +26,7 @@ public class CloudFoundryConnectorApplicationTest extends AbstractCloudFoundryCo
 	
 	@Test
 	public void isInMatchingEnvironment() {
-		when(mockEnvironment.getEnvValue("VCAP_APPLICATION")).thenReturn(getApplicationInstanceInfo("myapp", "http://myapp.com"));
+		when(mockEnvironment.getEnvValue("VCAP_APPLICATION")).thenReturn(getApplicationInstanceInfo("myapp", "https://myapp.com"));
 		assertTrue(testCloudConnector.isInMatchingCloud());
 		
 		when(mockEnvironment.getEnvValue("VCAP_APPLICATION")).thenReturn(null);
