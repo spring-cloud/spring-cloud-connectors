@@ -1,7 +1,7 @@
 description = 'Spring Cloud Connectors Spring Service Connectors'
 
 ext {
-	springVersion = "5.0.0.RELEASE"
+	springVersion = "5.0.13.RELEASE"
 	tomcatVersion = "8.5.13"
 
 	springAmqpVersion = "2.0.0.RELEASE"
