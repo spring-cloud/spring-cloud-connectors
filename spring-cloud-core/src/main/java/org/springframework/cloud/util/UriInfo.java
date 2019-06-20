@@ -129,7 +129,9 @@ public class UriInfo {
 
 		if (userInfo != null) {
 			String[] userPass = userInfo.split(":");
-			if (userPass.length != 2) {
+			if (userPass.length == 1) {
+				return new String[]{userPass[0], null};
+			} else if (userPass.length != 2) {
 				throw new IllegalArgumentException("Bad userinfo in URI: " + uri);
 			}
 			return userPass;

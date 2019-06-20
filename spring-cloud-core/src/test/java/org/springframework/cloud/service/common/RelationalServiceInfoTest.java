@@ -35,9 +35,11 @@ public class RelationalServiceInfoTest {
 		assertEquals("jdbc:jdbcdbtype://hostname:1234/database", serviceInfo.getJdbcUrl());
 	}
 
-	@Test(expected = java.lang.IllegalArgumentException.class)
+	@Test
 	public void jdbcUrlNoPassword() {
-		createServiceInfo("dbtype://username@hostname/database");
+		RelationalServiceInfo serviceInfo = createServiceInfo("dbtype://username@hostname/database");
+
+		assertEquals("jdbc:jdbcdbtype://hostname/database?user=username", serviceInfo.getJdbcUrl());
 	}
 
 	@Test
