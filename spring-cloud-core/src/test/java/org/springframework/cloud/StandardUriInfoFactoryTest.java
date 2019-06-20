@@ -40,10 +40,13 @@ public class StandardUriInfoFactoryTest {
 		assertEquals(uri, result.getUriString());
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void createWithUsernameNoPassword() {
 		String uri = "mysql://joe@localhost:1527/big_db";
-		factory.createUri(uri);
+		UriInfo result = factory.createUri(uri);
+
+		assertUriInfoEquals(result, "localhost", 1527, "joe", null, "big_db", null);
+		assertEquals(uri, result.getUriString());
 	}
 
 	@Test
