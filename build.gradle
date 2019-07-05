@@ -59,11 +59,11 @@ ext {
 	] as String[]
 }
 
-//apply plugin: 'io.spring.nohttp'
-//
-//checkstyle {
-//	toolVersion = 8.16
-//}
+apply plugin: 'io.spring.nohttp'
+
+checkstyle {
+	toolVersion = 8.16
+}
 
 subprojects {
 	apply plugin: 'java'
