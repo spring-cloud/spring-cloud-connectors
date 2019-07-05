@@ -9,9 +9,8 @@ buildscript {
 	}
 	dependencies {
 		classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
-		classpath 'io.spring.gradle:spring-io-plugin:0.0.8.RELEASE'
-		classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.12'
-		classpath 'io.spring.nohttp:nohttp-gradle:0.0.1.RELEASE'
+		classpath 'io.spring.gradle:spring-io-plugin:0.0.4.RELEASE'
+		classpath 'org.asciidoctor:asciidoctor-gradle-plugin:1.5.3'
 	}
 }
 
@@ -57,12 +56,6 @@ ext {
 		'https://docs.spring.io/spring-data/data-mongo/docs/current/api/',
 		'https://docs.spring.io/spring-data/data-redis/docs/current/api/'
 	] as String[]
-}
-
-apply plugin: 'io.spring.nohttp'
-
-checkstyle {
-	toolVersion = 8.16
 }
 
 subprojects {
@@ -136,8 +129,7 @@ subprojects {
 	}
 
 	repositories {
-		mavenCentral()
-		maven { url "https://repo.spring.io/libs-release" }
+		maven { url "https://repo.spring.io/libs-milestone" }
 	}
 }
 
@@ -204,10 +196,6 @@ configure(rootProject) {
 		archives docsZip
 		archives schemaZip
 	}
-
-	repositories {
-		mavenCentral()
-	}
 }
 
 ext {
@@ -264,4 +252,8 @@ task defineMatrixTests {
 task dist(dependsOn: assemble) {
 	group = 'Distribution'
 	description = 'Builds -dist, -docs and -schema distribution archives.'
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.10'
 }
