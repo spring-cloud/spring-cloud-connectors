@@ -13,7 +13,6 @@ apply plugin: 'com.github.johnrengelman.shadow'
 
 dependencies {
   compile project(':spring-cloud-core')
-  compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
   compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
 }
 
