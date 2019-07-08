@@ -2,6 +2,8 @@
 
 Spring Cloud Connectors provides a simple abstraction that JVM-based applications can use to discover information about the cloud environment on which they are running, connect to services, and have discovered services registered as Spring beans. It provides out-of-the-box support for discovering common services on Heroku and Cloud Foundry cloud platforms, and it supports custom service definitions through Java Service Provider Interfaces (SPI).
 
+NOTE: This project is https://spring.io/blog/2019/02/15/introducing-java-cfenv-a-new-library-for-accessing-cloud-foundry-services[in maintenance mode], in favor of the newer https://github.com/pivotal-cf/java-cfenv[Java CFEnv] project. We will continue to release security-related updates but will not address enhancement requests. 
+
 == Learn more
 
 See the https://spring.io/projects/spring-cloud-connectors/[project site] and https://cloud.spring.io/spring-cloud-connectors/spring-cloud-connectors.html[current documentation].
