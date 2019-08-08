@@ -12,7 +12,7 @@ buildscript {
 apply plugin: 'com.github.johnrengelman.shadow'
 
 ext {
-	jacksonVersion = "2.9.9.2"
+	jacksonVersion = "2.9.9.3"
 }
 
 dependencies {
