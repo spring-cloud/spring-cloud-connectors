@@ -4,33 +4,13 @@ buildscript {
 	repositories {
 		jcenter()
 	}
-	dependencies {
-		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
-	}
-}
-
-apply plugin: 'com.github.johnrengelman.shadow'
-
-ext {
-	jacksonVersion = "2.10.0"
 }
 
 dependencies {
 	compile project(':spring-cloud-connectors-core')
-	compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+	compile "com.fasterxml.jackson.core:jackson-databind:2.10.0"
 }
 
-shadowJar {
-	classifier = null
-	dependencies {
-		include dependency('com.fasterxml.jackson.core:jackson-.*')
-		exclude('module-info.class')
-	}
-	relocate 'com.fasterxml.jackson', 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson'
-}
-
-assemble.dependsOn shadowJar
-install.dependsOn shadowJar
 
 configurations {
 	tests
