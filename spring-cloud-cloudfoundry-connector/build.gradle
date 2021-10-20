@@ -2,10 +2,10 @@ description = 'Spring Cloud Connectors Cloud Foundry Connector'
 
 buildscript {
 	repositories {
-		jcenter()
+		gradlePluginPortal()
 	}
 	dependencies {
-		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+		classpath "com.github.jengelman.gradle.plugins:shadow:4.0.4"
 	}
 }
 
@@ -23,10 +23,21 @@ dependencies {
 shadowJar {
 	classifier = null
 	dependencies {
-		include dependency('com.fasterxml.jackson.core:jackson-.*')
-		exclude('module-info.class')
+		include dependency('com.fasterxml.jackson.core:jackson-databind:.*')
+		exclude 'module-info.class',
+				'com/fasterxml/jackson/databind/annotation/*',
+				'com/fasterxml/jackson/databind/cfg/*',
+				'com/fasterxml/jackson/databind/deser/**/*',
+				'com/fasterxml/jackson/databind/exc/*',
+				'com/fasterxml/jackson/databind/ext/*',
+				'com/fasterxml/jackson/databind/introspect/*',
+				'com/fasterxml/jackson/databind/json*/**/*',
+				'com/fasterxml/jackson/databind/node/*',
+				'com/fasterxml/jackson/databind/ser/**/*',
+				'com/fasterxml/jackson/databind/type/*',
+				'com/fasterxml/jackson/databind/util/*'
 	}
-	relocate 'com.fasterxml.jackson', 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson'
+	relocate('com.fasterxml.jackson.databind', 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind')
 }
 
 assemble.dependsOn shadowJar
