@@ -1,0 +1,16 @@
+== CI Pipeline
+
+Set up the Concourse target and login:
+
+[source]
+----
+$ fly -t spring-cloud-connectors login -n spring-cloud-connectors -c https://runway-ci.eng.vmware.com
+----
+
+Deploy the pipelines
+
+[source]
+----
+$ ./set-pipelines.sh
+----
+

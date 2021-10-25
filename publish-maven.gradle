@@ -1,66 +1,59 @@
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
-install {
-	repositories.mavenInstaller {
-		customizePom(pom, project)
+
+publishing {
+	repositories {
+		maven {
+			url = project.properties.getOrDefault('publicationRepository', "${System.getenv('HOME')}/.m2/repository")
+		}
 	}
-}
-
-def customizePom(pom, gradleProject) {
-	pom.whenConfigured { generatedPom ->
-		// eliminate test-scoped dependencies (no need in maven central poms)
-		generatedPom.dependencies.removeAll { dep ->
-			dep.scope == 'test'
-		}
-
-		// Ensure consistent ordering of dependencies to ease comparison with older poms
-		generatedPom.dependencies = generatedPom.dependencies.sort { dep ->
-			"$dep.scope:$dep.groupId:$dep.artifactId"
-		}
-
-		// add all items necessary for maven central publication
-		generatedPom.project {
-			name = gradleProject.description
-			description = gradleProject.description
-			url = 'https://projects.spring.io/spring-cloud'
-			organization {
-				name = 'Spring IO'
-				url = 'https://spring.io'
-			}
-			licenses {
-				license {
-					name 'The Apache Software License, Version 2.0'
-					url 'https://www.apache.org/licenses/LICENSE-2.0.txt'
-					distribution 'repo'
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			pom {
+				afterEvaluate {
+					name = project.description
+					description = project.description
 				}
-			}
-
-			scm {
-				url = 'https://github.com/spring-projects/spring-cloud'
-				connection = 'scm:git:https://github.com/spring-projects/spring-cloud.git'
-				developerConnection = 'scm:git:https://github.com/spring-projects/spring-cloud.git'
-			}
-
-			issueManagement {
-				system = 'GitHub'
-				url = 'https://github.com/spring-projects/spring-cloud/issues'
-			}
-
-			developers {
-				developer {
-					id = 'ramnivas'
-					name = 'Ramnivas Laddad'
-					email = 'rladdad@gopivotal.com'
+				url = 'https://projects.spring.io/spring-cloud'
+				organization {
+					name = 'Spring IO'
+					url = 'https://spring.io'
 				}
-				developer {
-					id = 'sfrederick'
-					name = 'Scott Frederick'
-					email = 'sfrederick@pivotal.io'
+				licenses {
+					license {
+						name = 'The Apache Software License, Version 2.0'
+						url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+						distribution = 'repo'
+					}
 				}
-				developer {
-					id = 'cschaefer'
-					name = 'Chris Schaefer'
-					email = 'cschaefer@pivotal.io'
+				scm {
+					url = 'https://github.com/spring-projects/spring-cloud'
+					connection = 'scm:git:https://github.com/spring-projects/spring-cloud.git'
+					developerConnection = 'scm:git:https://github.com/spring-projects/spring-cloud.git'
+				}
+
+				issueManagement {
+					system = 'GitHub'
+					url = 'https://github.com/spring-projects/spring-cloud/issues'
+				}
+
+				developers {
+					developer {
+						id = 'ramnivas'
+						name = 'Ramnivas Laddad'
+						email = 'rladdad@gopivotal.com'
+					}
+					developer {
+						id = 'sfrederick'
+						name = 'Scott Frederick'
+						email = 'sfrederick@pivotal.io'
+					}
+					developer {
+						id = 'cschaefer'
+						name = 'Chris Schaefer'
+						email = 'cschaefer@pivotal.io'
+					}
 				}
 			}
 		}
