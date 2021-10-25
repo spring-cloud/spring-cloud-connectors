@@ -24,20 +24,15 @@ shadowJar {
 	classifier = null
 	dependencies {
 		include dependency('com.fasterxml.jackson.core:jackson-databind:.*')
+		include dependency('com.fasterxml.jackson.core:jackson-annotations:.*')
+		include dependency('com.fasterxml.jackson.core:jackson-core:.*')
 		exclude 'module-info.class',
-				'com/fasterxml/jackson/databind/annotation/*',
-				'com/fasterxml/jackson/databind/cfg/*',
-				'com/fasterxml/jackson/databind/deser/**/*',
 				'com/fasterxml/jackson/databind/exc/*',
 				'com/fasterxml/jackson/databind/ext/*',
-				'com/fasterxml/jackson/databind/introspect/*',
-				'com/fasterxml/jackson/databind/json*/**/*',
-				'com/fasterxml/jackson/databind/node/*',
-				'com/fasterxml/jackson/databind/ser/**/*',
-				'com/fasterxml/jackson/databind/type/*',
-				'com/fasterxml/jackson/databind/util/*'
+				'com/fasterxml/jackson/databind/json/*',
+				'com/fasterxml/jackson/databind/jsonFormatVisitor/*'
 	}
-	relocate('com.fasterxml.jackson.databind', 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind')
+	relocate 'com.fasterxml.jackson', 'org.springframework.cloud.cloudfoundry.com.fasterxml.jackson'
 }
 
 assemble.dependsOn shadowJar
