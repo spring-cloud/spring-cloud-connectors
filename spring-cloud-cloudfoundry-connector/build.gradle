@@ -27,7 +27,6 @@ shadowJar {
 		include dependency('com.fasterxml.jackson.core:jackson-annotations:.*')
 		include dependency('com.fasterxml.jackson.core:jackson-core:.*')
 		exclude 'module-info.class',
-				'com/fasterxml/jackson/databind/exc/*',
 				'com/fasterxml/jackson/databind/ext/*',
 				'com/fasterxml/jackson/databind/json/*',
 				'com/fasterxml/jackson/databind/jsonFormatVisitor/*'
