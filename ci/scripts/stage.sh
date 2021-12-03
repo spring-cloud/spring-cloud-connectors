@@ -5,6 +5,10 @@ set -eo pipefail
 source "$(dirname "$0")/common.sh"
 repository=$(pwd)/distribution-repository
 
+pushd git-repo > /dev/null
+git fetch --tags --all > /dev/null
+popd > /dev/null
+
 git clone git-repo stage-git-repo
 echo
 
@@ -43,6 +47,7 @@ echo
 ./gradlew clean publish -PpublicationRepository="${repository}"
 echo
 
+git reset --hard HEAD^
 echo "Setting next development version (v$nextVersion)"
 sed -i "s/version=$stageVersion/version=$nextVersion/" gradle.properties
 git add gradle.properties
